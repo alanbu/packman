@@ -1,0 +1,122 @@
+!PackMan 0.1 early alpha version
+
+This is an early alpha version of an alternative
+front end to install, update and remove packages
+for the RISC OS Packaging Project (www.riscpkg.org).
+
+Currently the program needs a working version of
+!RiscPkg installed as is shares the configuration
+files with it and will currently crash when it
+tries to set up a machine for first use of the
+packages. Eventually it should use its own
+configuration files.
+
+Again I must stress this is a very early alpha
+version that I have just released to see if it
+is worth continuing with it. It may well crash
+or give strange behaviour. Use it at your own
+risk.
+
+It does use the same libraries to manipulate
+the package system as !RiscPkg and so you
+should be able to use !RiscPkg itself to
+install or uninstall anything that !PackMan
+has failed to or only partially processed.
+
+Known problems:
+
+1. You need !RiscPkg installed and working before
+you can use this program.
+2. There is no help/manual except this file.
+3. Window positioning isn't always ideal.
+4. The graphics are my own and are very rough.
+5. Some functionality has not been implemented or
+completed yet. You should be able to install, upgrade
+and remove packages though.
+6. It is likely to crash in some circumstances.
+7. It creates a stdout/stderr file in the application
+directory with various debug information.
+
+Installation:
+
+On first run if the program can't find the modules
+it needs it should tell you.
+
+You are most likely to need the latest SharedUnixLibrary
+from:
+
+http://www.riscos.info/downloads/gccsdk/sharedunixlib/
+
+and the toolbox modules. You may need the RISC OS Limited
+ones available from:
+
+ http://support.riscos.com/Support/Updates/index.htm
+
+but I haven't determined this yet.
+
+
+How to use:
+
+Double click the application and you should get an
+icon on the icon bar. Click on this icon to get the
+main window.
+
+This icon also allows you to update the list of
+packages and quit the application.
+
+The main window shows a list of the packages
+available. You can filter the list by selecting
+a category from the drop down on the toolbar
+or clicking on Find and searching for text in
+the package names and descriptions.
+
+The left hand column is either:
+- blank if the package is not installed
+- a green tick if the package is installed
+- an orangish tick if the package is installed and there
+  is an upgrade available.
+
+The ticks have a small "a" by them if the package was
+automatically installed.
+
+This is followed by the package name and a summary of
+what it does.
+
+Clicking on a package will show more information about
+it in the status bar at the bottom of the Window.
+
+To install or remove a package after selecting it click
+on the Install or Remove button on the toolbar or the menu.
+
+You will be prompted if you are sure you with to install/remove
+the package.
+
+Unlike RiscPkg this application only allows you to install or
+remove one package (and its dependencies at a time).
+
+After confirming your choice a progress window should appear
+and the package will be installed or removed.
+
+
+Copyright
+
+This program is copyright Alan Buckley 2009, but please
+feel free to distribute it for others to try.
+
+If I get closer to a useable release I will make the
+source code available and put it under a more common
+licence.
+
+
+Contact
+
+Please contact Alan Buckley
+
+alan_baa@hotmail.com
+
+with any feedback and bug reports.
+
+I'm considering if this applicaton is worth continuing
+with so please contact me if you think it would be
+something you could use if the rough edges were removed.
+
