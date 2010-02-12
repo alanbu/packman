@@ -33,6 +33,7 @@ InstallWindow::InstallWindow() : _saveas("InstPackApp")
 {
 	printf("in constructor\n");
 	_saveas.add_about_to_be_shown_listener(this);
+	_saveas.set_save_to_file_handler(this);
 
 //	_saveas.add_object_deleted_listener(new tbx::ObjectDeleteClass<AppSaveAs>(this));
 
@@ -66,3 +67,4 @@ void InstallWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std:
 
 	_saveas.file_save_completed(true, filename);
 }
+

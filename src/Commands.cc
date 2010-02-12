@@ -28,7 +28,10 @@
 #include "MainWindow.h"
 #include "IRWindow.h"
 #include "CommitWindow.h"
+#include "InstallWindow.h"
 #include "UpdateListWindow.h"
+#include "SourcesWindow.h"
+#include "Packages.h"
 
 /**
  * Run the install command
@@ -79,6 +82,26 @@ void UpdateListCommand::execute()
 {
 	if (!UpdateListWindow::showing())
 	{
-		new UpdateListWindow();
+		if (Packages::instance()->ensure_package_base())
+		{
+			new UpdateListWindow();
+		} else
+		{
+			new InstallWindow();
+		}
+	}
+}
+
+/**
+ * Show window to allow updating of sources
+ */
+void ShowSourcesWindowCommand::execute()
+{
+	if (Packages::instance()->ensure_package_base())
+	{
+		new SourcesWindow();
+	} else
+	{
+		new InstallWindow();
 	}
 }

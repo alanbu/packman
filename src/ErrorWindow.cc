@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2010 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -18,49 +18,44 @@
 *
 *****************************************************************************/
 /*
- * InstallWindow.h
+ * ErrorWindow.cc
  *
- *  Created on: 25-Mar-2009
+ *  Created on: 11 Feb 2010
  *      Author: alanb
  */
 
-#ifndef IRWINDOW_H_
-#define IRWINDOW_H_
-
-#include "libpkg/binary_control.h"
-#include "tbx/window.h"
+#include "ErrorWindow.h"
 #include "tbx/displayfield.h"
-#include "tbx/scrolllist.h"
-#include "tbx/actionbutton.h"
+#include "tbx/deleteonhidden.h"
 
 /**
- * Class to show dialog to confirm install/remove
+ * Generic error window.
+ *
  */
-class IRWindow
+ErrorWindow::ErrorWindow(std::string errmsg, std::string title)
 {
-	tbx::Window _window;
-	bool _remove;
+	init(errmsg, title);
+}
 
-	// Fields
-	tbx::DisplayField _package;
-	tbx::DisplayField _version;
-	tbx::DisplayField _summary;
-	tbx::ScrollList _install_depends;
-	tbx::DisplayField _install_number;
-	tbx::DisplayField _install_size;
-	tbx::ScrollList _auto_remove;
-	tbx::DisplayField _remove_number;
-	tbx::ActionButton _install_button;
+ErrorWindow::ErrorWindow(const char *prefix, std::string errmsg, std::string title)
+{
+	std::string msg(prefix);
+	msg += errmsg;
+	init(msg, title);
+}
 
-public:
-	IRWindow(bool install);
-	virtual ~IRWindow();
+void ErrorWindow::init(const std::string &errmsg, const std::string &title)
+{
+	_window = tbx::Window("Error");
+	tbx::DisplayField msg(_window.gadget(1));
+	_window.title(title);
+	msg.text(errmsg);
 
-	void set_package(const pkg::binary_control *bctrl);
-	void show();
+	// Dump class and object when window is hidden
+	_window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<ErrorWindow>(this));
+	_window.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+}
 
-private:
-	unsigned int download_size(std::string pkgname);
-};
-
-#endif /* IRWINDOW_H_ */
+ErrorWindow::~ErrorWindow()
+{
+}

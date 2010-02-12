@@ -48,7 +48,7 @@ SearchWindow::~SearchWindow()
 }
 
 /**
- * Find currently selected package and show copyright
+ * Find currently selected package
  */
 void SearchWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
