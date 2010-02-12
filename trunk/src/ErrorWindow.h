@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2010 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -18,49 +18,30 @@
 *
 *****************************************************************************/
 /*
- * InstallWindow.h
+ * ErrorWindow.h
  *
- *  Created on: 25-Mar-2009
+ *  Created on: 11 Feb 2010
  *      Author: alanb
  */
 
-#ifndef IRWINDOW_H_
-#define IRWINDOW_H_
+#ifndef ERRORWINDOW_H_
+#define ERRORWINDOW_H_
 
-#include "libpkg/binary_control.h"
 #include "tbx/window.h"
-#include "tbx/displayfield.h"
-#include "tbx/scrolllist.h"
-#include "tbx/actionbutton.h"
 
 /**
- * Class to show dialog to confirm install/remove
+ * Class to display and Error in a window
  */
-class IRWindow
+class ErrorWindow
 {
 	tbx::Window _window;
-	bool _remove;
 
-	// Fields
-	tbx::DisplayField _package;
-	tbx::DisplayField _version;
-	tbx::DisplayField _summary;
-	tbx::ScrollList _install_depends;
-	tbx::DisplayField _install_number;
-	tbx::DisplayField _install_size;
-	tbx::ScrollList _auto_remove;
-	tbx::DisplayField _remove_number;
-	tbx::ActionButton _install_button;
+	void init(const std::string &errmsg, const std::string &title);
 
 public:
-	IRWindow(bool install);
-	virtual ~IRWindow();
-
-	void set_package(const pkg::binary_control *bctrl);
-	void show();
-
-private:
-	unsigned int download_size(std::string pkgname);
+	ErrorWindow(std::string errmsg, std::string title);
+	ErrorWindow(const char *prefix, std::string errmsg, std::string title);
+	virtual ~ErrorWindow();
 };
 
-#endif /* IRWINDOW_H_ */
+#endif /* ERRORWINDOW_H_ */

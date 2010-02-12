@@ -67,13 +67,6 @@ public:
 };
 
 /**
- * Class to add package dropped on iconbar to package list
- */
-
-
-
-
-/**
  * Entry point for program
  */
 int main(int argc, char *argv[])
@@ -94,6 +87,7 @@ int main(int argc, char *argv[])
 	iconbar.add_click_command(new ShowMainWindowCommand());
 	iconbar.add_loader(new PackageLoader());
 	iconbar.add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
+	iconbar.add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 
 	iconbar.show();
 	packman.run();

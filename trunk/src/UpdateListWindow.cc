@@ -26,6 +26,7 @@
 
 #include "UpdateListWindow.h"
 #include "Packages.h"
+#include "ErrorWindow.h"
 #include "tbx/application.h"
 #include "libpkg/download.h"
 
@@ -102,7 +103,7 @@ void UpdateListWindow::poll()
 			case pkg::update::state_fail:
 				_action.text("Failed");
 				_cancel_button.text("OK");
-				//TODO: _error_field.text(string(_upd->message()));
+				new ErrorWindow(_upd->message(), "Failed to update package list(s)");
 				delete _upd;
 				_upd=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
