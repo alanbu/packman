@@ -25,7 +25,7 @@
  */
 
 #include "Packages.h"
-
+#include "ErrorWindow.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/filesystem.h"
 #include <string>
@@ -35,42 +35,6 @@
 #include "tbx/swixcheck.h"
 
 using namespace std;
-string canonicalise(string pathname)
-{
-	printf("in canon\n");
-	// Calculate required buffer size.
-	unsigned int size=0;
-	_kernel_swi_regs regs;
-	_kernel_oserror *err;
-	regs.r[0] = 37;
-	regs.r[1]= (int)pathname.c_str();
-	regs.r[2] =0;
-	regs.r[3] =0;
-	regs.r[4] =0;
-	regs.r[5] = size;
-
-	printf("pre call\n");
-	tbx::swix_check( _kernel_swi(OS_FSControl, &regs, &regs));
-	printf("post call err = %p\n", err);
-	size = regs.r[5];
-	size=1-size;
-printf("size is %d\n", size);
-	// Canonicalise pathname.
-	char buffer[size];
-	regs.r[0] = 37;
-	regs.r[1]= (int)pathname.c_str();
-	regs.r[2] =(int)buffer;
-	regs.r[3] =0;
-	regs.r[4] =0;
-	regs.r[5] = size;
-
-	printf("pre call\n");
-	err = _kernel_swi(OS_FSControl, &regs, &regs);
-	printf("post call err = %p\n", err);
-printf("pre return\n");
-	return string(buffer);
-}
-
 
 Packages *Packages::_instance = 0;
 
@@ -93,28 +57,27 @@ bool Packages::ensure_package_base()
 {
    	if (!_package_base)
 	{
-   		printf("!pb\n");
 		try
 		{
 			// Do not use distribution master of package database.
-			printf("pre apath\n");
-			std::string apath=/*pkg::*/canonicalise("<Packages$Dir>");
-			printf("now here\n");
+			std::string apath=pkg::canonicalise("<Packages$Dir>");
 			std::string dpath=
-				/*pkg::*/canonicalise("<PackMan$Dir>.Resources.!Packages");
-			printf("here\n");
+				pkg::canonicalise("<PackMan$Dir>.Resources.!Packages");
 			if ((apath!=dpath)&&(pkg::object_type(apath)!=0))
 			{
 				// Attempt to access package database.
-				_package_base=new pkg::pkgbase("<Packages$Dir>","<RiscPkg$Dir>.Resources",
-					"Choices:RiscPkg");
+				_package_base=new pkg::pkgbase("<Packages$Dir>","<PackMan$Dir>.Resources",
+					"Choices:PackMan");
 			}
 		} catch(tbx::OsError &err)
 		{
-			printf("Got os error\n");
+			std::string msg(err.what());
+			new ErrorWindow(msg, "OS Error when trying to load/initialise packages");
+			delete _package_base;
+			_package_base=0;
 		} catch (...)
 		{
-			printf("package db failed\n");
+			new ErrorWindow("Could not load/initialise package system", "OS Error when trying to load/initialise packages");
 			delete _package_base;
 			_package_base=0;
 		}
