@@ -83,7 +83,6 @@ void SourcesWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &ev
 	_edit_button.fade(fade);
 	_remove_button.fade(fade);
 	if (!fade && event.double_click()) edit();
-	printf("index %d dc %d\n", event.index(), (int)event.double_click());
 }
 
 /**
