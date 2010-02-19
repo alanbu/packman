@@ -46,6 +46,7 @@ AppsWindow::AppsWindow(tbx::Object obj) :
 	_view_command(this, &AppsWindow::app_view)
 {
 	_window.add_about_to_be_shown_listener(this);
+	_window.add_has_been_hidden_listener(this);
 
 	_window.add_command(10, &_boot_command);
 	_window.add_command(11, &_run_command);
@@ -53,9 +54,6 @@ AppsWindow::AppsWindow(tbx::Object obj) :
 	_window.add_command(13, &_view_command);
 
 	_window.client_handle(this);
-
-	// Deleted class when toolbox object is closed
-	_window.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 }
 
 AppsWindow::~AppsWindow()
@@ -77,6 +75,7 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
 	MainWindow *main = MainWindow::from_window(event.id_block().ancestor_object());
 	const pkg::binary_control *ctrl = main->selected_package();
+
 
 	if (ctrl != 0)
 	{
@@ -122,6 +121,15 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 }
 
 /**
+ * Clear view when object has been hidden
+ */
+void AppsWindow::has_been_hidden(tbx::Object &object)
+{
+   _view.erase_all();
+}
+
+
+/**
  * Create icon for window
  */
 AppsWindow::IconData::IconData(const std::string full_path) :
@@ -132,7 +140,7 @@ AppsWindow::IconData::IconData(const std::string full_path) :
 	_sprite_name = _name;
 
     tbx::WimpSprite ws(_sprite_name);
-	if (!ws.exist()) _sprite_name = "app";
+	if (!ws.exist()) _sprite_name = "application";
 }
 
 /**
@@ -148,6 +156,16 @@ std::string AppsWindow::selected_app_path() const
 
 	return pathname;
 }
+
+/**
+ * Undo the last selection if it was caused
+ * by the menu button
+ */
+void AppsWindow::undo_menu_selection()
+{
+	if (_view.menu_selected()) _view.clear_selection();
+}
+
 
 /**
  * Run boot file for the selected applications
@@ -185,7 +203,7 @@ void AppsWindow::app_run()
 	}
 }
 /**
- * Run boot file for the selected application
+ * Run Help file for the selected application
  */
 void AppsWindow::app_help()
 {
@@ -202,7 +220,7 @@ void AppsWindow::app_help()
 	}
 }
 /**
- * Run boot file for the selected application
+ * View location of the selected application
  */
 void AppsWindow::app_view()
 {

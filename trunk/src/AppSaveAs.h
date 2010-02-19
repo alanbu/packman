@@ -45,12 +45,13 @@ class AppSaveAs :
 
 	void link(const tbx::Path &path, std::string leaf);
 
+	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
+	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);
+
 public:
 	AppSaveAs(tbx::Object obj);
 	virtual ~AppSaveAs();
 
-	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
-	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);
 
 };
 
