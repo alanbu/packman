@@ -33,6 +33,7 @@ AppsMenu::AppsMenu(tbx::Object object) :
 	_app_item(_apps_menu.item(0))
 {
 	_apps_menu.add_about_to_be_shown_listener(this);
+	_apps_menu.add_has_been_hidden_listener(this);
 }
 
 AppsMenu::~AppsMenu()
@@ -56,7 +57,7 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 			_app_item.text("Selection");
 			_app_item.fade(false);
 			tbx::Menu app_menu = _app_item.submenu();
-			for (int i = 0; i < 3; i++)
+			for (int i = 1; i <= 3; i++)
 				app_menu.item(i).fade(true);
 		} else
 		{
@@ -69,8 +70,19 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		std::string app_text("Apps '");
 		app_text += path.leafname();
 		app_text += "'";
+		_app_item.text(app_text);
+		_app_item.fade(false);
 		tbx::Menu app_menu = _app_item.submenu();
-		for (int i = 0; i < 3; i++)
+		for (int i = 1; i <= 3; i++)
 			app_menu.item(i).fade(false);
 	}
+}
+
+/**
+ * Remove selection if it was made by the menu button
+ */
+void AppsMenu::has_been_hidden(tbx::Object &object)
+{
+	AppsWindow *apps_window = AppsWindow::from_window(_apps_menu.ancestor_object());
+	apps_window->undo_menu_selection();
 }

@@ -29,21 +29,26 @@
 
 #include "tbx/menu.h"
 #include "tbx/abouttobeshownlistener.h"
+#include "tbx/hasbeenhiddenlistener.h"
+
 
 /**
  * Class to handle AppsMenu shown from AppsWindow.
  * Also enables/disables items on AppMenu submenu
  */
-class AppsMenu : tbx::AboutToBeShownListener
+class AppsMenu :
+	tbx::AboutToBeShownListener,
+	tbx::HasBeenHiddenListener
 {
 	tbx::Menu _apps_menu;
 	tbx::MenuItem _app_item;
 
+	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
+	virtual void has_been_hidden(tbx::Object &object);
+
 public:
 	AppsMenu(tbx::Object object);
 	virtual ~AppsMenu();
-
-	void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 };
 
 #endif /* APPSMENU_H_ */

@@ -28,6 +28,7 @@
 #define APPSWINDOW_H_
 
 #include "tbx/abouttobeshownlistener.h"
+#include "tbx/hasbeenhiddenlistener.h"
 #include "tbx/iconview.h"
 #include "tbx/command.h"
 
@@ -35,7 +36,7 @@
  * Class to show list of applications for a package
  * and allow them to be manipulated.
  */
-class AppsWindow : tbx::AboutToBeShownListener
+class AppsWindow : tbx::AboutToBeShownListener, tbx::HasBeenHiddenListener
 {
 	tbx::Window _window;
 	tbx::IconView _view;
@@ -80,6 +81,10 @@ class AppsWindow : tbx::AboutToBeShownListener
 	void app_help();
 	void app_view();
 
+	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
+	virtual void has_been_hidden(tbx::Object &object);
+
+
 public:
 	AppsWindow(tbx::Object object);
 	virtual ~AppsWindow();
@@ -87,12 +92,11 @@ public:
 	static AppsWindow *from_window(tbx::Window window);
 
 	std::string selected_app_path() const;
+	void undo_menu_selection();
 	/**
 	 * Return true if more than one item is selected
 	 */
 	bool multiple_apps_selected() const {return _view.multiple_selected();}
-
-	void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 };
 
 #endif /* APPSWINDOW_H_ */

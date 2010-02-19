@@ -32,11 +32,13 @@
 
 #include <fstream>
 
+/**
+ * Set up listeners to set up and do the save
+ */
 AppSaveAs::AppSaveAs(tbx::Object obj) : _saveas(obj)
 {
 	_saveas.add_about_to_be_shown_listener(this);
-
-	_saveas.add_object_deleted_listener(new tbx::ObjectDeleteClass<AppSaveAs>(this));
+	_saveas.set_save_to_file_handler(this);
 }
 
 AppSaveAs::~AppSaveAs()
@@ -50,7 +52,14 @@ void AppSaveAs::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
 	AppsWindow *apps_window = AppsWindow::from_window(event.id_block().ancestor_object());
 	int id = event.id_block().parent_component().id();
-	_save_type = SaveType(id);
+	_save_type = SaveType(id % 3);
+
+	switch(_save_type)
+	{
+	case COPY: _saveas.title("Copy application"); break;
+	case STUB: _saveas.title("Create Stub"); break;
+	case LINK: _saveas.title("Create link"); break;
+	}
 
 	// Menu item id specifies type of save
 	_source_path = apps_window->selected_app_path();
