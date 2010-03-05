@@ -147,8 +147,6 @@ void CommitWindow::poll()
 			case pkg::commit::state_fail:
 				_action.text("Failed ");
 				new CommitFailedWindow(_commit);
-				printf("Failed %s\n", _commit->message().c_str());
-				// + _commit->message());
 				_cancel_button.text("OK");
 				if (_commit->files_that_conflict().size())
 					open_conflicts_window();
