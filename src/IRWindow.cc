@@ -120,6 +120,7 @@ void IRWindow::set_package(const pkg::binary_control *bctrl)
 
 	if (!_remove)
 	{
+		_install_depends.clear();
 		// Extra details for install
 		for (pkg::status_table::const_iterator i = seltable.begin ();
 		i != seltable.end (); ++i)
@@ -153,6 +154,8 @@ void IRWindow::set_package(const pkg::binary_control *bctrl)
 		oss << units << " " << unit[unittype];
 		_install_size.text (oss.str ());
 	}
+
+	_auto_remove.clear();
 
 	// Count packages to remove.
 	for (std::map<std::string,pkg::status>::const_iterator i=package_base->curstat().begin();
