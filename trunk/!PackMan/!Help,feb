@@ -1,0 +1,3 @@
+| Help file for PackIt
+
+If "<Alias$@RunType_FAF>" <> "" then Filer_Run <Obey$Dir>.html.index/htm else Filer_Run <Obey$Dir>.HelpText

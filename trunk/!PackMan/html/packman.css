@@ -1,0 +1,29 @@
+table {
+   border: thin solid black;
+   border-collapse: collapse;
+}
+
+td {
+  border: thin solid
+}
+
+th {
+  text-align: left;
+  border: thin solid
+  border-bottom: solid
+}
+
+table.subtable {
+   border: thin solid gray;
+   border-collapse: collapse;
+   margin-left: 15
+}
+
+table.pagelinks {
+  border: none;
+  border-collapse: separate;
+}
+
+td.pagelinks {
+  border: none
+}
