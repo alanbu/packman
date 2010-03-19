@@ -27,6 +27,7 @@
 #include "ReportView.h"
 #include "tbx/font.h"
 #include "tbx/graphics.h"
+#include <stdexcept>
 
 using namespace tbx;
 
@@ -95,15 +96,18 @@ void ReportView::column_gap(unsigned int gap)
 }
 
 /**
- * Set the selection model to use for the report view
+ * Set the selection model to use for the report view.
+ *
+ * @param selection Selection model to use for selecting items in the list
  */
-void ReportView::selection_model(SingleSelection *selection)
+void ReportView::selection(tbx::Selection *selection)
 {
 	if (selection == _selection) return;
 
 	if (_selection)
 	{
 		_selection->remove_listener(this);
+		delete _selection;
 		if (selection == 0) _window.remove_mouse_click_listener(this);
 	} else if (selection != 0)
 	{
@@ -113,6 +117,7 @@ void ReportView::selection_model(SingleSelection *selection)
 	_selection = selection;
 	if (_selection) _selection->add_listener(this);
 }
+
 
 /**
  * Update the Window extent after a change in size.
@@ -316,6 +321,15 @@ void ReportView::cleared()
 		_rows = 0;
 		if (_selection) _selection->clear();
 		update_window_extent();
+		WindowState state;
+		_window.get_state(state);
+		Point &scroll = state.visible_area().scroll();
+		if (scroll.x != 0 || scroll.y != 0)
+		{
+			scroll.x = 0;
+			scroll.y = 0;
+			_window.open_window(state);
+		}
 	}
 }
 
@@ -390,7 +404,7 @@ void ReportView::redraw(const RedrawEvent &event)
         cell_info.screen.x = first_col_scr_x;
         cell_info.index = row;
 
-        cell_info.selected = (_selection != 0 && _selection->is_selected(row));
+        cell_info.selected = (_selection != 0 && _selection->selected(row));
 
         if (cell_info.selected)
         {
@@ -596,19 +610,10 @@ void ReportView::mouse_click(MouseClickEvent &event)
 /**
  * Current selection has changed
  */
-void ReportView::selection_changed(unsigned int old_index, unsigned int new_index)
+void ReportView::selection_changed(const tbx::SelectionChangedEvent &event)
 {
 	BBox bounds;
-	if (old_index != SingleSelection::none)
-	{
-		get_row_bounds(old_index, bounds);
-		_window.force_redraw(bounds);
-	}
-	if (new_index != SingleSelection::none)
-	{
-		get_row_bounds(new_index, bounds);
-		_window.force_redraw(bounds);
-	}
+	// Currently only supporting single selection
+	get_row_bounds(event.first(), bounds);
+	_window.force_redraw(bounds);
 }
-
-

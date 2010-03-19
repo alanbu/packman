@@ -46,7 +46,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_view.add_column(&_status_renderer, 50);
 	_view.add_column(&_name_renderer, 100);
 	_view.add_column(&_summary_renderer, 400);
-	_view.selection_model(&_selection);
+	_view.selection(&_selection);
 	_view.margin(tbx::Margin(0,52,0,252));
 
 	_window.add_command(InstallCommand::COMMAND_ID, &_install);
@@ -196,9 +196,9 @@ std::string MainWindow::StatusRenderer::text(unsigned int index) const
  */
 const pkg::binary_control *MainWindow::selected_package()
 {
-	if (_selection.empty()) return 0;
+	if (_view.selection()->empty()) return 0;
 
-	return _shown_packages[_selection.selected()];
+	return _shown_packages[_view.selection()->first()];
 }
 
 
@@ -283,20 +283,18 @@ void MainWindow::search(const std::string &text, bool in_current_filter)
 }
 
 /**
- * Selection changed so update install/remove buttons
+ * Selection changed so update install/remove buttons.
  */
-void MainWindow::selection_changed(unsigned int old_index, unsigned int new_index)
+void MainWindow::selection_changed(const tbx::SelectionChangedEvent &event)
 {
+	if (!event.final()) return; // Only interested in last event in sequence
+
 	bool fade_install;
 	bool fade_remove;
 
-	if (new_index == SingleSelection::none)
+	if (event.selected())
 	{
-		fade_install = true;
-		fade_remove = true;
-	} else
-	{
-		switch(install_state(_shown_packages[new_index]))
+		switch(install_state(_shown_packages[event.first()]))
 		{
 		case NOT_INSTALLED:
 			fade_install = false;
@@ -313,6 +311,10 @@ void MainWindow::selection_changed(unsigned int old_index, unsigned int new_inde
 			fade_remove = false;
 			break;
 		}
+	} else
+	{
+		fade_install = true;
+		fade_remove = true;
 	}
 
 	_install_button.fade(fade_install);

@@ -34,7 +34,6 @@
 #include "tbx/stringset.h"
 
 #include "ReportView.h"
-#include "SingleSelection.h"
 #include "Commands.h"
 
 #include "libpkg/binary_control.h"
@@ -47,7 +46,7 @@ class PackageFilter;
 class MainWindow :
 	tbx::TextChangedListener,
 	pkg::table::watcher,
-	SingleSelectionListener
+	tbx::SelectionListener
 {
 	tbx::Window _window;
 	tbx::ActionButton _install_button;
@@ -55,7 +54,7 @@ class MainWindow :
 	tbx::StringSet _filters_stringset;
 
 	ReportView _view;
-	SingleSelection _selection; // Selection model for ReportView
+	tbx::SingleSelection _selection;
 	PackageFilter *_filter;
 
 	std::vector<const pkg::binary_control *> _shown_packages;
@@ -126,7 +125,7 @@ public:
 
 	virtual void text_changed(tbx::TextChangedEvent &event);
 	virtual void handle_change(pkg::table& t);
-	virtual void selection_changed(unsigned int old_index, unsigned int new_index);
+	virtual void selection_changed(const tbx::SelectionChangedEvent &event);
 
 	enum InstallState {NOT_INSTALLED, INSTALLED, OLD_VERSION};
 
