@@ -29,6 +29,8 @@
 #include "tbx/font.h"
 #include "tbx/graphics.h"
 
+#include <stdexcept>
+
 using namespace tbx;
 
 /**
@@ -75,16 +77,21 @@ void ListView::row_height(unsigned int height)
 		}
 	}
 }
+
+
 /**
- * Set the selection model to use for the report view
+ * Set the selection model to use for the list view.
+ *
+ * @param selection Selection model to use for selecting items in the list
  */
-void ListView::selection_model(SingleSelection *selection)
+void ListView::selection(tbx::Selection *selection)
 {
 	if (selection == _selection) return;
 
 	if (_selection)
 	{
 		_selection->remove_listener(this);
+		delete _selection;
 		if (selection == 0) _window.remove_mouse_click_listener(this);
 	} else if (selection != 0)
 	{
@@ -255,6 +262,15 @@ void ListView::cleared()
 		_rows = 0;
 		if (_selection) _selection->clear();
 		update_window_extent();
+		WindowState state;
+		_window.get_state(state);
+		Point &scroll = state.visible_area().scroll();
+		if (scroll.x != 0 || scroll.y != 0)
+		{
+			scroll.x = 0;
+			scroll.y = 0;
+			_window.open_window(state);
+		}
 	}
 }
 
@@ -289,7 +305,7 @@ void ListView::redraw(const RedrawEvent &event)
         cell_info.screen.y -= _height;
         cell_info.index = row;
 
-        cell_info.selected = (_selection != 0 && _selection->is_selected(row));
+        cell_info.selected = (_selection != 0 && _selection->selected(row));
 
         if (cell_info.selected)
         {
@@ -438,19 +454,10 @@ void ListView::mouse_click(MouseClickEvent &event)
 /**
  * Current selection has changed
  */
-void ListView::selection_changed(unsigned int old_index, unsigned int new_index)
+void ListView::selection_changed(const SelectionChangedEvent &event)
 {
 	BBox bounds;
-	if (old_index != SingleSelection::none)
-	{
-		get_row_bounds(old_index, bounds);
-		_window.force_redraw(bounds);
-	}
-	if (new_index != SingleSelection::none)
-	{
-		get_row_bounds(new_index, bounds);
-		_window.force_redraw(bounds);
-	}
+	// Currently only supporting single selection
+	get_row_bounds(event.first(), bounds);
+	_window.force_redraw(bounds);
 }
-
-

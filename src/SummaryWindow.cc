@@ -30,7 +30,7 @@
 #include "libpkg/pkgbase.h"
 
 
-SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, SingleSelection *selection) :
+SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::Selection *selection) :
 	_main(main),
 	_selection(selection)
 {
@@ -44,7 +44,7 @@ SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, SingleSelec
 	_selection->add_listener(this);
 
 	// Force initial text for no selection
-	selection_changed(SingleSelection::none, SingleSelection::none);
+	set_noselection_text();
 }
 
 SummaryWindow::~SummaryWindow()
@@ -55,14 +55,13 @@ SummaryWindow::~SummaryWindow()
 /**
  * Selection on main window has changed so update our details
  */
-void SummaryWindow::selection_changed(unsigned int old_index, unsigned int new_index)
+void SummaryWindow::selection_changed(const tbx::SelectionChangedEvent &event)
 {
-	if (new_index == SingleSelection::none)
+	if (!event.final()) return; // Only interested in last selection event
+
+	if (!event.selected())
 	{
-		_name.text("(no selection)");
-		_installed.text("n/a");
-		_available.text("n/a");
-		_description.text("");
+		set_noselection_text();
 	} else
 	{
 		const pkg::binary_control *bctrl = _main->selected_package();
@@ -86,4 +85,15 @@ void SummaryWindow::selection_changed(unsigned int old_index, unsigned int new_i
 		_description.text(bctrl->description());
 		_description.set_selection(0,0);
 	}
+}
+
+/**
+ * Set text for case where there is no selection
+ */
+void SummaryWindow::set_noselection_text()
+{
+	_name.text("(no selection)");
+	_installed.text("n/a");
+	_available.text("n/a");
+	_description.text("");
 }
