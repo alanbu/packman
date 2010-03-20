@@ -29,6 +29,7 @@
 #include "ErrorWindow.h"
 #include "UpdateListWindow.h"
 #include "tbx/path.h"
+#include "tbx/deleteonhidden.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/source_table.h"
 #include <fstream>
@@ -53,6 +54,10 @@ SourcesWindow::SourcesWindow() : _window("Sources"),
 	save_button.add_select_command(&_save);
 
 	_update_list = _window.gadget(6);
+
+    // Dispose of object when it is hidden
+	_window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<SourcesWindow>(this));
+	_window.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 }
 
 SourcesWindow::~SourcesWindow()
