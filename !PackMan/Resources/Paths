@@ -1,0 +1,7 @@
+RiscPkg = <Packages$Dir>.Info.@
+Apps = <Boot$Dir>.^.Apps
+Manuals = <Boot$Dir>.^.Manuals
+Resources = <BootResources$Dir>
+Sprites = <Packages$Dir>.Sprites
+System = <System$Dir>
+SysVars = <Packages$Dir>.SysVars
