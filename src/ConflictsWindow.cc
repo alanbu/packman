@@ -13,7 +13,6 @@ ConflictsWindow::ConflictsWindow(const std::set<std::string> &pathnames) :
 	_list(_window)
 {
 	_list.assign(pathnames.begin(), pathnames.end());
-	_list.autosize();
 
 	// Delete window when it has been hidden
 	_window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<ConflictsWindow>(this));

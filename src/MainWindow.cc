@@ -285,7 +285,7 @@ void MainWindow::search(const std::string &text, bool in_current_filter)
 /**
  * Selection changed so update install/remove buttons.
  */
-void MainWindow::selection_changed(const tbx::SelectionChangedEvent &event)
+void MainWindow::selection_changed(const tbx::view::SelectionChangedEvent &event)
 {
 	if (!event.final()) return; // Only interested in last event in sequence
 

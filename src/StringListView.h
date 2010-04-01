@@ -27,28 +27,22 @@
 #ifndef STRINGLISTVIEW_H_
 #define STRINGLISTVIEW_H_
 
-#include "ListView.h"
+#include "tbx/view/listview.h"
+#include "tbx/view/itemrenderer.h"
+
 #include <vector>
 #include <string>
 
 /**
  * List view class that handles a vector of strings
  */
-class StringListView : public ListView
+class StringListView
 {
 	std::vector<std::string> _lines;
 
-	// Class to render a line
-	class LineRenderer : public WimpFontItemRenderer
-	{
-		StringListView *_view;
-	public:
-		LineRenderer(StringListView *view) : _view(view) {};
-		virtual ~LineRenderer() {};
-
-		virtual std::string text(unsigned int index) const {return _view->line(index);}
-	} _line_renderer;
-
+	tbx::view::IndexItemViewValue< std::string, std::vector<std::string> > _item_value;
+	tbx::view::WimpFontItemRenderer _line_renderer;
+	tbx::view::ListView _view;
 
 public:
 	StringListView(tbx::Window window);
@@ -66,20 +60,20 @@ public:
 	 */
     template<typename InputIterator> void assign(InputIterator first, InputIterator last)
     {
-    	unsigned int old_count = row_count();
+    	unsigned int old_count = _view.count();
     	_lines.assign(first, last);
     	unsigned int new_count = _lines.size();
     	if (old_count < new_count)
     	{
-    		changed(0, old_count);
-    		inserted(old_count, new_count-old_count);
+    		_view.changed(0, old_count);
+    		_view.inserted(old_count, new_count-old_count);
     	}
     	else if (old_count > new_count)
     	{
-    		changed(0, new_count);
-    		removed(new_count, old_count-new_count);
+    		_view.changed(0, new_count);
+    		_view.removed(new_count, old_count-new_count);
     	}
-    	else changed(0, new_count);
+    	else _view.changed(0, new_count);
     }
 };
 
