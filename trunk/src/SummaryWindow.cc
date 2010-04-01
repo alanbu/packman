@@ -30,7 +30,7 @@
 #include "libpkg/pkgbase.h"
 
 
-SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::Selection *selection) :
+SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::view::Selection *selection) :
 	_main(main),
 	_selection(selection)
 {
@@ -55,7 +55,7 @@ SummaryWindow::~SummaryWindow()
 /**
  * Selection on main window has changed so update our details
  */
-void SummaryWindow::selection_changed(const tbx::SelectionChangedEvent &event)
+void SummaryWindow::selection_changed(const tbx::view::SelectionChangedEvent &event)
 {
 	if (!event.final()) return; // Only interested in last selection event
 

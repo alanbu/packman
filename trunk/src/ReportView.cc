@@ -100,7 +100,7 @@ void ReportView::column_gap(unsigned int gap)
  *
  * @param selection Selection model to use for selecting items in the list
  */
-void ReportView::selection(tbx::Selection *selection)
+void ReportView::selection(tbx::view::Selection *selection)
 {
 	if (selection == _selection) return;
 
@@ -610,7 +610,7 @@ void ReportView::mouse_click(MouseClickEvent &event)
 /**
  * Current selection has changed
  */
-void ReportView::selection_changed(const tbx::SelectionChangedEvent &event)
+void ReportView::selection_changed(const tbx::view::SelectionChangedEvent &event)
 {
 	BBox bounds;
 	// Currently only supporting single selection

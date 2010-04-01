@@ -28,7 +28,7 @@
 #define SUMMARYWINDOW_H_
 
 class MainWindow;
-#include "tbx/selection.h"
+#include "tbx/view/selection.h"
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/textarea.h"
@@ -36,20 +36,20 @@ class MainWindow;
 /**
  * Toolbar window to display a few more details
  */
-class SummaryWindow : tbx::SelectionListener
+class SummaryWindow : tbx::view::SelectionListener
 {
 	MainWindow *_main;
-	tbx::Selection *_selection;
+	tbx::view::Selection *_selection;
 	tbx::DisplayField _name;
 	tbx::DisplayField _installed;
 	tbx::DisplayField _available;
 	tbx::TextArea _description;
 
 public:
-	SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::Selection *selection);
+	SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::view::Selection *selection);
 	virtual ~SummaryWindow();
 
-	virtual void selection_changed(const tbx::SelectionChangedEvent &event);
+	virtual void selection_changed(const tbx::view::SelectionChangedEvent &event);
 	void set_noselection_text();
 };
 

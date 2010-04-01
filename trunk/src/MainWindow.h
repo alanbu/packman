@@ -46,7 +46,7 @@ class PackageFilter;
 class MainWindow :
 	tbx::TextChangedListener,
 	pkg::table::watcher,
-	tbx::SelectionListener
+	tbx::view::SelectionListener
 {
 	tbx::Window _window;
 	tbx::ActionButton _install_button;
@@ -54,7 +54,7 @@ class MainWindow :
 	tbx::StringSet _filters_stringset;
 
 	ReportView _view;
-	tbx::SingleSelection _selection;
+	tbx::view::SingleSelection _selection;
 	PackageFilter *_filter;
 
 	std::vector<const pkg::binary_control *> _shown_packages;
@@ -125,7 +125,7 @@ public:
 
 	virtual void text_changed(tbx::TextChangedEvent &event);
 	virtual void handle_change(pkg::table& t);
-	virtual void selection_changed(const tbx::SelectionChangedEvent &event);
+	virtual void selection_changed(const tbx::view::SelectionChangedEvent &event);
 
 	enum InstallState {NOT_INSTALLED, INSTALLED, OLD_VERSION};
 

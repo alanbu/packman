@@ -27,10 +27,11 @@
 #include "StringListView.h"
 
 StringListView::StringListView(tbx::Window window) :
-	ListView(window),
-	_line_renderer(this)
+	_item_value(_lines),
+	_line_renderer(&_item_value),
+	_view(window, &_line_renderer)
+
 {
-	item_renderer(&_line_renderer);
 }
 
 StringListView::~StringListView()
@@ -43,7 +44,7 @@ StringListView::~StringListView()
 void StringListView::clear()
 {
 	_lines.clear();
-	cleared();
+	_view.cleared();
 }
 
 /**
@@ -52,7 +53,7 @@ void StringListView::clear()
 void StringListView::push_back(std::string value)
 {
 	_lines.push_back(value);
-	inserted(_lines.size()-1, 1);
+	_view.inserted(_lines.size()-1, 1);
 }
 
 /**
@@ -60,8 +61,9 @@ void StringListView::push_back(std::string value)
  */
 void StringListView::pop_back()
 {
+	_view.removing(_lines.size()-1,1);
 	_lines.pop_back();
-	removed(_lines.size(), 1);
+	_view.removed(_lines.size(), 1);
 }
 
 /**
@@ -69,6 +71,7 @@ void StringListView::pop_back()
  */
 void StringListView::line(int index, std::string new_value)
 {
+	_view.changing(index, 1);
 	_lines[index] = new_value;
-	changed(index,1);
+	_view.changed(index, 1);
 }

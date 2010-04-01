@@ -31,7 +31,7 @@
 #include "tbx/redrawlistener.h"
 #include "tbx/mouseclicklistener.h"
 #include "tbx/margin.h"
-#include "tbx/selection.h"
+#include "tbx/view/selection.h"
 #include "itemrenderer.h"
 
 #include <vector>
@@ -43,7 +43,7 @@
 class ReportView :
 	public tbx::RedrawListener,
 	public tbx::MouseClickListener,
-	public tbx::SelectionListener
+	public tbx::view::SelectionListener
 {
 private:
 	tbx::Window _window;
@@ -52,7 +52,7 @@ private:
 	unsigned int _height;
 	unsigned int _width;
 	unsigned int _column_gap;
-	tbx::Selection *_selection;
+	tbx::view::Selection *_selection;
 
 	struct ColInfo
 	{
@@ -67,9 +67,9 @@ public:
 
 	static const unsigned int invalid = -1;
 
-	void selection(tbx::Selection *selection);
-	tbx::Selection *selection() const {return _selection;}
-	tbx::Selection *selection() {return _selection;}
+	void selection(tbx::view::Selection *selection);
+	tbx::view::Selection *selection() const {return _selection;}
+	tbx::view::Selection *selection() {return _selection;}
 
 	void update_window_extent();
 
@@ -101,7 +101,7 @@ public:
 	virtual void mouse_click(tbx::MouseClickEvent &event);
 
 	// Single selection listener override
-	virtual void selection_changed(const tbx::SelectionChangedEvent &event);
+	virtual void selection_changed(const tbx::view::SelectionChangedEvent &event);
 
 	// Calls to update view
 	void refresh();
