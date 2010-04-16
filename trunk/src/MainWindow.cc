@@ -37,17 +37,25 @@
 
 
 MainWindow::MainWindow() : _window("Main"), _view(_window),
-   _status_renderer(this),
-   _name_renderer(this),
-   _summary_renderer(this),
+   _status_sprite(this),
+   _name_text(this),
+   _summary_text(this),
+   _status_renderer(&_status_sprite),
+   _name_renderer(&_name_text),
+   _summary_renderer(&_summary_text),
    _install(this),
-   _remove(this)
+   _remove(this),
+   _store_menu_select(&_view)
 {
 	_view.add_column(&_status_renderer, 50);
 	_view.add_column(&_name_renderer, 100);
 	_view.add_column(&_summary_renderer, 400);
 	_view.selection(&_selection);
 	_view.margin(tbx::Margin(0,52,0,252));
+	_view.auto_size(false);
+	_view.menu_selects(true);
+
+	_window.menu().add_has_been_hidden_listener(&_store_menu_select);
 
 	_window.add_command(InstallCommand::COMMAND_ID, &_install);
 	_window.add_command(RemoveCommand::COMMAND_ID, &_remove);
@@ -102,6 +110,7 @@ void MainWindow::refresh()
 {
 	_view.cleared();
 	_shown_packages.clear();
+	_store_menu_select.menu_selection = tbx::view::ItemView::NO_INDEX;
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
    const pkg::binary_control_table& ctrltab = package_base->control();
@@ -124,15 +133,15 @@ void MainWindow::refresh()
    }
 
    _view.inserted(0, _shown_packages.size());
-   _view.autosize_column(1);
-   _view.autosize_column(2);
+   _view.size_column_to_width(1);
+   _view.size_column_to_width(2);
 }
 
 // Sprites to use
-tbx::UserSprite MainWindow::StatusRenderer::_sprites[4];
+tbx::UserSprite MainWindow::StatusSprite::_sprites[4];
 
 
-MainWindow::StatusRenderer::StatusRenderer(MainWindow *me) : _me(me)
+MainWindow::StatusSprite::StatusSprite(MainWindow *me) : _me(me)
 {
 	if (!_sprites[0].is_valid())
 	{
@@ -145,7 +154,7 @@ MainWindow::StatusRenderer::StatusRenderer(MainWindow *me) : _me(me)
 	}
 };
 
-tbx::Sprite *MainWindow::StatusRenderer::sprite(unsigned int index) const
+tbx::Sprite *MainWindow::StatusSprite::value(unsigned int index) const
 {
 	std::string pkgname = _me->_shown_packages[index]->pkgname();
 	bool auto_installed;
@@ -196,11 +205,19 @@ std::string MainWindow::StatusRenderer::text(unsigned int index) const
  */
 const pkg::binary_control *MainWindow::selected_package()
 {
-	if (_view.selection()->empty()) return 0;
+	unsigned int index;
+	if (_view.selection()->empty())
+	{
+		index = _store_menu_select.menu_selection;
+		if (index == tbx::view::ItemView::NO_INDEX)
+			return 0;
+	} else
+	{
+		index = _view.selection()->first();
+	}
 
-	return _shown_packages[_view.selection()->first()];
+	return _shown_packages[index];
 }
-
 
 /**
  * Text in filter box has changed so update view.
