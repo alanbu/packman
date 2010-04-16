@@ -33,7 +33,7 @@
 #include "tbx/actionbutton.h"
 #include "tbx/stringset.h"
 
-#include "ReportView.h"
+#include "tbx/view/reportview.h"
 #include "Commands.h"
 
 #include "libpkg/binary_control.h"
@@ -53,50 +53,55 @@ class MainWindow :
 	tbx::ActionButton _remove_button;
 	tbx::StringSet _filters_stringset;
 
-	ReportView _view;
+	tbx::view::ReportView _view;
 	tbx::view::SingleSelection _selection;
 	PackageFilter *_filter;
 
 	std::vector<const pkg::binary_control *> _shown_packages;
 
-	// Column drawing
-	class StatusRenderer : public SpriteItemRenderer
+	// Column drawing - classes to get data for columns
+	class StatusSprite : public tbx::view::ItemViewValue<tbx::Sprite *>
 	{
 		MainWindow *_me;
 		static tbx::UserSprite _sprites[4];
 
 	public:
-		StatusRenderer(MainWindow *me);
-		virtual tbx::Sprite *sprite(unsigned int index) const;
-	} _status_renderer;
+		StatusSprite(MainWindow *me);
+		virtual tbx::Sprite *value(unsigned int index) const;
+	} _status_sprite;
 
 	/**
-	 * Class to display the package name
+	 * Class to get the package name
 	 */
-	class NameRenderer : public WimpFontItemRenderer
+	class NameText : public tbx::view::ItemViewValue<std::string>
 	{
 		MainWindow *_me;
 	public:
-		NameRenderer(MainWindow *me) : _me(me) {};
-		virtual std::string text(unsigned int index) const
+		NameText(MainWindow *me) : _me(me) {};
+		virtual std::string value(unsigned int index) const
 		{
 			return _me->_shown_packages[index]->pkgname();
 		}
-	} _name_renderer;
+	} _name_text;
 
 	/**
-	 * Class to display the package summary
+	 * Class to get the package summary
 	 */
-	class SummaryRenderer : public WimpFontItemRenderer
+	class SummaryText : public tbx::view::ItemViewValue<std::string>
 	{
 		MainWindow *_me;
 	public:
-		SummaryRenderer(MainWindow *me) : _me(me) {};
-		virtual std::string text(unsigned int index) const
+		SummaryText(MainWindow *me) : _me(me) {};
+		virtual std::string value(unsigned int index) const
 		{
 			return _me->_shown_packages[index]->short_description();
 		}
-	} _summary_renderer;
+	} _summary_text;
+
+	// Column renderers
+	tbx::view::SpriteItemRenderer _status_renderer;
+	tbx::view::WimpFontItemRenderer _name_renderer;
+	tbx::view::WimpFontItemRenderer _summary_renderer;
 
 	/******************************************
 	 * Commands
@@ -112,6 +117,33 @@ class MainWindow :
 
 	// Search information
 	PackageFilter *_search_filter;
+
+	// Listener to remove menu selection
+	class StoreMenuSelection : public tbx::HasBeenHiddenListener
+	{
+		tbx::view::ItemView *_view;
+
+	public:
+		StoreMenuSelection(tbx::view::ItemView *view) : _view(view)
+		{
+			menu_selection = tbx::view::ItemView::NO_INDEX;
+		}
+
+		/**
+		 * Last item selected when mouse menu button was clicked.
+		 * This is updated when the menu is hidden
+		 */
+		unsigned int menu_selection;
+		/**
+		 * Clears the menu selection when the object is hidden
+		 */
+		virtual void has_been_hidden(tbx::Object &object)
+		{
+			menu_selection = (_view->last_selection_menu()) ?
+					_view->selection()->first() : tbx::view::ItemView::NO_INDEX;
+			_view->clear_menu_selection();
+		}
+	} _store_menu_select;
 
 public:
 	MainWindow();
