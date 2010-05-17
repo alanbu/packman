@@ -39,11 +39,16 @@
 
 AppsWindow::AppsWindow(tbx::Object obj) :
 	_window(obj),
-	_view(_window),
+	// Commands
 	_boot_command(this, &AppsWindow::app_boot),
 	_run_command(this, &AppsWindow::app_run),
 	_help_command(this, &AppsWindow::app_help),
-	_view_command(this, &AppsWindow::app_view)
+	_view_command(this, &AppsWindow::app_view),
+	// View setup
+	_name_provider(&_apps, &IconData::name),
+	_sprite_provider(&_apps, &IconData::sprite_name),
+	_icon_renderer(&_name_provider, &_sprite_provider, false),
+	_view(_window, &_icon_renderer)
 {
 	_window.add_about_to_be_shown_listener(this);
 	_window.add_has_been_hidden_listener(this);
@@ -54,6 +59,9 @@ AppsWindow::AppsWindow(tbx::Object obj) :
 	_window.add_command(13, &_view_command);
 
 	_window.client_handle(this);
+
+	_view.selection(&_selection);
+	_view.menu_selects(true);
 }
 
 AppsWindow::~AppsWindow()
@@ -112,11 +120,12 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 						std::string dst_pathname=pb->paths()(src_pathname,"");
 
 						// Add to window if pathname not already known.
-						_view.add(new IconData(dst_pathname));
+						_apps.push_back(IconData(dst_pathname));
 					}
 				}
 			}
 		}
+		_view.inserted(0, _apps.size());
 	}
 }
 
@@ -125,7 +134,8 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
  */
 void AppsWindow::has_been_hidden(tbx::Object &object)
 {
-   _view.erase_all();
+   _apps.clear();
+   _view.cleared();
 }
 
 
@@ -151,8 +161,8 @@ AppsWindow::IconData::IconData(const std::string full_path) :
 std::string AppsWindow::selected_app_path() const
 {
 	std::string pathname;
-	if (_view.one_selected())
-		pathname = static_cast<IconData *>(_view[_view.first_selected()])->full_path();
+	if (_selection.one())
+		pathname = _apps[_selection.first()].full_path();
 
 	return pathname;
 }
@@ -163,7 +173,7 @@ std::string AppsWindow::selected_app_path() const
  */
 void AppsWindow::undo_menu_selection()
 {
-	if (_view.menu_selected()) _view.clear_selection();
+	_view.clear_menu_selection();
 }
 
 
@@ -172,16 +182,13 @@ void AppsWindow::undo_menu_selection()
  */
 void AppsWindow::app_boot()
 {
-	for (tbx::IconView::const_iterator i = _view.begin_selected();
-	     i != _view.end_selected(); ++i)
+	for (tbx::view::Selection::Iterator i = _selection.begin();
+	     i != _selection.end(); ++i)
 	{
-		if ((*i)->selected())
-		{
-			std::string cmd("Filer_Run ");
-			cmd += static_cast<IconData *>(*i)->full_path();
-			cmd += ".!Boot";
-			system(cmd.c_str());
-		}
+		std::string cmd("Filer_Run ");
+		cmd += _apps[*i].full_path();
+		cmd += ".!Boot";
+		system(cmd.c_str());
 	}
 }
 
@@ -190,16 +197,13 @@ void AppsWindow::app_boot()
  */
 void AppsWindow::app_run()
 {
-	for (tbx::IconView::const_iterator i = _view.begin_selected();
-	     i != _view.end_selected(); ++i)
+	for (tbx::view::Selection::Iterator i = _selection.begin();
+	     i != _selection.end(); ++i)
 	{
-		if ((*i)->selected())
-		{
 			std::string cmd("Filer_Run ");
-			cmd += static_cast<IconData *>(*i)->full_path();
+			cmd += _apps[*i].full_path();
 			cmd += ".!Run";
 			system(cmd.c_str());
-		}
 	}
 }
 /**
@@ -207,16 +211,13 @@ void AppsWindow::app_run()
  */
 void AppsWindow::app_help()
 {
-	for (tbx::IconView::const_iterator i = _view.begin_selected();
-	     i != _view.end_selected(); ++i)
+	for (tbx::view::Selection::Iterator i = _selection.begin();
+	     i != _selection.end(); ++i)
 	{
-		if ((*i)->selected())
-		{
 			std::string cmd("Filer_Run ");
-			cmd += static_cast<IconData *>(*i)->full_path();
+			cmd += _apps[*i].full_path();
 			cmd += ".!Help";
 			system(cmd.c_str());
-		}
 	}
 }
 /**
@@ -224,15 +225,12 @@ void AppsWindow::app_help()
  */
 void AppsWindow::app_view()
 {
-	for (tbx::IconView::const_iterator i = _view.begin_selected();
-	     i != _view.end_selected(); ++i)
+	for (tbx::view::Selection::Iterator i = _selection.begin();
+	     i != _selection.end(); ++i)
 	{
-		if ((*i)->selected())
-		{
-			tbx::Path path(static_cast<IconData *>(*i)->full_path());
+			tbx::Path path(_apps[*i].full_path());
 			std::string cmd("Filer_OpenDir ");
 			cmd += path.parent().name();
 			system(cmd.c_str());
-		}
 	}
 }
