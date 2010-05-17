@@ -29,7 +29,8 @@
 
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/hasbeenhiddenlistener.h"
-#include "tbx/iconview.h"
+#include "tbx/view/tileview.h"
+#include "tbx/view/iconitemrenderer.h"
 #include "tbx/command.h"
 
 /**
@@ -39,35 +40,19 @@
 class AppsWindow : tbx::AboutToBeShownListener, tbx::HasBeenHiddenListener
 {
 	tbx::Window _window;
-	tbx::IconView _view;
 	tbx::CommandMethod<AppsWindow> _boot_command;
 	tbx::CommandMethod<AppsWindow> _run_command;
 	tbx::CommandMethod<AppsWindow> _help_command;
 	tbx::CommandMethod<AppsWindow> _view_command;
 
-	class IconData : public tbx::IconViewItem
+	// Internal class for data
+	class IconData
 	{
 	public:
 		IconData(const std::string full_path);
 
-		/**
-		 * Return the text to display in the icon view
-		 */
-		virtual std::string display_text() const {return _name;}
-
-		/**
-		 * Return the name of the sprite to display in the icon view.
-		 */
-		virtual std::string display_sprite_name() const {return _sprite_name;}
-
-		/**
-		 * Return false to use the WIMP sprite area
-		 */
-		virtual bool use_client_sprite_area() const {return false;}
-
-		/**
-		 * Return path to item
-		 */
+		std::string name() const {return _name;}
+		std::string sprite_name() const {return _sprite_name;}
 		std::string full_path() const {return _full_path;}
 
 	private:
@@ -75,6 +60,17 @@ class AppsWindow : tbx::AboutToBeShownListener, tbx::HasBeenHiddenListener
 		std::string _sprite_name;
 		std::string _full_path;
 	};
+
+	std::vector<IconData> _apps;
+
+	// Classes for view
+	tbx::view::MethodItemViewValue<std::string, std::vector<IconData>, IconData> _name_provider;
+	tbx::view::MethodItemViewValue<std::string, std::vector<IconData>, IconData> _sprite_provider;
+	tbx::view::IconItemRenderer _icon_renderer;
+	tbx::view::TileView _view;
+
+	// Selection
+	tbx::view::MultiSelection _selection;
 
 	void app_boot();
 	void app_run();
@@ -96,7 +92,7 @@ public:
 	/**
 	 * Return true if more than one item is selected
 	 */
-	bool multiple_apps_selected() const {return _view.multiple_selected();}
+	bool multiple_apps_selected() const {return _selection.many();}
 };
 
 #endif /* APPSWINDOW_H_ */
