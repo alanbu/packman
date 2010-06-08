@@ -29,14 +29,14 @@
 
 #include "tbx/abouttobeshownlistener.h"
 
-#include "TextView.h"
+#include "tbx/view/textview.h"
 
 /**
  * Class to show copyright of currently selected package
  */
 class CopyrightWindow : tbx::AboutToBeShownListener
 {
-	TextView _view;
+	tbx::view::TextView _view;
 
 public:
 	CopyrightWindow(tbx::Object object);
