@@ -122,7 +122,9 @@ void MainWindow::refresh()
 	  std::string pkgname=i->first.pkgname;
 	  if (pkgname!=prev_pkgname)
 	  {
-		  const pkg::binary_control &ctrl = i->second;
+		  // Don't use i->second for ctrl as it may not be the latest version
+		  // instead look it up.
+		  const pkg::binary_control &ctrl = ctrltab[pkgname];
 		  prev_pkgname=pkgname;
 
 		  if (_filter == 0 || _filter->ok_to_show(ctrl))
@@ -261,6 +263,22 @@ void MainWindow::handle_change(pkg::table& t)
 	{
 		// Refresh window status of package has changed
 		_view.refresh();
+
+		// Deselect and reselect to update toolbars
+		unsigned int index;
+		if (_view.selection()->empty())
+		{
+			index = _store_menu_select.menu_selection;
+		} else
+		{
+			index = _view.selection()->first();
+		}
+		if (index != tbx::view::ItemView::NO_INDEX)
+		{
+			_view.selection()->clear();
+			_view.selection()->select(index);
+		}
+
 	}
 	else if (&t==&(package_base->control()))
 	{
