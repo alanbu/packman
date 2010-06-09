@@ -45,11 +45,6 @@
 #include "SearchWindow.h"
 #include "InstallWindow.h"
 
-// Have to set filename converstion or download.cc
-// in libpkg has a linkage problem
-#include "unixlib/local.h"
-int __riscosify_control = __RISCOSIFY_NO_PROCESS;
-
 /**
  * Show the main packman window if it's not already shown
  */
