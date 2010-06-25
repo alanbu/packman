@@ -42,11 +42,13 @@ using namespace std;
 #include "libpkg/commit.h"
 
 
-CommitFailedWindow::CommitFailedWindow(pkg::commit *commit)
+CommitFailedWindow::CommitFailedWindow(pkg::commit *commit, std::string last_action)
 {
 	tbx::Window window("CommitFail");
+	tbx::DisplayField when(window.gadget(0));
 	tbx::DisplayField msg(window.gadget(1));
 	msg.text(commit->message());
+	when.text("Failed to install/remove package when " + last_action);
 
 	// Dump class and object when window is higgen
 	window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<CommitFailedWindow>(this));

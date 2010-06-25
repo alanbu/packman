@@ -27,6 +27,8 @@
 #ifndef COMMITFAILEDWINDOW_H_
 #define COMMITFAILEDWINDOW_H_
 
+#include <string>
+
 namespace pkg
 {
    class commit;
@@ -38,7 +40,7 @@ namespace pkg
 class CommitFailedWindow
 {
 public:
-	CommitFailedWindow(pkg::commit *commit);
+	CommitFailedWindow(pkg::commit *commit, std::string last_action);
 	virtual ~CommitFailedWindow();
 };
 
