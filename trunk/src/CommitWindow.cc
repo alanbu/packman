@@ -145,16 +145,19 @@ void CommitWindow::poll()
 				break;
 
 			case pkg::commit::state_fail:
-				_action.text("Failed ");
-				new CommitFailedWindow(_commit);
-				_cancel_button.text("OK");
-				if (_commit->files_that_conflict().size())
-					open_conflicts_window();
-				delete _commit;
-				_commit=0;
-                tbx::app()->remove_idle_command(&_thread_runner);
-                // Defer delete to idle
-                tbx::app()->add_idle_command(&_cancel_command);
+				{
+					std::string last_action = _action.text();
+					_action.text("Failed ");
+					new CommitFailedWindow(_commit, last_action);
+					_cancel_button.text("OK");
+					if (_commit->files_that_conflict().size())
+						open_conflicts_window();
+					delete _commit;
+					_commit=0;
+					tbx::app()->remove_idle_command(&_thread_runner);
+					// Defer delete to idle
+					tbx::app()->add_idle_command(&_cancel_command);
+				}
 				break;
 			}
 		}
