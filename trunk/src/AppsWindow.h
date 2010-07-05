@@ -78,7 +78,7 @@ class AppsWindow : tbx::AboutToBeShownListener, tbx::HasBeenHiddenListener
 	void app_view();
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
-	virtual void has_been_hidden(tbx::Object &object);
+	virtual void has_been_hidden(const tbx::EventInfo &event);
 
 
 public:

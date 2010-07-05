@@ -44,7 +44,7 @@ class AppsMenu :
 	tbx::MenuItem _app_item;
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
-	virtual void has_been_hidden(tbx::Object &object);
+	virtual void has_been_hidden(const tbx::EventInfo &hidden_event);
 
 public:
 	AppsMenu(tbx::Object object);
