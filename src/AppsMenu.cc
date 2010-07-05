@@ -81,8 +81,8 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 /**
  * Remove selection if it was made by the menu button
  */
-void AppsMenu::has_been_hidden(tbx::Object &object)
+void AppsMenu::has_been_hidden(const tbx::EventInfo &hidden_event)
 {
-	AppsWindow *apps_window = AppsWindow::from_window(_apps_menu.ancestor_object());
+	AppsWindow *apps_window = AppsWindow::from_window(hidden_event.id_block().ancestor_object());
 	apps_window->undo_menu_selection();
 }

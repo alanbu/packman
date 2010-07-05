@@ -132,7 +132,7 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 /**
  * Clear view when object has been hidden
  */
-void AppsWindow::has_been_hidden(tbx::Object &object)
+void AppsWindow::has_been_hidden(const tbx::EventInfo &event)
 {
    _apps.clear();
    _view.cleared();

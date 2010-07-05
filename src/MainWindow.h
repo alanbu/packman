@@ -137,7 +137,7 @@ class MainWindow :
 		/**
 		 * Clears the menu selection when the object is hidden
 		 */
-		virtual void has_been_hidden(tbx::Object &object)
+		virtual void has_been_hidden(const tbx::EventInfo &hidden_event)
 		{
 			menu_selection = (_view->last_selection_menu()) ?
 					_view->selection()->first() : tbx::view::ItemView::NO_INDEX;
