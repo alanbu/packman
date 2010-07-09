@@ -51,7 +51,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_view.add_column(&_name_renderer, 100);
 	_view.add_column(&_summary_renderer, 400);
 	_view.selection(&_selection);
-	_view.margin(tbx::Margin(0,52,0,252));
+	_view.margin(tbx::Margin(0,54,0,254));
 	_view.auto_size(false);
 	_view.menu_selects(true);
 
