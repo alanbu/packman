@@ -32,7 +32,8 @@ class MainWindow;
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/textarea.h"
-
+#include "tbx/toolaction.h"
+#include "tbx/command.h"
 /**
  * Toolbar window to display a few more details
  */
@@ -44,6 +45,9 @@ class SummaryWindow : tbx::view::SelectionListener
 	tbx::DisplayField _installed;
 	tbx::DisplayField _available;
 	tbx::TextArea _description;
+	tbx::ToolAction _toggle_size;
+	tbx::CommandMethod<SummaryWindow> _toggle_command;
+	int _height;
 
 public:
 	SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::view::Selection *selection);
@@ -51,6 +55,9 @@ public:
 
 	virtual void selection_changed(const tbx::view::SelectionChangedEvent &event);
 	void set_noselection_text();
+
+private:
+	void on_toggle_size();
 };
 
 #endif /* SUMMARYWINDOW_H_ */
