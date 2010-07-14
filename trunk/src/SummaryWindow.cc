@@ -29,10 +29,13 @@
 #include "Packages.h"
 #include "libpkg/pkgbase.h"
 
+const int SMALL_SIZE = 64;
+const int LARGE_SIZE = 252;
 
 SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::view::Selection *selection) :
 	_main(main),
-	_selection(selection)
+	_selection(selection),
+	_toggle_command(this, &SummaryWindow::on_toggle_size)
 {
 	tbx::Window tbwin = main_wnd.ibl_toolbar();
 
@@ -40,6 +43,9 @@ SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::view::
 	_installed =tbwin.gadget(3);
 	_available = tbwin.gadget(5);
 	_description = tbwin.gadget(6);
+	_toggle_size = tbwin.gadget(7);
+	_toggle_size.add_select_command(&_toggle_command);
+	_height = LARGE_SIZE;
 
 	_selection->add_listener(this);
 
@@ -96,4 +102,31 @@ void SummaryWindow::set_noselection_text()
 	_installed.text("n/a");
 	_available.text("n/a");
 	_description.text("");
+}
+
+/**
+ * Toggle size button has been hit
+ */
+void SummaryWindow::on_toggle_size()
+{
+	tbx::Window status_window = _toggle_size.object();
+	tbx::BBox visible_bounds = status_window.bounds();
+	int change;
+
+	if (_height == LARGE_SIZE)
+	{
+		_height = SMALL_SIZE;
+		change = SMALL_SIZE - LARGE_SIZE;
+		_toggle_size.on(true);
+	} else
+	{
+		_height = LARGE_SIZE;
+		_toggle_size.on(false);
+		change = LARGE_SIZE - SMALL_SIZE;
+	}
+	visible_bounds.max.y = visible_bounds.min.y + _height;
+	status_window.bounds(visible_bounds);
+	tbx::Window main_window = status_window.parent_object();
+	main_window.ibl_toolbar(status_window);
+	_main->summary_size_changed(change);
 }

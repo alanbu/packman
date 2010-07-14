@@ -395,3 +395,15 @@ MainWindow::InstallState MainWindow::install_state(const pkg::binary_control *bc
 
 	return state;
 }
+
+/**
+ * Summary window size has been changed
+ *
+ * @param by amount of changes
+ */
+void MainWindow::summary_size_changed(int by)
+{
+	tbx::Margin m = _view.margin();
+	m.bottom += by;
+	_view.margin(m);
+}
