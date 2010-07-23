@@ -18,6 +18,9 @@ RMEnsure TextGadgets 0.49 Error PackMan needs version 0.49 of the TextGadget mod
 RMENSURE SaveAs  0.00  RMLOAD System:modules.toolbox.SaveAs
 RMENSURE SaveAs  0.00  ERROR PackMan need SaveAs
 
+RMENSURE ToolAction 0.00 RMLOAD System:modules.toolbox.ToolAction
+RMENSURE ToolAction 0.00 ERROR PackMan needs the ToolAction module
+
 
 Set PackMan$Dir <Obey$Dir>
 IconSprites <Obey$Dir>.!Sprites

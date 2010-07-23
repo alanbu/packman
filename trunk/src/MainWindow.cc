@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2010 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -51,7 +51,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_view.add_column(&_name_renderer, 100);
 	_view.add_column(&_summary_renderer, 400);
 	_view.selection(&_selection);
-	_view.margin(tbx::Margin(0,54,0,254));
+	_view.margin(tbx::Margin(0,68,0,254));
 	_view.auto_size(false);
 	_view.menu_selects(true);
 
@@ -71,6 +71,8 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_install_button = install_tb.gadget(0);
 	_remove_button = install_tb.gadget(1);
 	_filters_stringset = install_tb.gadget(3);
+	_apps_button = install_tb.gadget(7);
+	_info_button = install_tb.gadget(8);
 
 	_selection.add_listener(this);
 
@@ -324,8 +326,8 @@ void MainWindow::selection_changed(const tbx::view::SelectionChangedEvent &event
 {
 	if (!event.final()) return; // Only interested in last event in sequence
 
-	bool fade_install;
-	bool fade_remove;
+	bool fade_install = true;
+	bool fade_remove = true;
 
 	if (event.selected())
 	{
@@ -334,26 +336,29 @@ void MainWindow::selection_changed(const tbx::view::SelectionChangedEvent &event
 		case NOT_INSTALLED:
 			fade_install = false;
 			fade_remove = true;
-			_install_button.text("Install");
+			_install_button.on(false);
 			break;
 		case INSTALLED:
 			fade_install = true;
 			fade_remove = false;
 			break;
 		case OLD_VERSION:
-			_install_button.text("Upgrade");
+			_install_button.on(true);
 			fade_install = false;
 			fade_remove = false;
 			break;
 		}
+		_info_button.fade(false);
 	} else
 	{
 		fade_install = true;
 		fade_remove = true;
+		_info_button.fade(true);
 	}
 
 	_install_button.fade(fade_install);
 	_remove_button.fade(fade_remove);
+	_apps_button.fade(fade_remove);
 }
 
 /**
