@@ -30,7 +30,7 @@
 #include "tbx/window.h"
 #include "tbx/sprite.h"
 #include "tbx/textchangedlistener.h"
-#include "tbx/actionbutton.h"
+#include "tbx/toolaction.h"
 #include "tbx/stringset.h"
 
 #include "tbx/view/reportview.h"
@@ -49,8 +49,10 @@ class MainWindow :
 	tbx::view::SelectionListener
 {
 	tbx::Window _window;
-	tbx::ActionButton _install_button;
-	tbx::ActionButton _remove_button;
+	tbx::ToolAction _install_button;
+	tbx::ToolAction _remove_button;
+	tbx::ToolAction _apps_button;
+	tbx::ToolAction _info_button;
 	tbx::StringSet _filters_stringset;
 
 	tbx::view::ReportView _view;
