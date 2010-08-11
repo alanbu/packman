@@ -1,5 +1,5 @@
 Source: PackMan
-Version: 0.2-1
+Version: 0.3-1
 Section: Administration
 Priority: Optional
 Maintainer: Alan Buckley <alan_baa@hotmail.com>
@@ -13,3 +13,4 @@ Description: Alternative Package Manager (Beta)
  and allows filtering and searching of the package lists.
 
 Package: PackMan
+Depends: SharedUnixLibrary
