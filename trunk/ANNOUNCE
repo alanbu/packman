@@ -1,8 +1,14 @@
-Packman package manager 0.2 beta released
+Packman package manager 0.3 beta released
 
-The first public beta of PackMan is now available.
+The second public beta of PackMan is now available.
 
-If you already have the previous alpha version or !RiscPkg
+The main changes are:
+ - Updated toolbar that uses icons for install/remove/search
+ - Apps and info windows now available from toolbar icons
+ - Arrow added to status bar so it can be shrunk
+ - Fixed minor display problems
+
+If you already have a previous version or !RiscPkg
 installed you can install it from the main riscpkg site.
 
 Otherwise go to http://alanb.drobe.co.uk/packman.htm for
