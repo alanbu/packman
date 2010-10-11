@@ -30,7 +30,7 @@
 #include "tbx/window.h"
 #include "tbx/scrolllist.h"
 #include "tbx/command.h"
-#include "tbx/writeablefield.h"
+#include "tbx/writablefield.h"
 #include "tbx/actionbutton.h"
 #include "tbx/optionbutton.h"
 
@@ -70,7 +70,7 @@ class SourceEdit
 	SourcesWindow *_sources;
 	int _edit_index;
 	tbx::Window _window;
-	tbx::WriteableField _url;
+	tbx::WritableField _url;
 	tbx::CommandMethod<SourceEdit> _ok;
 
 public:
