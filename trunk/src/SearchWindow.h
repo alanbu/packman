@@ -29,7 +29,7 @@
 
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/window.h"
-#include "tbx/writeablefield.h"
+#include "tbx/writablefield.h"
 #include "tbx/optionbutton.h"
 #include "tbx/buttonselectedlistener.h"
 
@@ -43,7 +43,7 @@ class SearchWindow :
 	tbx::ButtonSelectedListener
 {
 	tbx::Window _window;
-	tbx::WriteableField _text;
+	tbx::WritableField _text;
 	tbx::OptionButton _current;
 	MainWindow *_main;
 
