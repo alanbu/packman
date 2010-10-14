@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2010 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -63,7 +63,7 @@ void AppSaveAs::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 
 	// Menu item id specifies type of save
 	_source_path = apps_window->selected_app_path();
-	_saveas.filename(_source_path.leafname());
+	_saveas.file_name(_source_path.leaf_name());
 }
 
 /** Create obey file to link from stub to target.
