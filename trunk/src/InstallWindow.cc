@@ -51,7 +51,7 @@ void InstallWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	printf("in about\n");
 	std::string default_path=pkg::canonicalise("<Boot$Dir>.Resources.!Packages");
 
-	_saveas.filename(default_path);
+	_saveas.file_name(default_path);
 }
 
 /**

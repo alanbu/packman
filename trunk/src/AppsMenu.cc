@@ -68,7 +68,7 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	{
 		tbx::Path path(app_path);
 		std::string app_text("Apps '");
-		app_text += path.leafname();
+		app_text += path.leaf_name();
 		app_text += "'";
 		_app_item.text(app_text);
 		_app_item.fade(false);
