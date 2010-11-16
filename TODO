@@ -2,9 +2,17 @@ PackMan grabs focus away from other app during install (at end possibly).
  - I've looked at this but haven't figure out a way to fix it
 Use new LibPKG paths interface when it's released by Graham
 Cancel processing during install/remove
+Ensure panes are always at least as wide as the main window
+Page up/down scrolling goes more than the displayed page
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
+
+Move update lists to window menu (from Jan-Jaap)
+Add "updates" (maybe check for updates) to iconbar menu
+that does an update lists and shows the updates window
+with all selected ready to install (from Jan-Jaap).
+For above would need install selected.
 
 Adjust on install does an immediate install (from Jess Hampshire)
 Enable/Disable an individual source.
