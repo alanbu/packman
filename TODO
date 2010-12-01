@@ -1,9 +1,19 @@
 PackMan grabs focus away from other app during install (at end possibly).
  - I've looked at this but haven't figure out a way to fix it
+ - It's now been reported again so I'll need another look
 Use new LibPKG paths interface when it's released by Graham
 Cancel processing during install/remove
 Ensure panes are always at least as wide as the main window
-Page up/down scrolling goes more than the displayed page
+If you leave a download/install progress window open, after it finishes, and you try to install or remove another package the clicks on the menuitems are ignored.
+- I think I should just automatically close the dialogue if a new install/remove is done.
+OK on update lists leaves PackMan in an unstable state.
+- Should do something with OK button (fade/rename?) until proper cancelling can be used.
+
+I found that when I choose Info for the NetSurf package (doesn't matter if I use the info-icon or the menu item) Pack Man crashes:
+- terminate called after throwing an instance of 'tbx::OsError'
+- what(): Buffer too short.
+- Fatal signal received: Aborted
+
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
