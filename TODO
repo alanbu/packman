@@ -9,11 +9,6 @@ If you leave a download/install progress window open, after it finishes, and you
 OK on update lists leaves PackMan in an unstable state.
 - Should do something with OK button (fade/rename?) until proper cancelling can be used.
 
-I found that when I choose Info for the NetSurf package (doesn't matter if I use the info-icon or the menu item) Pack Man crashes:
-- terminate called after throwing an instance of 'tbx::OsError'
-- what(): Buffer too short.
-- Fatal signal received: Aborted
-
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
