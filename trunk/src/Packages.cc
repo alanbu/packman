@@ -75,9 +75,15 @@ bool Packages::ensure_package_base()
 			new ErrorWindow(msg, "OS Error when trying to load/initialise packages");
 			delete _package_base;
 			_package_base=0;
+		} catch(std::runtime_error &rerr)
+		{
+			std::string msg(rerr.what());
+			new ErrorWindow(msg, "Error when trying to load/initialise packages");
+			delete _package_base;
+			_package_base=0;
 		} catch (...)
 		{
-			new ErrorWindow("Could not load/initialise package system", "OS Error when trying to load/initialise packages");
+			new ErrorWindow("Could not load/initialise package system", "Error when trying to load/initialise packages");
 			delete _package_base;
 			_package_base=0;
 		}
