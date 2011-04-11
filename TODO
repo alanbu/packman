@@ -1,13 +1,10 @@
 PackMan grabs focus away from other app during install (at end possibly).
  - I've looked at this but haven't figure out a way to fix it
  - It's now been reported again so I'll need another look
+ - It appears to be setting the selection in the TextArea in the Summary Window that grabs the focus. The set selection is needed so the top of the text is shown.
 Use new LibPKG paths interface when it's released by Graham
 Cancel processing during install/remove
 Ensure panes are always at least as wide as the main window
-If you leave a download/install progress window open, after it finishes, and you try to install or remove another package the clicks on the menuitems are ignored.
-- I think I should just automatically close the dialogue if a new install/remove is done.
-OK on update lists leaves PackMan in an unstable state.
-- Should do something with OK button (fade/rename?) until proper cancelling can be used.
 
 
 Possible future changes (i.e. under consideration)

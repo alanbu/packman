@@ -43,6 +43,7 @@ UpdateListWindow::UpdateListWindow() :
 {
    _instance = this;
    _cancel_button.add_select_command(&_cancel_command);
+   _cancel_button.fade(true);
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
 
@@ -71,12 +72,15 @@ void UpdateListWindow::poll()
 		// operation is deleted.)
 		pkg::update::size_type numerator=_upd->bytes_done();
 		pkg::update::size_type denominator=_upd->bytes_total();
-		while (denominator>0xfff)
+		if (denominator != pkg::update::npos)
 		{
-			numerator>>=1;
-			denominator>>=1;
+			while (denominator>0xfff)
+			{
+				numerator>>=1;
+				denominator>>=1;
+			}
+			_progress.value(numerator * 100 / ((denominator)?denominator:1));
 		}
-		_progress.value(numerator * 100 / ((denominator)?denominator:1));
 
 		// Check whether update operation state has changed.
 		if (_upd->state()!=_state)
@@ -95,14 +99,16 @@ void UpdateListWindow::poll()
 				break;
 			case pkg::update::state_done:
 				_action.text("Done");
-				_cancel_button.text("OK");
+				_cancel_button.text("Close");
+			    _cancel_button.fade(false);
 				delete _upd;
 				_upd=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
 				break;
 			case pkg::update::state_fail:
 				_action.text("Failed");
-				_cancel_button.text("OK");
+				_cancel_button.text("Close");
+			    _cancel_button.fade(false);
 				new ErrorWindow(_upd->message(), "Failed to update package list(s)");
 				delete _upd;
 				_upd=0;

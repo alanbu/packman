@@ -39,6 +39,7 @@ CommitWindow::CommitWindow() :
 {
    _instance = this;
    _cancel_button.add_select_command(&_cancel_command);
+   _cancel_button.fade(true);
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
 
@@ -138,7 +139,8 @@ void CommitWindow::poll()
 			case pkg::commit::state_done:
                 _progress.value(100);
 				_action.text("Done");
-				_cancel_button.text("OK");
+				_cancel_button.text("Close");
+				_cancel_button.fade(false);
 				delete _commit;
 				_commit=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
@@ -149,7 +151,8 @@ void CommitWindow::poll()
 					std::string last_action = _action.text();
 					_action.text("Failed ");
 					new CommitFailedWindow(_commit, last_action);
-					_cancel_button.text("OK");
+					_cancel_button.text("Close");
+					_cancel_button.fade(false);
 					if (_commit->files_that_conflict().size())
 						open_conflicts_window();
 					delete _commit;
@@ -161,6 +164,21 @@ void CommitWindow::poll()
 				break;
 			}
 		}
+	}
+}
+
+/**
+ * Closes commit window.
+ *
+ * Commit should have been completed before this is run
+ */
+void CommitWindow::close()
+{
+	if (_commit == 0)
+	{
+		_window.hide();
+		_instance = 0;
+		delete this;
 	}
 }
 

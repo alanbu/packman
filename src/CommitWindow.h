@@ -64,8 +64,10 @@ public:
 	virtual ~CommitWindow();
 
     static bool showing() {return (_instance != 0);}
+    static CommitWindow *instance() {return _instance;}
+    bool done() const {return _commit == 0;}
 
-    void cancel();
+    void close();
 
     virtual void poll();
 };
