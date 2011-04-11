@@ -32,6 +32,7 @@
 #include "UpdateListWindow.h"
 #include "SourcesWindow.h"
 #include "Packages.h"
+#include "tbx/deleteonhidden.h"
 
 /**
  * Run the install command
@@ -40,8 +41,20 @@ void InstallCommand::execute()
 {
 	const pkg::binary_control *pkg_control = _main->selected_package();
 	if (pkg_control == 0) return;
-	//TODO: Give nice message
-	if (CommitWindow::showing()) return;
+
+	if (CommitWindow::showing())
+	{
+		CommitWindow *cw = CommitWindow::instance();
+		// If it's showing at the end of a completed operation
+		// we can close it.
+		if (cw->done()) cw->close();
+		else
+		{
+			tbx::Window only_one("OnlyOne");
+			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+			return;
+		}
+	}
 
 	if (_install == 0) _install = new IRWindow(false);
 	_install->set_package(pkg_control);
@@ -55,8 +68,20 @@ void RemoveCommand::execute()
 {
 	const pkg::binary_control *pkg_control = _main->selected_package();
 	if (pkg_control == 0) return;
-	//TODO: Give nice message
-	if (CommitWindow::showing()) return;
+
+	if (CommitWindow::showing())
+	{
+		CommitWindow *cw = CommitWindow::instance();
+		// If it's showing at the end of a completed operation
+		// we can close it.
+		if (cw->done()) cw->close();
+		else
+		{
+			tbx::Window only_one("OnlyOne");
+			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+			return;
+		}
+	}
 
 	if (_remove == 0) _remove = new IRWindow(true);
 	_remove->set_package(pkg_control);
