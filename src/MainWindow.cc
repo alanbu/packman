@@ -277,10 +277,9 @@ void MainWindow::handle_change(pkg::table& t)
 		}
 		if (index != tbx::view::ItemView::NO_INDEX)
 		{
-			_view.selection()->clear();
-			_view.selection()->select(index);
+			update_toolbar(index);
+			_summary->set_selection_text(false);
 		}
-
 	}
 	else if (&t==&(package_base->control()))
 	{
@@ -326,36 +325,46 @@ void MainWindow::selection_changed(const tbx::view::SelectionChangedEvent &event
 {
 	if (!event.final()) return; // Only interested in last event in sequence
 
+	if (event.selected())
+	{
+		update_toolbar(event.first());
+	} else
+	{
+		_info_button.fade(true);
+		_install_button.fade(true);
+		_remove_button.fade(true);
+		_apps_button.fade(true);
+	}
+}
+
+/**
+ * Update toolbar to fade/unfade buttons for given index
+ *
+ * @param index index of item to update toolbar for
+ */
+void MainWindow::update_toolbar(int index)
+{
 	bool fade_install = true;
 	bool fade_remove = true;
 
-	if (event.selected())
+	switch(install_state(_shown_packages[index]))
 	{
-		switch(install_state(_shown_packages[event.first()]))
-		{
-		case NOT_INSTALLED:
-			fade_install = false;
-			fade_remove = true;
-			_install_button.on(false);
-			break;
-		case INSTALLED:
-			fade_install = true;
-			fade_remove = false;
-			break;
-		case OLD_VERSION:
-			_install_button.on(true);
-			fade_install = false;
-			fade_remove = false;
-			break;
-		}
-		_info_button.fade(false);
-	} else
-	{
-		fade_install = true;
+	case NOT_INSTALLED:
+		fade_install = false;
 		fade_remove = true;
-		_info_button.fade(true);
+		_install_button.on(false);
+		break;
+	case INSTALLED:
+		fade_install = true;
+		fade_remove = false;
+		break;
+	case OLD_VERSION:
+		_install_button.on(true);
+		fade_install = false;
+		fade_remove = false;
+		break;
 	}
-
+	_info_button.fade(false);
 	_install_button.fade(fade_install);
 	_remove_button.fade(fade_remove);
 	_apps_button.fade(fade_remove);
