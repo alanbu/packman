@@ -58,6 +58,7 @@ SummaryWindow::~SummaryWindow()
 	_selection->remove_listener(this);
 }
 
+
 /**
  * Selection on main window has changed so update our details
  */
@@ -70,26 +71,7 @@ void SummaryWindow::selection_changed(const tbx::view::SelectionChangedEvent &ev
 		set_noselection_text();
 	} else
 	{
-		const pkg::binary_control *bctrl = _main->selected_package();
-
-		_name.text(bctrl->pkgname());
-
-		pkg::pkgbase *package_base = Packages::instance()->package_base();
-		pkg::status_table::const_iterator sti = package_base->curstat().find(bctrl->pkgname());
-		if (sti == package_base->curstat().end()
-			  || (*sti).second.state() != pkg::status::state_installed
-			 )
-		  {
-			  _installed.text("No");
-		  } else
-		  {
-			 _installed.text((*sti).second.version());
-		  }
-
-		  _available.text(bctrl->version());
-
-		_description.text(bctrl->description());
-		_description.set_selection(0,0);
+	    set_selection_text(true);
 	}
 }
 
@@ -102,6 +84,32 @@ void SummaryWindow::set_noselection_text()
 	_installed.text("n/a");
 	_available.text("n/a");
 	_description.text("");
+}
+
+/**
+ * Set/update the text for the selected item
+ *
+ * @param description true if description needs to be updated also
+ */
+void SummaryWindow::set_selection_text(bool description)
+{
+    const pkg::binary_control *bctrl = _main->selected_package();
+    _name.text(bctrl->pkgname());
+    pkg::pkgbase *package_base = Packages::instance()->package_base();
+    pkg::status_table::const_iterator sti = package_base->curstat().find(bctrl->pkgname());
+    if(sti == package_base->curstat().end() || (*sti).second.state() != pkg::status::state_installed){
+        _installed.text("No");
+    }else{
+        _installed.text((*sti).second.version());
+    }
+    _available.text(bctrl->version());
+    if (description)
+    {
+    	// Updating selection can set focus to window, so it is
+    	// sometimes omitted if when the selection hasn't changed
+    	_description.text(bctrl->description());
+    	_description.set_selection(0, 0);
+    }
 }
 
 /**

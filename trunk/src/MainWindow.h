@@ -168,6 +168,9 @@ public:
 	void search(const std::string &text, bool in_current_filter);
 
 	void summary_size_changed(int by);
+
+private:
+	void update_toolbar(int index);
 };
 
 #endif /* MAINWINDOW_H_ */

@@ -55,6 +55,7 @@ public:
 
 	virtual void selection_changed(const tbx::view::SelectionChangedEvent &event);
 	void set_noselection_text();
+    void set_selection_text(bool description);
 
 private:
 	void on_toggle_size();
