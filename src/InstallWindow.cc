@@ -31,7 +31,6 @@
 
 InstallWindow::InstallWindow() : _saveas("InstPackApp")
 {
-	printf("in constructor\n");
 	_saveas.add_about_to_be_shown_listener(this);
 	_saveas.set_save_to_file_handler(this);
 
@@ -48,7 +47,6 @@ InstallWindow::~InstallWindow()
  */
 void InstallWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
-	printf("in about\n");
 	std::string default_path=pkg::canonicalise("<Boot$Dir>.Resources.!Packages");
 
 	_saveas.file_name(default_path);
