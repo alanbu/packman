@@ -1,0 +1,34 @@
+Packman package manager 0.4 beta released
+
+The third public beta of PackMan is now available.
+
+The main changes are:
+ - scroll bar clicking moves only one page
+ - progress window closed automatically if a new install/remove is
+   done after the previous one finished.
+ - stopped focus being stolen during commit
+ - various cosmetic tweaks
+
+If you already have a previous version or !RiscPkg
+installed you can install it from the main riscpkg site.
+
+Otherwise go to http://alanb.drobe.co.uk/packman.htm for
+download and installation instructions.
+
+PackMan is a package manager front end for packages distributed
+using the RISC OS Packaging Project (see http://www.riscpkg.org).
+
+It can be used instead of or alongside !RiscPkg.
+
+Its features include:
+
+- Status bar showing more information on the selected package.
+- Filters to allow display of packages for a specific category,
+  what's installed or upgrades to already installed packages.
+- Search for a package.
+- Single buttons to start an install, upgrade or removal of a package.
+
+System requirements
+
+RISC OS 4.0 or greater with long filenames
+Internet connection for downloading packages
