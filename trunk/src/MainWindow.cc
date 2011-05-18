@@ -136,9 +136,12 @@ void MainWindow::refresh()
 	  }
    }
 
-   _view.inserted(0, _shown_packages.size());
-   _view.size_column_to_width(1);
-   _view.size_column_to_width(2);
+   if (!_shown_packages.empty())
+   {
+	   _view.inserted(0, _shown_packages.size());
+	   _view.size_column_to_width(1);
+	   _view.size_column_to_width(2);
+   }
 }
 
 // Sprites to use
