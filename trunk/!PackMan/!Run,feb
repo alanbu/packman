@@ -12,15 +12,12 @@ RMEnsure Iconbar 1.12 /System:Modules.Toolbox.Iconbar
 RMEnsure Iconbar 1.12 Error PackMan needs version 1.12 or later of the Iconbar module
 RMEnsure ProgInfo 0.09 /System:Modules.Toolbox.ProgInfo
 RMEnsure ProgInfo 0.09 Error PackMan needs version 0.09 or later of the ProgInfo module
-RMEnsure TextGadgets 0.49 /System:Modules.Toolbox.TextGadget
-RMEnsure TextGadgets 0.49 Error PackMan needs version 0.49 of the TextGadget module
-
-RMENSURE SaveAs  0.00  RMLOAD System:modules.toolbox.SaveAs
-RMENSURE SaveAs  0.00  ERROR PackMan need SaveAs
-
-RMENSURE ToolAction 0.00 RMLOAD System:modules.toolbox.ToolAction
-RMENSURE ToolAction 0.00 ERROR PackMan needs the ToolAction module
-
+RMEnsure TextGadgets 0.19 /System:Modules.Toolbox.TextGadget
+RMEnsure TextGadgets 0.19 Error PackMan needs version 0.19 of the TextGadget module
+RMENSURE SaveAs  0.16  RMLOAD System:modules.toolbox.SaveAs
+RMENSURE SaveAs  0.16  ERROR PackMan need version 0.16 or later of the SaveAs module
+RMENSURE ToolAction 0.16 RMLOAD System:modules.toolbox.ToolAction
+RMENSURE ToolAction 0.16 ERROR PackMan needs version 0.16 or later of the ToolAction module
 
 Set PackMan$Dir <Obey$Dir>
 IconSprites <Obey$Dir>.!Sprites
