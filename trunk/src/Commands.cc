@@ -31,6 +31,7 @@
 #include "InstallWindow.h"
 #include "UpdateListWindow.h"
 #include "SourcesWindow.h"
+#include "PathsWindow.h"
 #include "Packages.h"
 #include "tbx/deleteonhidden.h"
 
@@ -125,6 +126,20 @@ void ShowSourcesWindowCommand::execute()
 	if (Packages::instance()->ensure_package_base())
 	{
 		new SourcesWindow();
+	} else
+	{
+		new InstallWindow();
+	}
+}
+
+/**
+ * Show window to display currently set paths
+ */
+void ShowPathsWindowCommand::execute()
+{
+	if (Packages::instance()->ensure_package_base())
+	{
+		new PathsWindow();
 	} else
 	{
 		new InstallWindow();
