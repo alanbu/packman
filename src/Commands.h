@@ -96,5 +96,12 @@ public:
 	virtual void execute();
 };
 
+class ShowPathsWindowCommand : public tbx::Command
+{
+public:
+	enum { COMMAND_ID = 5 };
+	virtual void execute();
+};
+
 
 #endif /* COMMANDS_H_ */
