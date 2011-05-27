@@ -1,16 +1,20 @@
-Packman package manager 0.4 beta released
+Packman package manager 0.5 beta released
 
-The third public beta of PackMan is now available.
+Packman version 0.5 beta is now available.
 
 The main changes are:
- - scroll bar clicking moves only one page
- - progress window closed automatically if a new install/remove is
-   done after the previous one finished.
- - stopped focus being stolen during commit
- - various cosmetic tweaks
+ - Paths window showing where packages will be installed
+ - Help entry added to iconbar and main window menus to launch
+   the help from within the application.
+ - Workaround to fix bug in RISC OS 4.39 Toolaction module
+   to prevent a crash on this version of the OS.
+ - Reduced version requirements for toolbox modules so it
+   can be used from RISC OS 5/4 without having to download
+   updated modules from the RISC OS Ltd site.
 
-If you already have a previous version or !RiscPkg
-installed you can install it from the main riscpkg site.
+If you already have a previous version of !PackMan or !RiscPkg
+installed you can install it or updrade it from either of
+these programs.
 
 Otherwise go to http://alanb.drobe.co.uk/packman.htm for
 download and installation instructions.
