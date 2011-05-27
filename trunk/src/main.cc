@@ -30,6 +30,7 @@
 #include "tbx/reporterror.h"
 #include "tbx/autocreate.h"
 #include "tbx/matchlifetime.h"
+#include "tbx/showhelp.h"
 
 #include "Packages.h"
 #include "MainWindow.h"
@@ -70,11 +71,15 @@ int main(int argc, char *argv[])
 {
 	tbx::Application packman("<PackMan$Dir>");
 	tbx::Iconbar iconbar("IconbarIcon");
+	tbx::ShowHelp show_help;
 
 	// Attach auto created objects to C++ classes to handle them
 	packman.set_autocreate_listener("MainMenu", new tbx::AutoCreateClass<MainMenu>() );
 	packman.set_autocreate_listener("PackageMenu", new tbx::AutoCreateClass<PackageMenu>() );
 	packman.set_autocreate_listener("Info", new tbx::AutoCreateClass<InfoWindow>() );
+
+	// Help command
+	packman.add_command(HELP_COMMAND_ID, &show_help);
 
 	// Windows that probably won't be used as often so create on demand
 	tbx::MatchLifetime<AppsWindow> mlt_apps("Apps");

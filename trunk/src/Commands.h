@@ -103,5 +103,9 @@ public:
 	virtual void execute();
 };
 
+/**
+ * Command ID for the Help command
+ */
+const int HELP_COMMAND_ID = 6;
 
 #endif /* COMMANDS_H_ */
