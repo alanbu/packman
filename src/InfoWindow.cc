@@ -31,7 +31,7 @@
 #include "tbx/objectdelete.h"
 #include "tbx/scrolllist.h"
 
-const int NumDisplayFields = 9;
+const int NumDisplayFields = 10;
 
 static char*DisplayFields[] =
 {
@@ -43,7 +43,8 @@ static char*DisplayFields[] =
 		"URL",
 		"Source",
 		"Standards-Version",
-		"Maintainer"
+		"Maintainer",
+		"Licence"
 };
 
 const int NumDepFields = 4;
