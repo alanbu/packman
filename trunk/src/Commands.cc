@@ -33,6 +33,7 @@
 #include "SourcesWindow.h"
 #include "PathsWindow.h"
 #include "Packages.h"
+#include "UpdateAllWindow.h"
 #include "tbx/deleteonhidden.h"
 
 /**
@@ -143,5 +144,35 @@ void ShowPathsWindowCommand::execute()
 	} else
 	{
 		new InstallWindow();
+	}
+}
+
+/**
+ * Run the Update all command
+ */
+void UpdateAllCommand::execute()
+{
+	if (CommitWindow::showing())
+	{
+		CommitWindow *cw = CommitWindow::instance();
+		// If it's showing at the end of a completed operation
+		// we can close it.
+		if (cw->done()) cw->close();
+		else
+		{
+			tbx::Window only_one("OnlyOne");
+			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+			return;
+		}
+	}
+
+	if (_update == 0) _update = new UpdateAllWindow();
+	if (_update->set_updates())
+	{
+	   _update->show();
+	} else
+	{
+	   tbx::Window no_updates("NoUpdates");
+	   no_updates.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 	}
 }
