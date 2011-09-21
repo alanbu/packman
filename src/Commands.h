@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2011 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -31,6 +31,7 @@
 
 class MainWindow;
 class IRWindow;
+class UpdateAllWindow;
 
 /**
  * Command to install current item
@@ -107,5 +108,22 @@ public:
  * Command ID for the Help command
  */
 const int HELP_COMMAND_ID = 6;
+
+/**
+ * Command to update all packages current item
+ */
+class UpdateAllCommand : public tbx::Command
+{
+private:
+	MainWindow *_main;
+	UpdateAllWindow *_update;
+public:
+	enum {COMMAND_ID = 7}; // ID in resources
+
+	UpdateAllCommand(MainWindow *main) : _main(main), _update(0) {}
+	virtual ~UpdateAllCommand() {}
+
+	virtual void execute();
+};
 
 #endif /* COMMANDS_H_ */
