@@ -152,27 +152,33 @@ void ShowPathsWindowCommand::execute()
  */
 void UpdateAllCommand::execute()
 {
-	if (CommitWindow::showing())
+	if (Packages::instance()->ensure_package_base())
 	{
-		CommitWindow *cw = CommitWindow::instance();
-		// If it's showing at the end of a completed operation
-		// we can close it.
-		if (cw->done()) cw->close();
-		else
+		if (CommitWindow::showing())
 		{
-			tbx::Window only_one("OnlyOne");
-			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
-			return;
+			CommitWindow *cw = CommitWindow::instance();
+			// If it's showing at the end of a completed operation
+			// we can close it.
+			if (cw->done()) cw->close();
+			else
+			{
+				tbx::Window only_one("OnlyOne");
+				only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+				return;
+			}
 		}
-	}
 
-	if (_update == 0) _update = new UpdateAllWindow();
-	if (_update->set_updates())
-	{
-	   _update->show();
+		if (_update == 0) _update = new UpdateAllWindow();
+		if (_update->set_updates())
+		{
+		   _update->show();
+		} else
+		{
+		   tbx::Window no_updates("NoUpdates");
+		   no_updates.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+		}
 	} else
 	{
-	   tbx::Window no_updates("NoUpdates");
-	   no_updates.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+		new InstallWindow();
 	}
 }

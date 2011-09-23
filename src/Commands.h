@@ -115,12 +115,11 @@ const int HELP_COMMAND_ID = 6;
 class UpdateAllCommand : public tbx::Command
 {
 private:
-	MainWindow *_main;
 	UpdateAllWindow *_update;
 public:
 	enum {COMMAND_ID = 7}; // ID in resources
 
-	UpdateAllCommand(MainWindow *main) : _main(main), _update(0) {}
+	UpdateAllCommand() : _update(0) {}
 	virtual ~UpdateAllCommand() {}
 
 	virtual void execute();

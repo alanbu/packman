@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
 	iconbar.add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
 	iconbar.add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
+	iconbar.add_command(UpdateAllCommand::COMMAND_ID, new UpdateAllCommand());
 
 	iconbar.show();
 	packman.run();

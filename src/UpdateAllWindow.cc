@@ -119,6 +119,9 @@ bool UpdateAllWindow::set_updates()
 	unsigned long long total_size = 0;
 
 	_updates.clear();
+
+	std::set<std::string> updates;
+
 	// Extra details for install
 	for (pkg::status_table::const_iterator i = seltable.begin ();
 		i != seltable.end (); ++i)
@@ -127,6 +130,7 @@ bool UpdateAllWindow::set_updates()
 		 if (pkg::unpack_req (curstat, i->second))
 		 {
 			_updates.add_item (i->first);
+			updates.insert(i->first);
 		    num++;
 		    total_size += download_size(i->first);
 		 }
@@ -160,8 +164,11 @@ bool UpdateAllWindow::set_updates()
 		const pkg::status& selstat=package_base->selstat()[pkgname2];
 		if (remove_req(curstat,selstat))
 		{
-			_auto_remove.add_item(pkgname2);
-			++remove;
+			if (updates.find(pkgname2) == updates.end())
+			{
+				_auto_remove.add_item(pkgname2);
+				++remove;
+			}
 		}
 	}
 
