@@ -90,9 +90,15 @@ void IRWindow::set_package(const pkg::binary_control *bctrl)
 	 pkg::status curstat = package_base->curstat ()[i->first];
 	 if (curstat != i->second)
 	 {
-		seltable.insert(i->first, curstat);
 		seed.insert(i->first);
 	 }
+	}
+
+	for (std::set<std::string>::const_iterator reseti = seed.begin();
+			reseti != seed.end(); ++reseti)
+	{
+		 pkg::status curstat = package_base->curstat ()[*reseti];
+		 seltable.insert(*reseti, curstat);
 	}
 
 	package_base->fix_dependencies(seed);
