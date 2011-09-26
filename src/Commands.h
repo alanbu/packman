@@ -31,7 +31,7 @@
 
 class MainWindow;
 class IRWindow;
-class UpdateAllWindow;
+class UpgradeAllWindow;
 
 /**
  * Command to install current item
@@ -110,17 +110,17 @@ public:
 const int HELP_COMMAND_ID = 6;
 
 /**
- * Command to update all packages current item
+ * Command to upgrade all packages current item
  */
-class UpdateAllCommand : public tbx::Command
+class UpgradeAllCommand : public tbx::Command
 {
 private:
-	UpdateAllWindow *_update;
+	UpgradeAllWindow *_upgrade;
 public:
 	enum {COMMAND_ID = 7}; // ID in resources
 
-	UpdateAllCommand() : _update(0) {}
-	virtual ~UpdateAllCommand() {}
+	UpgradeAllCommand() : _upgrade(0) {}
+	virtual ~UpgradeAllCommand() {}
 
 	virtual void execute();
 };

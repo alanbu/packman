@@ -33,7 +33,7 @@
 #include "SourcesWindow.h"
 #include "PathsWindow.h"
 #include "Packages.h"
-#include "UpdateAllWindow.h"
+#include "UpgradeAllWindow.h"
 #include "tbx/deleteonhidden.h"
 
 /**
@@ -148,9 +148,9 @@ void ShowPathsWindowCommand::execute()
 }
 
 /**
- * Run the Update all command
+ * Run the Upgrade all command
  */
-void UpdateAllCommand::execute()
+void UpgradeAllCommand::execute()
 {
 	if (Packages::instance()->ensure_package_base())
 	{
@@ -168,14 +168,14 @@ void UpdateAllCommand::execute()
 			}
 		}
 
-		if (_update == 0) _update = new UpdateAllWindow();
-		if (_update->set_updates())
+		if (_upgrade == 0) _upgrade = new UpgradeAllWindow();
+		if (_upgrade->set_upgrades())
 		{
-		   _update->show();
+		   _upgrade->show();
 		} else
 		{
-		   tbx::Window no_updates("NoUpdates");
-		   no_updates.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+		   tbx::Window no_upgrades("NoUpgrades");
+		   no_upgrades.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 		}
 	} else
 	{

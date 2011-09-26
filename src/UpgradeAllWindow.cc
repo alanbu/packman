@@ -18,13 +18,13 @@
 *
 *****************************************************************************/
 /*
- * InstallWindow.cc
+ * UpgradeAllWindow.cc
  *
  *  Created on: 25-Mar-2009
  *      Author: alanb
  */
 
-#include "UpdateAllWindow.h"
+#include "UpgradeAllWindow.h"
 #include "Packages.h"
 #include "Commands.h"
 
@@ -33,10 +33,10 @@
 #include <set>
 #include <sstream>
 
-UpdateAllWindow::UpdateAllWindow() : _window("UpdateAll"),
-	_updates(_window.gadget(7)),
-	_updates_number(_window.gadget(9)),
-	_updates_size( _window.gadget(11)),
+UpgradeAllWindow::UpgradeAllWindow() : _window("UpgradeAll"),
+	_upgrades(_window.gadget(7)),
+	_upgrades_number(_window.gadget(9)),
+	_upgrades_size( _window.gadget(11)),
 	_auto_remove(_window.gadget(14)),
 	_remove_number(_window.gadget(17)),
 	_install_button (_window.gadget(12))
@@ -44,13 +44,13 @@ UpdateAllWindow::UpdateAllWindow() : _window("UpdateAll"),
 	_install_button.add_select_command(new CommitCommand());
 }
 
-UpdateAllWindow::~UpdateAllWindow()
+UpgradeAllWindow::~UpgradeAllWindow()
 {
 }
 
 /**
  * Show the dialog */
-void UpdateAllWindow::show()
+void UpgradeAllWindow::show()
 {
 	_window.show_as_menu();
 }
@@ -60,7 +60,7 @@ void UpdateAllWindow::show()
  *
  * @returns true if there are any updates
  */
-bool UpdateAllWindow::set_updates()
+bool UpgradeAllWindow::set_upgrades()
 {
     pkg::pkgbase * package_base = Packages::instance()->package_base();
 
@@ -75,9 +75,15 @@ bool UpdateAllWindow::set_updates()
 	 pkg::status curstat = package_base->curstat ()[i->first];
 	 if (curstat != i->second)
 	 {
-		seltable.insert(i->first, curstat);
 		seed.insert(i->first);
 	 }
+	}
+
+	for (std::set<std::string>::const_iterator reseti = seed.begin();
+			reseti != seed.end(); ++reseti)
+	{
+		 pkg::status curstat = package_base->curstat ()[*reseti];
+		 seltable.insert(*reseti, curstat);
 	}
 
 	package_base->fix_dependencies(seed);
@@ -118,9 +124,9 @@ bool UpdateAllWindow::set_updates()
 	unsigned int remove = 0;
 	unsigned long long total_size = 0;
 
-	_updates.clear();
+	_upgrades.clear();
 
-	std::set<std::string> updates;
+	std::set<std::string> upgrades;
 
 	// Extra details for install
 	for (pkg::status_table::const_iterator i = seltable.begin ();
@@ -129,8 +135,8 @@ bool UpdateAllWindow::set_updates()
 		 pkg::status curstat = package_base->curstat ()[i->first];
 		 if (pkg::unpack_req (curstat, i->second))
 		 {
-			_updates.add_item (i->first);
-			updates.insert(i->first);
+			_upgrades.add_item (i->first);
+			upgrades.insert(i->first);
 		    num++;
 		    total_size += download_size(i->first);
 		 }
@@ -138,7 +144,7 @@ bool UpdateAllWindow::set_updates()
 
 	std::ostringstream ons;
 	ons << num;
-	_updates_number.text (ons.str ());
+	_upgrades_number.text (ons.str ());
 
 	std::string unit[] = {"B", "KB", "MB", "GB", "TB"};
 	int units = total_size;
@@ -151,7 +157,7 @@ bool UpdateAllWindow::set_updates()
 
 	std::ostringstream oss;
 	oss << units << " " << unit[unittype];
-	_updates_size.text (oss.str ());
+	_upgrades_size.text (oss.str ());
 
 	_auto_remove.clear();
 
@@ -164,7 +170,7 @@ bool UpdateAllWindow::set_updates()
 		const pkg::status& selstat=package_base->selstat()[pkgname2];
 		if (remove_req(curstat,selstat))
 		{
-			if (updates.find(pkgname2) == updates.end())
+			if (upgrades.find(pkgname2) == upgrades.end())
 			{
 				_auto_remove.add_item(pkgname2);
 				++remove;
@@ -182,7 +188,7 @@ bool UpdateAllWindow::set_updates()
 /**
 * Get the download size of a package
 */
-unsigned int UpdateAllWindow::download_size(std::string pkgname)
+unsigned int UpgradeAllWindow::download_size(std::string pkgname)
 {
 	unsigned int size = 0;
     pkg::pkgbase * package_base = Packages::instance()->package_base ();
