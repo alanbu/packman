@@ -18,14 +18,14 @@
 *
 *****************************************************************************/
 /*
- * UpdateAllWindow.h
+ * UpgradeAllWindow.h
  *
  *  Created on: 25-Mar-2009
  *      Author: alanb
  */
 
-#ifndef UPDATEALLWINDOW_H_
-#define UPDATEALLWINDOW_H_
+#ifndef UPGRADEALLWINDOW_H_
+#define UPGRADEALLWINDOW_H_
 
 #include "libpkg/binary_control.h"
 #include "tbx/window.h"
@@ -34,28 +34,28 @@
 #include "tbx/actionbutton.h"
 
 /**
- * Class to show dialog to confirm updating of all packages */
-class UpdateAllWindow
+ * Class to show dialog to confirm upgrading of all packages */
+class UpgradeAllWindow
 {
 	tbx::Window _window;;
 
 	// Fields
-	tbx::ScrollList _updates;
-	tbx::DisplayField _updates_number;
-	tbx::DisplayField _updates_size;
+	tbx::ScrollList _upgrades;
+	tbx::DisplayField _upgrades_number;
+	tbx::DisplayField _upgrades_size;
 	tbx::ScrollList _auto_remove;
 	tbx::DisplayField _remove_number;
 	tbx::ActionButton _install_button;
 
 public:
-	UpdateAllWindow();
-	virtual ~UpdateAllWindow();
+	UpgradeAllWindow();
+	virtual ~UpgradeAllWindow();
 
-	bool set_updates();
+	bool set_upgrades();
 	void show();
 
 private:
 	unsigned int download_size(std::string pkgname);
 };
 
-#endif /* UPDATEALLWINDOW_H_ */
+#endif /* UPGRADEALLWINDOW_H_ */
