@@ -54,6 +54,8 @@ public:
 	bool ensure_package_base();
 
 	std::string sections();
+
+	void clear_selection();
 };
 
 #endif /* PACKAGES_H_ */

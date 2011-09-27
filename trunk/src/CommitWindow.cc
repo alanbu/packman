@@ -11,6 +11,7 @@
 #include "CommitFailedWindow.h"
 
 #include "tbx/application.h"
+#include "tbx/deleteonhidden.h"
 
 
 #include "libpkg/pkgbase.h"
@@ -181,6 +182,35 @@ void CommitWindow::close()
 		delete this;
 	}
 }
+
+/**
+ * Check if it is OK to start a new commit
+ *
+ * Closes commit window if it is not running but the
+ * window is still showing.
+ *
+ * Shows a message if the commit window is running.
+ *
+ * @returns true if it is OK to run a commit
+ */
+bool CommitWindow::ok_to_run()
+{
+	if (showing())
+	{
+		CommitWindow *cw = CommitWindow::instance();
+		// If it's showing at the end of a completed operation
+		// we can close it.
+		if (cw->done()) cw->close();
+		else
+		{
+			tbx::Window only_one("OnlyOne");
+			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+			return false;
+		}
+	}
+	return true;
+}
+
 
 /**
  * Poll the libpkg thread system which will run the
