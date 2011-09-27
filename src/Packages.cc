@@ -125,3 +125,38 @@ std::string Packages::sections()
 
 	return _sections;
 }
+
+/**
+ * Clear selection state.
+ *
+ * This resets the selection state to match the base state so nothing
+ * is waiting for a commit.
+ */
+void Packages::clear_selection()
+{
+    pkg::pkgbase * package_base = Packages::instance()->package_base ();
+	pkg::status_table & seltable = package_base->selstat ();
+
+	pkg::status_table::const_iterator i;
+	std::set < std::string > selected;
+
+	// Get list of packages with there stateClear any old selection
+	for (i = seltable.begin(); i != seltable.end(); ++i)
+	{
+		pkg::status curstat = package_base->curstat ()[i->first];
+		if (curstat != i->second)
+		{
+			selected.insert(i->first);
+		}
+	}
+
+	for (std::set<std::string>::const_iterator reseti = selected.begin();
+			reseti != selected.end(); ++reseti)
+	{
+		 pkg::status curstat = package_base->curstat ()[*reseti];
+		 seltable.insert(*reseti, curstat);
+	}
+
+	package_base->fix_dependencies(selected);
+	package_base->remove_auto();
+}

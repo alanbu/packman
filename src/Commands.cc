@@ -44,23 +44,12 @@ void InstallCommand::execute()
 	const pkg::binary_control *pkg_control = _main->selected_package();
 	if (pkg_control == 0) return;
 
-	if (CommitWindow::showing())
+	if (CommitWindow::ok_to_run())
 	{
-		CommitWindow *cw = CommitWindow::instance();
-		// If it's showing at the end of a completed operation
-		// we can close it.
-		if (cw->done()) cw->close();
-		else
-		{
-			tbx::Window only_one("OnlyOne");
-			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
-			return;
-		}
+		if (_install == 0) _install = new IRWindow(false);
+		_install->set_package(pkg_control);
+		_install->show();
 	}
-
-	if (_install == 0) _install = new IRWindow(false);
-	_install->set_package(pkg_control);
-	_install->show();
 }
 
 /**
@@ -71,23 +60,12 @@ void RemoveCommand::execute()
 	const pkg::binary_control *pkg_control = _main->selected_package();
 	if (pkg_control == 0) return;
 
-	if (CommitWindow::showing())
+	if (CommitWindow::ok_to_run())
 	{
-		CommitWindow *cw = CommitWindow::instance();
-		// If it's showing at the end of a completed operation
-		// we can close it.
-		if (cw->done()) cw->close();
-		else
-		{
-			tbx::Window only_one("OnlyOne");
-			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
-			return;
-		}
+		if (_remove == 0) _remove = new IRWindow(true);
+		_remove->set_package(pkg_control);
+		_remove->show();
 	}
-
-	if (_remove == 0) _remove = new IRWindow(true);
-	_remove->set_package(pkg_control);
-	_remove->show();
 }
 
 /**
@@ -154,28 +132,17 @@ void UpgradeAllCommand::execute()
 {
 	if (Packages::instance()->ensure_package_base())
 	{
-		if (CommitWindow::showing())
+		if (CommitWindow::ok_to_run())
 		{
-			CommitWindow *cw = CommitWindow::instance();
-			// If it's showing at the end of a completed operation
-			// we can close it.
-			if (cw->done()) cw->close();
-			else
+			if (_upgrade == 0) _upgrade = new UpgradeAllWindow();
+			if (_upgrade->set_upgrades())
 			{
-				tbx::Window only_one("OnlyOne");
-				only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
-				return;
+			   _upgrade->show();
+			} else
+			{
+			   tbx::Window no_upgrades("NoUpgrades");
+			   no_upgrades.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 			}
-		}
-
-		if (_upgrade == 0) _upgrade = new UpgradeAllWindow();
-		if (_upgrade->set_upgrades())
-		{
-		   _upgrade->show();
-		} else
-		{
-		   tbx::Window no_upgrades("NoUpgrades");
-		   no_upgrades.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 		}
 	} else
 	{

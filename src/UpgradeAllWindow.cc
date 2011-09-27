@@ -63,33 +63,10 @@ void UpgradeAllWindow::show()
 bool UpgradeAllWindow::set_upgrades()
 {
     pkg::pkgbase * package_base = Packages::instance()->package_base();
-
 	pkg::status_table & seltable = package_base->selstat ();
-
-	pkg::status_table::const_iterator i;
 	std::set < std::string > seed;
 
-	// Clear any old selection
-	for (i = seltable.begin(); i != seltable.end(); ++i)
-	{
-	 pkg::status curstat = package_base->curstat ()[i->first];
-	 if (curstat != i->second)
-	 {
-		seed.insert(i->first);
-	 }
-	}
-
-	for (std::set<std::string>::const_iterator reseti = seed.begin();
-			reseti != seed.end(); ++reseti)
-	{
-		 pkg::status curstat = package_base->curstat ()[*reseti];
-		 seltable.insert(*reseti, curstat);
-	}
-
-	package_base->fix_dependencies(seed);
-	package_base->remove_auto();
-
-	seed.clear();
+	Packages::instance()->clear_selection();
 
     // Select all updates
     const pkg::binary_control_table& ctrltab = package_base->control();

@@ -79,32 +79,10 @@ void IRWindow::set_package(const pkg::binary_control *bctrl)
 	_version.text (bctrl->version ());
 	_summary.text (bctrl->short_description ().substr (0, 127));
 
+	Packages::instance()->clear_selection();
+
 	pkg::status_table & seltable = package_base->selstat ();
-
-	pkg::status_table::const_iterator i;
 	std::set < std::string > seed;
-
-	// Clear any old selection
-	for (i = seltable.begin(); i != seltable.end(); ++i)
-	{
-	 pkg::status curstat = package_base->curstat ()[i->first];
-	 if (curstat != i->second)
-	 {
-		seed.insert(i->first);
-	 }
-	}
-
-	for (std::set<std::string>::const_iterator reseti = seed.begin();
-			reseti != seed.end(); ++reseti)
-	{
-		 pkg::status curstat = package_base->curstat ()[*reseti];
-		 seltable.insert(*reseti, curstat);
-	}
-
-	package_base->fix_dependencies(seed);
-	package_base->remove_auto();
-
-	seed.clear();
 
 	// Figure out dependencies
 	seed.insert(pkgname);
