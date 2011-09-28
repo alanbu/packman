@@ -145,6 +145,7 @@ void CommitWindow::poll()
 				delete _commit;
 				_commit=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
+                Packages::instance()->unset_upgrades_available();
 				break;
 
 			case pkg::commit::state_fail:
