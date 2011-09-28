@@ -78,8 +78,9 @@ int main(int argc, char *argv[])
 	packman.set_autocreate_listener("PackageMenu", new tbx::AutoCreateClass<PackageMenu>() );
 	packman.set_autocreate_listener("Info", new tbx::AutoCreateClass<InfoWindow>() );
 
-	// Help command
+	// Commands that can be run from anywhere
 	packman.add_command(HELP_COMMAND_ID, &show_help);
+	packman.add_command(UpgradeAllCommand::COMMAND_ID, new UpgradeAllCommand());
 
 	// Windows that probably won't be used as often so create on demand
 	tbx::MatchLifetime<AppsWindow> mlt_apps("Apps");
@@ -93,7 +94,6 @@ int main(int argc, char *argv[])
 	iconbar.add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
 	iconbar.add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
-	iconbar.add_command(UpgradeAllCommand::COMMAND_ID, new UpgradeAllCommand());
 
 	iconbar.show();
 	packman.run();

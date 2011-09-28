@@ -40,7 +40,7 @@ Packages *Packages::_instance = 0;
 
 Packages g_packages; // Single instance of the packages
 
-Packages::Packages() : _package_base(0)
+Packages::Packages() : _package_base(0), _upgrades_available(DONT_KNOW)
 {
 	_instance = this;
 }
@@ -134,8 +134,7 @@ std::string Packages::sections()
  */
 void Packages::clear_selection()
 {
-    pkg::pkgbase * package_base = Packages::instance()->package_base ();
-	pkg::status_table & seltable = package_base->selstat ();
+	pkg::status_table & seltable = _package_base->selstat ();
 
 	pkg::status_table::const_iterator i;
 	std::set < std::string > selected;
@@ -143,7 +142,7 @@ void Packages::clear_selection()
 	// Get list of packages with there stateClear any old selection
 	for (i = seltable.begin(); i != seltable.end(); ++i)
 	{
-		pkg::status curstat = package_base->curstat ()[i->first];
+		pkg::status curstat = _package_base->curstat ()[i->first];
 		if (curstat != i->second)
 		{
 			selected.insert(i->first);
@@ -153,10 +152,60 @@ void Packages::clear_selection()
 	for (std::set<std::string>::const_iterator reseti = selected.begin();
 			reseti != selected.end(); ++reseti)
 	{
-		 pkg::status curstat = package_base->curstat ()[*reseti];
+		 pkg::status curstat = _package_base->curstat ()[*reseti];
 		 seltable.insert(*reseti, curstat);
 	}
 
-	package_base->fix_dependencies(selected);
-	package_base->remove_auto();
+	_package_base->fix_dependencies(selected);
+	_package_base->remove_auto();
+}
+
+/**
+ * Unset upgrades available so they will be recalculated
+ */
+void Packages::unset_upgrades_available()
+{
+	_upgrades_available = DONT_KNOW;
+}
+
+/**
+ * Check if there are any upgrades available for installed packages
+ */
+bool Packages::upgrades_available()
+{
+	if (_upgrades_available == DONT_KNOW)
+	{
+		_upgrades_available = NO;
+
+		const pkg::binary_control_table& ctrltab = _package_base->control();
+		std::string prev_pkgname;
+
+		for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
+		 i !=ctrltab.end(); ++i)
+		{
+		   std::string pkgname=i->first.pkgname;
+		   if (pkgname!=prev_pkgname)
+		   {
+			  // Don't use i->second for ctrl as it may not be the latest version
+			  // instead look it up.
+			  prev_pkgname=pkgname;
+
+			  pkg::status curstat=_package_base->curstat()[pkgname];
+			  if (curstat.state()>=pkg::status::state_installed)
+			  {
+			 	  const pkg::control& ctrl=_package_base->control()[pkgname];
+				  pkg::version inst_version(curstat.version());
+				  pkg::version cur_version(ctrl.version());
+
+				  if (inst_version < cur_version)
+				  {
+					  _upgrades_available = YES;
+					  break; // Don't need to check any more
+				  }
+			  }
+		   }
+		}
+	}
+
+	return (_upgrades_available != NO);
 }

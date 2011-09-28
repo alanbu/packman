@@ -37,6 +37,7 @@ class MainMenu : tbx::AboutToBeShownListener
 {
 	tbx::Menu _menu;
 	tbx::MenuItem _package_item;
+	tbx::MenuItem _upgrade_all_item;
 
 public:
 	MainMenu(tbx::Object object);

@@ -42,6 +42,7 @@ class Packages
 	pkg::pkgbase *_package_base;
 	static Packages *_instance;
 	std::string _sections;
+	enum {DONT_KNOW, NO, YES} _upgrades_available;
 
 public:
 	Packages();
@@ -56,6 +57,8 @@ public:
 	std::string sections();
 
 	void clear_selection();
+	void unset_upgrades_available();
+	bool upgrades_available();
 };
 
 #endif /* PACKAGES_H_ */

@@ -37,6 +37,7 @@ UpdateListWindow::UpdateListWindow() :
     _action(_window.gadget(1)),
     _progress(_window.gadget(2)),
     _cancel_button(_window.gadget(3)),
+    _upgrade_all(_window.gadget(4)),
     _cancel_command(this),
     _upd(0),
     _state(pkg::update::state_done)
@@ -104,6 +105,11 @@ void UpdateListWindow::poll()
 				delete _upd;
 				_upd=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
+                Packages::instance()->unset_upgrades_available();
+                if (Packages::instance()->upgrades_available())
+                {
+                	_upgrade_all.fade(false);
+                }
 				break;
 			case pkg::update::state_fail:
 				_action.text("Failed");

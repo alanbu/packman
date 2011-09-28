@@ -26,6 +26,7 @@
 
 #include "MainMenu.h"
 #include "MainWindow.h"
+#include "Packages.h"
 
 #include "libpkg/binary_control.h"
 
@@ -33,7 +34,8 @@
 
 MainMenu::MainMenu(tbx::Object object) :
 	_menu(object),
-	_package_item(_menu.item(1))
+	_package_item(_menu.item(1)),
+	_upgrade_all_item(_menu.item(4))
 {
 
 	_menu.add_about_to_be_shown_listener(this);
@@ -63,4 +65,6 @@ void MainMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		_package_item.text("Package '" + ctrl->pkgname() + "'");
 		_package_item.fade(false);
 	}
+
+	_upgrade_all_item.fade(!Packages::instance()->upgrades_available());
 }

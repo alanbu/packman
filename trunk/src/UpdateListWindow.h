@@ -45,6 +45,7 @@ class UpdateListWindow : pkg::thread
 	tbx::DisplayField _action;
 	tbx::Slider _progress;
 	tbx::ActionButton _cancel_button;
+	tbx::ActionButton _upgrade_all;
     static UpdateListWindow *_instance;
 
     class CancelCommand : public tbx::Command
