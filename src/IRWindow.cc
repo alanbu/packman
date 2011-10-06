@@ -27,6 +27,7 @@
 #include "IRWindow.h"
 #include "Packages.h"
 #include "Commands.h"
+#include "AbbrevSize.h"
 
 #include "libpkg/pkgbase.h"
 
@@ -125,18 +126,7 @@ void IRWindow::set_package(const pkg::binary_control *bctrl)
 		ons << num;
 		_install_number.text (ons.str ());
 
-		std::string unit[] = {"B", "KB", "MB", "GB", "TB"};
-		int units = total_size;
-		int unittype = 0;
-		while ((units >= 4096) && (unittype < 4))
-		{
-		 units >>= 10;
-		 ++unittype;
-		}
-
-		std::ostringstream oss;
-		oss << units << " " << unit[unittype];
-		_install_size.text (oss.str ());
+		_install_size.text (abbrev_size(total_size));
 	}
 
 	_auto_remove.clear();

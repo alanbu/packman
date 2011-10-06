@@ -21,7 +21,7 @@ RMENSURE ToolAction 0.16 ERROR PackMan needs version 0.16 or later of the ToolAc
 
 Set PackMan$Dir <Obey$Dir>
 IconSprites <Obey$Dir>.!Sprites
-If "<Packages$Dir>"="" Then IconSprites <RiscPkg$Dir>.Resources.!Packages.!Sprites
+If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprites
 
-WimpSlot -min 2048k -max 2048k
+WimpSlot -min 2304k -max 2304k
 /<PackMan$Dir>.!RunImage %*0

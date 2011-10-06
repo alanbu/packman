@@ -1,3 +1,4 @@
 _TaskName:Package Manager
 _TaskSprite:!packman
 _TaskIC:packman
+CacheInfo:The cache is used to store the downloaded packages before they are unpacked and installed.|JOnce downloaded the packages are left in the cache so reinstalling does not require a new download.|JIf you do not wish to keep these cached package files you can use this window to delete them.|J|JNote: The cache should not be modified while an install/remove is in progress, so the clear buttons are disabled if this is the case when the window is shown.

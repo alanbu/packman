@@ -45,6 +45,7 @@
 #include "CopyrightWindow.h"
 #include "SearchWindow.h"
 #include "InstallWindow.h"
+#include "CacheWindow.h"
 
 /**
  * Show the main packman window if it's not already shown
@@ -77,6 +78,7 @@ int main(int argc, char *argv[])
 	packman.set_autocreate_listener("MainMenu", new tbx::AutoCreateClass<MainMenu>() );
 	packman.set_autocreate_listener("PackageMenu", new tbx::AutoCreateClass<PackageMenu>() );
 	packman.set_autocreate_listener("Info", new tbx::AutoCreateClass<InfoWindow>() );
+	packman.set_autocreate_listener("Cache", new tbx::AutoCreateClassOnce<CacheWindow>());
 
 	// Commands that can be run from anywhere
 	packman.add_command(HELP_COMMAND_ID, &show_help);
@@ -91,9 +93,9 @@ int main(int argc, char *argv[])
 
 	iconbar.add_click_command(new ShowMainWindowCommand());
 	iconbar.add_loader(new PackageLoader());
-	iconbar.add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
-	iconbar.add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
-	iconbar.add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
+	iconbar.menu().add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
+	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
+	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
 
 	iconbar.show();
 	packman.run();
