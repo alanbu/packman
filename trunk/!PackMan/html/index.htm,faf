@@ -22,11 +22,13 @@ bugs. Please send me feedback to improve this application.</P>
       <LI><A HREF="main.htm">Main Window</A></LI>
       <LI><A HREF="install.htm">Install Window</A></LI>
       <LI><A HREF="remove.htm">Remove Window</A></LI>
+      <li><a href="upgradeall.htm">Upgrade All Window</a></li>
       <LI><A HREF="apps.htm">Applications Window</A></LI>
       <LI><A HREF="info.htm">Information Window</A></LI>
       <LI><A HREF="copywnd.htm">Copyright Window</A></LI>
       <LI><A HREF="sources.htm">Sources Window</A></LI>
       <LI><A HREF="paths.htm">Paths Window</A></LI>
+      <li><a href="cache.htm">Cache Window</a></li>
     </UL>
   <LI><A HREF="contact.htm">Contacting the Author and Feedback</A></LI>
   <LI><A HREF="copyright.htm">Copyright</A></LI>
