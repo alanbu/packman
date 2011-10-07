@@ -100,10 +100,8 @@ void InfoWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
     {
     	tbx::ScrollList fld = _window.gadget(0x19+j*2);
     	pkg::control::const_iterator found = ctrl->find(DepFields[j]);
-    	if (found == ctrl->end())
-    	{
-    		fld.clear();
-    	} else
+		fld.clear();
+    	if (found != ctrl->end())
     	{
     		std::string deps(found->second);
     		std::string::size_type start = 0, pos;
