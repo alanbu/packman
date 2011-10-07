@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2010 Alan Buckley
+* Copyright 2009-2011 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -320,6 +320,17 @@ void MainWindow::search(const std::string &text, bool in_current_filter)
 	}
 	refresh();
 }
+
+/**
+ * Set the filter for the window
+ *
+ * @param name name of the new filter
+ */
+void MainWindow::set_filter(const char *name)
+{
+	_filters_stringset.selected(name);
+}
+
 
 /**
  * Selection changed so update install/remove buttons.

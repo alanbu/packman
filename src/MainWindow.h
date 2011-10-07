@@ -43,6 +43,10 @@
 class SummaryWindow;
 class PackageFilter;
 
+/**
+ * Class to handle the main window which shows packages and
+ * lets them be maintained.
+ */
 class MainWindow :
 	tbx::TextChangedListener,
 	pkg::table::watcher,
@@ -166,6 +170,7 @@ public:
 	InstallState install_state(const pkg::binary_control *bctrl, bool *auto_inst = 0);
 
 	void search(const std::string &text, bool in_current_filter);
+	void set_filter(const char *name);
 
 	void summary_size_changed(int by);
 

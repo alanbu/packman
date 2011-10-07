@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2011 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -66,6 +66,25 @@ public:
 };
 
 /**
+ * Show the main window with the "Installed" filter selected
+ */
+class ShowInstalledCommand : public tbx::Command
+{
+public:
+	virtual void execute()
+	{
+		if (Packages::instance()->ensure_package_base())
+		{
+			MainWindow *main = new MainWindow();
+			main->set_filter("Installed");
+		} else
+		{
+			new InstallWindow();
+		}
+	}
+};
+
+/**
  * Entry point for program
  */
 int main(int argc, char *argv[])
@@ -91,7 +110,8 @@ int main(int argc, char *argv[])
 	tbx::MatchLifetime<CopyrightWindow> mlt_copyright("Copyright");
 	tbx::MatchLifetime<SearchWindow> mlt_search("Search");
 
-	iconbar.add_click_command(new ShowMainWindowCommand());
+	iconbar.add_select_command(new ShowMainWindowCommand());
+	iconbar.add_adjust_command(new ShowInstalledCommand());
 	iconbar.add_loader(new PackageLoader());
 	iconbar.menu().add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
