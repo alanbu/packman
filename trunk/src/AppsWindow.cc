@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2011 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -62,6 +62,7 @@ AppsWindow::AppsWindow(tbx::Object obj) :
 
 	_view.selection(&_selection);
 	_view.menu_selects(true);
+	_view.add_click_listener(this);
 }
 
 AppsWindow::~AppsWindow()
@@ -138,6 +139,19 @@ void AppsWindow::has_been_hidden(const tbx::EventInfo &event)
    _view.cleared();
 }
 
+/**
+ * And item in the item view has been clicked
+ */
+void AppsWindow::itemview_clicked(const tbx::view::ItemViewClickEvent &event)
+{
+	if (event.click_event().is_select_double()) app_run();
+	else if (event.click_event().is_adjust_double())
+	{
+		app_run();
+		_window.hide();
+	}
+}
+
 
 /**
  * Create icon for window
@@ -188,7 +202,7 @@ void AppsWindow::app_boot()
 		std::string cmd("Filer_Run ");
 		cmd += _apps[*i].full_path();
 		cmd += ".!Boot";
-		system(cmd.c_str());
+		int result = system(cmd.c_str());
 	}
 }
 

@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2011 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -37,7 +37,10 @@
  * Class to show list of applications for a package
  * and allow them to be manipulated.
  */
-class AppsWindow : tbx::AboutToBeShownListener, tbx::HasBeenHiddenListener
+class AppsWindow :
+	tbx::AboutToBeShownListener,
+	tbx::HasBeenHiddenListener,
+	tbx::view::ItemViewClickListener
 {
 	tbx::Window _window;
 	tbx::CommandMethod<AppsWindow> _boot_command;
@@ -79,7 +82,7 @@ class AppsWindow : tbx::AboutToBeShownListener, tbx::HasBeenHiddenListener
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void has_been_hidden(const tbx::EventInfo &event);
-
+	virtual void itemview_clicked(const tbx::view::ItemViewClickEvent &event);
 
 public:
 	AppsWindow(tbx::Object object);
