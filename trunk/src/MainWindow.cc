@@ -232,7 +232,16 @@ const pkg::binary_control *MainWindow::selected_package()
 void MainWindow::text_changed(tbx::TextChangedEvent &event)
 {
 	std::string name(event.text());
+	filter_changed(name);
+}
 
+/**
+ * Update the display when the filter has changed
+ *
+ * @param new name of filter
+ */
+void MainWindow::filter_changed(const std::string &name)
+{
 	if (_filter != _search_filter) delete _filter;
 	_filter = 0;
 
@@ -329,6 +338,7 @@ void MainWindow::search(const std::string &text, bool in_current_filter)
 void MainWindow::set_filter(const char *name)
 {
 	_filters_stringset.selected(name);
+	filter_changed(name);
 }
 
 
