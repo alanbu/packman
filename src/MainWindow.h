@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2011 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -175,6 +175,7 @@ public:
 	void summary_size_changed(int by);
 
 private:
+	void filter_changed(const std::string &name);
 	void update_toolbar(int index);
 };
 
