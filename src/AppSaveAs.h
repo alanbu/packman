@@ -43,8 +43,6 @@ class AppSaveAs :
 	tbx::Path _source_path;
 	enum SaveType {COPY, STUB, LINK} _save_type;
 
-	void link(const tbx::Path &path, std::string leaf);
-
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);
 

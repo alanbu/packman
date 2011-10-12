@@ -27,6 +27,7 @@
 #include "AppsWindow.h"
 #include "MainWindow.h"
 #include "Packages.h"
+#include "CreateStub.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/sprite.h"
@@ -149,6 +150,17 @@ void AppsWindow::itemview_clicked(const tbx::view::ItemViewClickEvent &event)
 	{
 		app_run();
 		_window.hide();
+	} else if (event.click_event().is_select_drag())
+	{
+		if (event.item_hit())
+		{
+			// Drag sprite
+			tbx::WimpSprite app_sprite(_apps[event.index()].sprite_name());
+			tbx::Size sprite_size = app_sprite.size();
+			tbx::BBox start_box(event.click_event().point(), sprite_size);
+			start_box.move(-app_sprite.width()/2, -app_sprite.height()/2);
+			_window.drag_sprite(app_sprite, start_box, this, tbx::Window::DSFLAG_DROP_SHADOW);
+		}
 	}
 }
 
@@ -246,5 +258,39 @@ void AppsWindow::app_view()
 			std::string cmd("Filer_OpenDir ");
 			cmd += path.parent().name();
 			system(cmd.c_str());
+	}
+}
+
+
+/**
+ * Drag has finished so create a stub application
+ */
+void AppsWindow::drag_finished (const tbx::BBox &final)
+{
+	tbx::Saver saver;
+	tbx::PointerInfo where(true,false);
+	saver.set_save_to_file_handler(this);
+
+	tbx::view::Selection::Iterator i = _selection.begin();
+	tbx::Path path(_apps[*i].full_path());
+	saver.save(where, path.leaf_name(), tbx::FILE_TYPE_APPLICATION, 1024);
+}
+
+
+/**
+ * Save file - or in this case create the stub
+ */
+void AppsWindow::saver_save_to_file(tbx::Saver saver, std::string file_name)
+{
+	tbx::Path stub_app(file_name);
+	if (!stub_app.exists())
+	{
+		tbx::view::Selection::Iterator i = _selection.begin();
+		tbx::Path source_path(_apps[*i].full_path());
+		create_application_stub(source_path, stub_app);
+		saver.file_save_completed(true, file_name);
+	} else
+	{
+		saver.file_save_completed(false, file_name);
 	}
 }
