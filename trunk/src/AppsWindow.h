@@ -32,6 +32,8 @@
 #include "tbx/view/tileview.h"
 #include "tbx/view/iconitemrenderer.h"
 #include "tbx/command.h"
+#include "tbx/draghandler.h"
+#include "tbx/saver.h"
 
 /**
  * Class to show list of applications for a package
@@ -40,7 +42,9 @@
 class AppsWindow :
 	tbx::AboutToBeShownListener,
 	tbx::HasBeenHiddenListener,
-	tbx::view::ItemViewClickListener
+	tbx::view::ItemViewClickListener,
+	tbx::DragHandler,
+	tbx::SaverSaveToFileHandler
 {
 	tbx::Window _window;
 	tbx::CommandMethod<AppsWindow> _boot_command;
@@ -83,6 +87,9 @@ class AppsWindow :
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void has_been_hidden(const tbx::EventInfo &event);
 	virtual void itemview_clicked(const tbx::view::ItemViewClickEvent &event);
+	virtual void drag_finished (const tbx::BBox &final);
+	virtual void saver_save_to_file(tbx::Saver saver, std::string file_name);
+
 
 public:
 	AppsWindow(tbx::Object object);

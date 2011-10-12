@@ -26,6 +26,7 @@
 
 #include "AppSaveAs.h"
 #include "AppsWindow.h"
+#include "CreateStub.h"
 
 #include "tbx/objectdelete.h"
 #include "tbx/hourglass.h"
@@ -66,25 +67,6 @@ void AppSaveAs::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	_saveas.file_name(_source_path.leaf_name());
 }
 
-/** Create obey file to link from stub to target.
- * Take no action if the target file does not exist.
- * @param path the location to create the link
- * @param leaf the item to link
- */
-void AppSaveAs::link(const tbx::Path &path, std::string leaf)
-{
-	tbx::Path src(_source_path, leaf);
-	tbx::Path dst(path, leaf);
-	if (src.exists())
-	{
-		std::string contents("/");
-		contents += src.name();
-		contents += " %*0\n";
-		dst.save_file(contents.c_str(), contents.size(), 0xfeb);
-	}
-}
-
-
 /**
  * Do actual save
  */
@@ -101,12 +83,7 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 	case STUB: // Create an application stub
 		{
 			tbx::Path dst(filename);
-			if (dst.create_directory())
-			{
-				link(dst, "!Boot");
-				link(dst, "!Run");
-				link(dst, "!Help");
-			}
+			create_application_stub(_source_path, dst);
 		}
 		break;
 

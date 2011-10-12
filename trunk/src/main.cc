@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
 	// Commands that can be run from anywhere
 	packman.add_command(HELP_COMMAND_ID, &show_help);
 	packman.add_command(UpgradeAllCommand::COMMAND_ID, new UpgradeAllCommand());
+	packman.add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
 
 	// Windows that probably won't be used as often so create on demand
 	tbx::MatchLifetime<AppsWindow> mlt_apps("Apps");
@@ -113,7 +114,6 @@ int main(int argc, char *argv[])
 	iconbar.add_select_command(new ShowMainWindowCommand());
 	iconbar.add_adjust_command(new ShowInstalledCommand());
 	iconbar.add_loader(new PackageLoader());
-	iconbar.menu().add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
 

@@ -6,8 +6,6 @@ Make it easier to see/install recommendations and suggestions
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
-Move update lists to window menu (from Jan-Jaap)
-
 Adjust on install does an immediate install (from Jess Hampshire)
 Enable/Disable an individual source.
 GUI to edit Paths (needs LibPKG change above integrated first)
