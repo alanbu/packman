@@ -1,6 +1,6 @@
 # Makefile to package PackMan
 
-VERSION=0.5-1
+VERSION=0.6-1
 PACKAGES=PackMan_$(VERSION)
 INSTALL_TO=Temp/Apps/Admin
 
