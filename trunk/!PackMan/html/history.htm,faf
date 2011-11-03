@@ -64,6 +64,7 @@ Double click with adjust will close the Apps window as well.</li>
 <li>Added missing package copyright html file</li>
 <li>Fixed crash after update lists found on RISC OS 6.20</li>
 <li>File typed all html files</li>
+<li>Fixed links on acknowledgement HTML page</li>
 </UL>
 
 </UL>
