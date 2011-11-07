@@ -1,0 +1,14 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Introduction</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Introduction</H2>
+
+<P>PackMan is a tool to help install and maintain the software on a RISC OS computer
+using packages created for the RISC OS Packaging Project.</P>
+
+
+</BODY>
+</HTML>

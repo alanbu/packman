@@ -1,0 +1,40 @@
+Packman package manager 0.6 beta released
+
+Packman version 0.6 beta is now available.
+
+The main changes are:
+ - Upgrade All menu options to upgrade all packages at once
+ - Right click on iconbar icon shows list of installed
+   packages
+ - Fixed crash after Update Lists on RISC OS 6.20.
+ - Run an application by double clicking in the Apps Window
+ - Drag an application from the Apps Window to the
+   filer to create a stub.
+ - New window to show disk usage and allow clearing of the
+   cache
+
+If you already have a previous version of !PackMan or !RiscPkg
+installed you can install it or updrade it from either of
+these programs.
+
+Otherwise go to http://alanb.drobe.co.uk/packman.htm for
+download and installation instructions.
+
+PackMan is a package manager front end for packages distributed
+using the RISC OS Packaging Project (see http://www.riscpkg.org).
+
+It can be used instead of or alongside !RiscPkg.
+
+Its features include:
+
+- Status bar showing more information on the selected package.
+- Filters to allow display of packages for a specific category,
+  what's installed or upgrades to already installed packages.
+- Search for a package.
+- Single buttons to start an install, upgrade or removal of a package.
+- Menu option to upgrade all your packages at once.
+
+System requirements
+
+RISC OS 4.0 or greater with long filenames
+Internet connection for downloading packages

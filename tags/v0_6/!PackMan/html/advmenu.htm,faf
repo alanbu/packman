@@ -1,0 +1,26 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Advanced Menu</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Advanced Menu</H2>
+<P>The advanced menu provides options for the more advanced configuration of the packaging
+system.</P>
+<P>This menu is a sub menu shown from the menu for the iconbar icon</P>
+<P>It provides the following options
+<UL>
+<LI>Sources - shows the <A HREF="sources.htm">Sources Window</A>
+    which allows you to select the packaging sites to use.
+</LI>
+<LI>Paths - shows the <A HREF="paths.htm">Paths Window</A>
+    which allows you to specify the base directories the packages are installed to.
+</LI>
+<LI>Cache - shows the <A HREF="cache.htm">Cache Window</A>
+    which allows you to clear the cache of downloaded packages.
+</LI>
+</UL>
+</P>
+
+</BODY>
+</HTML>

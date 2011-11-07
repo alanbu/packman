@@ -1,0 +1,34 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Application Menu</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Application Menu</H2>
+<P>The application menu gives options for manipulating the currently selected package</P>
+<P>This menu is a sub menu shown from the menu for the main window</P>
+<P>It provide the following options
+<UL>
+<LI>Install - install or upgrade the selected application.
+    When selected it leads to the <A HREF="install.htm>Install Dialog</A> to install/upgrade the package.
+    This option is disabled if the application is installed and up to date.
+</LI>
+<LI>Remove - remove the selected application.
+    When selected it leads to the <A HREF="remove.htm>Remove Dialog</A> to remove the package.
+    This option is disabled if the application is not installed.
+</LI>
+<LI>Apps - shows the <A HREF="apps.htm">Applications Window</A>
+    which shows the applications installed by this package and allows them to be linked to and copied.
+    It is disabled if the application is not installed.
+</LI>
+<LI>Info - shows the <A HREF="info.htm">Information window</A> that gives more information on
+    the package.
+</LI>
+<LI>Copyright - shows the copyright information for the package.
+    It is disabled if the application is not installed.
+</LI>
+</UL>
+</P>
+
+</BODY>
+</HTML>
