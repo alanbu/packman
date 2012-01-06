@@ -6,76 +6,83 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.1 Limited release Alpha Version - Late 2009</B>
-</LI>
-<LI>
-<B>0.2 First public Beta Version - June 2010</B>
-</LI>
-<LI><B>0.3 Second Beta - August 2010</B>
+
+<LI><B>0.7 Beta - ???</B>
 <UL>
-<LI>Updated toolbar to use icons for install/remove and search</LI>
-<LI>Updated toolbar to add icons for Apps and Info screens</LI>
-<LI>Minor tweaks to field size/positions on a few dialog</LI>
-<LI>Now reports the stage a commit (Install/Remove) is at when it fails</LI>
-<LI>Fixed - Packages for a filter were invisible when switching between two filters</LI>
-<LI>Fixed - Package list on main window line height was too small.</LI>
-<LI>Small arrow added to status/summary bar so it can be shrunk to show more packages</LI>
+ <li>Changed history to put newest version at the top</li>
+ <li>Use latest LibPkg backend
+   <ul>
+     <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
+     <li>Ensures Paths files contains values for all standard paths</li>
+   </ul>
+ </li>
 </UL>
 </LI>
-<LI><B>0.4 Third Beta - April 2011</B>
-<UL>
-<LI>Clicking on scroll bar/scroll arrows no longer moves more than the displayed page</LI>
-<LI>Changed status bar colour from Yellow</LI>
-<LI>Info on NetSurf caused a crash with "buffer to long" message. Internal buffer has had size increased to avoid this</LI>
-<LI>Better reporting of some errors if packages system doesn't initalise</LI>
-<LI>Cancel button has caption changed and is faded during list and packages install/remove as they left the system in a confused state</LI>
-<LI>Dialogue box pops up to show a message if you try another install/remove while one is in progress</LI>
-<LI>Progress Window is closed automatically if an install/remove is started after a previous one has finished</LI>
-<LI>Stopped focus being stolen from another application during, and at the end of, an install/remove</LI>
-<LI>Improved installed/upgrade sprites in main display</LI>
-</UL>
-</LI>
-<LI><B>0.5 Beta - June 2011</B>
-<UL>
-<LI>Added new Paths window to show the installation paths and added information
-to the manual on how to change them</LI>
-<LI>Help menu options added to iconbar icon menu and main window to show the help file</LI>
-<LI>Clicking on the iconbar icon before updating lists for the first time causes a crash</LI>
-<LI>Has faded flag in ToolAction gadgets used in the toolbar causes a crash on RISC OS 4.39, so the flag has been removed and OS fading of the icons is used instead.</LI>
-<LI>Reduced Toolbox module version requirements so it will run on RISC OS 5 without loading the RISC OS Ltd toolbox modules</LI>
-</UL>
 
 <LI><B>0.6 Beta - October 2011</B>
 <UL>
-<LI>Added License field to information window</LI>
-<li>Added Upgrade All menu option to upgrade all installed packages that have
+ <LI>Added License field to information window</LI>
+ <li>Added Upgrade All menu option to upgrade all installed packages that have
     upgrades available</li>
-<li>Added Cache window to allow clearing of the cache</li>
-<li>Rearranged icon bar menu to use an Advanced sub menu</li>
-<li>Fixed bug where the information window would show previous entries in the Depends, Recommends, Suggest and Conflicts fields if there were entries for the shown package</li>
-<li>Right click on icon bar now shows main window with installed packages</li>
-<li>Double click with select on the application icon in the Applications Window will run it.
+ <li>Added Cache window to allow clearing of the cache</li>
+ <li>Rearranged icon bar menu to use an Advanced sub menu</li>
+ <li>Fixed bug where the information window would show previous entries in the Depends, Recommends, Suggest and Conflicts fields if there were entries for the shown package</li>
+ <li>Right click on icon bar now shows main window with installed packages</li>
+ <li>Double click with select on the application icon in the Applications Window will run it.
 Double click with adjust will close the Apps window as well.</li>
-<li>Drag icon from Applications Window to filer to create a stub application.</li>
-<li>Update Lists option duplicated on the main window as well as the icon bar menu</li>
-<li>Added Castle application variables</li>
-<li>Removed the extra "the" from the update lists window</li>
-<li>Fixed typo in paths.htm</li>
-<li>Added missing package copyright html file</li>
-<li>Fixed crash after update lists found on RISC OS 6.20</li>
-<li>File typed all html files</li>
-<li>Fixed links on acknowledgement HTML page</li>
+ <li>Drag icon from Applications Window to filer to create a stub application.</li>
+ <li>Update Lists option duplicated on the main window as well as the icon bar menu</li>
+ <li>Added Castle application variables</li>
+ <li>Removed the extra "the" from the update lists window</li>
+ <li>Fixed typo in paths.htm</li>
+ <li>Added missing package copyright html file</li>
+ <li>Fixed crash after update lists found on RISC OS 6.20</li>
+ <li>File typed all html files</li>
+ <li>Fixed links on acknowledgement HTML page</li>
 </UL>
 </LI>
-<LI><B>0.7 Beta - ???</B>
+
+<LI><B>0.5 Beta - June 2011</B>
 <UL>
-<li>Use latest LibPkg backend</li>
-  <ul>
-    <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
-    <li>Ensures Paths files contains values for all standard paths</li>
-  </ul>
-</li>
+ <LI>Added new Paths window to show the installation paths and added information
+to the manual on how to change them</LI>
+ <LI>Help menu options added to iconbar icon menu and main window to show the help file</LI>
+ <LI>Clicking on the iconbar icon before updating lists for the first time causes a crash</LI>
+ <LI>Has faded flag in ToolAction gadgets used in the toolbar causes a crash on RISC OS 4.39, so the flag has been removed and OS fading of the icons is used instead.</LI>
+ <LI>Reduced Toolbox module version requirements so it will run on RISC OS 5 without loading the RISC OS Ltd toolbox modules</LI>
 </UL>
+</LI>
+
+<LI><B>0.4 Third Beta - April 2011</B>
+<UL>
+ <LI>Clicking on scroll bar/scroll arrows no longer moves more than the displayed page</LI>
+ <LI>Changed status bar colour from Yellow</LI>
+ <LI>Info on NetSurf caused a crash with "buffer to long" message. Internal buffer has had size increased to avoid this</LI>
+ <LI>Better reporting of some errors if packages system doesn't initalise</LI>
+ <LI>Cancel button has caption changed and is faded during list and packages install/remove as they left the system in a confused state</LI>
+ <LI>Dialogue box pops up to show a message if you try another install/remove while one is in progress</LI>
+ <LI>Progress Window is closed automatically if an install/remove is started after a previous one has finished</LI>
+ <LI>Stopped focus being stolen from another application during, and at the end of, an install/remove</LI>
+ <LI>Improved installed/upgrade sprites in main display</LI>
+</UL>
+</LI>
+
+<LI><B>0.3 Second Beta - August 2010</B>
+<UL>
+ <LI>Updated toolbar to use icons for install/remove and search</LI>
+ <LI>Updated toolbar to add icons for Apps and Info screens</LI>
+ <LI>Minor tweaks to field size/positions on a few dialog</LI>
+ <LI>Now reports the stage a commit (Install/Remove) is at when it fails</LI>
+ <LI>Fixed - Packages for a filter were invisible when switching between two filters</LI>
+ <LI>Fixed - Package list on main window line height was too small.</LI>
+ <LI>Small arrow added to status/summary bar so it can be shrunk to show more packages</LI>
+</UL>
+</LI>
+
+<LI><B>0.2 First public Beta Version - June 2010</B>
+</LI>
+
+<LI><B>0.1 Limited release Alpha Version - Late 2009</B>
 </LI>
 
 </UL>
