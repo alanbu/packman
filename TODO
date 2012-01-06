@@ -2,11 +2,21 @@ Use new LibPKG paths interface when it's released by Graham
 Cancel processing during install/remove
 Ensure panes are always at least as wide as the main window
 Make it easier to see/install recommendations and suggestions
+Sources window should not allow a second Update Lists window
+to be run.
+Check progress bar in update lists. Was 100% when it still
+had more to do.
+
+Check if get extra error message when can't find package
+base and remove it if we do.
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
 Adjust on install does an immediate install (from Jess Hampshire)
-Enable/Disable an individual source.
 GUI to edit Paths (needs LibPKG change above integrated first)
-
+Enable/Disable an individual source- workarond for timeout
+Download other list on timeout (from Grahame Parish)
+  - I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal.
+Automatic - run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
+Prompt to backup old software that's in the way. Martin Wuerthner martin@mw-software.com; 

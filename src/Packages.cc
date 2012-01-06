@@ -65,9 +65,27 @@ bool Packages::ensure_package_base()
 				pkg::canonicalise("<PackMan$Dir>.Resources.!Packages");
 			if ((apath!=dpath)&&(pkg::object_type(apath)!=0))
 			{
+				// If the package database exists, but does not contain a
+				// Paths file, and a Paths file does exist in the choices
+				// directory (as used by previous versions of RiscPkg)
+				// then copy it across.
+				string pb_ppath=apath+string(".Paths");
+				string ch_ppath("Choices:RiscPkg.Paths");
+				if ((pkg::object_type(pb_ppath)==0)&&
+					(pkg::object_type(ch_ppath)!=0))
+				{
+					pkg::copy_object(ch_ppath,pb_ppath);
+				}
+
 				// Attempt to access package database.
 				_package_base=new pkg::pkgbase("<Packages$Dir>","<PackMan$Dir>.Resources",
 					"Choices:PackMan");
+
+				// Ensure that default paths are present, unless they
+				// have been explicitly disabled by the user.
+				bool paths_changed=_package_base->paths().ensure_defaults();
+				if (paths_changed) _package_base->paths().commit();
+
 			}
 		} catch(tbx::OsError &err)
 		{
