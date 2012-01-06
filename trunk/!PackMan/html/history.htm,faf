@@ -66,6 +66,17 @@ Double click with adjust will close the Apps window as well.</li>
 <li>File typed all html files</li>
 <li>Fixed links on acknowledgement HTML page</li>
 </UL>
+</LI>
+<LI><B>0.7 Beta - ???</B>
+<UL>
+<li>Use latest LibPkg backend</li>
+  <ul>
+    <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
+    <li>Ensures Paths files contains values for all standard paths</li>
+  </ul>
+</li>
+</UL>
+</LI>
 
 </UL>
 
