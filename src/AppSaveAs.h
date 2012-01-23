@@ -41,7 +41,7 @@ class AppSaveAs :
 {
 	tbx::SaveAs _saveas;
 	tbx::Path _source_path;
-	enum SaveType {COPY, STUB, LINK} _save_type;
+	enum SaveType {STUB, LINK, COPY, MOVE} _save_type;
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);
