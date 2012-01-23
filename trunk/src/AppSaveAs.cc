@@ -53,13 +53,14 @@ void AppSaveAs::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
 	AppsWindow *apps_window = AppsWindow::from_window(event.id_block().ancestor_object());
 	int id = event.id_block().parent_component().id();
-	_save_type = SaveType(id % 3);
+	_save_type = SaveType(id - 1);
 
 	switch(_save_type)
 	{
-	case COPY: _saveas.title("Copy application"); break;
 	case STUB: _saveas.title("Create Stub"); break;
 	case LINK: _saveas.title("Create link"); break;
+	case COPY: _saveas.title("Copy application"); break;
+	case MOVE: _saveas.title("Move application"); break;
 	}
 
 	// Menu item id specifies type of save
