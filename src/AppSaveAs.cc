@@ -27,6 +27,7 @@
 #include "AppSaveAs.h"
 #include "AppsWindow.h"
 #include "CreateStub.h"
+#include "MoveWindow.h"
 
 #include "tbx/objectdelete.h"
 #include "tbx/hourglass.h"
@@ -96,6 +97,10 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 			tbx::Path dst(filename);
 			dst.file_type(0xfc0);
 		}
+		break;
+
+	case MOVE:
+		new MoveWindow(_source_path, filename);
 		break;
 	}
 	_saveas.file_save_completed(true, filename);
