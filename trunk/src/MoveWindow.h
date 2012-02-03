@@ -21,9 +21,10 @@ class MoveWindow : public tbx::Command
 	tbx::Slider _progress;
 
 	MoveApp _move_app;
+	MoveApp::State _last_state;
 
 public:
-	MoveWindow(const tbx::Path &app_path, const std::string &to_path);
+	MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path);
 	virtual void execute();
 
 private:

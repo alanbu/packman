@@ -56,15 +56,17 @@ class AppsWindow :
 	class IconData
 	{
 	public:
-		IconData(const std::string full_path);
+		IconData(const std::string logical_path, const std::string full_path);
 
 		std::string name() const {return _name;}
 		std::string sprite_name() const {return _sprite_name;}
 		std::string full_path() const {return _full_path;}
+		std::string logical_path() const {return _logical_path;}
 
 	private:
 		std::string _name;
 		std::string _sprite_name;
+		std::string _logical_path;
 		std::string _full_path;
 	};
 
@@ -98,6 +100,8 @@ public:
 	static AppsWindow *from_window(tbx::Window window);
 
 	std::string selected_app_path() const;
+	std::string selected_app_logical_path() const;
+
 	void undo_menu_selection();
 	/**
 	 * Return true if more than one item is selected

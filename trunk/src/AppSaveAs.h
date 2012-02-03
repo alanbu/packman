@@ -41,6 +41,7 @@ class AppSaveAs :
 {
 	tbx::SaveAs _saveas;
 	tbx::Path _source_path;
+	std::string _logical_path;
 	enum SaveType {STUB, LINK, COPY, MOVE} _save_type;
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);

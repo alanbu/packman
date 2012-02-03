@@ -4,9 +4,10 @@
 #include "MoveWindow.h"
 
 
-MoveWindow::MoveWindow(const tbx::Path &app_path, const std::string &to_path) :
-  _window("MoveWindow"),
-  _move_app(app_path, to_path)
+MoveWindow::MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path) :
+  _window("Move"),
+  _move_app(logical_path, app_path, to_path),
+  _last_state(MoveApp::START)
 {
 	_status_text = _window.gadget(1);
 	_progress = _window.gadget(2);
@@ -16,49 +17,51 @@ MoveWindow::MoveWindow(const tbx::Path &app_path, const std::string &to_path) :
 	tbx::app()->add_idle_command(this);
 }
 
+/**
+ * Routine polled by application on idle events
+ */
 void MoveWindow::execute()
 {
 	_move_app.poll();
 
 	_progress.value(_move_app.decipercent_done());
 
-	switch (_move_app.state())
+	if (_move_app.state() != _last_state)
 	{
-	case MoveApp::START: break; // Here to get rid of compiler warning only
+		_last_state = _move_app.state();
+		switch (_move_app.state())
+		{
+		case MoveApp::COPYING_FILES:
+			_status_text.text("Copying files");
+			break;
 
-	case MoveApp::COPYING_FILES:
-		_status_text.text("Copying files");
-		break;
+		case MoveApp::UPDATE_PATHS:
+			_status_text.text("Updating paths file");
+			break;
 
-	case MoveApp::UPDATE_PATHS:
-		_status_text.text("Updating paths file");
-		break;
+		case MoveApp::UPDATE_VARS:
+			_status_text.text("Updating system variables");
+			break;
 
-	case MoveApp::UPDATE_VARS:
-		_status_text.text("Updating system variables");
-		break;
+		case MoveApp::DELETE_OLD_FILES:
+			_status_text.text("Deleting original files");
+			break;
 
-	case MoveApp::DELETE_OLD_FILES:
-		_status_text.text("Deleting original files");
-		break;
+		case MoveApp::DONE:
+			if (_move_app.warning()) show_warning();
+			close();
+			break;
 
-	case MoveApp::DONE:
-		if (_move_app.warning()) show_warning();
-		close();
-		break;
+		case MoveApp::UNWIND_COPY:
+			_status_text.text("Unwinding after error - deleting copied files");
+			_progress.bar_colour(tbx::WimpColour::red);
+			break;
 
-	case MoveApp::UNWIND_PATHS:
-		_status_text.text("Unwinding after error - restoring paths");
-		break;
-
-	case MoveApp::UNWIND_COPY:
-		_status_text.text("Unwinding after error - deleting copied files");
-		break;
-
-	case MoveApp::FAILED:
-		show_error();
-		close();
-		break;
+		case MoveApp::FAILED:
+			show_error();
+			close();
+			break;
+		}
 	}
 }
 
