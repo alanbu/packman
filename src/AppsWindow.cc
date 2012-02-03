@@ -122,7 +122,7 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 						std::string dst_pathname=pb->paths()(src_pathname,"");
 
 						// Add to window if pathname not already known.
-						_apps.push_back(IconData(dst_pathname));
+						_apps.push_back(IconData(src_pathname, dst_pathname));
 					}
 				}
 			}
@@ -168,7 +168,8 @@ void AppsWindow::itemview_clicked(const tbx::view::ItemViewClickEvent &event)
 /**
  * Create icon for window
  */
-AppsWindow::IconData::IconData(const std::string full_path) :
+AppsWindow::IconData::IconData(std::string logical_path, std::string full_path) :
+	_logical_path(logical_path),
 	_full_path(full_path)
 {
 	std::string::size_type f=full_path.find(".!");
@@ -192,6 +193,24 @@ std::string AppsWindow::selected_app_path() const
 
 	return pathname;
 }
+
+/**
+ * Return logical pathname of the first selected application
+ *
+ * The logical path is the path used to lookup the actual
+ * location on disc from the paths file.
+ *
+ * returns empty string if nothing is selected
+ */
+std::string AppsWindow::selected_app_logical_path() const
+{
+	std::string pathname;
+	if (_selection.one())
+		pathname = _apps[_selection.first()].logical_path();
+
+	return pathname;
+}
+
 
 /**
  * Undo the last selection if it was caused

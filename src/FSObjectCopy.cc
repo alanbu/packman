@@ -23,6 +23,7 @@ const unsigned int FILEOP_COST=16384;
  */
 FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target) :
    _source(source), _target_dir(target),
+   _delete_option(DO_NOT_DELETE),
    _state(BUILD_LIST),
    _error(NO_ERROR),
    _warning(NO_WARNING),
@@ -31,7 +32,8 @@ FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target)
    _dir_total(0),
    _byte_done(0),
    _file_done(0),
-   _dir_done(0)
+   _dir_done(0),
+   _del_done(0)
 {
 	if (_source.leaf_name() != _target_dir.leaf_name())
 	{
@@ -69,7 +71,8 @@ void FSObjectCopy::poll()
 		{
 			if (_to_copy.empty())
 			{
-				_state = DONE;
+				if (_delete_option == DELETE_AFTER_COPY) _state = DELETE_SOURCE;
+				else _state = DONE;
 			} else
 			{
 				// Copy next file
@@ -84,6 +87,19 @@ void FSObjectCopy::poll()
 					_state = UNWIND_COPY_OBJECT;
 				}
 			}
+		}
+		break;
+
+	case DELETE_SOURCE:
+		if (_copied.empty())
+		{
+			_state = DONE;
+		} else
+		{
+			std::string object = _copied.top();
+			if (!delete_source_object(object)) _warning = DELETE_FAILED;
+			_del_done++;
+			_copied.pop();
 		}
 		break;
 
@@ -104,6 +120,37 @@ void FSObjectCopy::poll()
 	case DONE:
 		// Nothing to do - caller should stop polling now
 		break;
+	}
+}
+/**
+ * Set up to delete files if delete_option DELETE_ON_SECOND_PASS
+ * is set. Just call poll() as normal to do the delete.
+ */
+void FSObjectCopy::start_delete_source()
+{
+	if (_delete_option == DELETE_ON_SECOND_PASS
+			&& _state == DONE
+			&& _error == NO_ERROR)
+	{
+		_state = DELETE_SOURCE;
+	}
+}
+
+/**
+ * Unwind any files copied so far.
+ *
+ * Used when a the copy is part of a failed transaction
+ * and so the files copied need to be deleted.
+ */
+void FSObjectCopy::start_unwind_copy()
+{
+	if (!_copied.empty())
+	{
+		_state = UNWIND_COPY_OBJECT;
+	} else
+	{
+		// Nothing to unwind
+		_state = DONE;
 	}
 }
 
@@ -212,11 +259,25 @@ bool FSObjectCopy::delete_target_object(const std::string &name)
 }
 
 /**
+ * Delete object from source folder
+ *
+ * @param name name relative to the source path
+ * @return true if successful
+ */
+bool FSObjectCopy::delete_source_object(const std::string &name)
+{
+	tbx::Path del_obj(_source_dir, name);
+	return del_obj.remove();
+}
+
+/**
  * Return a number to give a guide to the total amount of work to do
  */
 long long FSObjectCopy::total_cost()
 {
-	return (_dir_total + _file_total) *  FILEOP_COST + _byte_total;
+	long long total_cost = (_dir_total + _file_total) *  FILEOP_COST + _byte_total;
+	if (_delete_option != DO_NOT_DELETE) total_cost += (_dir_total + _file_total) *  FILEOP_COST;
+	return total_cost;
 }
 
 
@@ -225,7 +286,7 @@ long long FSObjectCopy::total_cost()
  */
 long long FSObjectCopy::cost_done()
 {
-	return (_dir_done + _file_done) *  FILEOP_COST + _byte_done;
+	return (_dir_done + _file_done + _del_done) *  FILEOP_COST + _byte_done;
 }
 
 /**

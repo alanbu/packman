@@ -21,11 +21,12 @@
 class MoveApp
 {
 public:
-	enum State {START, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, DELETE_OLD_FILES, DONE, UNWIND_PATHS, UNWIND_COPY, FAILED};
+	enum State {START, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, DELETE_OLD_FILES, DONE, UNWIND_COPY, FAILED};
 	enum Error {NO_ERROR, COPY_FAILED, PATH_UPDATE_FAILED};
 	enum Warning {NO_WARNING, DELETE_FAILED, UNWIND_PATHS_FAILED, UNWIND_COPY_FAILED};
 
 private:
+	std::string _logical_path;
 	FSObjectCopy _copy_handler;
 	State _state;
 	Error _error;
@@ -35,7 +36,7 @@ private:
 	long long _cost_stage_start;
 	
 public:
-	MoveApp(const std::string &app_path, const std::string &to_path);
+	MoveApp(const std::string &logical_path, const std::string &app_path, const std::string &to_path);
 	void poll();
 
 	State state() const {return _state;}

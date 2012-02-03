@@ -66,6 +66,7 @@ void AppSaveAs::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 
 	// Menu item id specifies type of save
 	_source_path = apps_window->selected_app_path();
+	_logical_path = apps_window->selected_app_logical_path();
 	_saveas.file_name(_source_path.leaf_name());
 }
 
@@ -100,7 +101,7 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 		break;
 
 	case MOVE:
-		new MoveWindow(_source_path, filename);
+		new MoveWindow(_logical_path, _source_path, filename);
 		break;
 	}
 	_saveas.file_save_completed(true, filename);
