@@ -118,11 +118,8 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 					if (last_pathname != src_pathname)
 					{
 						last_pathname = src_pathname;
-						// Convert from logical to physical namespace.
-						std::string dst_pathname=pb->paths()(src_pathname,"");
-
 						// Add to window if pathname not already known.
-						_apps.push_back(IconData(src_pathname, dst_pathname));
+						_apps.push_back(IconData(src_pathname));
 					}
 				}
 			}
@@ -168,17 +165,27 @@ void AppsWindow::itemview_clicked(const tbx::view::ItemViewClickEvent &event)
 /**
  * Create icon for window
  */
-AppsWindow::IconData::IconData(std::string logical_path, std::string full_path) :
-	_logical_path(logical_path),
-	_full_path(full_path)
+AppsWindow::IconData::IconData(std::string logical_path) :
+	_logical_path(logical_path)
 {
-	std::string::size_type f=full_path.find(".!");
-	_name = full_path.substr(f+1);
+	std::string::size_type f=logical_path.find(".!");
+	_name = logical_path.substr(f+1);
 	_sprite_name = _name;
 
     tbx::WimpSprite ws(_sprite_name);
 	if (!ws.exist()) _sprite_name = "application";
 }
+
+/**
+ * Retrieve full path on demand as it may be changed
+ * by the user moving the application while the apps window is shown.
+ */
+std::string AppsWindow::IconData::full_path() const
+{
+	pkg::pkgbase *pb = Packages::instance()->package_base();
+	return pb->paths()(_logical_path,"");
+}
+
 
 /**
  * Return pathname of first selected application

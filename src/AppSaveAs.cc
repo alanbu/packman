@@ -28,9 +28,11 @@
 #include "AppsWindow.h"
 #include "CreateStub.h"
 #include "MoveWindow.h"
+#include "MoveExistsWindow.h"
 
 #include "tbx/objectdelete.h"
 #include "tbx/hourglass.h"
+#include "tbx/reporterror.h"
 
 #include <fstream>
 
@@ -101,7 +103,24 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 		break;
 
 	case MOVE:
-		new MoveWindow(_logical_path, _source_path, filename);
+		if (_source_path.canonical_equals(filename))
+		{
+			//TODO: Use better error box
+			tbx::report_error("Source and dest must be different");
+		} else
+		{
+			tbx::Path dst(filename);
+			if (dst.exists())
+			{
+				// Create and show a window to prompt for overwrite then
+				// do the move.
+				new MoveExistsWindow(_logical_path, _source_path, filename);
+			} else
+			{
+				// Do the move directly
+				new MoveWindow(_logical_path, _source_path, filename);
+			}
+		}
 		break;
 	}
 	_saveas.file_save_completed(true, filename);
