@@ -25,7 +25,7 @@
 class FSObjectCopy
 {
 public:
-	enum State {BUILD_LIST, COPY_OBJECT, DELETE_SOURCE, UNWIND_COPY_OBJECT, DONE};
+	enum State {BUILD_LIST, COPY_OBJECT, DELETE_SOURCE, UNWIND_COPY_OBJECT, UNWIND_MOVE_OBJECT, DONE};
 	enum Error {NO_ERROR, LEAF_NAME_MISMATCH, TARGET_EXISTS, BUILD_LIST_FAILED, COPY_FAILED };
 	enum Warning {NO_WARNING, DELETE_FAILED};
 	enum DeleteOption {DO_NOT_DELETE, DELETE_AFTER_COPY, DELETE_ON_SECOND_PASS};
@@ -52,10 +52,12 @@ public:
 	FSObjectCopy(const std::string &source, const std::string &target);
 
 	tbx::Path target_path() const {return tbx::Path(_target_dir, _source.leaf_name());}
+	const tbx::Path &target_dir() const {return _target_dir;}
 
 	void poll();
 	void start_delete_source();
 	void start_unwind_copy();
+	void start_unwind_move();
 
 	/**
 	 * Optionally set to delete files after the copy
@@ -83,6 +85,7 @@ private:
 	bool build_list();
 	bool add_directory(std::string dirname);
 	bool copy_object(const std::string &name);
+	bool copy_object_back(const std::string &name);
 	bool delete_target_object(const std::string &name);
 	bool delete_source_object(const std::string &name);
 };

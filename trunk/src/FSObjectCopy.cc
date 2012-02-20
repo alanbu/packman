@@ -2,6 +2,9 @@
 #include "FSObjectCopy.h"
 #include "tbx/hourglass.h"
 
+#include <iostream>
+#define FSO_LOG_ACTION(act, obj) std::cout << act << ":" << obj << std::endl;
+
 /** The cost of one file operation.
  * This is a conversion factor for equating the cost of a file operation
  * (such as rename or delete) with the cost of moving a given number of
@@ -39,10 +42,6 @@ FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target)
 	{
 		_state = DONE;
 		_error = LEAF_NAME_MISMATCH;
-	} else if (_target_dir.exists())
-	{
-		_state = DONE;
-		_error = TARGET_EXISTS;
 	} else
 	{
 		_target_dir.up(); // Just need the destination directory for the target
@@ -117,6 +116,22 @@ void FSObjectCopy::poll()
 		}
 		break;
 
+	case UNWIND_MOVE_OBJECT:
+		// Move any files already copied
+		if (_copied.empty())
+		{
+			_state = DONE;
+		} else
+		{
+			std::string object_to_move = _copied.top();
+			if (!copy_object_back(object_to_move)
+					|| !delete_target_object(object_to_move)
+					) _warning = DELETE_FAILED;
+			_to_copy.push(object_to_move);
+			_copied.pop();
+		}
+		break;
+
 	case DONE:
 		// Nothing to do - caller should stop polling now
 		break;
@@ -153,6 +168,23 @@ void FSObjectCopy::start_unwind_copy()
 		_state = DONE;
 	}
 }
+
+/**
+ * Unwind files that are copied then deleted by
+ * copying them back
+ */
+void FSObjectCopy::start_unwind_move()
+{
+	if (_copied.empty())
+	{
+		_state = UNWIND_MOVE_OBJECT;
+	} else
+	{
+		// Nothing to unwind
+		_state = DONE;
+	}
+}
+
 
 /**
  * Build list of files and directories to copy
@@ -229,6 +261,8 @@ bool FSObjectCopy::copy_object(const std::string &name)
 	tbx::PathInfo info;
 	if (!source.path_info(info)) return false;
 
+	FSO_LOG_ACTION("copy_object", name);
+
 	if (info.directory())
 	{
 		if (target.create_directory())
@@ -247,6 +281,39 @@ bool FSObjectCopy::copy_object(const std::string &name)
 }
 
 /**
+ * Copy object from destination to source
+ *
+ * Used to unwind a move
+ *
+ * @param name object name relative to source path
+ */
+bool FSObjectCopy::copy_object_back(const std::string &name)
+{
+	tbx::Path source(_source_dir, name);
+	tbx::Path target(_target_dir, name);
+	tbx::PathInfo info;
+	if (!target.path_info(info)) return false;
+
+	FSO_LOG_ACTION("copy_object_back", name);
+
+	if (info.directory())
+	{
+		if (source.create_directory())
+		{
+			return true;
+		}
+	} else if (target.copy(source))
+	{
+		_byte_done -= info.length();
+		_file_done--;
+		return true;
+	}
+
+	return false;
+}
+
+
+/**
  * Delete object from target folder
  *
  * @param name name relative to the target path
@@ -255,6 +322,9 @@ bool FSObjectCopy::copy_object(const std::string &name)
 bool FSObjectCopy::delete_target_object(const std::string &name)
 {
 	tbx::Path del_obj(_target_dir, name);
+
+	FSO_LOG_ACTION("delete_target_object", name);
+
 	return del_obj.remove();
 }
 
@@ -267,6 +337,9 @@ bool FSObjectCopy::delete_target_object(const std::string &name)
 bool FSObjectCopy::delete_source_object(const std::string &name)
 {
 	tbx::Path del_obj(_source_dir, name);
+
+	FSO_LOG_ACTION("delete_source_object", name);
+
 	return del_obj.remove();
 }
 

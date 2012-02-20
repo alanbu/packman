@@ -56,18 +56,17 @@ class AppsWindow :
 	class IconData
 	{
 	public:
-		IconData(const std::string logical_path, const std::string full_path);
+		IconData(const std::string logical_path);
 
 		std::string name() const {return _name;}
 		std::string sprite_name() const {return _sprite_name;}
-		std::string full_path() const {return _full_path;}
+		std::string full_path() const;
 		std::string logical_path() const {return _logical_path;}
 
 	private:
 		std::string _name;
 		std::string _sprite_name;
 		std::string _logical_path;
-		std::string _full_path;
 	};
 
 	std::vector<IconData> _apps;

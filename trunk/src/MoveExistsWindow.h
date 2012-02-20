@@ -18,41 +18,34 @@
 *
 *****************************************************************************/
 /*
- * MoveWindow.h
+ * MoveExistsWindow.h
  *
- *  Created on: 26 Jan 2012
+ *  Created on: 17 Feb 2012
  *      Author: alanb
  */
 
-#ifndef MOVEWINDOW_H_
-#define MOVEWINDOW_H_
+#ifndef MOVEEXISTSWINDOW_H_
+#define MOVEEXISTSWINDOW_H_
 
+#include "tbx/deleteonhidden.h"
 #include "tbx/command.h"
-#include "tbx/window.h"
-#include "tbx/displayfield.h"
-#include "tbx/slider.h"
-#include "MoveApp.h"
+#include "tbx/path.h"
 
-class MoveWindow : public tbx::Command
+class MoveExistsWindow : public tbx::DeleteObjectOnHidden
 {
-	tbx::Window _window;
-	tbx::DisplayField _status_text;
-	tbx::Slider _progress;
-
-	MoveApp _move_app;
-	MoveApp::State _last_state;
+	class MoveWindowCommand : public tbx::Command
+	{
+		std::string _logical_path;
+		tbx::Path _app_path;
+		std::string _to_path;
+	public:
+		MoveWindowCommand(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path);
+		virtual void execute();
+	} _yes_command;
 
 public:
-	MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path);
-	virtual void execute();
-
-private:
-	void close();
-	void show_warning();
-	void show_error();
-
-	std::string warning_text();
-	std::string error_text();
+	MoveExistsWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path);
+	virtual ~MoveExistsWindow();
 };
 
-#endif /* MOVEWINDOW_H_ */
+#endif /* MOVEEXISTSWINDOW_H_ */
