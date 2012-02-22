@@ -32,9 +32,11 @@
 
 #include "tbx/objectdelete.h"
 #include "tbx/hourglass.h"
-#include "tbx/reporterror.h"
+#include "tbx/messagewindow.h"
+#include "tbx/fileraction.h"
 
 #include <fstream>
+#include <stdexcept>
 
 /**
  * Set up listeners to set up and do the save
@@ -82,7 +84,25 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 	switch(_save_type)
 	{
 	case COPY: // Copy file
-		_source_path.copy(filename, tbx::Path::COPY_RECURSE);
+		try
+		{
+			tbx::Path target(filename);
+			if (target.leaf_name() != _source_path.leaf_name())
+			{
+				// Non multi-tasking copy need if leaf name changes
+				_source_path.copy(filename, tbx::Path::COPY_RECURSE);
+			} else
+			{
+				// Use FilerAction to get a multi-tasking copy
+				tbx::FilerAction fa(_source_path);
+				fa.copy(target.parent(), tbx::FilerAction::VERBOSE);
+			}
+		} catch(std::runtime_error &e)
+		{
+			std::string msg("Unable to start filer copy\n");
+			msg += e.what();
+			tbx::show_message(msg, "PackMan", "warning");
+		}
 		break;
 
 	case STUB: // Create an application stub
@@ -105,8 +125,7 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 	case MOVE:
 		if (_source_path.canonical_equals(filename))
 		{
-			//TODO: Use better error box
-			tbx::report_error("Source and dest must be different");
+			tbx::show_message("Source and destination for the move must be different");
 		} else
 		{
 			tbx::Path dst(filename);
