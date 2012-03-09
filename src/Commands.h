@@ -125,4 +125,15 @@ public:
 	virtual void execute();
 };
 
+/**
+ * Show the sources window if it's not already shown
+ */
+class ShowBackupWindowCommand : public tbx::Command
+{
+public:
+	enum { COMMAND_ID = 8 };
+	virtual void execute();
+};
+
+
 #endif /* COMMANDS_H_ */

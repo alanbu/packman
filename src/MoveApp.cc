@@ -20,6 +20,7 @@
 
 #include "MoveApp.h"
 #include "Packages.h"
+#include "BackupManager.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/sysvars.h"
 #include "libpkg/path_table.h"
@@ -195,6 +196,13 @@ void MoveApp::poll()
 			{
 			   if (_copy_handler.warning()) _warning = DELETE_FAILED;
 			   _state = DONE;
+				if (_backup_handler)
+				{
+					// Add backup to backup manager
+					BackupManager bm;
+					bm.add(_backup_handler->target_path());
+					bm.commit();
+				}
 			}
 		}
 		break;

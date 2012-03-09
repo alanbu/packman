@@ -32,6 +32,7 @@
 #include "UpdateListWindow.h"
 #include "SourcesWindow.h"
 #include "PathsWindow.h"
+#include "BackupWindow.h"
 #include "Packages.h"
 #include "UpgradeAllWindow.h"
 #include "tbx/deleteonhidden.h"
@@ -144,6 +145,20 @@ void UpgradeAllCommand::execute()
 			   no_upgrades.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 			}
 		}
+	} else
+	{
+		new InstallWindow();
+	}
+}
+
+/**
+ * Show window to maintain backups made for the user by PackMan
+ */
+void ShowBackupWindowCommand::execute()
+{
+	if (Packages::instance()->ensure_package_base())
+	{
+		BackupWindow::show();
 	} else
 	{
 		new InstallWindow();

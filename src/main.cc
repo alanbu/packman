@@ -116,6 +116,7 @@ int main(int argc, char *argv[])
 	iconbar.add_loader(new PackageLoader());
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
+	iconbar.menu().add_command(ShowBackupWindowCommand::COMMAND_ID, new ShowBackupWindowCommand());
 
 	iconbar.show();
 	packman.run();
