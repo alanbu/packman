@@ -13,6 +13,7 @@ base and remove it if we do.
 
 If application is moved outside of PackMan check update, remove and install don't misbehave.
 
+
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
@@ -23,3 +24,7 @@ Download other list on timeout (from Grahame Parish)
   - I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal.
 Automatic - run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
 Prompt to backup old software that's in the way. Martin Wuerthner martin@mw-software.com; 
+Add option to check, repair or re-install packages (Jess Hampshire)
+Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
+
+
