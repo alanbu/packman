@@ -76,13 +76,13 @@ public:
 	{
 		if (_deleted_path.exists())
 		{
+			filer_opendir(_deleted_path.parent());
 			tbx::show_message("Deletion of:\n"
 					+ _deleted_path.name()
 					+ "\nfailed. You will have to remove it by hand.",
 					"",
 					"warning"
 					);
-			filer_opendir(_deleted_path.parent());
 		} else
 		{
 			tbx::Path containing_dir = _deleted_path.parent();
@@ -116,6 +116,7 @@ public:
 
 		if (!target_path.exists())
 		{
+			filer_opendir(containing_dir);
 			tbx::show_message("Failed to restore:\n"
 					+ target_path.name() +
 					+ "\nfrom backup at:\n"
@@ -124,9 +125,9 @@ public:
 					"",
 					"error"
 					);
-			filer_opendir(containing_dir);
 		} else if (_restored_path.exists())
 		{
+			filer_opendir(containing_dir);
 			tbx::show_message("Failed to delete backup at:\n"
 					+ _restored_path.name()
 					+ "\nThis could also mean the restoration to:\n"
@@ -137,7 +138,6 @@ public:
 					"",
 					"warning"
 					);
-			filer_opendir(containing_dir);
 		} else
 		{
 			if (containing_dir.begin() == containing_dir.end())
@@ -284,7 +284,6 @@ void BackupWindow::restore_backup()
 						"",
 						"error"
 						);
-				filer_opendir(restore_to.parent());
 			} else
 			{
 				tbx::show_question_as_menu("Are you sure you wish to restore the backup from\n"
@@ -336,6 +335,8 @@ void BackupWindow::do_restore()
 	fa.move(restore_to, tbx::FilerAction::RECURSE|tbx::FilerAction::VERBOSE);
 
 	fa.add_finished_listener(new CheckRestoreAfterAction(path));
+
+	remove_from_list(index);
 }
 
 
@@ -365,7 +366,7 @@ void BackupWindow::backup_already_deleted(int index)
  */
 void BackupWindow::remove_from_list(int index)
 {
-	tbx::Path &path = _paths[index];
+	tbx::Path path = _paths[index];
 
 	_backups.delete_item(index);
 	_paths.erase(_paths.begin() + index);
