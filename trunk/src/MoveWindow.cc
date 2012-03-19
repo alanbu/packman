@@ -25,11 +25,15 @@
 
 MoveWindow::MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path) :
   _window("Move"),
+  _do_cancel(this, &MoveWindow::cancel),
   _move_app(logical_path, app_path, to_path),
   _last_state(MoveApp::START)
 {
 	_status_text = _window.gadget(1);
 	_progress = _window.gadget(2);
+	_cancel = _window.gadget(3);
+	_cancel.add_selected_command(&_do_cancel);
+	_can_cancel = !_move_app.can_cancel(); // So first poll sets up cancel button
 
 	_window.show();
 	
@@ -47,6 +51,13 @@ void MoveWindow::execute()
 
 	if (_move_app.state() != _last_state)
 	{
+		if (_can_cancel != _move_app.can_cancel())
+		{
+			_cancel.fade(_can_cancel);
+			_can_cancel = _move_app.can_cancel();
+			_cancel.text(_can_cancel ? "Cancel" : "Processing...");
+		}
+
 		_last_state = _move_app.state();
 		switch (_move_app.state())
 		{
@@ -76,13 +87,27 @@ void MoveWindow::execute()
 			break;
 
 		case MoveApp::UNWIND_COPY:
-			_status_text.text("Unwinding after error - deleting copied files");
-			_progress.bar_colour(tbx::WimpColour::red);
+			if (_move_app.cancelled())
+			{
+				_status_text.text("Unwinding after cancel - deleting copied files");
+				_progress.bar_colour(tbx::WimpColour::orange);
+			} else
+			{
+				_status_text.text("Unwinding after error - deleting copied files");
+				_progress.bar_colour(tbx::WimpColour::red);
+			}
 			break;
 
 		case MoveApp::UNWIND_BACKUP:
-			_status_text.text("Unwinding after error - restoring from backup");
-			_progress.bar_colour(tbx::WimpColour::red);
+			if (_move_app.cancelled())
+			{
+				_status_text.text("Unwinding after cancel - restoring from backup");
+				_progress.bar_colour(tbx::WimpColour::orange);
+			} else
+			{
+				_status_text.text("Unwinding after error - restoring from backup");
+				_progress.bar_colour(tbx::WimpColour::red);
+			}
 			break;
 
 		case MoveApp::FAILED:
@@ -96,6 +121,16 @@ void MoveWindow::execute()
 			break;
 		}
 	}
+}
+
+/**
+ * Cancel button has been clicked so stop move and unwind it.
+ */
+void MoveWindow::cancel()
+{
+	// MoveApp checks if the cancel is valid and does nothing
+	// it it isn't
+	_move_app.cancel();
 }
 
 /**
@@ -120,6 +155,11 @@ void MoveWindow::show_error()
 {
 	std::string msg("Error move failed: ");
 	msg += error_text();
+	if (_move_app.warning())
+	{
+		msg += "\n\nWarning: ";
+		msg += warning_text();
+	}
 	tbx::show_message(msg, "Error moving Application in PackMan", "error");
 }
 
@@ -132,6 +172,7 @@ std::string MoveWindow::warning_text()
 	case MoveApp::DELETE_FAILED: text = "Delete failed"; break;
 	case MoveApp::UNWIND_PATHS_FAILED: text = "Failed to undo changes to paths file"; break;
 	case MoveApp::UNWIND_COPY_FAILED: text = "Failed to delete one or more files while undoing the copy"; break;
+	case MoveApp::UNWIND_BACKUP_FAILED: text = "Failed to delete one or more files while undoing the backup"; break;
 	}
 	return text;
 }
@@ -145,6 +186,7 @@ std::string MoveWindow::error_text()
 	case MoveApp::COPY_FAILED: text = "Failed to copy a file"; break;
 	case MoveApp::PATH_UPDATE_FAILED: text = "Failed to update the paths file"; break;
 	case MoveApp::BACKUP_FAILED: text = "Failed to make a backup"; break;
+	case MoveApp::CANCELLED: text = "The move was cancelled"; break;
 	}
 
 	return text;

@@ -41,8 +41,8 @@ class MoveApp
 {
 public:
 	enum State {START_BACKUP, BACKUP_FILES, START, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, DELETE_OLD_FILES, DONE, UNWIND_COPY, UNWIND_BACKUP, FAILED};
-	enum Error {NO_ERROR, COPY_FAILED, PATH_UPDATE_FAILED, BACKUP_FAILED};
-	enum Warning {NO_WARNING, DELETE_FAILED, UNWIND_PATHS_FAILED, UNWIND_COPY_FAILED};
+	enum Error {NO_ERROR, COPY_FAILED, PATH_UPDATE_FAILED, BACKUP_FAILED, CANCELLED};
+	enum Warning {NO_WARNING, DELETE_FAILED, UNWIND_PATHS_FAILED, UNWIND_COPY_FAILED, UNWIND_BACKUP_FAILED};
 
 private:
 	std::string _logical_path;
@@ -54,6 +54,8 @@ private:
 	long long _cost_done;
 	long long _cost_total;
 	long long _cost_stage_start;
+	bool _can_cancel;
+	bool _cancelled;
 	
 public:
 	MoveApp(const std::string &logical_path, const std::string &app_path, const std::string &to_path);
@@ -65,6 +67,10 @@ public:
 	Error error() const {return _error;}
 	Warning warning() const {return _warning;}
 	int decipercent_done() const;
+
+	bool can_cancel() const {return _can_cancel;}
+	bool cancelled() const {return _cancelled;}
+	void cancel();
 
 private:
 	void setup_backup(const tbx::Path &target);

@@ -41,7 +41,9 @@ MoveApp::MoveApp(const std::string &logical_path, const std::string &app_path, c
   _warning(NO_WARNING),
   _cost_done(0),
   _cost_total(0),
-  _cost_stage_start(0)
+  _cost_stage_start(0),
+  _can_cancel(true),
+  _cancelled(false)
 {
 	_copy_handler.delete_option(FSObjectCopy::DELETE_ON_SECOND_PASS);
 	tbx::Path check_target(to_path);
@@ -109,18 +111,25 @@ void MoveApp::poll()
 		break;
 
 	case BACKUP_FILES:
-		_backup_handler->poll();
-		if (_cost_total == 0) calc_cost_total(true);
-		_cost_done = _backup_handler->cost_done();
-		if (_backup_handler->state() == FSObjectCopy::DONE)
+		if (_cancelled)
 		{
-			if (_backup_handler->error())
+			_state = UNWIND_BACKUP;
+			_backup_handler->start_unwind_move();
+		} else
+		{
+			_backup_handler->poll();
+			if (_cost_total == 0) calc_cost_total(true);
+			_cost_done = _backup_handler->cost_done();
+			if (_backup_handler->state() == FSObjectCopy::DONE)
 			{
-				_error = BACKUP_FAILED;
-				_state = FAILED;
-			} else
-			{
-				_state = START;
+				if (_backup_handler->error())
+				{
+					_error = BACKUP_FAILED;
+					_state = FAILED;
+				} else
+				{
+					_state = START;
+				}
 			}
 		}
 		break;
@@ -132,6 +141,11 @@ void MoveApp::poll()
 		break;
 
 	case COPYING_FILES:
+		if (_cancelled)
+		{
+			_state = UNWIND_COPY;
+			_copy_handler.start_unwind_copy();
+		} else
 		{
 			_copy_handler.poll();
 			if (_cost_total == 0) calc_cost_total(false);
@@ -157,6 +171,11 @@ void MoveApp::poll()
 		break;
 
 	case UPDATE_PATHS:
+		if (_cancelled)
+		{
+			_state = UNWIND_COPY;
+			_copy_handler.start_unwind_copy();
+		} else
 		{
 			pkg::path_table &paths = Packages::instance()->package_base()->paths();
 			try
@@ -175,6 +194,9 @@ void MoveApp::poll()
 		break;
 
 	case UPDATE_VARS:
+		 // From here on in it's tidying up so you can't cancel
+		_can_cancel = false;
+
 		// Note: For simplicity update vars is assumed to never fail
 		// if it ever did it would be corrected by the next install
 		// or update.
@@ -209,8 +231,11 @@ void MoveApp::poll()
 
 	case UNWIND_COPY:
 		_copy_handler.poll();
+		_cost_done = _copy_handler.unwind_cost();
+		if (_backup_handler) _cost_done += _backup_handler->unwind_cost();
 		if (_copy_handler.state() == FSObjectCopy::DONE)
 		{
+			if (_warning == NO_WARNING && _copy_handler.warning()) _warning = UNWIND_COPY_FAILED;
 			if (_backup_handler)
 			{
 				_state = UNWIND_BACKUP;
@@ -222,17 +247,48 @@ void MoveApp::poll()
 
 	case UNWIND_BACKUP:
 		_backup_handler->poll();
+		_cost_done = _backup_handler->unwind_cost();
 		if (_backup_handler->state() == FSObjectCopy::DONE)
 		{
-			//TODO: Check unwind was successful
+			if (_warning == NO_WARNING && _backup_handler->warning())
+			{
+				_warning = UNWIND_BACKUP_FAILED;
+			} else
+			{
+				// Delete parent BackupN directory if empty
+				tbx::Path containing_dir = _backup_handler->target_dir();
+				if (containing_dir.begin() == containing_dir.end())
+				{
+					containing_dir.remove();
+				}
+			}
 			_state = FAILED;
 		}
 		break;
 
-	case DONE:
 	case FAILED:
+		// Just reset the amount done to 0 - caller should stop the poll now
+		_cost_done = 0;
+		break;
+	case DONE:
 		// Nothing to do - caller should stop the poll now
 		break;
+	}
+}
+
+/**
+ * Stop the move (if possible)
+ *
+ * Once cancelled the state will change to unwind everything done
+ * on next poll.
+ */
+void MoveApp::cancel()
+{
+	if (_can_cancel)
+	{
+		_can_cancel = false; // Can only do it once
+		_cancelled = true;
+		if (_error == NO_ERROR) _error = CANCELLED;
 	}
 }
 

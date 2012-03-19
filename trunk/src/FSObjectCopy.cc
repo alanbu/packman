@@ -21,8 +21,9 @@
 #include "FSObjectCopy.h"
 #include "tbx/hourglass.h"
 
-#include <iostream>
-#define FSO_LOG_ACTION(act, obj) std::cout << act << ":" << obj << std::endl;
+// #include <iostream>
+// #define FSO_LOG_ACTION(act, obj) std::cout << act << ":" << obj << std::endl;
+#define FSO_LOG_ACTION(act, obj)
 
 /** The cost of one file operation.
  * This is a conversion factor for equating the cost of a file operation
@@ -55,7 +56,8 @@ FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target)
    _byte_done(0),
    _file_done(0),
    _dir_done(0),
-   _del_done(0)
+   _del_done(0),
+   _unwind_done(0)
 {
 	if (_source.leaf_name() != _target_dir.leaf_name())
 	{
@@ -115,7 +117,13 @@ void FSObjectCopy::poll()
 		} else
 		{
 			std::string object = _copied.top();
-			if (!delete_source_object(object)) _warning = DELETE_FAILED;
+			if (delete_source_object(object))
+			{
+			   _deleted.push(object);
+			} else
+			{
+				_warning = DELETE_FAILED;
+			}
 			_del_done++;
 			_copied.pop();
 		}
@@ -129,25 +137,31 @@ void FSObjectCopy::poll()
 		} else
 		{
 			std::string object_to_delete = _copied.top();
-			if (!delete_target_object(object_to_delete)) _warning = DELETE_FAILED;
+			if (!delete_target_object(object_to_delete)) _warning = DELETE_TARGET_FAILED;
 			_to_copy.push(object_to_delete);
 			_copied.pop();
+			_unwind_done++;
 		}
 		break;
 
 	case UNWIND_MOVE_OBJECT:
 		// Move any files already copied
-		if (_copied.empty())
+		if (_deleted.empty())
 		{
-			_state = DONE;
+			// Set to delete the copied files
+			_state = UNWIND_COPY_OBJECT;
 		} else
 		{
-			std::string object_to_move = _copied.top();
-			if (!copy_object_back(object_to_move)
-					|| !delete_target_object(object_to_move)
-					) _warning = DELETE_FAILED;
-			_to_copy.push(object_to_move);
-			_copied.pop();
+			std::string object_to_move = _deleted.top();
+			if (!copy_object_back(object_to_move))
+			{
+				_warning = COPY_BACK_FAILED;
+			} else
+			{
+				_copied.push(object_to_move);
+			}
+			_deleted.pop();
+			_unwind_done++;
 		}
 		break;
 
@@ -194,9 +208,12 @@ void FSObjectCopy::start_unwind_copy()
  */
 void FSObjectCopy::start_unwind_move()
 {
-	if (_copied.empty())
+	if (!_deleted.empty())
 	{
 		_state = UNWIND_MOVE_OBJECT;
+	} else if (!_copied.empty())
+	{
+		_state = UNWIND_COPY_OBJECT;
 	} else
 	{
 		// Nothing to unwind
@@ -390,4 +407,19 @@ int FSObjectCopy::scaled_done()
 	long long total = total_cost();
 	if (total == 0) return 0;
 	return (int)((cost_done() * 1000) / total);
+}
+
+/**
+ * Return the cost left to finish the unwind.
+ *
+ */
+long long FSObjectCopy::unwind_cost()
+{
+	int num_objects = _dir_done + _file_done + _del_done;
+	long long cost = 0;
+	if (num_objects)
+	{
+		cost = ((num_objects - _unwind_done) * cost_done()) / num_objects;
+	}
+	return cost;
 }

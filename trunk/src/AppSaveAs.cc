@@ -34,6 +34,7 @@
 #include "tbx/hourglass.h"
 #include "tbx/messagewindow.h"
 #include "tbx/fileraction.h"
+#include "tbx/stringutils.h"
 
 #include <fstream>
 #include <stdexcept>
@@ -129,6 +130,7 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 		} else
 		{
 			tbx::Path dst(filename);
+
 			if (dst.exists())
 			{
 				// Create and show a window to prompt for overwrite then
@@ -136,8 +138,23 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 				new MoveExistsWindow(_logical_path, _source_path, filename);
 			} else
 			{
-				// Do the move directly
-				new MoveWindow(_logical_path, _source_path, filename);
+				// Check destination isn't a subdirectory of the original
+				tbx::Path src_check(_source_path), dst_check(dst);
+				src_check.canonicalise();
+				dst_check.canonicalise();
+				std::string::size_type src_len = src_check.name().size();
+
+				if (dst_check.name().size() > src_len
+					&& dst_check.name()[src_len] == '.'
+					&& tbx::equals_ignore_case(dst_check.name().substr(0, src_len), src_check.name())
+					)
+				{
+					tbx::show_message("Destination of a move can not be a subdirectory of the source of the move");
+				} else
+				{
+					// Do the move directly
+					new MoveWindow(_logical_path, _source_path, filename);
+				}
 			}
 		}
 		break;

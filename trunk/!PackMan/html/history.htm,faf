@@ -10,6 +10,8 @@
 <LI><B>0.7 Beta - ???</B>
 <UL>
  <li>Changed history to put newest version at the top</li>
+ <li>Added moving of an application to another locations</li>
+ <li>Backup manager to maintain any backups made while moving applications</li>
  <li>Use latest LibPkg backend
    <ul>
      <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
