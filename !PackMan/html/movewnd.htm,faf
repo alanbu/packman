@@ -1,0 +1,15 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Move Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Move Window</H2>
+<P>The Move Window is shown when an application is being moved by using the Apps Window Move Menu option.</P>
+<P>Before the Move Window is shown checks are made that the application isn't moved onto or within itself. If a copy of the application exists at the destination a prompt is made to check you want to replace the copy and the copy will be backed up as part of the move.</P>
+<P>The move can be cancelled up until the time it changes the path location in PackMan (this occurs after all files are copied).</P>
+<P>If the move is cancelled or an error occurs any backups/copies done so far will be undone. This is called unwinding.</P>
+<P>If the move does a backup the backup can later be restored or deleted by using the <A href="backupwnd.html"/>Backup Window</A> located on the Advanced menu from the Iconbar Icon.</P>
+</P>
+</BODY>
+</HTML>

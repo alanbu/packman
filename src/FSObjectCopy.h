@@ -46,7 +46,7 @@ class FSObjectCopy
 public:
 	enum State {BUILD_LIST, COPY_OBJECT, DELETE_SOURCE, UNWIND_COPY_OBJECT, UNWIND_MOVE_OBJECT, DONE};
 	enum Error {NO_ERROR, LEAF_NAME_MISMATCH, TARGET_EXISTS, BUILD_LIST_FAILED, COPY_FAILED };
-	enum Warning {NO_WARNING, DELETE_FAILED};
+	enum Warning {NO_WARNING, DELETE_FAILED, DELETE_TARGET_FAILED, COPY_BACK_FAILED};
 	enum DeleteOption {DO_NOT_DELETE, DELETE_AFTER_COPY, DELETE_ON_SECOND_PASS};
 
 private:
@@ -59,6 +59,7 @@ private:
 	Warning _warning;
 	std::queue<std::string> _to_copy;
 	std::stack<std::string> _copied;
+	std::stack<std::string> _deleted;
     long long _byte_total;
     int _file_total;
     int _dir_total;
@@ -66,6 +67,7 @@ private:
     int _file_done;
     int _dir_done;
     int _del_done;
+    int _unwind_done;
 
 public:
 	FSObjectCopy(const std::string &source, const std::string &target);
@@ -99,6 +101,7 @@ public:
 	long long cost_done();
 	long long delete_source_cost();
 	int scaled_done();
+	long long unwind_cost();
 
 private:
 	bool build_list();

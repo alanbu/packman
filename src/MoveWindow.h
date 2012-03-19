@@ -31,6 +31,7 @@
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/slider.h"
+#include "tbx/actionbutton.h"
 #include "MoveApp.h"
 
 class MoveWindow : public tbx::Command
@@ -38,15 +39,20 @@ class MoveWindow : public tbx::Command
 	tbx::Window _window;
 	tbx::DisplayField _status_text;
 	tbx::Slider _progress;
+	tbx::ActionButton _cancel;
+	tbx::CommandMethod<MoveWindow> _do_cancel;
 
 	MoveApp _move_app;
 	MoveApp::State _last_state;
+
+	bool _can_cancel;
 
 public:
 	MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path);
 	virtual void execute();
 
 private:
+	void cancel();
 	void close();
 	void show_warning();
 	void show_error();
