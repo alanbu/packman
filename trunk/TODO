@@ -1,5 +1,4 @@
 Use new LibPKG paths interface when it's released by Graham
-Move apps to another location
 Cancel processing during install/remove
 Ensure panes are always at least as wide as the main window
 Make it easier to see/install recommendations and suggestions
@@ -13,6 +12,7 @@ base and remove it if we do.
 
 If application is moved outside of PackMan check update, remove and install don't misbehave.
 
+AppsWindow if shown twice can crash packman
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------

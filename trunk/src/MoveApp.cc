@@ -120,12 +120,21 @@ void MoveApp::poll()
 			_backup_handler->poll();
 			if (_cost_total == 0) calc_cost_total(true);
 			_cost_done = _backup_handler->cost_done();
-			if (_backup_handler->state() == FSObjectCopy::DONE)
+			if (_backup_handler->warning() != FSObjectCopy::NO_WARNING)
+			{
+				// Any warnings and it's not safe to delete either
+				_can_cancel = false;
+				_error = BACKUP_FAILED;
+				_state = UNWIND_BACKUP;
+				_backup_handler->start_unwind_move();
+			} else 	if (_backup_handler->state() == FSObjectCopy::DONE)
 			{
 				if (_backup_handler->error())
 				{
+					_can_cancel = false;
 					_error = BACKUP_FAILED;
-					_state = FAILED;
+					_state = UNWIND_BACKUP;
+					_backup_handler->start_unwind_move();
 				} else
 				{
 					_state = START;
@@ -155,6 +164,7 @@ void MoveApp::poll()
 			{
 				if (_copy_handler.error())
 				{
+					_can_cancel = false;
 					_error = COPY_FAILED;
 					if (_backup_handler)
 					{
@@ -166,6 +176,12 @@ void MoveApp::poll()
 				{
 					_state = UPDATE_PATHS;
 				}
+			} else if (_copy_handler.error())
+			{
+				// Change state so UI knows its unwinding
+				_can_cancel = false;
+				_error = COPY_FAILED;
+				_state = UNWIND_COPY;
 			}
 		}
 		break;

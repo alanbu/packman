@@ -16,6 +16,8 @@ system.</P>
 <LI>Paths - shows the <A HREF="paths.htm">Paths Window</A>
     which allows you to specify the base directories the packages are installed to.
 </LI>
+<LI>Backups - shows the <A HREF="backupwnd.htm">Backups Window</A>
+    which allows you to manage application backups made by PackMan.</A>
 <LI>Cache - shows the <A HREF="cache.htm">Cache Window</A>
     which allows you to clear the cache of downloaded packages.
 </LI>

@@ -340,8 +340,7 @@ bool FSObjectCopy::copy_object_back(const std::string &name)
 		}
 	} else if (target.copy(source))
 	{
-		_byte_done -= info.length();
-		_file_done--;
+		_unwind_done++;
 		return true;
 	}
 

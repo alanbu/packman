@@ -15,7 +15,7 @@ actions for an application to the real application and can be used as a short cu
 to the application from another location on the disc</LI>
 <LI>Create link - create a LinkFS symbolic link</LI>
 <LI>Copy - make a copy the application</LI>
->LI>Move - move the application to another location. The preferred way of using PackMan is to use a stub to the default install location, however it is understood that this does not give the flexibility some users require, so this option has been added. Checks are made that the application isn't moved into itself and then the <a href="movewnd">Move window</a> is displayed to show the progress of the move.</LI>
+<LI>Move - move the application to another location. The preferred way of using PackMan is to use a stub to the default install location, however it is understood that this does not give the flexibility some users require, so this option has been added. Checks are made that the application isn't moved into itself and then the <a href="movewnd.htm">Move window</a> is displayed to show the progress of the move.</LI>
 <LI>Boot - Run the applications !Boot file</LI>
 <LI>Run - Run the application</LI>
 <LI>Help - Show the applications Help file</LI>
