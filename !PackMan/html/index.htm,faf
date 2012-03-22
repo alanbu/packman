@@ -7,7 +7,7 @@
 PackMan is a utility to help install and maintain applications and other components
 of a RISC OS computer.
 </P>
-<P>This is beta version 0.6.
+<P>This is beta version 0.7.
 It should be feature complete, but may contain some rough edges and
 bugs. Please send me feedback to improve this application.</P>
 <H2>Contents</H2>
@@ -28,6 +28,7 @@ bugs. Please send me feedback to improve this application.</P>
       <LI><A HREF="copywnd.htm">Copyright Window</A></LI>
       <LI><A HREF="sources.htm">Sources Window</A></LI>
       <LI><A HREF="paths.htm">Paths Window</A></LI>
+      <LI><A HREF="backupwnd.htm">Backups Window</A></LI>
       <li><a href="cache.htm">Cache Window</a></li>
     </UL>
   <LI><A HREF="contact.htm">Contacting the Author and Feedback</A></LI>

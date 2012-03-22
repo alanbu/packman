@@ -1,10 +1,22 @@
 <HTML>
 <HEAD>
-<TITLE>PackMan - Backup Window</TITLE>
+<TITLE>PackMan - Backups Window</TITLE>
 <link rel="stylesheet" type="text/css" href="packman.css">
 </HEAD>
 <BODY>
-<H2>Backup Window</H2>
+<H2>Backups Window</H2>
+<P>The Backups Window allows you to maintain backups made by PackMan.</P>
+<P>PackMan makes a backup when you move an installed application to a location where another version of the application resides. The backup is held in a new directory named "Backup&lt;N&gt;", where &lt;N&gt; is a rolling number, created inside the directory the application is being moved to.<P>
+<P>The centre of the window shows a scrolling list of the applications that have been backup with the time the backup was made next to them.</P>
+<P>The window contains the following buttons</P>
+<ul>
+<li>View - Shows a filer window of the Backup directory with the currently selected backup</li>
+<li>Delete - prompts to delete the backup. This will delete the backup and it's parent Backup directory (if it is then empty) from the disc.</li>
+<li>Restore - prompts to restore the backup. It will only allow this if the location it will restore to does not contain a copy of the application. This means you may need to uninstall the applications package first.</li>
+<li>Close - Close the window.</li>
+</ul>
+<p>The View, Delete and Restore buttons act upon the currently selected backup and are faded when nothing is selected. If the backup has already been removed manually from the disc, selecting any of these buttons will remove the backup from the list held by PackMan.</p>
+<p>The Delete and Restore button use the RISC OS filer to do the delete and copy. If these fail or you cancel them you will have to manually complete the operation.</p>
 
 </BODY>
 </HTML>
