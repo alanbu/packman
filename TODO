@@ -12,7 +12,6 @@ base and remove it if we do.
 
 If application is moved outside of PackMan check update, remove and install don't misbehave.
 
-AppsWindow if shown twice can crash packman
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
