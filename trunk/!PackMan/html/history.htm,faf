@@ -12,7 +12,8 @@
  <li>Changed history to put newest version at the top</li>
  <li>Added moving of an application to another locations</li>
  <li>Backup manager to maintain any backups made while moving applications</li>
- <li>Fixed bug where showing the Apps Window when it was already showing caused a crash</li>
+ <li>Fixed bug where showing the Applications Window when it was already showing caused a crash</li>
+ <li>Added package name to the Applications Window title<li>
  <li>Use latest LibPkg backend
    <ul>
      <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
