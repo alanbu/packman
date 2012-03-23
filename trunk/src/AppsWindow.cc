@@ -83,6 +83,9 @@ AppsWindow *AppsWindow::from_window(tbx::Window window)
  */
 void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
+   _apps.clear();
+   _view.cleared();
+
 	MainWindow *main = MainWindow::from_window(event.id_block().ancestor_object());
 	const pkg::binary_control *ctrl = main->selected_package();
 
@@ -90,6 +93,9 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	if (ctrl != 0)
 	{
 		std::string pkgname = ctrl->pkgname();
+		std::string title = "Applications in package '" + pkgname.substr(0,100) + "'";
+		_window.title(title);
+
 		// Open manifest.
 		pkg::pkgbase *pb = Packages::instance()->package_base();
 		std::string files_pathname=pb->info_pathname(pkgname)+std::string(".Files");
