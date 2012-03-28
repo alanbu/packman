@@ -18,6 +18,7 @@
    <ul>
      <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
      <li>Ensures Paths files contains values for all standard paths</li>
+     <li>Fixed bug where it would get into a loop showing a message when updating sprites if the file containing the sprites not longer exists</li>
    </ul>
  </li>
 </UL>
