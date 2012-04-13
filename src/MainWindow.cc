@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2011 Alan Buckley
+* Copyright 2009-2012 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -88,10 +88,16 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 
 
    _window.client_handle(this);
+
+   // Set up so hide window deletes this class
+   _window.add_has_been_hidden_listener(this);
 }
 
 MainWindow::~MainWindow()
 {
+	unwatch(Packages::instance()->package_base()->curstat());
+	unwatch(Packages::instance()->package_base()->control());
+
     delete _summary;
     delete _filter;
     if (_filter != _search_filter) delete _search_filter;

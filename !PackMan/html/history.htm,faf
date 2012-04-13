@@ -21,6 +21,7 @@
      <li>Fixed bug where it would get into a loop showing a message when updating sprites if the file containing the sprites not longer exists</li>
    </ul>
  </li>
+ <li>Fixed bug where installing an app, closing the main window, then doing update lists from the iconbar menu showed a blank main window. The cause of bug also meant there would have been a minor memory leak each time a main window was closed.</li>
 </UL>
 </LI>
 
