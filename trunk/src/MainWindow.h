@@ -32,6 +32,7 @@
 #include "tbx/textchangedlistener.h"
 #include "tbx/toolaction.h"
 #include "tbx/stringset.h"
+#include "tbx/deleteonhidden.h"
 
 #include "tbx/view/reportview.h"
 #include "Commands.h"
@@ -50,7 +51,8 @@ class PackageFilter;
 class MainWindow :
 	tbx::TextChangedListener,
 	pkg::table::watcher,
-	tbx::view::SelectionListener
+	tbx::view::SelectionListener,
+	tbx::DeleteObjectOnHidden
 {
 	tbx::Window _window;
 	tbx::ToolAction _install_button;
