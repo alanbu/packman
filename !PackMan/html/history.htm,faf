@@ -22,6 +22,7 @@
    </ul>
  </li>
  <li>Fixed bug where installing an app, closing the main window, then doing update lists from the iconbar menu showed a blank main window. The cause of bug also meant there would have been a minor memory leak each time a main window was closed.</li>
+ <li>Now includes a copy of SharedULib so that PackMan can run before the Shared Unix Library is installed</li>
 </UL>
 </LI>
 

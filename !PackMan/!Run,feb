@@ -23,5 +23,8 @@ Set PackMan$Dir <Obey$Dir>
 IconSprites <Obey$Dir>.!Sprites
 If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprites
 
+RMEnsure SharedUnixLibrary 1.11 RMLoad System:Modules.SharedULib
+RMEnsure SharedUnixLibrary 1.11 RMLoad <PackMan$Dir>.Resources.SharedULib
+
 WimpSlot -min 2304k -max 2304k
 /<PackMan$Dir>.!RunImage %*0
