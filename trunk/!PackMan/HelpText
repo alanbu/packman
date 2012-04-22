@@ -1,4 +1,4 @@
-!PackMan 0.6 beta version
+!PackMan 0.7 beta version
 
 PackMan is an alternative front end to install,
 update and remove packages for the RISC OS
@@ -19,11 +19,6 @@ Installation:
 
 On first run if the program can't find the modules
 it needs it should tell you.
-
-You are most likely to need the latest SharedUnixLibrary
-from:
-
-http://www.riscos.info/downloads/gccsdk/sharedunixlib/
 
 
 A Warning
@@ -92,7 +87,7 @@ and the package will be installed or removed.
 
 Copyright
 
-This program is copyrighted by Alan Buckley 2009-2011
+This program is copyrighted by Alan Buckley 2009-2012
 under the GPL (see the file COPYING for details).
 Please feel free to distribute it for others to try.
 

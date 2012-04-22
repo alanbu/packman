@@ -6,5 +6,8 @@
 <H2>Copyright</H2>
 <P>PackMan is copyright Alan Buckley and is released under the GNU Public License version 3.</P>
 <P>For full details of the license see the text file <A HREF="COPYING">COPYING</A></P>
+<P>PackMan is shipped with a copy of the Shared Unix Library which is
+only used if the version required by PackMan is not already installed on the computer.
+For details of the copyright of the Shared Unix Library see the text file <A HREF="ULCOPYING">ULCOPYING</A>.</P>
 </BODY>
 </HTML>
