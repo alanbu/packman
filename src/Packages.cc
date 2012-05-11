@@ -33,6 +33,7 @@
 
 #include "swis.h"
 #include "tbx/swixcheck.h"
+#include "tbx/stringutils.h"
 
 using namespace std;
 
@@ -226,4 +227,40 @@ bool Packages::upgrades_available()
 	}
 
 	return (_upgrades_available != NO);
+}
+
+/**
+ * Convert paths to path relative to Boot$Dir if possible
+ *
+ * @param full_path path to convert
+ * @returns path definition relative to boot if possible
+ *          or original path if not.
+ */
+std::string Packages::make_path_definition(const std::string &full_path)
+{
+	std::string result(full_path);
+
+	if (tbx::find_ignore_case(full_path, ".!BOOT.") == std::string::npos)
+	{
+		const char *boot_path = getenv("<Boot$Dir>");
+		if (boot_path != 0 && strlen(boot_path) < result.size())
+		{
+			const char *parent_end = strrchr(boot_path, '.');
+			if (parent_end != 0)
+			{
+				int match = 0;
+				while (boot_path < parent_end && tolower(*boot_path) == tolower(result[match]))
+				{
+					boot_path++;
+					match++;
+				}
+				if (boot_path == parent_end && result[match+1] == '.')
+				{
+					result.replace(0, match, "<Boot$Dir>.^");
+				}
+			}
+		}
+	}
+
+	return result;
 }

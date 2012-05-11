@@ -20,12 +20,23 @@
 
 #include "tbx/application.h"
 #include "tbx/messagewindow.h"
+#include "tbx/hourglass.h"
 #include "MoveWindow.h"
 
+// Number of times to poll MovePath from one WIMP poll when running faster
+const int FASTER_LOOP_COUNT = 20;
 
+/**
+ * Construct window to move an applications
+ *
+ * @param logical_path logical path of application
+ * @param app_path current location of application
+ * @param to_path new location for application
+ */
 MoveWindow::MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path) :
   _window("Move"),
   _do_cancel(this, &MoveWindow::cancel),
+  _do_faster(this, &MoveWindow::faster),
   _move_app(logical_path, app_path, to_path),
   _last_state(MoveApp::START)
 {
@@ -34,6 +45,10 @@ MoveWindow::MoveWindow(const std::string &logical_path, const tbx::Path &app_pat
 	_cancel = _window.gadget(3);
 	_cancel.add_selected_command(&_do_cancel);
 	_can_cancel = !_move_app.can_cancel(); // So first poll sets up cancel button
+
+	_faster = _window.gadget(4);
+	_faster.add_selected_command(&_do_faster);
+	_run_faster = false;
 
 	_window.show();
 	
@@ -46,6 +61,16 @@ MoveWindow::MoveWindow(const std::string &logical_path, const tbx::Path &app_pat
 void MoveWindow::execute()
 {
 	_move_app.poll();
+
+	if (_run_faster && _last_state != MoveApp::DONE && _last_state != MoveApp::FAILED)
+	{
+		tbx::Hourglass hg;
+		int j = FASTER_LOOP_COUNT;
+		while (j-- && _move_app.state() == _last_state)
+		{
+			_move_app.poll();
+		}
+	}
 
 	_progress.value(_move_app.decipercent_done());
 
@@ -131,6 +156,24 @@ void MoveWindow::cancel()
 	// MoveApp checks if the cancel is valid and does nothing
 	// it it isn't
 	_move_app.cancel();
+}
+
+/**
+ * Faster button clicked so toggle between running faster and slower
+ *
+ * When running faster the whole desktop multitasking will suffer
+ */
+void MoveWindow::faster()
+{
+	if (_run_faster)
+	{
+		_run_faster = false;
+		_faster.text("Faster");
+	} else
+	{
+		_run_faster = true;
+		_faster.text("Slower");
+	}
 }
 
 /**

@@ -54,7 +54,7 @@
 class MovePath
 {
 public:
-	enum State {FIND_INSTALLED, BUILD_FILE_LIST, COPYING_FILES, UPDATE_PATHS, DELETE_OLD_FILES, DONE, UNWIND_COPY, FAILED};
+	enum State {FIND_INSTALLED, BUILD_FILE_LIST, CHECKING_FILES, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, DELETE_OLD_FILES, DONE, UNWIND_COPY, FAILED};
 	enum Error {NO_ERROR, TARGET_FILE_EXISTS, CANCELLED, CREATE_DIR_FAILED, COPY_FAILED, PATH_UPDATE_FAILED};
 	enum Warning {NO_WARNING, DELETE_FAILED, UNWIND_COPY_FAILED};
 
@@ -66,6 +66,7 @@ private:
 	Error _error;
 	Warning _warning;
 	std::queue<std::string> _installed;
+	std::queue<std::pair<std::string, std::string> > _check_list;
 	std::queue< std::pair<std::string, std::string> > _file_list;
 	std::stack< std::pair<std::string, std::string> > _files_copied;
 	std::set<tbx::Path> _dirs_created;
@@ -73,9 +74,10 @@ private:
 	long long _cost_done;
 	long long _cost_total;
 	int _cost_centipc;
-	int _cost_add_file;
+	int _cost_one_item;
 	bool _can_cancel;
 	bool _cancelled;
+	int _check_per_poll;
 
 public:
 	MovePath(const std::string &path_name, const std::string &new_dir);
@@ -94,7 +96,9 @@ public:
 
 private:
 	void build_installed_packages();
+	void start_unwind_copy();
 	bool add_files(const std::string &package);
+	bool check_file(const std::string &package, const std::string &path_name);
 	bool create_dir(tbx::Path dir);
 };
 

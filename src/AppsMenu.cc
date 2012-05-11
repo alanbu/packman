@@ -27,6 +27,7 @@
 #include "AppsMenu.h"
 #include "AppsWindow.h"
 #include "tbx/path.h"
+#include "tbx/stringutils.h"
 
 AppsMenu::AppsMenu(tbx::Object object) :
 	_apps_menu(object),
@@ -57,7 +58,7 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 			_app_item.text("Selection");
 			_app_item.fade(false);
 			tbx::Menu app_menu = _app_item.submenu();
-			for (int i = 1; i <= 3; i++)
+			for (int i = 1; i <= 4; i++)
 				app_menu.item(i).fade(true);
 		} else
 		{
@@ -75,6 +76,10 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		tbx::Menu app_menu = _app_item.submenu();
 		for (int i = 1; i <= 3; i++)
 			app_menu.item(i).fade(false);
+
+		// Can't move anything from !Boot
+		bool cant_move = app_path.empty() || (tbx::find_ignore_case(app_path, ".!Boot.") != std::string::npos);
+		app_menu.item(4).fade(cant_move);
 	}
 }
 

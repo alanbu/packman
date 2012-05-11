@@ -59,6 +59,8 @@ public:
 	void clear_selection();
 	void unset_upgrades_available();
 	bool upgrades_available();
+
+	static std::string make_path_definition(const std::string &full_path);
 };
 
 #endif /* PACKAGES_H_ */

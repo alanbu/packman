@@ -34,6 +34,9 @@
 #include "tbx/actionbutton.h"
 #include "MoveApp.h"
 
+/**
+ * Class to orchestrate moving and application
+ */
 class MoveWindow : public tbx::Command
 {
 	tbx::Window _window;
@@ -41,11 +44,14 @@ class MoveWindow : public tbx::Command
 	tbx::Slider _progress;
 	tbx::ActionButton _cancel;
 	tbx::CommandMethod<MoveWindow> _do_cancel;
+	tbx::ActionButton _faster;
+	tbx::CommandMethod<MoveWindow> _do_faster;
 
 	MoveApp _move_app;
 	MoveApp::State _last_state;
 
 	bool _can_cancel;
+	bool _run_faster;
 
 public:
 	MoveWindow(const std::string &logical_path, const tbx::Path &app_path, const std::string &to_path);
@@ -53,6 +59,7 @@ public:
 
 private:
 	void cancel();
+	void faster();
 	void close();
 	void show_warning();
 	void show_error();

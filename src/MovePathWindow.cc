@@ -20,12 +20,22 @@
 
 #include "tbx/application.h"
 #include "tbx/messagewindow.h"
+#include "tbx/hourglass.h"
 #include "MovePathWindow.h"
 
+// Number of times to poll MovePath from one WIMP poll when running faster
+const int FASTER_LOOP_COUNT = 20;
 
+/**
+ * Construct the move path window
+ *
+ * @param logical_path logical path to be moved
+ * @param to_path new location for the logical path
+ */
 MovePathWindow::MovePathWindow(const std::string &logical_path, const std::string &to_path) :
   _window("Move"), // Can share status window with MoveWindow
   _do_cancel(this, &MovePathWindow::cancel),
+  _do_faster(this, &MovePathWindow::faster),
   _move_path(logical_path, to_path),
   _last_state(MovePath::FIND_INSTALLED)
 {
@@ -33,9 +43,14 @@ MovePathWindow::MovePathWindow(const std::string &logical_path, const std::strin
 	_status_text.text("Finding installed packages");
 	_progress = _window.gadget(2);
 	_progress.upper_bound(10000);
+
 	_cancel = _window.gadget(3);
 	_cancel.add_selected_command(&_do_cancel);
 	_can_cancel = !_move_path.can_cancel(); // So first poll sets up cancel button
+
+	_faster = _window.gadget(4);
+	_faster.add_selected_command(&_do_faster);
+	_run_faster = false;
 
 	_window.show();
 	
@@ -48,6 +63,16 @@ MovePathWindow::MovePathWindow(const std::string &logical_path, const std::strin
 void MovePathWindow::execute()
 {
 	_move_path.poll();
+
+	if (_run_faster && _last_state != MovePath::DONE && _last_state != MovePath::FAILED)
+	{
+		tbx::Hourglass hg;
+		int j = FASTER_LOOP_COUNT;
+		while (j-- && _move_path.state() == _last_state)
+		{
+			_move_path.poll();
+		}
+	}
 
 	_progress.value(_move_path.centipercent_done());
 
@@ -67,12 +92,20 @@ void MovePathWindow::execute()
 			_status_text.text("Building list of files to move");
 			break;
 
+		case MovePath::CHECKING_FILES:
+			_status_text.text("Checking files");
+			break;
+
 		case MovePath::COPYING_FILES:
 			_status_text.text("Copying files");
 			break;
 
 		case MovePath::UPDATE_PATHS:
 			_status_text.text("Updating paths file");
+			break;
+
+		case MovePath::UPDATE_VARS:
+			_status_text.text("Updating system variables");
 			break;
 
 		case MovePath::DELETE_OLD_FILES:
@@ -116,6 +149,25 @@ void MovePathWindow::cancel()
 	// MovePath checks if the cancel is valid and does nothing
 	// it it isn't
 	_move_path.cancel();
+}
+
+
+/**
+ * Faster button clicked so toggle between running faster and slower
+ *
+ * When running faster the whole desktop multitasking will suffer
+ */
+void MovePathWindow::faster()
+{
+	if (_run_faster)
+	{
+		_run_faster = false;
+		_faster.text("Faster");
+	} else
+	{
+		_run_faster = true;
+		_faster.text("Slower");
+	}
 }
 
 /**

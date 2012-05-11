@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2012 Alan Buckley
+* Copyright 2012 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -18,39 +18,37 @@
 *
 *****************************************************************************/
 /*
- * AppSaveAs.h
+ * AppMoveTo.h
  *
- *  Created on: 29-Jul-2009
+ *  Created on: 8 May 2012
  *      Author: alanb
  */
 
-#ifndef APPSAVEAS_H_
-#define APPSAVEAS_H_
+#ifndef APPMOVETO_H_
+#define APPMOVETO_H_
 
 #include "tbx/saveas.h"
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/path.h"
 
 /**
- * Class to handle creating links or copying
- * and application.
+ * Class to handle moving an application.
  */
-class AppSaveAs :
+
+class AppMoveTo :
 	tbx::AboutToBeShownListener,
 	tbx::SaveAsSaveToFileHandler
 {
 	tbx::SaveAs _saveas;
 	tbx::Path _source_path;
-	enum SaveType {STUB, LINK, COPY} _save_type;
+	std::string _logical_path;
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);
 
 public:
-	AppSaveAs(tbx::Object obj);
-	virtual ~AppSaveAs();
-
-
+	AppMoveTo(tbx::Object obj);
+	virtual ~AppMoveTo();
 };
 
-#endif /* APPSAVEAS_H_ */
+#endif /* APPMOVETO_H_ */
