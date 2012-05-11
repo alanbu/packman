@@ -10,6 +10,8 @@
 <P>The move can be cancelled up until the time it changes the path location in PackMan (this occurs after all files are copied).</P>
 <P>If the move is cancelled or an error occurs any backups/copies done so far will be undone. This is called unwinding.</P>
 <P>If the move does a backup, the backup can later be restored or deleted by using the <A href="backupwnd.htm"/>Backups Window</A> located on the Advanced menu from the Iconbar Icon.</P>
+<P>The "Faster" button on the window increases the speed of the move at the cost of whole desktop responsiveness. Once selected it will change its text to "Slower" and selecting it again will
+return to the standard move speed which gives a more responsive desktop.</P>
 </P>
 </BODY>
 </HTML>

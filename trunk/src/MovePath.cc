@@ -27,6 +27,7 @@
 #include "MovePath.h"
 #include "Packages.h"
 #include "libpkg/pkgbase.h"
+#include "libpkg/sysvars.h"
 #include <fstream>
 #include <set>
 #include <utility>
@@ -36,8 +37,15 @@ const unsigned int FILEOP_COST=16384;
 // Percentages for each part of the progress in decipercent
 const int INSTALLED_COST       = 10;
 const int TOTAL_ADD_FILES_COST = 990;
-const int TOTAL_COPY_COST      = 8800;
+const int TOTAL_CHECK_FILES_COST = 2000;
+const int TOTAL_COPY_COST      = 6400;
 const int UPDATE_PATHS_COST    = 200;
+const int UPDATE_VARS_COST     = 400;
+
+// Following constant speeds it up a little by doing multiple checks in a single
+// poll - don't make it to large or the desktop responsiveness suffers
+const int MIN_CHECK_PER_POLL = 2;
+const int MAX_CHECK_PER_POLL = 10;
 
 MovePath::MovePath(const std::string &path_name, const std::string &new_dir) :
   _path_name(path_name),
@@ -48,9 +56,10 @@ MovePath::MovePath(const std::string &path_name, const std::string &new_dir) :
   _cost_done(0),
   _cost_total(0),
   _cost_centipc(0),
-  _cost_add_file(0),
+  _cost_one_item(0),
   _can_cancel(true),
-  _cancelled(false)
+  _cancelled(false),
+  _check_per_poll(1)
 {
 	// Copy current path tables to temporary one used to resolve
 	// the new file locations
@@ -79,22 +88,31 @@ void MovePath::poll()
 		build_installed_packages();
 		_state = BUILD_FILE_LIST;
 		_cost_centipc =  INSTALLED_COST; // .1% of time on build installed packages
-		if (_installed.size()) _cost_add_file = TOTAL_ADD_FILES_COST / _installed.size();
-		if (_cost_add_file < 1) _cost_add_file = 1;
+		if (!_installed.empty())
+		{
+			_cost_one_item = TOTAL_ADD_FILES_COST / _installed.size();
+		}
+		if (_cost_one_item < 1) _cost_one_item = 1;
+		_check_list.push(std::make_pair("", _path_name));
+		_cost_total += FILEOP_COST + FILEOP_COST;
 		break;
 
 	case BUILD_FILE_LIST:
 		if (_installed.empty())
 		{
-			_state = COPYING_FILES;
+			_state = CHECKING_FILES;
 			_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST; // In case of rounding errors.
+			_last_dir = tbx::Path("");
+			_check_per_poll = (_check_list.size() * 10) / TOTAL_CHECK_FILES_COST;
+			if (_check_per_poll < MIN_CHECK_PER_POLL) _check_per_poll = MIN_CHECK_PER_POLL;
+			if (_check_per_poll > MAX_CHECK_PER_POLL) _check_per_poll = MAX_CHECK_PER_POLL;
 		} else
 		{
 			std::string package = _installed.front();
 			if (add_files(package))
 			{
 				_installed.pop();
-				_cost_centipc += _cost_add_file;
+				_cost_centipc += _cost_one_item;
 			} else
 			{
 				_state = FAILED;
@@ -102,10 +120,40 @@ void MovePath::poll()
 		}
 		break;
 
+	case CHECKING_FILES:
+		if (_cancelled)
+		{
+			_state = FAILED;
+		} else if (_check_list.empty())
+		{
+			_last_dir = tbx::Path("");
+			_state = COPYING_FILES;
+			_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST;
+		} else
+		{
+			// Do multiple checks in one poll for speed
+			int j = _check_per_poll;
+			while (j-- && !_check_list.empty() && _state == CHECKING_FILES)
+			{
+				std::pair<std::string, std::string> check = _check_list.front();
+				if (check_file(check.first, check.second))
+				{
+					_check_list.pop();
+					int done = _file_list.size();
+					_cost_centipc =  INSTALLED_COST + TOTAL_ADD_FILES_COST
+							+ ((done * TOTAL_CHECK_FILES_COST)/ (done + _check_list.size()));
+				} else
+				{
+					_state = FAILED;
+				}
+			}
+		}
+		break;
+
 	case COPYING_FILES:
 		if (_cancelled)
 		{
-			_state = UNWIND_COPY;
+			start_unwind_copy();
 		} else if (_file_list.empty())
 		{
 			_state = UPDATE_PATHS;
@@ -142,11 +190,12 @@ void MovePath::poll()
 
 					if (_cost_total)
 					{
-						_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
+						_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST
+								+ (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
 					}
 				} else
 				{
-					_state = UNWIND_COPY;
+					start_unwind_copy();
 				}
 			}
 		}
@@ -156,7 +205,7 @@ void MovePath::poll()
 		_can_cancel = false;
 		if (_cancelled)
 		{
-			_state = UNWIND_COPY;
+			start_unwind_copy();
 		} else
 		{
 			pkg::path_table &paths = Packages::instance()->package_base()->paths();
@@ -164,16 +213,29 @@ void MovePath::poll()
 			{
 				paths.alter(_path_name, _new_dir);
 				paths.commit();
-				_state = DELETE_OLD_FILES;
-				_last_dir = tbx::Path("");
+				_state = UPDATE_VARS;
 				_cost_centipc += UPDATE_PATHS_COST;
 			} catch(...)
 			{
-				_state = UNWIND_COPY;
+				start_unwind_copy();
 				_error = PATH_UPDATE_FAILED;
 			}
 		}
 		break;
+
+	case UPDATE_VARS:
+		 // From here on in it's tidying up so you can't cancel
+		_can_cancel = false;
+
+		// Note: For simplicity update vars is assumed to never fail
+		// if it ever did it would be corrected by the next install
+		// or update.
+		pkg::update_sysvars(*(Packages::instance()->package_base()));
+		_state = DELETE_OLD_FILES;
+		_cost_centipc += UPDATE_VARS_COST;
+		_last_dir = tbx::Path("");
+		break;
+
 
 	case DELETE_OLD_FILES:
 		if (_files_copied.empty())
@@ -189,10 +251,10 @@ void MovePath::poll()
 			source.remove();
 			_files_copied.pop();
 
-			_cost_total += FILEOP_COST;
+			_cost_done += FILEOP_COST;
 			if (_cost_total)
 			{
-				_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + UPDATE_PATHS_COST
+				_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST + UPDATE_PATHS_COST + UPDATE_VARS_COST
 						+ (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
 			}
 		}
@@ -219,12 +281,14 @@ void MovePath::poll()
 				if (_warning == NO_WARNING) _warning = UNWIND_COPY_FAILED;
 			}
 			_files_copied.pop();
+			_cost_done -= _cost_one_item;
+			_cost_centipc = _cost_done / _cost_total;
 		}
 		break;
 
 	case FAILED:
 		// Just reset the amount done to 0 - caller should stop the poll now
-		_cost_done = 0;
+		_cost_centipc = 0;
 		break;
 	case DONE:
 		// Nothing to do - caller should stop the poll now
@@ -274,14 +338,22 @@ bool MovePath::add_files(const std::string &package)
 	std::string files_bak_pathname=prefix + ".Files--";
 	std::set<std::string> mf;
 
-	// Get files manifest
+    unsigned int path_name_length = _path_name.length();
+
+	// Get files from manifest that match or are children of the logical path
 	std::ifstream dst_in(files_pathname.c_str());
 	dst_in.peek();
 	while (dst_in&&!dst_in.eof())
 	{
 		std::string line;
 		std::getline(dst_in,line);
-		if (line.length()) mf.insert(line);
+		if (line.length() >= path_name_length
+			&& _path_name.compare(0, path_name_length, line, 0, path_name_length) == 0
+			)
+		{
+			// Rough comparison only - extra checks are done below
+			mf.insert(line);
+		}
 		dst_in.peek();
 	}
 
@@ -292,62 +364,104 @@ bool MovePath::add_files(const std::string &package)
 	{
 		std::string line;
 		std::getline(bak_in,line);
-		if (line.length()) mf.insert(line);
+		if (line.length() >= path_name_length
+			&& _path_name.compare(0, path_name_length, line) == 0
+			)
+		{
+			// Rough comparison only - extra checks are done below
+			mf.insert(line);
+		}
 		bak_in.peek();
 	}
 
 	// Figure out which files to copy
-	pkg::path_table &paths = Packages::instance()->package_base()->paths();
 	std::set<std::string> dirs; // List of directories needed
 
-	std::string base_path = paths(_path_name, package);
-	dirs.insert(base_path);
+	// Ensure base directory is created if necessary
+	dirs.insert(_path_name);
 
-	tbx::Path last_dir(base_path);
+	std::string last_dir = _path_name;
 
     for (std::set<std::string>::iterator i = mf.begin(); i != mf.end(); ++i)
     {
     	std::string mf_file = *i;
-    	std::string old_loc = paths(mf_file, package);
-    	std::string new_loc = _target_paths(mf_file, package);
-
-    	if (old_loc != new_loc)
+    	std::string::size_type leaf_pos = mf_file.find_last_of('.');
+    	if (leaf_pos != std::string::npos)
     	{
-    		tbx::Path old_path(old_loc);
-    		tbx::PathInfo info;
-    		if (old_path.path_info(info))
+    		// Ensure new directories are added to the list
+    		std::string dir = mf_file.substr(0, leaf_pos);
+    		if (dir != last_dir)
     		{
-    			tbx::Path new_path(new_loc);
+    			last_dir = dir;
 
-    			_cost_total += FILEOP_COST + FILEOP_COST + info.length();
-        		if (new_path.exists())
-        		{
-        			_error = TARGET_FILE_EXISTS;
-        			return false;
-        		}
+				std::stack< std::string > newdirs;
+				while (dirs.find(dir) == dirs.end())
+				{
+					dirs.insert(dir);
+					newdirs.push(dir);
+			    	leaf_pos = dir.find_last_of('.');
+			    	if (leaf_pos != std::string::npos) dir.erase(leaf_pos);
+				}
 
-        		// Add directories into list
-        		tbx::Path parent_dir(old_path.parent());
-        		if (parent_dir != last_dir)
-        		{
-        			tbx::Path new_dir(new_path.parent());
-					std::set<std::string>::iterator found_dir;
-					while ((found_dir = dirs.find(parent_dir.name())) == dirs.end())
-					{
-						dirs.insert(parent_dir.name());
-						_file_list.push(std::make_pair(parent_dir.name(), new_dir.name()));
-						_cost_total += FILEOP_COST + FILEOP_COST;
-						parent_dir.up();
-						new_dir.up();
-					}
-        		}
-
-        		_file_list.push(std::make_pair(old_loc, new_loc));
+				while (!newdirs.empty())
+				{
+        			_check_list.push(std::make_pair(package, newdirs.top()));
+					newdirs.pop();
+				}
     		}
     	}
+
+    	_check_list.push(std::make_pair(package, mf_file));
     }
 
     return true;
+}
+
+
+/**
+ * Check source and target path and create list of files to be copied.
+ *
+ * Checks:
+ *   source path exists
+ *   target path doesn't
+ *   path is not a sub path that goes to a different location
+ *
+ * @param package for file
+ * @param path_name logical path name for file
+ * @returns true if file is OK or does not need to be copied, false on error
+ */
+bool MovePath::check_file(const std::string &package, const std::string &path_name)
+{
+	pkg::path_table &paths = Packages::instance()->package_base()->paths();
+	std::string old_loc = paths(path_name, package);
+	std::string new_loc = _target_paths(path_name, package);
+
+	if (old_loc != new_loc)
+	{
+		tbx::Path old_path(old_loc);
+		tbx::PathInfo info;
+		if (old_path.path_info(info))
+		{
+			_cost_total += FILEOP_COST + FILEOP_COST;
+
+			if (!info.directory())
+			{
+				_cost_total += info.length();
+
+				tbx::Path new_path(new_loc);
+
+				if (new_path.exists())
+				{
+					_error = TARGET_FILE_EXISTS;
+					return false;
+				}
+			}
+
+    		_file_list.push(std::make_pair(old_loc, new_loc));
+		}
+	}
+
+	return true;
 }
 
 /**
@@ -376,6 +490,30 @@ bool MovePath::create_dir(tbx::Path dir)
 	}
 
 	return false;
+}
+
+/**
+ * Start unwind of copy
+ */
+void MovePath::start_unwind_copy()
+{
+	if (_files_copied.empty())
+	{
+		_state = FAILED;
+		_cost_centipc = 0;
+	} else
+	{
+		_state = UNWIND_COPY;
+		 _cost_done = _cost_centipc * 1000;
+		 _cost_total = 1000;
+		_cost_one_item = _cost_done / _files_copied.size();
+		if (_cost_one_item < 1)
+		{
+			_cost_one_item = 1;
+			_cost_done = _files_copied.size();
+			_cost_total = (_cost_done / 100) + 1;
+		}
+	}
 }
 
 

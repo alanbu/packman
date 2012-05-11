@@ -41,11 +41,14 @@ class MovePathWindow : public tbx::Command
 	tbx::Slider _progress;
 	tbx::ActionButton _cancel;
 	tbx::CommandMethod<MovePathWindow> _do_cancel;
+	tbx::ActionButton _faster;
+	tbx::CommandMethod<MovePathWindow> _do_faster;
 
 	MovePath _move_path;
 	MovePath::State _last_state;
 
 	bool _can_cancel;
+	bool _run_faster;
 
 public:
 	MovePathWindow(const std::string &logical_path, const std::string &to_path);
@@ -56,6 +59,7 @@ private:
 	void close();
 	void show_warning();
 	void show_error();
+	void faster();
 
 	std::string warning_text();
 	std::string error_text();

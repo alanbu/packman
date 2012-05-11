@@ -27,6 +27,7 @@
 #define PATHSWINDOW_H_
 
 #include "tbx/abouttobeshownlistener.h"
+#include "tbx/saveas.h"
 #include "tbx/window.h"
 #include "tbx/scrolllist.h"
 #include "tbx/command.h"
@@ -34,22 +35,33 @@
 #include "tbx/actionbutton.h"
 #include "tbx/optionbutton.h"
 #include "tbx/optionbuttonstatelistener.h"
+#include "libpkg/table.h"
 
 
 class PathsWindow :
 	tbx::AboutToBeShownListener,
 	tbx::ScrollListSelectionListener,
-	tbx::OptionButtonStateListener
+	tbx::OptionButtonStateListener,
+	tbx::SaveAsSaveToFileHandler,
+	pkg::table::watcher
 {
 	tbx::Window _window;
 	tbx::ScrollList _paths;
 	tbx::ActionButton _open_button;
+	tbx::ActionButton _move_button;
 	tbx::CommandMethod<PathsWindow> _open;
+	tbx::CommandMethod<PathsWindow> _move;
+
+	std::string _move_path;
 
 	// Event processing
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void scrolllist_selection(const tbx::ScrollListSelectionEvent &event);
 	virtual void option_button_state_changed(tbx::OptionButtonStateEvent &event);
+	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string file_name);
+
+	// Package table chaneg
+	virtual void handle_change(pkg::table& t);
 
 public:
 	PathsWindow();
@@ -62,6 +74,7 @@ public:
 
 	// Implement commands on window
 	void open();
+	void move();
 
 private:
 	// Helper
