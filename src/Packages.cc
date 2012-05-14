@@ -242,19 +242,20 @@ std::string Packages::make_path_definition(const std::string &full_path)
 
 	if (tbx::find_ignore_case(full_path, ".!BOOT.") == std::string::npos)
 	{
-		const char *boot_path = getenv("<Boot$Dir>");
+		const char *boot_path = getenv("Boot$Dir");
 		if (boot_path != 0 && strlen(boot_path) < result.size())
 		{
 			const char *parent_end = strrchr(boot_path, '.');
 			if (parent_end != 0)
 			{
 				int match = 0;
+
 				while (boot_path < parent_end && tolower(*boot_path) == tolower(result[match]))
 				{
 					boot_path++;
 					match++;
 				}
-				if (boot_path == parent_end && result[match+1] == '.')
+				if (boot_path == parent_end && result[match] == '.')
 				{
 					result.replace(0, match, "<Boot$Dir>.^");
 				}
