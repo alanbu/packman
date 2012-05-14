@@ -211,7 +211,9 @@ void MovePath::poll()
 			pkg::path_table &paths = Packages::instance()->package_base()->paths();
 			try
 			{
-				paths.alter(_path_name, _new_dir);
+				std::string path_defn = Packages::make_path_definition(_new_dir);
+
+				paths.alter(_path_name, path_defn);
 				paths.commit();
 				_state = UPDATE_VARS;
 				_cost_centipc += UPDATE_PATHS_COST;
