@@ -22,6 +22,7 @@
 #include "tbx/messagewindow.h"
 #include "tbx/hourglass.h"
 #include "MoveWindow.h"
+#include "PackManState.h"
 
 // Number of times to poll MovePath from one WIMP poll when running faster
 const int FASTER_LOOP_COUNT = 20;
@@ -52,6 +53,8 @@ MoveWindow::MoveWindow(const std::string &logical_path, const tbx::Path &app_pat
 
 	_window.show();
 	
+	pmstate()->moving(true);
+
 	tbx::app()->add_idle_command(this);
 }
 
@@ -185,6 +188,7 @@ void MoveWindow::close()
 	_window.hide();
 	_window.delete_object();
 	delete this;
+	pmstate()->moving(false);
 }
 
 void MoveWindow::show_warning()
