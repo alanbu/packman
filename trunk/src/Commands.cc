@@ -28,12 +28,12 @@
 #include "MainWindow.h"
 #include "IRWindow.h"
 #include "CommitWindow.h"
-#include "InstallWindow.h"
 #include "UpdateListWindow.h"
 #include "SourcesWindow.h"
 #include "PathsWindow.h"
 #include "BackupWindow.h"
 #include "Packages.h"
+#include "PackManState.h"
 #include "UpgradeAllWindow.h"
 #include "tbx/deleteonhidden.h"
 
@@ -45,7 +45,7 @@ void InstallCommand::execute()
 	const pkg::binary_control *pkg_control = _main->selected_package();
 	if (pkg_control == 0) return;
 
-	if (CommitWindow::ok_to_run())
+	if (pmstate()->ok_to_commit())
 	{
 		if (_install == 0) _install = new IRWindow(false);
 		_install->set_package(pkg_control);
@@ -61,7 +61,7 @@ void RemoveCommand::execute()
 	const pkg::binary_control *pkg_control = _main->selected_package();
 	if (pkg_control == 0) return;
 
-	if (CommitWindow::ok_to_run())
+	if (pmstate()->ok_to_commit())
 	{
 		if (_remove == 0) _remove = new IRWindow(true);
 		_remove->set_package(pkg_control);
@@ -86,15 +86,9 @@ void CommitCommand::execute()
  */
 void UpdateListCommand::execute()
 {
-	if (!UpdateListWindow::showing())
+	if (!UpdateListWindow::showing() && pmstate()->installed())
 	{
-		if (Packages::instance()->ensure_package_base())
-		{
-			new UpdateListWindow();
-		} else
-		{
-			new InstallWindow();
-		}
+		new UpdateListWindow();
 	}
 }
 
@@ -103,12 +97,9 @@ void UpdateListCommand::execute()
  */
 void ShowSourcesWindowCommand::execute()
 {
-	if (Packages::instance()->ensure_package_base())
+	if (pmstate()->installed())
 	{
 		new SourcesWindow();
-	} else
-	{
-		new InstallWindow();
 	}
 }
 
@@ -117,12 +108,9 @@ void ShowSourcesWindowCommand::execute()
  */
 void ShowPathsWindowCommand::execute()
 {
-	if (Packages::instance()->ensure_package_base())
+	if (pmstate()->installed())
 	{
 		new PathsWindow();
-	} else
-	{
-		new InstallWindow();
 	}
 }
 
@@ -131,9 +119,9 @@ void ShowPathsWindowCommand::execute()
  */
 void UpgradeAllCommand::execute()
 {
-	if (Packages::instance()->ensure_package_base())
+	if (pmstate()->installed())
 	{
-		if (CommitWindow::ok_to_run())
+		if (pmstate()->ok_to_commit())
 		{
 			if (_upgrade == 0) _upgrade = new UpgradeAllWindow();
 			if (_upgrade->set_upgrades())
@@ -145,9 +133,6 @@ void UpgradeAllCommand::execute()
 			   no_upgrades.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 			}
 		}
-	} else
-	{
-		new InstallWindow();
 	}
 }
 
@@ -156,11 +141,8 @@ void UpgradeAllCommand::execute()
  */
 void ShowBackupWindowCommand::execute()
 {
-	if (Packages::instance()->ensure_package_base())
+	if (pmstate()->installed())
 	{
 		BackupWindow::show();
-	} else
-	{
-		new InstallWindow();
 	}
 }

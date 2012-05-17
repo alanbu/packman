@@ -66,7 +66,7 @@ public:
     static bool showing() {return (_instance != 0);}
     static CommitWindow *instance() {return _instance;}
     bool done() const {return _commit == 0;}
-    static bool ok_to_run();
+    static bool running();
 
     void close();
 

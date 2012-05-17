@@ -28,6 +28,7 @@
 #include "AppsWindow.h"
 #include "MoveWindow.h"
 #include "MoveExistsWindow.h"
+#include "PackManState.h"
 
 #include "tbx/hourglass.h"
 #include "tbx/messagewindow.h"
@@ -74,7 +75,7 @@ void AppMoveTo::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 	if (_source_path.canonical_equals(filename))
 	{
 		tbx::show_message("Source and destination for the move must be different");
-	} else
+	} else if (pmstate()->ok_to_move())
 	{
 		tbx::Path dst(filename);
 

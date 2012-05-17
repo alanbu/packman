@@ -185,16 +185,14 @@ void CommitWindow::close()
 }
 
 /**
- * Check if it is OK to start a new commit
+ * Check if the commit window is running
  *
- * Closes commit window if it is not running but the
- * window is still showing.
+ * As part of the check it will close the commit window if it is
+ * not running but the window is still showing.
  *
- * Shows a message if the commit window is running.
- *
- * @returns true if it is OK to run a commit
+ * @returns true if the commit window is running
  */
-bool CommitWindow::ok_to_run()
+bool CommitWindow::running()
 {
 	if (showing())
 	{
@@ -204,12 +202,10 @@ bool CommitWindow::ok_to_run()
 		if (cw->done()) cw->close();
 		else
 		{
-			tbx::Window only_one("OnlyOne");
-			only_one.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
-			return false;
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
 
 

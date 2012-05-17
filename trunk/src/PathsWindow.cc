@@ -27,6 +27,7 @@
 #include "PathsWindow.h"
 #include "Packages.h"
 #include "MovePathWindow.h"
+#include "PackManState.h"
 
 #include "tbx/path.h"
 #include "tbx/deleteonhidden.h"
@@ -172,29 +173,32 @@ void PathsWindow::open()
  */
 void PathsWindow::move()
 {
-	std::string path;
-	if (_paths.first_selected() != -1)
+	if (pmstate()->ok_to_move())
 	{
-		path = _paths.item_text(_paths.first_selected());
-		std::string::size_type eq_pos = path.find('=');
-		if (eq_pos != std::string::npos)
+		std::string path;
+		if (_paths.first_selected() != -1)
 		{
-			_move_path = path.substr(0, eq_pos - 1);
-			path.erase(0, eq_pos+2);
-
-			tbx::SaveAs move_to("MoveTo");
-			move_to.set_save_to_file_handler(this);
-			move_to.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
-
-			std::string title = move_to.title();
-			std::string::size_type rep_pos = title.find('@');
-			if (rep_pos != std::string::npos)
+			path = _paths.item_text(_paths.first_selected());
+			std::string::size_type eq_pos = path.find('=');
+			if (eq_pos != std::string::npos)
 			{
-				title.replace(rep_pos, 1, _move_path);
-				move_to.title(title);
+				_move_path = path.substr(0, eq_pos - 1);
+				path.erase(0, eq_pos+2);
+
+				tbx::SaveAs move_to("MoveTo");
+				move_to.set_save_to_file_handler(this);
+				move_to.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+
+				std::string title = move_to.title();
+				std::string::size_type rep_pos = title.find('@');
+				if (rep_pos != std::string::npos)
+				{
+					title.replace(rep_pos, 1, _move_path);
+					move_to.title(title);
+				}
+				move_to.file_name(path);
+				move_to.show_as_menu();
 			}
-			move_to.file_name(path);
-			move_to.show_as_menu();
 		}
 	}
 }
