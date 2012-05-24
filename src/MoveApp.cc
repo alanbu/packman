@@ -58,18 +58,9 @@ MoveApp::MoveApp(const std::string &logical_path, const std::string &app_path, c
 void MoveApp::setup_backup(const tbx::Path &target)
 {
 	// Check target exists so we need to make a backup
-	tbx::Path backup_dir;
-	char backup_dirname[20];
-	int backup_dirnum = 0;
-	do
-	{
-		backup_dirnum++;
-		sprintf(backup_dirname, "Backup%d", backup_dirnum);
-		backup_dir = target.parent();
-		backup_dir.down(backup_dirname);
-	} while (backup_dir.exists());
-
+	tbx::Path backup_dir = BackupManager::get_backup_dir(target);
 	backup_dir.down(target.leaf_name());
+
 	_backup_handler = new FSObjectCopy(target, backup_dir);
 	_backup_handler->delete_option(FSObjectCopy::DELETE_AFTER_COPY);
 	_state = START_BACKUP;

@@ -247,6 +247,7 @@ void AppsWindow::app_boot()
 		cmd += _apps[*i].full_path();
 		cmd += ".!Boot";
 		int result = system(cmd.c_str());
+		(void)result; // No useful return code
 	}
 }
 
@@ -258,10 +259,11 @@ void AppsWindow::app_run()
 	for (tbx::view::Selection::Iterator i = _selection.begin();
 	     i != _selection.end(); ++i)
 	{
-			std::string cmd("Filer_Run ");
-			cmd += _apps[*i].full_path();
-			cmd += ".!Run";
-			system(cmd.c_str());
+		std::string cmd("Filer_Run ");
+		cmd += _apps[*i].full_path();
+		cmd += ".!Run";
+		int result = system(cmd.c_str());
+		(void)result; // No useful return code
 	}
 }
 /**
@@ -272,10 +274,11 @@ void AppsWindow::app_help()
 	for (tbx::view::Selection::Iterator i = _selection.begin();
 	     i != _selection.end(); ++i)
 	{
-			std::string cmd("Filer_Run ");
-			cmd += _apps[*i].full_path();
-			cmd += ".!Help";
-			system(cmd.c_str());
+		std::string cmd("Filer_Run ");
+		cmd += _apps[*i].full_path();
+		cmd += ".!Help";
+		int result = system(cmd.c_str());
+		(void)result; // No useful return code
 	}
 }
 /**
@@ -286,10 +289,11 @@ void AppsWindow::app_view()
 	for (tbx::view::Selection::Iterator i = _selection.begin();
 	     i != _selection.end(); ++i)
 	{
-			tbx::Path path(_apps[*i].full_path());
-			std::string cmd("Filer_OpenDir ");
-			cmd += path.parent().name();
-			system(cmd.c_str());
+		tbx::Path path(_apps[*i].full_path());
+		std::string cmd("Filer_OpenDir ");
+		cmd += path.parent().name();
+		int result = system(cmd.c_str());
+		(void)result; // No useful return code
 	}
 }
 
@@ -314,15 +318,9 @@ void AppsWindow::drag_finished (const tbx::BBox &final)
  */
 void AppsWindow::saver_save_to_file(tbx::Saver saver, std::string file_name)
 {
-	tbx::Path stub_app(file_name);
-	if (!stub_app.exists())
-	{
-		tbx::view::Selection::Iterator i = _selection.begin();
-		tbx::Path source_path(_apps[*i].full_path());
-		create_application_stub(source_path, stub_app);
-		saver.file_save_completed(true, file_name);
-	} else
-	{
-		saver.file_save_completed(false, file_name);
-	}
+	tbx::view::Selection::Iterator i = _selection.begin();
+	tbx::Path source_path(_apps[*i].full_path());
+	create_application_stub(source_path, file_name);
+
+	saver.file_save_completed(true, file_name);
 }
