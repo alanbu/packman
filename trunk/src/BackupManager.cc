@@ -144,3 +144,23 @@ BackupManager::iterator BackupManager::find(const tbx::Path &path)
 
 	return i;
 }
+
+/**
+ * Static function to get the location to create a backup of the
+ * give file.
+ */
+tbx::Path BackupManager::get_backup_dir(const tbx::Path &target)
+{
+	tbx::Path backup_dir;
+	char backup_dirname[20];
+	int backup_dirnum = 0;
+	do
+	{
+		backup_dirnum++;
+		sprintf(backup_dirname, "Backup%d", backup_dirnum);
+		backup_dir = target.parent();
+		backup_dir.down(backup_dirname);
+	} while (backup_dir.exists());
+
+	return backup_dir;
+}

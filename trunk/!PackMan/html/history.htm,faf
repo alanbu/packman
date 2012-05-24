@@ -11,14 +11,15 @@
 <UL>
  <li>Changed history to put newest version at the top</li>
  <li>Added moving of an application to another locations</li>
- <li>Backup manager to maintain any backups made while moving applications</li>
+ <li>Prompt for backup when creating a stub or link in a location that already contains the application</li>
+ <li>Backup manager to maintain any backups made while moving applications or creating links/stubs</li>
  <li>Fixed bug where showing the Applications Window when it was already showing caused a crash</li>
  <li>Added package name to the Applications Window title<li>
  <li>Use latest LibPkg backend
    <ul>
      <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
      <li>Ensures Paths files contains values for all standard paths</li>
-     <li>Fixed bug where it would get into a loop showing a message when updating sprites if the file containing the sprites not longer exists</li>
+     <li>Fixed bug where it would get into a loop showing a message when updating sprites if the file containing the sprites no longer exists</li>
    </ul>
  </li>
  <li>Fixed bug where installing an app, closing the main window, then doing update lists from the iconbar menu showed a blank main window. The cause of bug also meant there would have been a minor memory leak each time a main window was closed.</li>

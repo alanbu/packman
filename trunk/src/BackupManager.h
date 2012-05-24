@@ -75,6 +75,8 @@ public:
 	 */
 	const_iterator cend() const {return _items.end();}
 
+	static tbx::Path get_backup_dir(const tbx::Path &target);
+
 private:
 	iterator find(const tbx::Path &path);
 };

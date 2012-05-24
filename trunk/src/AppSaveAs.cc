@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2010 Alan Buckley
+* Copyright 2009-2012 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -34,8 +34,8 @@
 #include "tbx/fileraction.h"
 #include "tbx/stringutils.h"
 
-#include <fstream>
 #include <stdexcept>
+
 
 /**
  * Set up listeners to set up and do the save
@@ -103,20 +103,11 @@ void AppSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 		break;
 
 	case STUB: // Create an application stub
-		{
-			tbx::Path dst(filename);
-			create_application_stub(_source_path, dst);
-		}
+		create_application_stub(_source_path, filename);
 		break;
 
 	case LINK: // Create a link
-		{
-			std::ofstream out(filename.c_str());
-			out << _source_path.name() << '.' << char(0);
-			out.close();
-			tbx::Path dst(filename);
-			dst.file_type(0xfc0);
-		}
+		create_application_link(_source_path, filename);
 		break;
 	}
 
