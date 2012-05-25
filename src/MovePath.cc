@@ -534,3 +534,26 @@ void MovePath::cancel()
 		if (_error == NO_ERROR) _error = CANCELLED;
 	}
 }
+
+/**
+ * Get name of target file when an error occured
+ */
+std::string MovePath::failed_target() const
+{
+	std::string result;
+	switch(_error)
+	{
+	case TARGET_FILE_EXISTS:
+		result = _check_list.front().second;
+		break;
+	case COPY_FAILED:
+	case CREATE_DIR_FAILED:
+	    result = _file_list.front().second;
+		break;
+	default:
+		// Nothing for other error codes
+		break;
+	}
+
+	return result;
+}

@@ -94,6 +94,8 @@ public:
 	bool cancelled() const {return _cancelled;}
 	void cancel();
 
+	std::string failed_target() const;
+
 private:
 	void build_installed_packages();
 	void start_unwind_copy();

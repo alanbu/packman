@@ -195,6 +195,12 @@ void MovePathWindow::show_error()
 {
 	std::string msg("Error move failed: ");
 	msg += error_text();
+	std::string target_file = _move_path.failed_target();
+	if (!target_file.empty())
+	{
+		msg += "\nTarget file:\n";
+		msg += target_file;
+	}
 	if (_move_path.warning())
 	{
 		msg += "\n\nWarning: ";
