@@ -12,6 +12,8 @@
  <li>Changed history to put newest version at the top</li>
  <li>Added moving of an application to another locations</li>
  <li>Prompt for backup when creating a stub or link in a location that already contains the application</li>
+ <li>Conflict Manager to allow backup and retry when an installed package can not install because one or more
+of the files it would install already exist on the disk</li>
  <li>Backup manager to maintain any backups made while moving applications or creating links/stubs</li>
  <li>Fixed bug where showing the Applications Window when it was already showing caused a crash</li>
  <li>Added package name to the Applications Window title<li>

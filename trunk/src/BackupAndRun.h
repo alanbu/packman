@@ -35,6 +35,9 @@
 
 #include "FSObjectCopy.h"
 
+#include <deque>
+#include <stack>
+#include <vector>
 
 /**
  * Class to run a backup and if it's successful follow it
@@ -44,7 +47,8 @@ class BackupAndRun : public tbx::Command
 {
 	std::string _title;
 	tbx::Command *_run_command;
-	FSObjectCopy *_backup_handler;
+	std::deque<FSObjectCopy *> _backups;
+	std::stack<FSObjectCopy *> _backups_done;
 
 	tbx::Window _window;
 	tbx::DisplayField _status_text;
@@ -57,12 +61,13 @@ class BackupAndRun : public tbx::Command
 	bool _can_cancel;
 	bool _run_faster;
 
-	enum State {START_BACKUP, BACKUP_FILES, UNWIND_BACKUP, FAILED, DONE};
+	enum State {START_BACKUP, BACKUP_NEXT, BACKUP_FILES, UNWIND_NEXT, UNWIND_BACKUP, FAILED, DONE};
 	State _state, _last_state;
 
 	enum Error {NO_ERROR, BACKUP_FAILED, BACKUP_AND_UNWIND_FAILED};
 	Error _error;
 
+	long long _cost_to_backup;
 	long long _cost_done;
 	long long _cost_total;
 	bool _cancelled;
@@ -72,6 +77,7 @@ public:
 	virtual ~BackupAndRun();
 
 	void add(const tbx::Path &backup_object);
+	void add_children(const tbx::Path &backup_root, const std::vector<std::string> &children);
 	void start();
 
 	virtual void execute();

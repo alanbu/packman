@@ -7,7 +7,7 @@
 
 #include "CommitWindow.h"
 #include "Packages.h"
-#include "ConflictsWindow.h"
+#include "ConflictManager.h"
 #include "CommitFailedWindow.h"
 
 #include "tbx/application.h"
@@ -152,11 +152,15 @@ void CommitWindow::poll()
 				{
 					std::string last_action = _action.text();
 					_action.text("Failed ");
-					new CommitFailedWindow(_commit, last_action);
+					if (_commit->files_that_conflict().size())
+					{
+						open_conflicts_window();
+					} else
+					{
+						new CommitFailedWindow(_commit, last_action);
+					}
 					_cancel_button.text("Close");
 					_cancel_button.fade(false);
-					if (_commit->files_that_conflict().size())
-						open_conflicts_window();
 					delete _commit;
 					_commit=0;
 					tbx::app()->remove_idle_command(&_thread_runner);
@@ -234,5 +238,6 @@ void CommitWindow::CancelCommand::execute()
 
 void CommitWindow::open_conflicts_window()
 {
-	new ConflictsWindow(_commit->files_that_conflict());
+//	new ConflictsWindow(_commit->files_that_conflict());
+	new ConflictManager(_commit->files_that_conflict());
 }
