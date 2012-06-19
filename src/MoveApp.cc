@@ -59,7 +59,6 @@ void MoveApp::setup_backup(const tbx::Path &target)
 {
 	// Check target exists so we need to make a backup
 	tbx::Path backup_dir = BackupManager::get_backup_dir(target);
-	backup_dir.down(target.leaf_name());
 
 	_backup_handler = new FSObjectCopy(target, backup_dir);
 	_backup_handler->delete_option(FSObjectCopy::DELETE_AFTER_COPY);

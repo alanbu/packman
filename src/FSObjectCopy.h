@@ -68,9 +68,12 @@ private:
     int _dir_done;
     int _del_done;
     int _unwind_done;
+    bool _allow_dir_delete_failure;
 
 public:
 	FSObjectCopy(const std::string &source, const std::string &target);
+
+	void add_child_file(const std::string &child_name);
 
 	tbx::Path target_path() const {return tbx::Path(_target_dir, _source.leaf_name());}
 	const tbx::Path &target_dir() const {return _target_dir;}

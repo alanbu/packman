@@ -63,8 +63,7 @@ BackupAndRun::BackupAndRun(const std::string &title, tbx::Command *command) :
 
 	_last_state = DONE; // Force poll to update display
 
-	_backup_handler = 0;
-
+	_cost_to_backup = 0;
 	_cost_done = 0;
 	_cost_total = 0;
 }
@@ -72,7 +71,16 @@ BackupAndRun::BackupAndRun(const std::string &title, tbx::Command *command) :
 BackupAndRun::~BackupAndRun()
 {
 	delete _run_command;
-	delete _backup_handler;
+	while (!_backups.empty())
+	{
+		delete _backups.front();
+		_backups.pop_front();
+	}
+	while(!_backups_done.empty())
+	{
+		delete _backups_done.top();
+		_backups_done.pop();
+	}
 }
 
 /**
@@ -83,10 +91,34 @@ BackupAndRun::~BackupAndRun()
 void BackupAndRun::add(const tbx::Path &backup_object)
 {
 	tbx::Path backup_dir = BackupManager::get_backup_dir(backup_object);
-	backup_dir.down(backup_object.leaf_name());
 
-	_backup_handler = new FSObjectCopy(backup_object, backup_dir);
-	_backup_handler->delete_option(FSObjectCopy::DELETE_AFTER_COPY);
+	FSObjectCopy *backup_handler = new FSObjectCopy(backup_object, backup_dir);
+	backup_handler->delete_option(FSObjectCopy::DELETE_AFTER_COPY);
+	_backups.push_back(backup_handler);
+}
+
+/**
+ * Add specified children of a directory to be backed up
+ *
+ * The backup will be named after the directory
+ *
+ * @param backup_root name of the parent directory
+ * @param children list of the files to backup within that directory
+ */
+void BackupAndRun::add_children(const tbx::Path &backup_root, const std::vector<std::string> &children)
+{
+	tbx::Path backup_dir = BackupManager::get_backup_dir(backup_root);
+
+	FSObjectCopy *backup_handler = new FSObjectCopy(backup_root, backup_dir);
+	backup_handler->delete_option(FSObjectCopy::DELETE_AFTER_COPY);
+
+	for (std::vector<std::string>::const_iterator i = children.begin(); i != children.end(); ++i)
+	{
+		backup_handler->add_child_file(*i);
+	}
+
+	_backups.push_back(backup_handler);
+
 }
 
 /**
@@ -94,8 +126,8 @@ void BackupAndRun::add(const tbx::Path &backup_object)
  */
 void BackupAndRun::start()
 {
-	assert(_backup_handler != 0);
-	if (_backup_handler)
+	assert(!_backups.empty());
+	if (!_backups.empty())
 	{
 		_window.show();
 
@@ -129,8 +161,14 @@ void BackupAndRun::execute()
 		case START_BACKUP:
 			_status_text.text("Making list of files to backup");
 			break;
+		case BACKUP_NEXT:
+			_status_text.text("Backing up next target");
+			break;
 		case BACKUP_FILES:
 			_status_text.text("Backing up files");
+			break;
+		case UNWIND_NEXT:
+			_status_text.text("Unwinding next target");
 			break;
 		case UNWIND_BACKUP:
 			_status_text.text("Unwinding after error or cancel");
@@ -169,73 +207,120 @@ bool BackupAndRun::process()
 	switch(_state)
 	{
 	case START_BACKUP:
-		if (_backup_handler)
+		// Need to create target directories and calculate total cost
 		{
-			tbx::Path backup_dir(_backup_handler->target_dir());
-			if (backup_dir.create_directory())
+			for (std::deque<FSObjectCopy *>::iterator i = _backups.begin();
+					i != _backups.end() && _state == START_BACKUP;
+					++i)
 			{
-				_state = BACKUP_FILES;
+				FSObjectCopy *backup = *i;
+				tbx::Path backup_dir(backup->target_dir());
+				if (!backup_dir.create_directory()) _state = FAILED;
+				if (backup->total_cost() == 0) backup->poll(); // creates the list of files
+				_cost_total += backup->total_cost();
 			}
-			_backup_handler->poll(); // creates the list of files
-			_cost_total = _backup_handler->total_cost();
 		}
-		if (_state != BACKUP_FILES)
+
+		if (_state == FAILED)
 		{
 			_error = BACKUP_FAILED;
-			_state = FAILED;
+		} else
+		{
+			_state = BACKUP_FILES;
+		}
+		break;
+
+	case BACKUP_NEXT:
+		if (_cancelled)
+		{
+			_state = UNWIND_NEXT;
+		} else
+		{
+			_state = BACKUP_FILES;
+			FSObjectCopy *backup = _backups.front();
+			_cost_to_backup += backup->total_cost();
+			_backups_done.push(backup);
+			_backups.pop_front();
+			if (_backups.empty()) _state = DONE;
 		}
 		break;
 
 	case BACKUP_FILES:
-		if (_cancelled)
 		{
-			_state = UNWIND_BACKUP;
-			_backup_handler->start_unwind_move();
-		} else
-		{
-			_backup_handler->poll();
-			_cost_done = _backup_handler->cost_done();
-			if (_backup_handler->warning() != FSObjectCopy::NO_WARNING)
+			FSObjectCopy *backup = _backups.front();
+
+			if (_cancelled)
 			{
-				// Any warnings and it's not safe to delete either
-				_can_cancel = false;
-				_error = BACKUP_FAILED;
 				_state = UNWIND_BACKUP;
-				_backup_handler->start_unwind_move();
-			} else 	if (_backup_handler->state() == FSObjectCopy::DONE)
+				backup->start_unwind_move();
+			} else
 			{
-				if (_backup_handler->error())
+				backup->poll();
+				_cost_done = _cost_to_backup + backup->cost_done();
+				if (backup->warning() != FSObjectCopy::NO_WARNING)
 				{
+					// Any warnings and it's not safe to delete either
 					_can_cancel = false;
 					_error = BACKUP_FAILED;
 					_state = UNWIND_BACKUP;
-					_backup_handler->start_unwind_move();
-				} else
+					backup->start_unwind_move();
+				} else 	if (backup->state() == FSObjectCopy::DONE)
 				{
-					_state = DONE;
+					if (backup->error())
+					{
+						_can_cancel = false;
+						_error = BACKUP_FAILED;
+						_state = UNWIND_BACKUP;
+						backup->start_unwind_move();
+					} else
+					{
+						_state = BACKUP_NEXT;
+					}
 				}
+			}
+		}
+		break;
+
+	case UNWIND_NEXT:
+		if (_backups_done.empty())
+		{
+			_state = FAILED;
+		} else
+		{
+			FSObjectCopy *backup = _backups_done.top();
+			_backups.push_front(backup);
+			_backups_done.pop();
+			if (_backups_done.empty())
+			{
+				_cost_to_backup -= backup->total_cost();
+			} else
+			{
+				_cost_to_backup = 0;
 			}
 		}
 		break;
 
 	case UNWIND_BACKUP:
-		_backup_handler->poll();
-		_cost_done = _backup_handler->unwind_cost();
-		if (_backup_handler->state() == FSObjectCopy::DONE)
 		{
-			if (_backup_handler->warning())
+			FSObjectCopy *backup = _backups.front();
+			backup->poll();
+			_cost_done = _cost_to_backup + backup->unwind_cost();
+			if (backup->state() == FSObjectCopy::DONE)
 			{
-				_error = BACKUP_AND_UNWIND_FAILED;
-			} else
-			{
-				// Delete parent BackupN directory if empty
-				tbx::Path containing_dir = _backup_handler->target_dir();
-				if (containing_dir.begin() == containing_dir.end())
+				if (backup->warning())
 				{
-					containing_dir.remove();
+					_error = BACKUP_AND_UNWIND_FAILED;
+				} else
+				{
+					// Delete parent BackupN directory if empty
+					tbx::Path containing_dir = backup->target_dir();
+					if (containing_dir.begin() == containing_dir.end())
+					{
+						containing_dir.remove();
+					}
 				}
+				_state = UNWIND_NEXT;
 			}
-			_state = FAILED;
 		}
 		break;
 
@@ -265,7 +350,13 @@ bool BackupAndRun::process()
 		_progress.value(1000);
 		{
 			BackupManager bum;
-			bum.add(_backup_handler->target_path());
+
+			while (!_backups_done.empty())
+			{
+				FSObjectCopy *backup = _backups_done.top();
+				_backups_done.pop();
+				bum.add(backup->target_path());
+			}
 			bum.commit();
 
 			_run_command->execute(); // Execute the command

@@ -41,7 +41,7 @@ const unsigned int FILEOP_COST=16384;
  * the poll.
  *
  * @param source full path of file or directory to copy
- * @param target full path for destination.
+ * @param target full path of directory to copy it to.
  *  The leaf name must match the sources leaf name and it must not already exist.
  */
 FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target) :
@@ -57,17 +57,72 @@ FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target)
    _file_done(0),
    _dir_done(0),
    _del_done(0),
-   _unwind_done(0)
+   _unwind_done(0),
+   _allow_dir_delete_failure(false)
 {
-	if (_source.leaf_name() != _target_dir.leaf_name())
+	_source_dir = _source.parent();
+}
+
+/**
+ * Add a child to the list of files to copy
+ *
+ * Calling this stops the automatic recursion of directories
+ *
+ * @param child_name name of child file relative to the source directory
+ */
+void FSObjectCopy::add_child_file(const std::string &child_name)
+{
+	std::string last_dir;
+	if (_to_copy.empty())
 	{
-		_state = DONE;
-		_error = LEAF_NAME_MISMATCH;
+		// Make sure root directory is copied first
+		last_dir = _source.leaf_name();
+		_to_copy.push(last_dir);
+		_dir_total++;
 	} else
 	{
-		_target_dir.up(); // Just need the destination directory for the target
+		std::string last_name = _to_copy.back();
+		std::string::size_type last_dir_pos = last_name.rfind('.');
+		last_dir = last_name.substr(0, last_dir_pos);
 	}
+	std::string rel_name = _source.leaf_name() + "." + child_name;
+
+	std::string::size_type dir_pos = rel_name.rfind('.');
+	if (rel_name.compare(0, dir_pos, last_dir) != 0)
+	{
+		// Add in parent directories
+		do
+		{
+			dir_pos = rel_name.rfind('.', dir_pos-1);
+			if (dir_pos < last_dir.size())
+			{
+				std::string::size_type ld_pos = last_dir.rfind('.');
+				last_dir.erase(ld_pos);
+			}
+		} while (rel_name.compare(0, dir_pos, last_dir) != 0);
+
+		while ((dir_pos = rel_name.find('.', dir_pos+1)) != std::string::npos)
+		{
+			_to_copy.push(rel_name.substr(0, dir_pos));
+			_dir_total++;
+		}
+	}
+
+	_to_copy.push(rel_name);
+	_file_total++;
+
+	tbx::PathInfo info;
+	tbx::Path path(_source, child_name);
+	if (path.path_info(info)) _byte_total += info.length();
+
+	// Don't need to build list as files are being manually added
+	if (_state == BUILD_LIST) _state = COPY_OBJECT;
+	// We are adding files from within directories so we don't worry
+	// about failing to delete the containing directory as this will
+	// happen when they are not empty
+	_allow_dir_delete_failure = true;
 }
+
 
 /**
  * Do actual copying a chunk at a time.
@@ -211,9 +266,11 @@ void FSObjectCopy::start_unwind_move()
 	if (!_deleted.empty())
 	{
 		_state = UNWIND_MOVE_OBJECT;
+		_warning = NO_WARNING;
 	} else if (!_copied.empty())
 	{
 		_state = UNWIND_COPY_OBJECT;
+		_warning = NO_WARNING;
 	} else
 	{
 		// Nothing to unwind
@@ -231,7 +288,6 @@ bool FSObjectCopy::build_list()
 {
 	tbx::Path source(_source);
 	tbx::PathInfo info;
-	_source_dir = source.parent();
 	if (source.path_info(info))
 	{
 		if (info.directory())
@@ -295,6 +351,7 @@ bool FSObjectCopy::copy_object(const std::string &name)
 	tbx::Path source(_source_dir, name);
 	tbx::Path target(_target_dir, name);
 	tbx::PathInfo info;
+
 	if (!source.path_info(info)) return false;
 
 	FSO_LOG_ACTION("copy_object", name);
@@ -360,7 +417,10 @@ bool FSObjectCopy::delete_target_object(const std::string &name)
 
 	FSO_LOG_ACTION("delete_target_object", name);
 
-	return del_obj.remove();
+	bool success = del_obj.remove();
+
+	if (!success && _allow_dir_delete_failure && del_obj.directory()) success = true;
+	return success;
 }
 
 /**
@@ -375,7 +435,10 @@ bool FSObjectCopy::delete_source_object(const std::string &name)
 
 	FSO_LOG_ACTION("delete_source_object", name);
 
-	return del_obj.remove();
+	bool success = del_obj.remove();
+
+	if (!success && _allow_dir_delete_failure && del_obj.directory()) success = true;
+	return success;
 }
 
 /**
