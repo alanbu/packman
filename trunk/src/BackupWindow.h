@@ -76,6 +76,7 @@ private:
 	// Helpers
 	void backup_already_deleted(int index);
 	void remove_from_list(int index);
+	bool check_exists(const tbx::Path &restore_to, const tbx::Path &restore_from);
 
 	void do_delete();
 	void do_restore();
