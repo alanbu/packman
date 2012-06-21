@@ -31,8 +31,10 @@
 #include "tbx/messagewindow.h"
 #include "tbx/questionwindow.h"
 #include "tbx/fileraction.h"
+#include "tbx/Hourglass.h"
 
 #include <cstdlib>
+#include <stack>
 
 BackupWindow *BackupWindow::_instance = 0;
 
@@ -273,7 +275,7 @@ void BackupWindow::restore_backup()
 		if (path.exists())
 		{
 			tbx::Path restore_to(path.parent().parent(), path.leaf_name());
-			if (restore_to.exists())
+			if (check_exists(restore_to, path))
 			{
 				tbx::show_message("Unable to restore backup at\n"
 						+ path.name()
@@ -301,6 +303,41 @@ void BackupWindow::restore_backup()
 			backup_already_deleted(index);
 		}
 	}
+}
+
+/**
+ * Check files in restore to location, existing directories should
+ * not stop the restore.
+ *
+ * @param restore_to path files will be copied to
+ * @param restore_from files that are going to be restored.
+ */
+bool BackupWindow::check_exists(const tbx::Path &restore_to, const tbx::Path &restore_from)
+{
+	if (!restore_to.exists()) return false;
+	if (!restore_to.directory()) return true;
+	tbx::Hourglass hg;
+	std::stack< std::pair<tbx::Path, tbx::Path> > dirs;
+	dirs.push(std::make_pair(restore_from, restore_to));
+
+	while (!dirs.empty())
+	{
+		tbx::Path from_dir = dirs.top().first;
+		tbx::Path to_dir = dirs.top().second;
+		dirs.pop();
+
+		for (tbx::Path::Iterator i = from_dir.begin(); i != from_dir.end(); ++i)
+		{
+			tbx::Path check_path(to_dir, *i);
+			if (check_path.exists())
+			{
+				if (!check_path.directory()) return true;
+				dirs.push(std::make_pair(tbx::Path(from_dir, *i), tbx::Path(to_dir, *i)));
+			}
+		}
+	}
+
+	return false;
 }
 
 /**
