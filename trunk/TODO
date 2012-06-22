@@ -7,11 +7,6 @@ to be run.
 Check progress bar in update lists. Was 100% when it still
 had more to do.
 
-Check if get extra error message when can't find package
-base and remove it if we do.
-
-If application is moved outside of PackMan check update, remove and install don't misbehave.
-
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------

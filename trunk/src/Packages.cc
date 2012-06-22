@@ -88,21 +88,9 @@ bool Packages::ensure_package_base()
 				if (paths_changed) _package_base->paths().commit();
 
 			}
-		} catch(tbx::OsError &err)
+		} catch(...)
 		{
-			std::string msg(err.what());
-			new ErrorWindow(msg, "OS Error when trying to load/initialise packages");
-			delete _package_base;
-			_package_base=0;
-		} catch(std::runtime_error &rerr)
-		{
-			std::string msg(rerr.what());
-			new ErrorWindow(msg, "Error when trying to load/initialise packages");
-			delete _package_base;
-			_package_base=0;
-		} catch (...)
-		{
-			new ErrorWindow("Could not load/initialise package system", "Error when trying to load/initialise packages");
+			// Just delete as we will be shown the create package dialog
 			delete _package_base;
 			_package_base=0;
 		}
