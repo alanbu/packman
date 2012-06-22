@@ -16,7 +16,7 @@ lists the Upgrade All button will be enabled that leads to the
 applied at once.</p>
 <P>If the operation fails an error window will be shown with the cause of the failure.</P>
 <P>If the failure is caused because there are already files in the location it would like
-to install files in one of the installed packages the <A HREF="conflict.htm">Files that conflict Window</A>
-listing these files will also be shown.</P>
+to install files in one of the installed packages the <A HREF="conflictman.htm">Conflict Manager Window</A>
+showing information on the conflicting files will be shown instead.</P>
 </BODY>
 </HTML>

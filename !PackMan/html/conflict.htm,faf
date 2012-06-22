@@ -5,11 +5,10 @@
 </HEAD>
 <BODY>
 <H2>Files that conflict Window</H2>
-<P>This Window is shown at the end of an Install or Update if it failed due to files already
-existing on the hard disk that are also used in one of the packages to be installed.</P>
+<P>This Window is shown from the Conflict Manager Window "Show Files" button. It lists all the files
+that already existed on the hard disc that are also used in one of the packages to be installed.</P>
 <P>You should move the conflicting files from their location on the hard disc to a location to
-back them up and then retry the install or update.</P>
-<P>When you first start using the Packaging system you are likely to see this message for
-the various system modules. e.g. SharedUnixLibrary etc.</P>
+back them up and then retry the install or update. You can do this manually or use the
+Conflict Manager Window that this Window was shown from.</P>
 </BODY>
 </HTML>
