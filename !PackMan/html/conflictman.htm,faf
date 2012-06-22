@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Conflict Manager Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Conflict Manager Window</H2>
+<P>This Window is shown at the end of an Install or Update if it failed due to files already
+existing on the hard disc that are also used in any of the packages to be installed.</P>
+<P>It shows a list of applications/directories or individual files that conflict.
+In the case of an application or directory the number of conflicting files inside are shown.
+</P>
+<P>The buttons at the bottom of the window are:
+<ul>
+<li><b>Show files</b> This button shows a full list of the files that conflict in the 
+<a href="conflict.htm">Files that Conflict Window</a></li>
+<li><b>Close</b> This button closes the Conflict Manager without taking any further action. This allows you to investigate or sort out the conflict by hand.</li>
+<li><b>Backup and Retry</b> This button will attempt to make a backup of the conflicting
+files and if this is successful it will retry the installation.</li>
+</ul>
+</P>
+<P>When you first start using the Packaging system you are likely to see this message for
+the various system modules. e.g. SharedUnixLibrary etc.</P>
+</BODY>
+</HTML>
