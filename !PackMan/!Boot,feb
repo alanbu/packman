@@ -2,7 +2,7 @@ Set PackMan$Dir <Obey$Dir>
 IconSprites <PackMan$Dir>.!Sprites
 
 Set PackMan$Help <PackMan$Dir>.!Help
-Set PackMan$Version "0.6"
+Set PackMan$Version "0.7"
 Set PackMan$Web "http://alanb.drobe.co.uk/packman.htm"
 Set PackMan$Title "Package Manager"
 Set PackMan$Publisher "Alan Buckley"
