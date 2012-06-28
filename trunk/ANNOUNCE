@@ -1,17 +1,32 @@
-Packman package manager 0.6 beta released
+Packman package manager 0.7 beta released
 
-Packman version 0.6 beta is now available.
+Packman version 0.7 beta is now available.
 
-The main changes are:
- - Upgrade All menu options to upgrade all packages at once
- - Right click on iconbar icon shows list of installed
-   packages
- - Fixed crash after Update Lists on RISC OS 6.20.
- - Run an application by double clicking in the Apps Window
- - Drag an application from the Apps Window to the
-   filer to create a stub.
- - New window to show disk usage and allow clearing of the
-   cache
+This release is primarily driven for the people who are considering
+replacing software they already have installed with packaged versions
+of it.
+
+PackMan now allows applications to be moved from their default install
+location. If an application is moved using PackMan, it will remember
+it's location so it can update it or remove it.
+
+If another application already exists at the location moved to,
+PackMan will back it up (after checking you want to replace it).
+
+This backup functionality has also been built into creating stubs and
+links (the recommended way of being able to access packages from other
+locations).
+
+To make it easier to install packages where you may already have
+another version on your disc a Conflict Manager window is now shown
+when files conflict. This gives you the option of letting PackMan
+backup the conflicting files for you.
+
+To keep track of these backups a Backup Manager window has been added.
+From here you can also view, delete or restore a backup.
+
+It also includes a few other minor bug fixes, the full list of changes
+can be seen on the history page in the documentation.
 
 If you already have a previous version of !PackMan or !RiscPkg
 installed you can install it or updrade it from either of
