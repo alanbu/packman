@@ -203,6 +203,8 @@ void BackupWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	BackupManager bus;
 	std::string view_item;
 
+	_backups.clear();
+
 	for (BackupManager::const_iterator i = bus.cbegin(); i != bus.cend(); ++i)
 	{
 		const tbx::Path &path = i->path;
