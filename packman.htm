@@ -30,11 +30,20 @@ just use it to install or upgrade the PackMan package from the main RISC OS
 Packaging project source</P>
 <P>If you are not using !RiscPkg follow the following steps
 <OL>
-<LI>Ensure you have a program that can decompress zip files. (e.g. !SparkPlug).</LI>
+<LI>Ensure you have a program that can decompress zip files. For example:
+ <ul>
+  <li>!SparkPlug, available from <a href="http://www.davidpilling.net/free.html">http://www.davidpilling.net/free.html</a></li>
+  <li>!InfoZip, available from <a href="http://www.starfighter.acornarcade.com/mysite/utilities.htm#infozip">http://www.starfighter.acornarcade.com/mysite/utilities.htm#infozip</a></li>
+  <li>!SparkFS, a free read only version is provided with current releases of RISC OS 5 in the ThirdParty directory</li>
+ </ul>
+</LI>
+<LI>If not already installed, download and copy the SharedUnixLibrary (SharedULib)
+to !System.Modules.310. A copy is in the zip file that can be downloaded from
+<A HREF="http://www.riscos.info/packages/SupportDetails.html#SharedUnixLibrary">.</A>
 <LI>Download a copy of packman from the packaging website at
 <A HREF="http://www.riscpkg.org/arm/PackMan/PackMan_0.7-1">http://www.riscpkg.org/arm/PackMan/PackMan_0.7-1</A>
 </LI>
-<LI>Once loaded drag the downloaded file to !SparkPlug or set the filetype
+<LI>Once loaded drag the downloaded file to !SparkPlug (or equivalent) or set the filetype
 to Archive and double click on it.</LI>
 <LI>Navigate to the Apps.Admin directory in the Archive and drag the
 !PackMan application to your hard disc.</LI>
