@@ -12,7 +12,7 @@
 #include "tbx/view/textview.h"
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/hasbeenhiddenlistener.h"
-#include "tbx/Command.h"
+#include "tbx/command.h"
 #include <vector>
 #include <map>
 

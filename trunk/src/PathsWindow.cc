@@ -38,6 +38,7 @@
 #include "libpkg/source_table.h"
 #include <fstream>
 #include <swis.h>
+#include <cstdlib>
 
 PathsWindow::PathsWindow() : _window("Paths"),
     _open(this, &PathsWindow::open),

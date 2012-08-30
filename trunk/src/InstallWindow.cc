@@ -28,6 +28,7 @@
 
 #include "libpkg/filesystem.h"
 #include "tbx/hourglass.h"
+#include <cstdlib>
 
 InstallWindow::InstallWindow() : _saveas("InstPackApp")
 {

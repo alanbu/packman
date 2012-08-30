@@ -37,6 +37,7 @@
 #include "libpkg/pkgbase.h"
 
 #include <fstream>
+#include <cstdlib>
 
 AppsWindow::AppsWindow(tbx::Object obj) :
 	_window(obj),

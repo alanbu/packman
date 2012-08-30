@@ -30,7 +30,7 @@
 #include "FSObjectCopy.h"
 
 #include "libpkg/path_table.h"
-#include "tbx/Path.h"
+#include "tbx/path.h"
 
 #include <queue>
 #include <vector>
