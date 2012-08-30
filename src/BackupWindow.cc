@@ -31,7 +31,7 @@
 #include "tbx/messagewindow.h"
 #include "tbx/questionwindow.h"
 #include "tbx/fileraction.h"
-#include "tbx/Hourglass.h"
+#include "tbx/hourglass.h"
 
 #include <cstdlib>
 #include <stack>

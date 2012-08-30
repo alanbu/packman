@@ -27,7 +27,7 @@
 #ifndef PACKAGELOADER_H_
 #define PACKAGELOADER_H_
 
-#include "tbx/Loader.h"
+#include "tbx/loader.h"
 #include "libpkg/binary_control.h"
 
 /**

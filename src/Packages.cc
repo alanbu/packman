@@ -30,6 +30,7 @@
 #include "libpkg/filesystem.h"
 #include <string>
 #include <set>
+#include <cstdlib>
 
 #include "swis.h"
 #include "tbx/swixcheck.h"

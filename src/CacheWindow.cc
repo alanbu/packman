@@ -12,7 +12,7 @@
 #include "tbx/path.h"
 #include "tbx/stringutils.h"
 #include "tbx/displayfield.h"
-#include "tbx/ActionButton.h"
+#include "tbx/actionbutton.h"
 #include "libpkg/version.h"
 
 #include <algorithm>
