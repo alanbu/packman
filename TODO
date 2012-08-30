@@ -20,5 +20,6 @@ Automatic - run update lists - ask if you want to upgrade and optionally exit (f
 Prompt to backup old software that's in the way. Martin Wuerthner martin@mw-software.com; 
 Add option to check, repair or re-install packages (Jess Hampshire)
 Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
-
+Theo Markettos - have PackMan say "your package list is XX days old, would you like to update?"
+Show new packages
 
