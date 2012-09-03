@@ -43,6 +43,7 @@ PackageMenu::PackageMenu(tbx::Object object) :
 	_installed_items[2] = _menu.item(5); // copyright
 
 	_menu.add_about_to_be_shown_listener(this);
+	_menu.add_object_deleted_listener(new tbx::ObjectDeleteClass<PackageMenu>(this));
 }
 
 PackageMenu::~PackageMenu()
