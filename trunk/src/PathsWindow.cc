@@ -29,6 +29,7 @@
 #include "MovePathWindow.h"
 #include "PackManState.h"
 
+#include "tbx/application.h"
 #include "tbx/path.h"
 #include "tbx/deleteonhidden.h"
 #include "tbx/reporterror.h"
@@ -162,8 +163,12 @@ void PathsWindow::open()
 	{
 		std::string cmd("Filer_OpenDir ");
 		cmd += path;
-		if (system(cmd.c_str()) != 0)
+		try
 		{
+		    tbx::app()->os_cli(cmd);
+		} catch(...)
+		{
+            // Shouldn't normally get here as filer reports the error
 			tbx::report_error("Unable to open path " + path);
 		}
 	}

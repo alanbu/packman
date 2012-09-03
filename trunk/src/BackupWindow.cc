@@ -32,6 +32,7 @@
 #include "tbx/questionwindow.h"
 #include "tbx/fileraction.h"
 #include "tbx/hourglass.h"
+#include "tbx/application.h"
 
 #include <cstdlib>
 #include <stack>
@@ -51,8 +52,14 @@ inline bool filer_opendir(const tbx::Path &dir_path)
 	{
 		std::string cmd("Filer_OpenDir ");
 		cmd += dir_path.parent().name();
-		int unused = std::system(cmd.c_str());
-		(void)unused; // System gives us nothing useful
+		try
+		{
+		   tbx::app()->os_cli(cmd);
+		} catch(...)
+		{
+		   // Filer reports if the file is missing and no
+		   // error is returned.
+		}
 		return true;
 	} else
 	{

@@ -25,6 +25,8 @@ of the files it would install already exist on the disk</li>
    </ul>
  </li>
  <li>Fixed bug where installing an app, closing the main window, then doing update lists from the iconbar menu showed a blank main window. The cause of bug also meant there would have been a minor memory leak each time a main window was closed.</li>
+ <li>Reduced memory usage for application view/help/run and other similar options.
+ This also prevents a crash that was appearing on RISC OS 5</li>
 </UL>
 </LI>
 
