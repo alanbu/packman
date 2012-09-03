@@ -32,6 +32,9 @@
 #include "tbx/deleteonhidden.h"
 #include "tbx/sprite.h"
 #include "tbx/path.h"
+#include "tbx/application.h"
+#include "tbx/messagewindow.h"
+#include "tbx/oserror.h"
 
 #include "libpkg/binary_control.h"
 #include "libpkg/pkgbase.h"
@@ -247,8 +250,13 @@ void AppsWindow::app_boot()
 		std::string cmd("Filer_Run ");
 		cmd += _apps[*i].full_path();
 		cmd += ".!Boot";
-		int result = system(cmd.c_str());
-		(void)result; // No useful return code
+		try
+		{
+		   tbx::app()->os_cli(cmd);
+		} catch (tbx::OsError &err)
+		{
+		   tbx::show_message("Unable to run !Boot for the application");
+		}
 	}
 }
 
@@ -263,8 +271,13 @@ void AppsWindow::app_run()
 		std::string cmd("Filer_Run ");
 		cmd += _apps[*i].full_path();
 		cmd += ".!Run";
-		int result = system(cmd.c_str());
-		(void)result; // No useful return code
+		try
+		{
+		   tbx::app()->os_cli(cmd);
+		} catch (tbx::OsError &err)
+		{
+		   tbx::show_message("Unable to run the application");
+		}
 	}
 }
 /**
@@ -278,8 +291,13 @@ void AppsWindow::app_help()
 		std::string cmd("Filer_Run ");
 		cmd += _apps[*i].full_path();
 		cmd += ".!Help";
-		int result = system(cmd.c_str());
-		(void)result; // No useful return code
+		try
+		{
+		   tbx::app()->os_cli(cmd);
+		} catch (tbx::OsError &err)
+		{
+		   tbx::show_message("Unable to run the !Help file for the application");
+		}
 	}
 }
 /**
@@ -293,8 +311,13 @@ void AppsWindow::app_view()
 		tbx::Path path(_apps[*i].full_path());
 		std::string cmd("Filer_OpenDir ");
 		cmd += path.parent().name();
-		int result = system(cmd.c_str());
-		(void)result; // No useful return code
+		try
+		{
+		   tbx::app()->os_cli(cmd);
+		} catch(tbx::OsError &err)
+		{
+		   tbx::show_message("Unable to open parent directory");
+		}
 	}
 }
 

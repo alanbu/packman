@@ -28,6 +28,7 @@
 
 #include "libpkg/filesystem.h"
 #include "tbx/hourglass.h"
+#include "tbx/application.h"
 #include <cstdlib>
 
 InstallWindow::InstallWindow() : _saveas("InstPackApp")
@@ -62,7 +63,13 @@ void InstallWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std:
 
 	pkg::copy_object("<PackMan$Dir>.Resources.!Packages", filename);
 	std::string cmd=std::string("Filer_Run ")+filename;
-	system(cmd.c_str());
+	try
+	{
+	    tbx::app()->os_cli(cmd);
+	} catch(...)
+	{
+	   // Shouldn't get here
+	}
 
 	_saveas.file_save_completed(true, filename);
 }
