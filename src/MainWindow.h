@@ -51,8 +51,7 @@ class PackageFilter;
 class MainWindow :
 	tbx::TextChangedListener,
 	pkg::table::watcher,
-	tbx::view::SelectionListener,
-	tbx::DeleteObjectOnHidden
+	tbx::view::SelectionListener
 {
 	tbx::Window _window;
 	tbx::ToolAction _install_button;

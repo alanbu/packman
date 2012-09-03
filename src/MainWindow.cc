@@ -31,6 +31,8 @@
 
 #include "tbx/application.h"
 #include "tbx/stringset.h"
+#include "tbx/deleteonhidden.h"
+#include "tbx/objectdelete.h"
 
 #include <sstream>
 #include "libpkg/pkgbase.h"
@@ -89,8 +91,9 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 
    _window.client_handle(this);
 
-   // Set up so hide window deletes this class
-   _window.add_has_been_hidden_listener(this);
+   // Set up so hide window deletes the object class and then this class
+   _window.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+   _window.add_object_deleted_listener(new tbx::ObjectDeleteClass<MainWindow>(this));
 }
 
 MainWindow::~MainWindow()
