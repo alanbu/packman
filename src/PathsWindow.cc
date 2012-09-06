@@ -99,6 +99,8 @@ void PathsWindow::handle_change(pkg::table& t)
 void PathsWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &event)
 {
 	bool fade = (event.index() == -1);
+	// Adjust click removes the selection on some versions of RISC OS.
+	if (!fade && event.adjust() && _paths.first_selected() == -1) fade = true;
 	_open_button.fade(fade);
 	if (fade) _move_button.fade(fade);
 	else
