@@ -78,8 +78,10 @@ void AppMoveTo::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::str
 	} else if (pmstate()->ok_to_move())
 	{
 		tbx::Path dst(filename);
-
-		if (dst.exists())
+		if (dst.leaf_name() != _source_path.leaf_name())
+		{
+		   tbx::show_message("Destination leaf name must be the same as the application");
+		} else if (dst.exists())
 		{
 			// Create and show a window to prompt for overwrite then
 			// do the move.
