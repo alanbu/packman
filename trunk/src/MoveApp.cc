@@ -34,7 +34,7 @@ const int VARS_COST   = 100000;
 
 MoveApp::MoveApp(const std::string &logical_path, const std::string &app_path, const std::string &to_path) :
   _logical_path(logical_path),
-  _copy_handler(app_path, to_path),
+  _copy_handler(app_path, tbx::Path(to_path).parent()),
   _backup_handler(0),
   _state(START),
   _error(NO_ERROR),
