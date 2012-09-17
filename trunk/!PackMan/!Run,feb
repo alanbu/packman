@@ -23,5 +23,5 @@ Set PackMan$Dir <Obey$Dir>
 IconSprites <Obey$Dir>.!Sprites
 If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprites
 
-WimpSlot -min 2304k -max 2304k
+WimpSlot -min 2720k -max 2720k
 /<PackMan$Dir>.!RunImage %*0
