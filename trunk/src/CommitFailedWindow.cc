@@ -30,6 +30,7 @@
 
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
+#include "tbx/button.h"
 #include "tbx/deleteonhidden.h"
 
 // libpkg commit.h doesn't currently define set and map and puts string
@@ -46,11 +47,11 @@ CommitFailedWindow::CommitFailedWindow(pkg::commit *commit, std::string last_act
 {
 	tbx::Window window("CommitFail");
 	tbx::DisplayField when(window.gadget(0));
-	tbx::DisplayField msg(window.gadget(1));
-	msg.text(commit->message());
+	tbx::Button msg(window.gadget(1));
+	msg.value(commit->message());
 	when.text("Failed to install/remove package when " + last_action);
 
-	// Dump class and object when window is higgen
+	// Dump class and object when window is hidden
 	window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<CommitFailedWindow>(this));
 	window.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 }
