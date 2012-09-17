@@ -88,9 +88,13 @@ void MoveApp::poll()
 		if (_backup_handler)
 		{
 			tbx::Path backup_dir(_backup_handler->target_dir());
-			if (backup_dir.create_directory())
+			try
 			{
-				_state = BACKUP_FILES;
+			   backup_dir.create_directory();
+			   _state = BACKUP_FILES;
+			} catch(...)
+			{
+			   // Ignore error for now
 			}
 		}
 		if (_state != BACKUP_FILES)

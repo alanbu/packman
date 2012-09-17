@@ -20,9 +20,10 @@
 
 #include "FSObjectCopy.h"
 #include "tbx/hourglass.h"
+#include "tbx/oserror.h"
 
-// #include <iostream>
-// #define FSO_LOG_ACTION(act, obj) std::cout << act << ":" << obj << std::endl;
+//#include <iostream>
+//#define FSO_LOG_ACTION(act, obj) std::cout << act << ":" << obj << std::endl;
 #define FSO_LOG_ACTION(act, obj)
 
 /** The cost of one file operation.
@@ -58,9 +59,15 @@ FSObjectCopy::FSObjectCopy(const std::string &source, const std::string &target)
    _dir_done(0),
    _del_done(0),
    _unwind_done(0),
-   _allow_dir_delete_failure(false)
+   _allow_dir_delete_failure(false),
+   _image_dirs(0)
 {
 	_source_dir = _source.parent();
+}
+
+FSObjectCopy::~FSObjectCopy()
+{
+  delete _image_dirs;
 }
 
 /**
@@ -79,6 +86,11 @@ void FSObjectCopy::add_child_file(const std::string &child_name)
 		last_dir = _source.leaf_name();
 		_to_copy.push(last_dir);
 		_dir_total++;
+		if (_source.image_file())
+		{
+		   _image_dirs = new std::set<std::string>();
+		   _image_dirs->insert(last_dir);
+		}
 	} else
 	{
 		std::string last_name = _to_copy.back();
@@ -103,8 +115,15 @@ void FSObjectCopy::add_child_file(const std::string &child_name)
 
 		while ((dir_pos = rel_name.find('.', dir_pos+1)) != std::string::npos)
 		{
-			_to_copy.push(rel_name.substr(0, dir_pos));
+		    std::string dir_name = rel_name.substr(0, dir_pos);
+
+			_to_copy.push(dir_name);
 			_dir_total++;
+			if (tbx::Path(_source_dir, dir_name).image_file())
+			{
+			   if (_image_dirs == 0) _image_dirs = new std::set<std::string>();
+			   _image_dirs->insert(dir_name);
+			}
 		}
 	}
 
@@ -356,18 +375,36 @@ bool FSObjectCopy::copy_object(const std::string &name)
 
 	FSO_LOG_ACTION("copy_object", name);
 
-	if (info.directory())
+    bool is_dir = info.directory();
+
+    if (_image_dirs && info.image_file())
+    {
+       if (_image_dirs->find(name) != _image_dirs->end()) is_dir = true;
+    }
+
+	if (is_dir)
 	{
-		if (target.create_directory())
-		{
+	    try
+	    {
+		    target.create_directory();
 			_dir_done++;
 			return true;
+		} catch(tbx::OsError &e)
+		{
+		   _error_msg = "Unable to create directory " + name + "\n" + e.what();
 		}
-	} else if (source.copy(target))
+	} else
 	{
-		_byte_done += info.length();
-		_file_done++;
-		return true;
+	    try
+	    {
+	       source.copy(target);
+		   _byte_done += info.length();
+		   _file_done++;
+		   return true;
+		} catch(tbx::OsError &e)
+		{
+		   _error_msg = "Unable to copy file " + name + "\n" + e.what();
+	    }
 	}
 
 	return false;
@@ -391,14 +428,25 @@ bool FSObjectCopy::copy_object_back(const std::string &name)
 
 	if (info.directory())
 	{
-		if (source.create_directory())
-		{
+	    try
+	    {
+		    source.create_directory();
 			return true;
+		} catch(...)
+		{
+		   // Ignore error
 		}
-	} else if (target.copy(source))
+	} else
 	{
-		_unwind_done++;
-		return true;
+	    try
+	    {
+	       target.copy(source);
+		   _unwind_done++;
+		   return true;
+		} catch(...)
+		{
+		   // Ignore error
+		}
 	}
 
 	return false;
@@ -417,9 +465,16 @@ bool FSObjectCopy::delete_target_object(const std::string &name)
 
 	FSO_LOG_ACTION("delete_target_object", name);
 
-	bool success = del_obj.remove();
+    bool success = false;
 
-	if (!success && _allow_dir_delete_failure && del_obj.directory()) success = true;
+    try
+    {
+	   del_obj.remove();
+	   success = true;
+	} catch(...)
+	{
+	   if (_allow_dir_delete_failure && del_obj.directory()) success = true;
+	}
 	return success;
 }
 
@@ -435,9 +490,20 @@ bool FSObjectCopy::delete_source_object(const std::string &name)
 
 	FSO_LOG_ACTION("delete_source_object", name);
 
-	bool success = del_obj.remove();
-
-	if (!success && _allow_dir_delete_failure && del_obj.directory()) success = true;
+	bool success = false;
+	try
+	{
+		// Extra checks to ensure installing inside and image file systems
+		// doesn't delete the image file itself
+		if (_image_dirs == 0 || !del_obj.image_file() || _image_dirs->find(name) == _image_dirs->end())
+		{
+			del_obj.remove();
+		}
+	   success = true;
+	} catch(...)
+	{
+  	   if (_allow_dir_delete_failure && del_obj.directory()) success = true;
+  	}
 	return success;
 }
 

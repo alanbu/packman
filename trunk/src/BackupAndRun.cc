@@ -28,7 +28,9 @@
 #include "BackupManager.h"
 #include "tbx/application.h"
 #include "tbx/messagewindow.h"
+#include "tbx/oserror.h"
 #include <cassert>
+
 
 // Number of times to poll FSCopy from one WIMP poll when running faster
 const int FASTER_LOOP_COUNT = 20;
@@ -215,7 +217,14 @@ bool BackupAndRun::process()
 			{
 				FSObjectCopy *backup = *i;
 				tbx::Path backup_dir(backup->target_dir());
-				if (!backup_dir.create_directory()) _state = FAILED;
+				try
+				{
+				   backup_dir.create_directory();
+				} catch(tbx::OsError &e)
+				{
+				   _state = FAILED;
+				   _errmsg = e.what();
+				}
 				if (backup->total_cost() == 0) backup->poll(); // creates the list of files
 				_cost_total += backup->total_cost();
 			}
@@ -270,6 +279,7 @@ bool BackupAndRun::process()
 					{
 						_can_cancel = false;
 						_error = BACKUP_FAILED;
+						_errmsg = backup->error_msg();
 						_state = UNWIND_BACKUP;
 						backup->start_unwind_move();
 					} else
@@ -337,6 +347,7 @@ bool BackupAndRun::process()
 			case BACKUP_FAILED: break; // Backup failed
 			case BACKUP_AND_UNWIND_FAILED: msg += " and the unwind of the backup also failed"; break;
 			}
+			if (_error != NO_ERROR && !_errmsg.empty()) msg += "\n\n" + _errmsg;
 			_cost_done = 0;
 			_progress.value(0);
 			close();
