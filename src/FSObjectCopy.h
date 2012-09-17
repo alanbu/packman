@@ -24,6 +24,7 @@
 #include <string>
 #include <queue>
 #include <stack>
+#include <set>
 
 #include "tbx/path.h"
 
@@ -69,9 +70,12 @@ private:
     int _del_done;
     int _unwind_done;
     bool _allow_dir_delete_failure;
+    std::set<std::string> *_image_dirs;
+    std::string _error_msg;
 
 public:
 	FSObjectCopy(const std::string &source, const std::string &target);
+	~FSObjectCopy();
 
 	void add_child_file(const std::string &child_name);
 
@@ -92,6 +96,7 @@ public:
 	State state() {return _state;}
 	Error error() {return _error;}
 	Warning warning() {return _warning;}
+	const std::string &error_msg() const {return _error_msg;}
 
 	long long byte_total() {return _byte_total;}
 	int file_total() {return _file_total;}

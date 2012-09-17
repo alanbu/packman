@@ -56,11 +56,15 @@ inline void create_file_stub(const tbx::Path &source_path, const tbx::Path &path
  */
 inline void create_app_stub(const tbx::Path &source_path, const tbx::Path &target_path)
 {
-	if (target_path.create_directory())
-	{
+    try
+    {
+	    target_path.create_directory();
 		create_file_stub(source_path, target_path, "!Boot");
 		create_file_stub(source_path, target_path, "!Run");
 		create_file_stub(source_path, target_path, "!Help");
+	} catch(...)
+	{
+	    // Ignore errors
 	}
 }
 

@@ -66,6 +66,7 @@ class BackupAndRun : public tbx::Command
 
 	enum Error {NO_ERROR, BACKUP_FAILED, BACKUP_AND_UNWIND_FAILED};
 	Error _error;
+	std::string _errmsg;
 
 	long long _cost_to_backup;
 	long long _cost_done;

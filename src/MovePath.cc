@@ -175,27 +175,25 @@ void MovePath::poll()
 					{
 						_error = CREATE_DIR_FAILED;
 					}
-				} else if (source.copy(target))
-				{
-					_cost_done += FILEOP_COST + info.length();
-				}
-				else
-				{
-					_error = COPY_FAILED;
-				}
-				if (_error == 0)
-				{
-					_files_copied.push(files);
-					_file_list.pop();
-
-					if (_cost_total)
-					{
-						_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST
-								+ (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
-					}
 				} else
 				{
-					start_unwind_copy();
+				    try
+				    {
+				        source.copy(target);
+					    _cost_done += FILEOP_COST + info.length();
+    					_files_copied.push(files);
+    					_file_list.pop();
+
+    					if (_cost_total)
+    					{
+    						_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST
+    								+ (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
+    				    }
+    				} catch(...)
+    				{
+					    _error = COPY_FAILED;
+					    start_unwind_copy();
+					}
 				}
 			}
 		}
@@ -278,9 +276,15 @@ void MovePath::poll()
 				{
 					target.remove();
 				}
-			} else if (!target.remove())
+			} else
 			{
-				if (_warning == NO_WARNING) _warning = UNWIND_COPY_FAILED;
+			   try
+			   {
+			       target.remove();
+			   } catch(...)
+			   {
+				   if (_warning == NO_WARNING) _warning = UNWIND_COPY_FAILED;
+			   }
 			}
 			_files_copied.pop();
 			_cost_done -= _cost_one_item;
@@ -484,10 +488,13 @@ bool MovePath::create_dir(tbx::Path dir)
 	tbx::Path parent(dir.parent());
 	if (create_dir(parent))
 	{
-		if (dir.create_directory())
+	    try
+	    {
+		   dir.create_directory();
+		   _dirs_created.insert(dir);
+		   return true;
+		} catch(...)
 		{
-			_dirs_created.insert(dir);
-			return true;
 		}
 	}
 

@@ -152,10 +152,14 @@ void SourcesWindow::remove()
 void SourcesWindow::save()
 {
 	tbx::Path choices_dir("<Choices$Write>.PackMan");
-	if (!choices_dir.create_directory())
+	try
+	{
+	   choices_dir.create_directory();
+	} catch(...)
 	{
 		new ErrorWindow("Unable to create ", choices_dir, "Sources save failure");
-	} else
+		return;
+	}
 	{
 		tbx::Path sources_path = choices_dir.child("Sources");
 
