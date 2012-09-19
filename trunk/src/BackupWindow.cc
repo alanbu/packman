@@ -323,8 +323,9 @@ void BackupWindow::restore_backup()
  */
 bool BackupWindow::check_exists(const tbx::Path &restore_to, const tbx::Path &restore_from)
 {
-	if (!restore_to.exists()) return false;
-	if (!restore_to.directory()) return true;
+	tbx::PathInfo info;
+	if (!restore_to.path_info(info)) return false;
+	if (!info.directory() && !info.image_file()) return true;
 	tbx::Hourglass hg;
 	std::stack< std::pair<tbx::Path, tbx::Path> > dirs;
 	dirs.push(std::make_pair(restore_from, restore_to));
