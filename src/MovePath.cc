@@ -171,6 +171,8 @@ void MovePath::poll()
 					if (create_dir(target))
 					{
 						_cost_done += FILEOP_COST;
+    					_files_copied.push(files);
+    					_file_list.pop();
 					} else
 					{
 						_error = CREATE_DIR_FAILED;
