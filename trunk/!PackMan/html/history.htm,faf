@@ -22,6 +22,8 @@ of the files it would install already exist on the disk</li>
      <li>Use common Paths file (will be shared with the next release of RiscPkg)</li>
      <li>Ensures Paths files contains values for all standard paths</li>
      <li>Fixed bug where it would get into a loop showing a message when updating sprites if the file containing the sprites no longer exists</li>
+     <li>Improved RaspberryPi support by Theo Markettos</li>
+     <li>Improved error messages by Theo Markettos</li>
    </ul>
  </li>
  <li>Fixed bug where installing an app, closing the main window, then doing update lists from the iconbar menu showed a blank main window. The cause of bug also meant there would have been a minor memory leak each time a main window was closed.</li>
@@ -30,6 +32,7 @@ of the files it would install already exist on the disk</li>
  <li>Paths Window Open button fading fixed at startup and when using adjust</li>
 </UL>
 </LI>
+
 
 <LI><B>0.6 Beta - October 2011</B>
 <UL>
