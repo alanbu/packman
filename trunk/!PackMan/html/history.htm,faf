@@ -30,6 +30,7 @@ of the files it would install already exist on the disk</li>
  <li>Reduced memory usage for application view/help/run and other similar options.
  This also prevents a crash on RISC OS 5</li>
  <li>Paths Window Open button fading fixed at startup and when using adjust</li>
+ <li>New icons from Richard Hallas</li>
 </UL>
 </LI>
 
