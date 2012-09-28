@@ -7,8 +7,9 @@
 <H2>Acknowledgements</H2>
 <P>Thanks to Graham Shaw for creating the packaging system
 and libraries used to manipulate it.
-See the <A HREF="http://www.riscpkg.org">RISC OS Packaging Project</A>.
-</P>
+See the <A HREF="http://www.riscpkg.org">RISC OS Packaging Project</A>.</P>
+<p>Improved Raspberry Pi support/testing from Theo Markettos.</p>
+<p>Icons provided by Richard Hallas.</p>
 <P>Thanks also the the GCCSDK developers for the GCC4 compiler.
 See <A HREF="http://www.riscos.info/index.php/GCC">GCC for RISC OS</A>
 </P>
