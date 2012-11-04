@@ -28,12 +28,24 @@ From here you can also view, delete or restore a backup.
 It also includes a few other minor bug fixes, the full list of changes
 can be seen on the history page in the documentation.
 
+This release is functionally the same as the RaspberryPi version of
+PackMan provided on the ROOL SD card, but uses just the standard
+riscpkg source for list and doesn not include the the RaspberryPi
+specific paths.
+
 If you already have a previous version of !PackMan or !RiscPkg
 installed you can install it or upgrade it from either of
 these programs.
 
 Otherwise go to http://alanb.drobe.co.uk/packman.htm for
 download and installation instructions.
+
+As I can no longer update my drobe page to manually install
+you must either download the version from there and upgrade
+it or follow the other steps but use the following to
+retrieve the latest PackMan.
+http://www.riscpkg.org/arm/PackMan/PackMan_0.7-3
+
 
 PackMan is a package manager front end for packages distributed
 using the RISC OS Packaging Project (see http://www.riscpkg.org).
