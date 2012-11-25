@@ -9,6 +9,10 @@ had more to do.
 See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
 Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
 
+Move Application/Path fails when files in moved application is locked.
+ When moved for applications window it works correctly, but can't delete the original so complains and leaves the original files there.
+ When moving the Path of the application it keeps showing an uncaught exception specifying the file was locked.
+
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
