@@ -1,0 +1,30 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Cache</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Cache Window</H2>
+
+<P>The Cache Window allows you to clear the cache of downloaded
+packages.</P>
+<p>The packaging system downloads the packages to a cache before unpacking and
+   installing them. Once installed the packages are left in the cache so they
+   may be reinstalled at any time without having to download them again.</p>
+<p>The cache is stored in the !Packages application you created when you first
+installed the packaging system. If you are short of disc space on this drive
+or are happy to download the package files again you can use this window to
+clear all or just old versions from the cache.</p>
+<p>The cache should not be modified when an install or remove is in progress.
+If one has been started in !PackMan the buttons will be disabled when you
+show this window. If this is the case you will need to reshow the window at
+a later time to re-enable the buttons.</p>
+<p>The window provides the following buttons</p>
+<UL>
+<LI>Clear All - Delete all downloaded packages from the cache</LI>
+<LI>Clear Old Versions - Delete downloaded packages from the cache where
+ a newer version of the package exists in the cache.</LI>
+<LI>Close - Close the dialogue. Clicking outside of the Window will also close it.</LI>
+</UL>
+</BODY>
+</HTML>

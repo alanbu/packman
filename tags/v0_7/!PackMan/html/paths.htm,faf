@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Paths</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Paths where packages are installed</H2>
+
+<p>This Window shows the paths where packages are installed by PackMan.</p>
+<p>Each entry shows the Logical name of the path used in the package
+along with the location on disc it is mapped to.</p>
+<p>The <b>Show Definitions</b> option button toggles the display between
+showing the path used and the definition of the path in the <code>Paths</code> file.</p>
+<p>The <b>Open</b> button will open a filer window for the currently
+selected path. If the path contains the special "@" character it is not
+possible to open the path in this way so a message will be shown instead.</p>
+
+<p>The <b>Move</b> button allows you to move the logical path to refer to
+a new location. It only allows this if the current location is not part of
+the !Boot structure.</p>
+<p>When "Move" is selected it shows a window that allows you to specify the
+new location of the path by dragging the folder icon. Once dragged the
+<a href="movepathwnd.htm">Move Path Window</a> will be shown and any
+files installed in the old path will be moved to the new path.
+A check will be made that no files will be overwritten is done as part
+of this process.</p>
+
+<h2>Changing the paths manually</h2>
+
+<p>The installation paths should normally be changes through the PackMan
+user interface, but if you want to do it manually use the following instructions.
+This is not recommended for anything but the <code>Apps</code>
+and <code>Manuals</code> paths.</p>
+
+<p>The file <code>!Boot.Resources.!Packages.Paths</code> contains a list of mappings
+from logical to physical pathnames.  Logical pathnames are those used within
+the package file.  For example, <code>System.310.Modules.CLib</code> refers
+to a location within the active <code>!System</code> folder without making
+any assumption as to the physical location of that folder.</p>
+<p>Each line of the <code>paths</code> file consists of a logical pathname,
+followed by an equals-sign, followed by a physical pathname.
+These components must be separated by whitespace.  For example:</p>
+<p><code>RiscPkg = &lt;Packages$Dir&gt;.Info.@<br>
+Apps = &lt;Boot$Dir&gt;.^.Apps<br>
+System = &lt;System$Dir&gt;<br>
+SysVars = &lt;Packages$Dir&gt;.SysVars<br></code></p>
+<p>Comments are introduced by a hash character.  Blank lines are ignored.
+Each logical and physical pathname acts as the root of a sub-tree and
+applies to any file within that sub-tree.  If two or more logical pathnames
+match then the longest one is used.  An at-sign is converted into the name
+of the package to which the file belongs, so the file
+<code>RiscPkg.Control</code> from the package <code>Foo</code> would
+become <code>&lt;Packages$Dir&gt;.Info.Foo.Control</code>.</p>
+<p>In principle you are free to choose any mappings you wish and the package
+manager will act accordingly.  In practice, the scope for doing so is fairly
+limited if you want installed packages to work afterwards.  The best way to
+ensure correct behaviour is to refer to locations indirectly using system
+variables.  For example, the mapping given above for <code>System</code>
+will work even if the system folder moves.</p>
+<p>One path that is freely changable is <code>Apps</code>.  This is where
+applications are installed, and there is no requirement for them to be
+placed in any particular location.  However the location you choose should
+not be used for any other purpose: if you want to mix applications and user
+data in the same directory then create symbolic links to the applications.
+</p>
+<p>If you supply a <code>Paths</code> file then it takes precedence over
+the default but does not necessarily replace it.  Any paths that you do
+not specify will continue to use the default mapping.</p>
+<p>Be aware that if you change the <code>Paths</code> file while there are
+packages installed, you must make corresponding changes to the physical
+filesystem (otherwise <code>PackMan</code> will not be able to perform
+upgrades correctly). If you use the PackMan "Move" button above it
+will update the filesystem for you.</p>
+
+<p><b>Warning:</b>Older versions of !PackMan (0.6 and earlier) 
+and !RiscPkg (0.4.0 and earlier) had their own choices folder
+with their own copies of the <code>Paths</code> file. You should
+upgrade both programs so they share a common paths file.</p>
+
+</BODY>
+</HTML>

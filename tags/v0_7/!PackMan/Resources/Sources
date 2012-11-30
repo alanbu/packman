@@ -1,0 +1,4 @@
+# This would not normally be the best distribution for new users, but at
+# the time of writing it is the only one available.
+
+pkg http://www.riscpkg.org/pkg/Unstable

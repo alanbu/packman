@@ -1,0 +1,29 @@
+Use new LibPKG paths interface when it's released by Graham
+Cancel processing during install/remove
+Ensure panes are always at least as wide as the main window
+Make it easier to see/install recommendations and suggestions
+Sources window should not allow a second Update Lists window
+to be run.
+Check progress bar in update lists. Was 100% when it still
+had more to do.
+See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
+Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
+
+Move Application/Path fails when files in moved application is locked.
+ When moved for applications window it works correctly, but can't delete the original so complains and leaves the original files there.
+ When moving the Path of the application it keeps showing an uncaught exception specifying the file was locked.
+
+
+Possible future changes (i.e. under consideration)
+--------------------------------------------------
+
+Adjust on install does an immediate install (from Jess Hampshire)
+Enable/Disable an individual source- workarond for timeout
+Download other list on timeout (from Grahame Parish)
+  - I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal.
+Automatic - run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
+Add option to check, repair or re-install packages (Jess Hampshire)
+Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
+Theo Markettos - have PackMan say "your package list is XX days old, would you like to update?"
+Show new packages
+
