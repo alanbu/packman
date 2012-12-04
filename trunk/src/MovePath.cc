@@ -28,6 +28,7 @@
 #include "Packages.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/sysvars.h"
+#include "tbx/oserror.h"
 #include <fstream>
 #include <set>
 #include <utility>
@@ -250,7 +251,13 @@ void MovePath::poll()
 			tbx::Path source(files.first);
 
 			// Safe to just call remove as it will not delete non-empty dirs
-			source.remove();
+			try
+			{
+			    source.remove();
+			} catch(tbx::OsError &oe)
+			{
+			    if (_warning == NO_WARNING) _warning = DELETE_FAILED;
+			}
 			_files_copied.pop();
 
 			_cost_done += FILEOP_COST;

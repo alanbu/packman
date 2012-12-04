@@ -7,6 +7,12 @@
 <h2>History</h2>
 <UL>
 
+<LI><B>0.7.x Beta - ???</LI>
+<UL>
+  <li>Fixed problem where moving a path that contained file(s) that were locked
+      would show an exception dialog. It now correctly displays a warning after
+      the move has completed</li>
+</UL>
 <LI><B>0.7 Beta - September 2012</B>
 <UL>
  <li>Changed history to put newest version at the top</li>
