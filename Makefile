@@ -19,7 +19,7 @@ CXX=g++
 CXXFLAGS = -O2 -Wall -mpoke-function-name -mthrowback -ITBX: -ILibPKG: -ILibCurl:
 
 LD = g++
-LDFLAGS = -LTBX: -ltbx -LLibPkg: -lpkg -LRTK: -lrtk -LLibCurl: -lcurl -LZLib: -lz -lstdc++ -static
+LDFLAGS = -LTBX: -ltbx -LLibPkg: -lpkg -LLibCurl: -lcurl -LZLib: -lz -lstdc++ -static
 
 ifeq ($(HOST),riscos)
   TARGET=!PackMan.!RunImage
