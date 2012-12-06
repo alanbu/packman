@@ -253,6 +253,8 @@ void MovePath::poll()
 			// Safe to just call remove as it will not delete non-empty dirs
 			try
 			{
+			    // Ensure unlocked so we can delete it
+			    source.attributes(tbx::PathInfo::OWNER_READ | tbx::PathInfo::OWNER_WRITE | tbx::PathInfo::OTHER_READ | tbx::PathInfo::OTHER_WRITE);
 			    source.remove();
 			} catch(tbx::OsError &oe)
 			{

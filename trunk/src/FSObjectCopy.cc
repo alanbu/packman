@@ -469,6 +469,8 @@ bool FSObjectCopy::delete_target_object(const std::string &name)
 
     try
     {
+	   // Ensure unlocked so we can delete it
+       del_obj.attributes(tbx::PathInfo::OWNER_READ | tbx::PathInfo::OWNER_WRITE | tbx::PathInfo::OTHER_READ | tbx::PathInfo::OTHER_WRITE);
 	   del_obj.remove();
 	   success = true;
 	} catch(...)
@@ -497,6 +499,8 @@ bool FSObjectCopy::delete_source_object(const std::string &name)
 		// doesn't delete the image file itself
 		if (_image_dirs == 0 || !del_obj.image_file() || _image_dirs->find(name) == _image_dirs->end())
 		{
+		   // Ensure unlocked so we can delete it
+           del_obj.attributes(tbx::PathInfo::OWNER_READ | tbx::PathInfo::OWNER_WRITE | tbx::PathInfo::OTHER_READ | tbx::PathInfo::OTHER_WRITE);
 			del_obj.remove();
 		}
 	   success = true;
