@@ -1,25 +1,96 @@
-Use new LibPKG paths interface when it's released by Graham
-Cancel processing during install/remove
-Ensure panes are always at least as wide as the main window
-Make it easier to see/install recommendations and suggestions
-Sources window should not allow a second Update Lists window
-to be run.
-Check progress bar in update lists. Was 100% when it still
-had more to do.
-See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
-Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
+Rough plan/ideas
+
+Once something is done it is moved to history.htm.
+
+Items marked LibPkg: will need work done in the LibPkg backend library
+as well.
+
+Version 0.7.x
+-------------
+
+- Single version for all RISC OS machines (standardise Raspberry Pi changes)
+- LibPkg: add new default paths (and remove a few not really needed)
+- LibPkg: Allow !Boot and !System as aliases for !Boot And !System
+- LibPkg: Implement code for TaskToBeLoaded/TaskToBeTasks
+- LibPkg: above will need an update to the standards version
+- LibPkg: Submit updates to Policy Manual
+- Sources window allow enable/disable so a full set of sources can be provided with just the main two enables
+- Default Sources for a new install change to armv5-programs and armv6-programs
+- Default Sources add disabled raspberry-pi specific, riscpkg Unstable and autobuilder. Check if netsurf builds still exists.
+- Sources window - add description/information for sources PackMan knows about
+- Verify All - add option to verify that the files for all installed programs exist - quick option to just check a few files rather than the whole package.
+
+Version 0.8
+-----------
+
+- Whats New filter (and button after update lists)
+- Verify individual packages
+- Ensure panes are always at least as wide as the main window
+- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
+- have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
+- LibPkg: logging (see below) - may only be a partial implementation for this release.
+- Options window to enable/control logging
+- See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
+
+For versions after 0.8
+----------------------
+
+- Finish off logging (if not done above)
+- Run scripts during install remove (see below)
+- Implement Hold functionality from LibPkg to stop a package being upgraded
+- Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
+- Make it easier to see/install recommendations and suggestions
+
+Things to check
+---------------
+
+- Sources window should not allow a second Update Lists window to be run.
+- Check progress bar in update lists. Was 100% when it still had more to do.
 
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
-Adjust on install does an immediate install (from Jess Hampshire)
-Enable/Disable an individual source- workarond for timeout
-Download other list on timeout (from Grahame Parish)
-  - I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal.
-Automatic - run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
-Add option to check, repair or re-install packages (Jess Hampshire)
-Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
-Theo Markettos - have PackMan say "your package list is XX days old, would you like to update?"
-Show new packages
+- Cancel processing during install/remove
+- Adjust on install does an immediate install (from Jess Hampshire)
+- Download other list on timeout (from Grahame Parish)
+  I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal (the New Sources list in 0.7.x should make enabling/disabling easier)
+- Automatic run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
+- Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
+- Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
+- Previous versions - theoretically LibPkg can handle this. I would have to make sure.
 
+Install/Remove scripts
+----------------------
+
+The idea here is to provide scripts that can be run during the installation/removal process when required. I still haven't managed to figure this out yet and where in the process they need to go, but they will need changes to the LibPkg backend.
+
+My current thoughts/things to sort out are:
+- Copied from debian installs there are four scripts that can be run prerm, postrm, preinst, postinst.
+- In LibPkg instead of scripts they can be any runnable filetype. This will allow BASIC to be used for instance.
+- LibPkg will probably need to ask the front end to run them and report when they are finished. My current thoughts are they should be run using Wimp StartTask in a taskwindow. Maybe LibPkg should fall back to system calls so it could theoretically be used in a command line utility.
+- Before each script a set of variable for the package will need to be defined. Things like LibPkg$Pkg$NewVersion, LibPkg$Pkg$Target1..N for the various directories. At the end the script would set LibPkg$Pkg$error if something went wrong. This still needs some thought.
+- Upgrade handling - this probably needs to call the old prerm and postrm, but the new preinst and postinst and probably needs parameters so the scripts can see it's an upgrade.
+- Failure handling - what get's called when unwinding.
+
+LibPkg logging
+--------------
+
+The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working. It could also be used as a history of whats done.
+
+The log will be written to <Packages$Dir>.Log
+
+A single flag will control if logging is no or off.
+
+Additional flags will control what is logged when logging is on
+- Errors in installation will always be logged.
+- Package - just log package installed/removed
+- Package details - log unpacking etc/steps
+- file processes - copying/deleting files etc.
+- file io - low level OS file call results.
+- lists - log whenever the lists are updated
+- list details - log download of each list
+
+Each log entry should have the time and date it was written.
+
+A new Window will be added to PackMan to allow logging options to be set, open and delete the log.
