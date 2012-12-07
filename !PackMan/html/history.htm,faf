@@ -14,6 +14,15 @@
       the move has completed</li>
   <li>Fixed problem where locked files would not be removed after moving a path
   or an application</li>
+  <li>Used lastest LibPkg which includes the following changes
+     <ul>
+     <li>Increased standards version to 0.3.0</li>
+     <li>Renamed !Boot path variable set up in PackMan 0.7 to just Boot</li>
+     <li>Allow !Boot and !System logical paths to be used in a package as aliases for the Boot and System logical paths</li>
+     <li>Calculate logical paths TaskToBeLoaded and TaskToBeTasks on next run of PackMan<li>
+     <li>Removed Utils, RO500Hook and Library paths as they can be replaced by Boot.Utils, Boot.Library and Boot.RO500Hook and had not been used</li>
+     </ul>
+  </li>
 </UL>
 <LI><B>0.7 Beta - September 2012</B>
 <UL>
