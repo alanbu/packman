@@ -135,5 +135,26 @@ public:
 	virtual void execute();
 };
 
+/**
+ * Run the verify all installed packages command
+ */
+class VerifyAllCommand : public tbx::Command
+{
+public:
+	virtual void execute();
+};
+
+/**
+ * Menu option for verify all command that prompts to
+ * run it first
+ */
+class VerifyAllAskCommand : public tbx::Command
+{
+	VerifyAllCommand _verify_all_command;
+public:
+	enum { COMMAND_ID = 9 };
+	virtual void execute();
+};
+
 
 #endif /* COMMANDS_H_ */

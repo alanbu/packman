@@ -36,6 +36,9 @@
 #include "PackManState.h"
 #include "UpgradeAllWindow.h"
 #include "tbx/deleteonhidden.h"
+#include "tbx/questionwindow.h"
+
+#include <string>
 
 /**
  * Run the install command
@@ -145,4 +148,28 @@ void ShowBackupWindowCommand::execute()
 	{
 		BackupWindow::show();
 	}
+}
+
+/**
+ * Verify all installed packages.
+ */
+void VerifyAllCommand::execute()
+{
+	//TODO: new VerifyAllWindow();
+}
+
+/**
+ * Display message to check it its OK to run the verify all process
+ * and run it if it is.
+ */
+void VerifyAllAskCommand::execute()
+{
+	std::string q("This option will verify that the files exist\n"
+			"for all your installed packages.\n"
+			"It does not check that the contents are correct.\n\n"
+			"If you install/upgrade/remove or move a package during\n"
+			"the process it may give a false result.\n\n"
+			"Do you wish to run the verify now?"
+			);
+	tbx::show_question_as_menu(q, "Verify All", &_verify_all_command);
 }

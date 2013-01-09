@@ -16,17 +16,17 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="packman" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.2000663255" name="Debug" parent="cdt.managedbuild.config.gnu.cygwin.exe.debug" postbuildStep="/home/riscos/cross/bin/elf2aif packman.exe &quot;/cygdrive/c/Misc/RPCEmu/HOSTFS/Dev/TbxDev/!PackMan/!RunImage,ff8&quot;">
+				<configuration artifactName="packman" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.2000663255" name="Debug" parent="cdt.managedbuild.config.gnu.cygwin.exe.debug" postannouncebuildStep="" postbuildStep="/home/riscos/cross/bin/elf2aif packman.exe &quot;/cygdrive/c/Misc/RPCEmu/HOSTFS/Dev/TbxDev/!PackMan/!RunImage,ff8&quot;" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.cygwin.exe.debug.2000663255." name="/" resourcePath="">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug.599941900" name="Cygwin GCC" superClass="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug">
-							<targetPlatform id="cdt.managedbuild.target.gnu.platform.cygwin.exe.debug.546479712" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.cygwin.exe.debug"/>
-							<builder buildPath="${workspace_loc:/packman/Debug}" id="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug.1161100692" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug">
+						<toolChain errorParsers="" id="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug.599941900" name="Cygwin GCC" superClass="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug">
+							<targetPlatform binaryParser="org.eclipse.cdt.core.Cygwin_PE" id="cdt.managedbuild.target.gnu.platform.cygwin.exe.debug.546479712" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.cygwin.exe.debug"/>
+							<builder buildPath="${workspace_loc:/packman/Debug}" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator" id="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug.1161100692" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
 								</outputEntries>
 							</builder>
-							<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug.2012171348" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug">
+							<tool command="as" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug.2012171348" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.380596531" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="C:/Misc/cygwin/home/riscos/cross/include/c++/4.1.1"/>
 									<listOptionValue builtIn="false" value="/home/riscos/env/include"/>
@@ -37,19 +37,20 @@
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1624601345" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.cygwin.base.1667395306" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.cygwin.base"/>
-							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-g++" id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1230327457" name="Cygwin C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug">
+							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1230327457" name="Cygwin C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug">
 								<option id="gnu.cpp.compiler.cygwin.exe.debug.option.optimization.level.1426920587" name="Optimization Level" superClass="gnu.cpp.compiler.cygwin.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.cygwin.exe.debug.option.debugging.level.650361269" name="Debug Level" superClass="gnu.cpp.compiler.cygwin.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.300932721" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="C:/Misc/cygwin/home/riscos/cross/include/c++/4.1.1"/>
+									<listOptionValue builtIn="false" value="\Misc/cygwin/home/riscos/cross/include/c++/4.1.2"/>
+									<listOptionValue builtIn="false" value="&quot;\Misc\cygwin\home\riscos\env\include&quot;"/>
 									<listOptionValue builtIn="false" value="/home/riscos/env/include"/>
-									<listOptionValue builtIn="false" value="C:/Misc/cygwin/home/riscos/cross/arm-unknown-riscos/include/libunixlib"/>
+									<listOptionValue builtIn="false" value="\Misc/cygwin/home/riscos/cross/arm-unknown-riscos/include/libunixlib"/>
 									<listOptionValue builtIn="false" value="/home/alanb/roworkspace/tbx"/>
-									<listOptionValue builtIn="false" value="C:/Misc/cygwin/home/alanb/roworkspace/tbx"/>
+									<listOptionValue builtIn="false" value="\Misc/cygwin/home/alanb/roworkspace/tbx"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin.1511291793" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin"/>
 							</tool>
-							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-gcc" id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.1023016656" name="Cygwin C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug">
+							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.1023016656" name="Cygwin C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.cygwin.exe.debug.option.optimization.level.25792717" name="Optimization Level" superClass="gnu.c.compiler.cygwin.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.cygwin.exe.debug.option.debugging.level.243926679" name="Debug Level" superClass="gnu.c.compiler.cygwin.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.1829670650" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
@@ -62,7 +63,7 @@
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin.896194415" superClass="cdt.managedbuild.tool.gnu.c.compiler.input.cygwin"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.837315582" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug"/>
-							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-g++" id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.682667682" name="Cygwin C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug">
+							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.682667682" name="Cygwin C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug">
 								<option id="gnu.cpp.link.option.paths.1264712537" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/home/alanb/roworkspace/tbx/Debug"/>
 									<listOptionValue builtIn="false" value="/home/riscos/env/lib"/>
@@ -183,8 +184,13 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="packman.cdt.managedbuild.target.gnu.cygwin.exe.152539231" name="Executable" projectType="cdt.managedbuild.target.gnu.cygwin.exe"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="1">
-		<resource resourceType="PROJECT" workspacePath="/packman"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/packman"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/packman"/>
+		</configuration>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
@@ -487,4 +493,5 @@
 			</profile>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>

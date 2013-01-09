@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2011 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -119,6 +119,7 @@ int main(int argc, char *argv[])
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
 	iconbar.menu().add_command(ShowBackupWindowCommand::COMMAND_ID, new ShowBackupWindowCommand());
+	iconbar.menu().add_command(VerifyAllAskCommand::COMMAND_ID, new VerifyAllAskCommand());
 
 	iconbar.show();
 	packman.run();
