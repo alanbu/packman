@@ -35,6 +35,8 @@
 #include "Packages.h"
 #include "PackManState.h"
 #include "UpgradeAllWindow.h"
+#include "VerifyWindow.h"
+
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
 
@@ -155,7 +157,7 @@ void ShowBackupWindowCommand::execute()
  */
 void VerifyAllCommand::execute()
 {
-	//TODO: new VerifyAllWindow();
+	new VerifyWindow();
 }
 
 /**
