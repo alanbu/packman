@@ -14,13 +14,11 @@ Version 0.7.x
 - Default Sources for a new install change to armv5-programs and armv6-programs
 - Default Sources add disabled raspberry-pi specific, riscpkg Unstable and autobuilder. Check if netsurf builds still exists.
 - Sources window - add description/information for sources PackMan knows about
-- Verify All - add option to verify that the files for all installed programs exist - quick option to just check a few files rather than the whole package.
 
 Version 0.8
 -----------
 
 - Whats New filter (and button after update lists)
-- Verify individual packages
 - Ensure panes are always at least as wide as the main window
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
 - have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
@@ -52,6 +50,8 @@ Possible future changes (i.e. under consideration)
 - Download other list on timeout (from Grahame Parish)
   I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal (the New Sources list in 0.7.x should make enabling/disabling easier)
 - Automatic run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
+- Verify individual packages (the Verify All seems fairly quick so this
+  may not be required).
 - Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
 - Previous versions - theoretically LibPkg can handle this. I would have to make sure.

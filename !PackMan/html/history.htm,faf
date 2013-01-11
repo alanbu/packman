@@ -9,6 +9,8 @@
 
 <LI><B>0.7.x Beta - ???</LI>
 <UL>
+  <li>Added verify all option to iconbar advanced menu to look for
+      installed packages with missing files</li>
   <li>Fixed problem where moving a path that contained file(s) that were locked
       would show an exception dialog. It now correctly displays a warning after
       the move has completed</li>

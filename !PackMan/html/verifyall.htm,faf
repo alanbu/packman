@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Verify All Windows</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Verify All Windows</H2>
+<P>When the Verify all option is selected it will first show a prompt
+to check if you want to go ahead and do the verify.</P>
+<p>The prompt informs you that the verify only checks that files exist
+and not their contents and also that if you perform a remove, update
+install or move while it is in progress it may give false results.</p>
+<p>Select the "No" button if you do not want to do the verify at this
+time.</p>
+<p>If you select the "Yes" button the verify will run and show
+a progress window to show how far it gets. You can stop the verify at
+any time by pressing the cancel button.</p>
+<p>At the end of the verify the progress window will close and you
+will either see a message saying that all packages verified or if
+one or more files were found to be missing the
+<A HREF="verifyfailed.htm">Verify failed window</A>.
+</p>
+</BODY>
+</HTML>
