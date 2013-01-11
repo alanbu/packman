@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2012 Alan Buckley
+* Copyright 2012-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -19,8 +19,10 @@
 *****************************************************************************/
 
 #include "VerifyWindow.h"
+#include "VerifyFailedWindow.h"
 #include "tbx/actionbutton.h"
 #include "tbx/application.h"
+#include "tbx/messagewindow.h"
 
 VerifyWindow::VerifyWindow() :
    _window("Verify"),
@@ -77,7 +79,19 @@ void VerifyWindow::execute()
 
 		case Verify::DONE:
 		     tbx::app()->remove_idle_command(this);
-		     // TODO: show results and delete this window
+		     if (!_verify.cancelled())
+		     {
+				 if (_verify.failed_total())
+				 {
+					new VerifyFailedWindow(_verify.failed_packages());
+				 } else
+				 {
+					 tbx::show_message("All installed packages verified!","info");
+				 }
+		     }
+		     _window.delete_object();
+		     delete this;
+		     return; // Mustn't touch any variables
 		     break;
 
 	       case Verify::BUILD_PACKAGE_LIST: break; // Should never get here

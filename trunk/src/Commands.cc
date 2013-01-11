@@ -166,12 +166,15 @@ void VerifyAllCommand::execute()
  */
 void VerifyAllAskCommand::execute()
 {
-	std::string q("This option will verify that the files exist\n"
-			"for all your installed packages.\n"
-			"It does not check that the contents are correct.\n\n"
-			"If you install/upgrade/remove or move a package during\n"
-			"the process it may give a false result.\n\n"
-			"Do you wish to run the verify now?"
-			);
-	tbx::show_question_as_menu(q, "Verify All", &_verify_all_command);
+	if (pmstate()->installed())
+	{
+		std::string q("This option will verify that the files exist\n"
+				"for all your installed packages.\n"
+				"It does not check that the contents are correct.\n\n"
+				"If you install/upgrade/remove or move a package during\n"
+				"the process it may give a false result.\n\n"
+				"Do you wish to run the verify now?"
+				);
+		tbx::show_question_as_menu(q, "Verify All", &_verify_all_command);
+	}
 }
