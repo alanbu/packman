@@ -21,6 +21,9 @@ system.</P>
 <LI>Cache - shows the <A HREF="cache.htm">Cache Window</A>
     which allows you to clear the cache of downloaded packages.
 </LI>
+<LI>Verify All - shows the <A HREF="verifyall.htm">Verify All Windows</A>
+which check if there are any files missing from your installed packages.
+</LI>
 </UL>
 </P>
 

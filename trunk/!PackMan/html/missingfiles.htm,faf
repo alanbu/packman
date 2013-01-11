@@ -6,6 +6,6 @@
 <BODY>
 <H2>Missing Files Window</H2>
 <P>This Window is shown from the Verify Failed Window "Show Files" button. It lists all the files
-that should be in a package, but no longer exist in the correct place on the hard disk.</P>
+that should be in a package, but no longer exist in the correct place on the hard disc.</P>
 </BODY>
 </HTML>
