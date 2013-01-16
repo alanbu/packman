@@ -40,11 +40,15 @@ Things to check
 
 - Sources window should not allow a second Update Lists window to be run.
 - Check progress bar in update lists. Was 100% when it still had more to do.
+- I thought get list failure had a more useful error message stating the list name - it didn't appear to when I had a problem recently.
 
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
+- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute)
+- Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
+- Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 - Sort order in package list currently is ASCII so Textseek comes after THSound would probably be better as a case insensitive order.
 - Cancel processing during install/remove
 - Adjust on install does an immediate install (from Jess Hampshire)
@@ -56,6 +60,7 @@ Possible future changes (i.e. under consideration)
 - Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
 - Previous versions - theoretically LibPkg can handle this. I would have to make sure.
+- Keep the install/remove window open until it is specifically closed and add further installs to it so multiple installs can be done at once.
 
 Install/Remove scripts
 ----------------------
