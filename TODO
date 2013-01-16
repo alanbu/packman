@@ -45,6 +45,7 @@ Things to check
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
+- Sort order in package list currently is ASCII so Textseek comes after THSound would probably be better as a case insensitive order.
 - Cancel processing during install/remove
 - Adjust on install does an immediate install (from Jess Hampshire)
 - Download other list on timeout (from Grahame Parish)
