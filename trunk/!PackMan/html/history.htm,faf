@@ -16,6 +16,7 @@
       the move has completed</li>
   <li>Fixed problem where locked files would not be removed after moving a path
   or an application</li>
+  <li>Improved layout of Info window (thanks go to Fred Graute for the new design)</li>
   <li>Used lastest LibPkg which includes the following changes
      <ul>
      <li>Increased standards version to 0.3.0</li>
