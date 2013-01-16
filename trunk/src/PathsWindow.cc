@@ -43,7 +43,8 @@
 
 PathsWindow::PathsWindow() : _window("Paths"),
     _open(this, &PathsWindow::open),
-    _move(this, &PathsWindow::move)
+    _move(this, &PathsWindow::move),
+    _add(this, &PathsWindow::add)
 {
 	_paths = _window.gadget(1);
 	_paths.add_selection_listener(this);
@@ -52,6 +53,8 @@ PathsWindow::PathsWindow() : _window("Paths"),
 	_open_button.add_select_command(&_open);
 	_move_button = _window.gadget(8);
 	_move_button.add_select_command(&_move);
+	tbx::ActionButton add_button = _window.gadget(9);
+	add_button.add_select_command(&_add);
 
 	tbx::OptionButton show_defn = _window.gadget(7);
 	show_defn.add_state_listener(this);
@@ -183,6 +186,7 @@ void PathsWindow::move()
 {
 	if (pmstate()->ok_to_move())
 	{
+	    _add_path = false;
 		std::string path;
 		if (_paths.first_selected() != -1)
 		{
@@ -212,11 +216,38 @@ void PathsWindow::move()
 }
 
 /**
- * Handler for move paths new location
+ * Show add path dialog
+ */
+void PathsWindow::add()
+{
+	if (pmstate()->ok_to_move())
+	{
+	    _add_path = true;
+
+		tbx::SaveAs add_path("AddPath");
+		add_path.set_save_to_file_handler(this);
+		add_path.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
+		add_path.show_as_menu();
+	}
+}
+
+/**
+ * Handler for move path to a new location and add path
  */
 void PathsWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string file_name)
 {
-	pkg::pkgbase *pkgbase = Packages::instance()->package_base();
+   if (_add_path) do_add(saveas, file_name);
+   else do_move(file_name);
+
+   saveas.file_save_completed(true, file_name);
+}
+
+/**
+ * Move path to another location
+ */
+void PathsWindow::do_move(const std::string &file_name)
+{
+    pkg::pkgbase *pkgbase = Packages::instance()->package_base();
 	const pkg::path_table &paths =pkgbase->paths();
 
 	tbx::Path old_path(paths(_move_path, ""));
@@ -234,9 +265,38 @@ void PathsWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::s
 	{
 		new MovePathWindow(_move_path, file_name);
 	}
-
-	saveas.file_save_completed(true, file_name);
 }
+
+/**
+ * A new path has been added
+ */
+void PathsWindow::do_add(tbx::SaveAs saveas, const std::string &file_name)
+{
+   	pkg::pkgbase *pkgbase = Packages::instance()->package_base();
+	const pkg::path_table &paths =pkgbase->paths();
+tbx::WritableField path_field = saveas.window().gadget(2);
+   std::string path_name = path_field.text();
+   if (path_name.empty())
+   {
+       tbx::show_message("You must enter a logical path name","","error");
+   } else
+   {
+      std::string::size_type app_pos = path_name.find('!');
+      std::string::size_type dot_after_app = (app_pos == std::string::npos) ? app_pos : path_name.find('.', app_pos);
+      if (dot_after_app != std::string::npos)
+      {
+         tbx::show_message("The logical path cannot specify a location inside of an application","","error");
+      } else if (const_cast<pkg::path_table *>(&paths)->find(path_name) != paths.end())
+      {
+         tbx::show_message("This logical path is already in the paths table\n"
+             "Use move to move it instead.","","error");
+      } else
+      {
+         tbx::show_message("TODO: The actual add");
+      }
+   }
+}
+
 
 /**
  * Show definition

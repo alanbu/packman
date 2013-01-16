@@ -51,8 +51,10 @@ class PathsWindow :
 	tbx::ActionButton _move_button;
 	tbx::CommandMethod<PathsWindow> _open;
 	tbx::CommandMethod<PathsWindow> _move;
+	tbx::CommandMethod<PathsWindow> _add;
 
 	std::string _move_path;
+	bool _add_path;
 
 	// Event processing
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
@@ -75,10 +77,13 @@ public:
 	// Implement commands on window
 	void open();
 	void move();
+	void add();
 
 private:
 	// Helper
 	std::string expand_path(const std::string &path);
+	void do_move(const std::string &file_name);
+	void do_add(tbx::SaveAs saveas, const std::string &file_name);
 };
 
 #endif /* PATHSWINDOW_H_ */
