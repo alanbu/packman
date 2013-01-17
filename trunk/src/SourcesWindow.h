@@ -34,6 +34,9 @@
 #include "tbx/actionbutton.h"
 #include "tbx/optionbutton.h"
 
+#include <vector>
+#include <utility>
+
 class SourceEdit;
 
 class SourcesWindow :
@@ -42,10 +45,11 @@ class SourcesWindow :
 {
 	tbx::Window _window;
 	tbx::ScrollList _sources;
-	tbx::CommandMethod<SourcesWindow> _add, _edit, _remove, _save;
+	tbx::CommandMethod<SourcesWindow> _add, _edit, _remove, _save, _enable;
 	SourceEdit *_editor;
-	tbx::ActionButton _edit_button, _remove_button;
+	tbx::ActionButton _edit_button, _remove_button, _enable_button;
 	tbx::OptionButton _update_list;
+	std::vector<std::pair<std::string, bool> > _source_info;
 
 	// Event processing
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
@@ -62,6 +66,7 @@ public:
 	void add();
 	void edit();
 	void remove();
+	void enable();
 	void save();
 };
 
