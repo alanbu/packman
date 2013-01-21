@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2010 Alan Buckley
+* Copyright 2010-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -35,6 +35,9 @@
 #include "libpkg/source_table.h"
 #include <fstream>
 
+#include <kernel.h>
+
+
 SourcesWindow::SourcesWindow() : _window("Sources"),
     _add(this, &SourcesWindow::add),
     _edit(this, &SourcesWindow::edit),
@@ -54,9 +57,8 @@ SourcesWindow::SourcesWindow() : _window("Sources"),
 	_remove_button.add_select_command(&_remove);
 	tbx::ActionButton save_button(_window.gadget(5));
 	save_button.add_select_command(&_save);
-
-	//tbx::ActionButton enable_button = _window.gadget(??);
-	// enable_button.add_select_command(&_enable);
+	_enable_button = _window.gadget(8);
+	_enable_button.add_select_command(&_enable);
 
 	_update_list = _window.gadget(6);
 
@@ -75,8 +77,7 @@ SourcesWindow::~SourcesWindow()
  */
 void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
-	tbx::UserSprite tick = tbx::app()->sprite_area()->get_sprite("status_i");
-	printf("Sprite ok %d\n", tick.is_valid());
+	tbx::WimpSprite tick("tick");
 	// Read sources from file so we also get the disabled sources
 	std::ifstream in("Choices:PackMan.Sources");
 	while (in&&!in.eof())
@@ -85,15 +86,14 @@ void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		std::string line;
 		std::getline(in,line);
 
-		printf("Got line %s\n", line.c_str());
 		// Strip comments and trailing spaces.
 		std::string::size_type n=line.find('#');
 		if (n!=std::string::npos)
 		{
 			n++;
-			while(n < line.size() && std::isspace(line[n])) line.erase(n);
-			if (n < line.size() && line.compare(n,3,"pkg") != 0) n = 0;
-			else n = line.find('#'); // Strip second set of comments
+			while(n < line.size() && std::isspace(line[n])) line.erase(n,1);
+			if (n == line.size() || line.compare(n,3,"pkg") != 0) n = 0;
+			else n = line.find('#',n+1 ); // Strip second set of comments
 		}
 		if (n==std::string::npos) n=line.size();
 
@@ -110,8 +110,7 @@ void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		// Ignore line if source type not recognised.
 		if (srctype=="pkg")
 		{
-printf("Adding enabled url %s\n",srcpath.c_str());
-			_sources.add_item(srcpath/*, tick*/);
+    		_sources.add_item(srcpath, tick);
 			_source_info.push_back(std::make_pair(srcpath, true));
 		} else if (srctype=="#pkg")
 		{
@@ -132,8 +131,8 @@ void SourcesWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &ev
 	bool fade = (event.index() == -1);
 	_edit_button.fade(fade);
 	_remove_button.fade(fade);
-	//_enable_button.fade(fade);
-	// if (!fade) _enable_button_text(_source_info[event.index()].second ? "Disable" : "Enable";
+	_enable_button.fade(fade);
+	if (!fade) _enable_button.text(_source_info[event.index()].second ? "Disable" : "Enable");
 	if (!fade && event.double_click()) edit();
 }
 
@@ -155,7 +154,7 @@ void SourcesWindow::source(int index, const std::string &url)
 {
 	if (index == -1)
 	{
-		_sources.add_item(url);
+		_sources.add_item(url, tbx::WimpSprite("tick"));
 		_source_info.push_back(std::make_pair(url, true));
 	}
 	else
@@ -199,7 +198,7 @@ void SourcesWindow::remove()
 		_source_info.erase(_source_info.begin() + index);
 		_edit_button.fade(true);
 		_remove_button.fade(true);
-		//_enable_button.fade(true);
+		_enable_button.fade(true);
 	}
 }
 
@@ -216,12 +215,14 @@ void SourcesWindow::enable()
 		{
 			_source_info[index].second = false;
 			_sources.add_item(_source_info[index].first, index);
-		} else
+        } else
 		{
 			_source_info[index].second = true;
-			_sources.add_item(_source_info[index].first, tbx::app()->sprite_area()->get_sprite("status_i"), index);
-		}
-	}
+			_sources.add_item(_source_info[index].first, tbx::WimpSprite("tick"), index);
+       	}
+		_sources.select_unique_item(index);
+        _enable_button.text(_source_info[index].second ? "Disable" : "Enable");
+    }
 }
 
 /**
