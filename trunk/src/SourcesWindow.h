@@ -50,6 +50,7 @@ class SourcesWindow :
 	tbx::ActionButton _edit_button, _remove_button, _enable_button;
 	tbx::OptionButton _update_list;
 	std::vector<std::pair<std::string, bool> > _source_info;
+	bool _ignore_next_select;
 
 	// Event processing
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
