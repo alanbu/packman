@@ -12,6 +12,7 @@
   <li>Added verify all option to iconbar advanced menu to look for
       installed packages with missing files</li>
   <li>Added Enable/Disable button to sources window to allow a source to be temporarily disabled.</li>
+  <li>Added Known Sources button to the sources window to show a list of sources that can be used.</li>
   <li>Improved layout of Info window (thanks go to Fred Graute for the new design)</li>
   <li>Fixed problem where moving a path that contained file(s) that were locked
       would show an exception dialog. It now correctly displays a warning after

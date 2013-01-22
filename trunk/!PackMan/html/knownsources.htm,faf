@@ -1,0 +1,26 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Known Sources</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Known Sources</H2>
+
+<P>This page list the main sources that the PackMan author knew of
+at the time of this release of PackMan.</P>
+<UL>
+<LI><b>http://www.riscpkg.org/pkg/Unstable</b> - This is the main packaging
+list. It is recommended that you always have this source in your list.
+This list comes from the <A HREF="http://www.riscpkg.org">RISC OS Packaging
+Project</A>.</LI>
+<LI><b>http://www.riscos.info/packages/pkg/autobuilt</b> - This contains a useful
+list of ported applications, games, libraries and the latest GCC compiler.
+See the <A HREF="http://www.riscos.info/index.php/Packages">Packages</A>
+page at www.riscos.info for more details.
+</LI>
+<LI><b>http://www.netsurf-browser.org/downloads/development/riscpkg/packages</b>
+- This contains the latest development build of the NetSurf browser.
+</LI>
+</UL>
+</BODY>
+</HTML>

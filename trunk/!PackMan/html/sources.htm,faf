@@ -13,6 +13,8 @@ they will be merged into a single list in PackMan.</P>
 <P>Only the sources shown with a tick before them will be used in the
 next update of the package lists. Use the Enable/Disable button to
 change which are used.</P>
+<P>For a list of suggested sources and a little information on each
+see the <A HREF="knownsources.htm">Known Sources</A> page.</P>
 <UL>
 <LI>Add... - Show a window allowing a new source to be added</LI>
 <LI>Edit... - Select an existing source with the mouse and click this
@@ -27,20 +29,10 @@ this button to remove it</LI>
 <LI>Refresh package lists - Select this check box to automatically run
 the Update Lists command when the sources are saved to download and use
 the latest versions of the lists.</LI>
+<LI>Known Sources... - Show the <A HREF="knownsources.htm">Known Sources</A>
+html page with a list of some of the sources available to choose.</LI>
 <LI>Cancel - Cancel the dialog and discard any changes</Cancel>
 <LI>Save - Save the new list of sources.</LI>
-</UL>
-<P>
-At the time of writing this manual the sources I was aware of were
-<UL>
-<LI>http://www.riscpkg.org/pkg/Unstable - This is the main packageing
-list. It is recommended that you always have this source in your list.</LI>
-<LI>http://www.riscos.info/packages/pkg/autobuilt - This contains a useful
-list of ported applications, games, libraries and the latest GCC compiler.
-</LI>
-<LI>http://www.netsurf-browser.org/downloads/development/riscpkg/packages
-- This contains the latest development build of the NetSurf browser.
-</LI>
 </UL>
 </BODY>
 </HTML>
