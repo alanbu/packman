@@ -10,14 +10,21 @@
 are held.</P>
 <P>You may have multiple package sources defined at once and
 they will be merged into a single list in PackMan.</P>
+<P>Only the sources shown with a tick before them will be used in the
+next update of the package lists. Use the Enable/Disable button to
+change which are used.</P>
 <UL>
-<LI>Add...  Will show a dialog allowing an new source to be added</LI>
-<LI>Edit... Select an existing source with the mouse and click this
-button to show a dialog allow a source to be edited. Double clicking
-on an existing source will also show the edit dialog</LI>
-<LI>Remove Select an existing source with the mouse and click
+<LI>Add... - Show a window allowing a new source to be added</LI>
+<LI>Edit... - Select an existing source with the mouse and click this
+button to show a window to allow a source to be edited. Double clicking
+on an existing source will also show the edit window</LI>
+<LI>Enable/Disable - Select an existing source then press on this button to enable
+or disable it. You may want to do this if a source becomes
+temporarily unavailable or if you don't want to use it at this moment but
+will in the future.</P>
+<LI>Remove - Select an existing source with the mouse and click
 this button to remove it</LI>
-<LI>Refresh package lists - select this check box to automatically run
+<LI>Refresh package lists - Select this check box to automatically run
 the Update Lists command when the sources are saved to download and use
 the latest versions of the lists.</LI>
 <LI>Cancel - Cancel the dialog and discard any changes</Cancel>

@@ -10,10 +10,11 @@ Version 0.7.x
 
 - Single version for all RISC OS machines (standardise Raspberry Pi changes)
 - LibPkg: Get policy manual updated at riscpkg.org (I've checked in my changes).
-- Sources window allow enable/disable so a full set of sources can be provided with just the main two enables
 - Default Sources for a new install change to armv5-programs and armv6-programs
 - Default Sources add disabled raspberry-pi specific, riscpkg Unstable and autobuilder. Check if netsurf builds still exists.
 - Sources window - add description/information for sources PackMan knows about
+- Add Path in paths window to allow subpaths to be moved.
+- Remove Path in path window to allow a path to be removed.
 
 Version 0.8
 -----------

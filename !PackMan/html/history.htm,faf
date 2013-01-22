@@ -11,12 +11,13 @@
 <UL>
   <li>Added verify all option to iconbar advanced menu to look for
       installed packages with missing files</li>
+  <li>Added Enable/Disable button to sources window to allow a source to be temporarily disabled.</li>
+  <li>Improved layout of Info window (thanks go to Fred Graute for the new design)</li>
   <li>Fixed problem where moving a path that contained file(s) that were locked
       would show an exception dialog. It now correctly displays a warning after
       the move has completed</li>
   <li>Fixed problem where locked files would not be removed after moving a path
   or an application</li>
-  <li>Improved layout of Info window (thanks go to Fred Graute for the new design)</li>
   <li>Used lastest LibPkg which includes the following changes
      <ul>
      <li>Increased standards version to 0.3.0</li>

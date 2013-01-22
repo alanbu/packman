@@ -44,7 +44,8 @@ SourcesWindow::SourcesWindow() : _window("Sources"),
     _remove(this, &SourcesWindow::remove),
     _save(this, &SourcesWindow::save),
     _enable(this, &SourcesWindow::enable),
-    _editor(0)
+    _editor(0),
+    _ignore_next_select(false)
 {
 	_sources = _window.gadget(1);
 	_sources.add_selection_listener(this);
@@ -128,6 +129,14 @@ void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
  */
 void SourcesWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &event)
 {
+	// Need to ignore the reselect after the enable button as it
+	// passes an incorrect index
+	if (_ignore_next_select)
+	{
+		_ignore_next_select = false;
+		return;
+	}
+
 	bool fade = (event.index() == -1);
 	_edit_button.fade(fade);
 	_remove_button.fade(fade);
@@ -210,6 +219,7 @@ void SourcesWindow::enable()
 	int index = _sources.first_selected();
 	if (index >= 0)
 	{
+		_sources.deselect_item(index);
 		_sources.delete_item(index);
 		if(_source_info[index].second)
 		{
@@ -220,6 +230,7 @@ void SourcesWindow::enable()
 			_source_info[index].second = true;
 			_sources.add_item(_source_info[index].first, tbx::WimpSprite("tick"), index);
        	}
+		_ignore_next_select = true;
 		_sources.select_unique_item(index);
         _enable_button.text(_source_info[index].second ? "Disable" : "Enable");
     }
