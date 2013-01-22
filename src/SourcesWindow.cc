@@ -61,6 +61,9 @@ SourcesWindow::SourcesWindow() : _window("Sources"),
 	_enable_button = _window.gadget(8);
 	_enable_button.add_select_command(&_enable);
 
+    tbx::ActionButton known_button = _window.gadget(9);
+    known_button.add_select_command(&_show_known_sources);
+
 	_update_list = _window.gadget(6);
 
     // Dispose of object when it is hidden
@@ -235,6 +238,15 @@ void SourcesWindow::enable()
         _enable_button.text(_source_info[index].second ? "Disable" : "Enable");
     }
 }
+
+/**
+ * Command to show known sources html page
+ */
+void SourcesWindow::ShowKnownSources::execute()
+{
+	tbx::app()->os_cli("Filer_Run <PackMan$Dir>.html.knownsources/htm");
+}
+
 
 /**
  * Save sources back to Sources file

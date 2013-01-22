@@ -52,6 +52,13 @@ class SourcesWindow :
 	std::vector<std::pair<std::string, bool> > _source_info;
 	bool _ignore_next_select;
 
+    class ShowKnownSources : public tbx::Command
+    {
+       public:
+          virtual void execute();
+    } _show_known_sources;
+
+
 	// Event processing
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void scrolllist_selection(const tbx::ScrollListSelectionEvent &event);
