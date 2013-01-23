@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2011 Alan Buckley
+* Copyright 2011-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -49,12 +49,25 @@ class PathsWindow :
 	tbx::ScrollList _paths;
 	tbx::ActionButton _open_button;
 	tbx::ActionButton _move_button;
+	tbx::ActionButton _remove_button;
 	tbx::CommandMethod<PathsWindow> _open;
 	tbx::CommandMethod<PathsWindow> _move;
 	tbx::CommandMethod<PathsWindow> _add;
+	tbx::CommandMethod<PathsWindow> _remove;
 
 	std::string _move_path;
 	bool _add_path;
+
+    /**
+     * Helper class to remove a path
+     */
+    class RemovePath : public tbx::Command
+    {
+       std::string _path;
+       public:
+          RemovePath(const std::string &path) : _path(path) {}
+          virtual void execute();
+    };
 
 	// Event processing
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
@@ -78,6 +91,7 @@ public:
 	void open();
 	void move();
 	void add();
+	void remove();
 
 private:
 	// Helper
