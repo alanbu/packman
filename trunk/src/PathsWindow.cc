@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2011 Alan Buckley
+* Copyright 2011-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -17,12 +17,6 @@
 * along with PackMan. If not, see <http://www.gnu.org/licenses/>.
 *
 *****************************************************************************/
-/*
- * SourcesWindow.cc
- *
- *  Created on: 23 May 2011
- *      Author: alanb
- */
 
 #include "PathsWindow.h"
 #include "Packages.h"
@@ -35,6 +29,7 @@
 #include "tbx/reporterror.h"
 #include "tbx/stringutils.h"
 #include "tbx/messagewindow.h"
+#include "tbx/questionwindow.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/source_table.h"
 #include <fstream>
@@ -44,7 +39,8 @@
 PathsWindow::PathsWindow() : _window("Paths"),
     _open(this, &PathsWindow::open),
     _move(this, &PathsWindow::move),
-    _add(this, &PathsWindow::add)
+    _add(this, &PathsWindow::add),
+    _remove(this, &PathsWindow::remove)
 {
 	_paths = _window.gadget(1);
 	_paths.add_selection_listener(this);
@@ -55,6 +51,8 @@ PathsWindow::PathsWindow() : _window("Paths"),
 	_move_button.add_select_command(&_move);
 	tbx::ActionButton add_button = _window.gadget(9);
 	add_button.add_select_command(&_add);
+	_remove_button = _window.gadget(10);
+	_remove_button.add_select_command(&_remove);
 
 	tbx::OptionButton show_defn = _window.gadget(7);
 	show_defn.add_state_listener(this);
@@ -105,12 +103,20 @@ void PathsWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &even
 	// Adjust click removes the selection on some versions of RISC OS.
 	if (!fade && event.adjust() && _paths.first_selected() == -1) fade = true;
 	_open_button.fade(fade);
-	if (fade) _move_button.fade(fade);
-	else
+	if (fade)
+	{
+	   _move_button.fade(fade);
+	   _remove_button.fade();
+	} else
 	{
 		std::string path = _paths.item_text(event.index());
 		std::string::size_type eq_pos = path.find('=');
-		if (eq_pos != std::string::npos) path.erase(0, eq_pos+2);
+		std::string::size_type dot_pos = path.find('.');
+		if (eq_pos != std::string::npos)
+		{
+		   path.erase(0, eq_pos+2);
+		   if (dot_pos != std::string::npos && dot_pos > eq_pos) dot_pos = std::string::npos;
+		}
 
 		// Ensure we have the actual path
 		if (!path.empty() && path[0] == '<') path = expand_path(path);
@@ -122,6 +128,8 @@ void PathsWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &even
 		{
 			_move_button.fade(true);
 		}
+		// Can only remove subpaths
+		_remove_button.fade(dot_pos == std::string::npos);
 	}
 	if (!fade && event.double_click()) open();
 }
@@ -232,6 +240,30 @@ void PathsWindow::add()
 }
 
 /**
+ * Remove the selected path
+ */
+void PathsWindow::remove()
+{
+	if (pmstate()->ok_to_move())
+	{
+		std::string path;
+		if (_paths.first_selected() != -1)
+		{
+			path = _paths.item_text(_paths.first_selected());
+			std::string msg(
+			"When a logical path is removed all installed packages that\n"
+			"use the path will be moved. If there is a large number of\n"
+			"installed files this may take a while.\n\n"
+			"Are you sure you wish to remove ");
+			msg += path;
+			msg += "?";
+            tbx::show_question_as_menu(msg, "Remove Path", new RemovePath(path), 0, true);
+        }
+	}
+}
+
+
+/**
  * Handler for move path to a new location and add path
  */
 void PathsWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string file_name)
@@ -281,22 +313,41 @@ tbx::WritableField path_field = saveas.window().gadget(2);
        tbx::show_message("You must enter a logical path name","","error");
    } else
    {
-      std::string::size_type app_pos = path_name.find('!');
-      std::string::size_type dot_after_app = (app_pos == std::string::npos) ? app_pos : path_name.find('.', app_pos);
-      if (dot_after_app != std::string::npos)
+      std::string::size_type dot_pos = path_name.find('.');
+      if (dot_pos == std::string::npos)
       {
-         tbx::show_message("The logical path cannot specify a location inside of an application","","error");
-      } else if (const_cast<pkg::path_table *>(&paths)->find(path_name) != paths.end())
+         tbx::show_message("The logical path should a child of another logical path","", "error");
+      } else if (*(path_name.rbegin()) == '.')
       {
-         tbx::show_message("This logical path is already in the paths table\n"
-             "Use move to move it instead.","","error");
+         tbx::show_message("The logical path can not end with a '.'","","error");
       } else
       {
-         tbx::show_message("TODO: The actual add");
+         std::string::size_type app_pos = path_name.find('!');
+         std::string::size_type dot_after_app = (app_pos == std::string::npos) ? app_pos : path_name.find('.', app_pos);
+         if (dot_after_app != std::string::npos)
+         {
+            tbx::show_message("The logical path cannot specify a location inside of an application","","error");
+         } else if (const_cast<pkg::path_table *>(&paths)->find(path_name) != paths.end())
+         {
+            tbx::show_message("This logical path is already in the paths table\n"
+                "Use move to move it instead.","","error");
+         } else
+         {
+            tbx::show_message("TODO: The actual add");
+            // new MovePathWindow(path_name, file_name);
+         }
       }
    }
 }
 
+/**
+ * Actually remove a path
+ */
+void PathsWindow::RemovePath::execute()
+{
+   tbx::show_message("TODO: Remove the path");
+   // new MovePathWindow(_path, "");
+}
 
 /**
  * Show definition
