@@ -16,18 +16,19 @@ ifeq ($(HOST),riscos)
 endif
 
 CXX=g++
-CXXFLAGS = -O2 -Wall -mpoke-function-name -mthrowback -ITBX: -ILibPKG: -ILibCurl:
+CPPFLAGS= -ITBX: -ILibPKG: -ILibCurl:
+CXXFLAGS= -O2 -Wall -mpoke-function-name -mthrowback
 
 LD = g++
 LDFLAGS = -LTBX: -ltbx -LLibPkg: -lpkg -LLibCurl: -lcurl -LZLib: -lz -lstdc++ -static
 
 ifeq ($(HOST),riscos)
-  TARGET=!PackMan.!RunImage
+  TARGET=^.!PackMan.!RunImage
 else
-  TARGET=!PackMan/!RunImage,ff8
+  TARGET=../!PackMan/!RunImage,ff8
 endif
 
-CCSRC = $(wildcard src/*.cc)
+CCSRC = $(wildcard *.cc)
 OBJECTS = $(CCSRC:.cc=.o)
 
 all:	$(TARGET)
@@ -38,7 +39,9 @@ $(TARGET): packman
 packman:	$(OBJECTS)
 	$(LD) $(LDFLAGS) -o packman $(OBJECTS)
 
-#include $(CCSRC:.cc=.d)
+ifeq ($(HOST),riscos)
+include $(CCSRC:.cc=.d)
+endif
 
 clean:
 	rm -f $(TARGET)
