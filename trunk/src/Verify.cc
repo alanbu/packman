@@ -110,29 +110,17 @@ void Verify::cancel()
 void Verify::build_package_list()
 {
    pkg::pkgbase *package_base = Packages::instance()->package_base();
-   const pkg::binary_control_table& ctrltab = package_base->control();
-   std::string prev_pkgname;
+   const pkg::status_table& curstat = package_base->curstat();
    _package_total = 0;
 
-   for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
-	 i !=ctrltab.end(); ++i)
+   for (pkg::status_table::const_iterator i=curstat.begin();
+	 i !=curstat.end(); ++i)
    {
-	  std::string pkgname=i->first.pkgname;
-	  if (pkgname!=prev_pkgname)
-	  {
-		  // Don't use i->second for ctrl as it may not be the latest version
-		  // instead look it up.
-		  prev_pkgname=pkgname;
-
-          pkg::status_table::const_iterator sti = package_base->curstat().find(pkgname);
-
-	      if (sti != package_base->curstat().end()
-			 && (*sti).second.state() == pkg::status::state_installed)
-		  {
-		     _packages.push(pkgname);
-		     _package_total++;
-		  }
-      }
+		if ((*i).second.state() == pkg::status::state_installed)
+		{
+			 _packages.push(i->first);
+			 _package_total++;
+		}
    }
 }
 
