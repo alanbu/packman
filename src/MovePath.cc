@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2012 Alan Buckley
+* Copyright 2012-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -48,6 +48,13 @@ const int UPDATE_VARS_COST     = 400;
 const int MIN_CHECK_PER_POLL = 2;
 const int MAX_CHECK_PER_POLL = 10;
 
+/**
+ * Class to Add/Move or erase a path and make any necessary adjustments
+ * to the disc layout.
+ *
+ * @param path_name logical path name to add, move or remove
+ * @param new_dir new location on disc or "" to remove the path
+ */
 MovePath::MovePath(const std::string &path_name, const std::string &new_dir) :
   _path_name(path_name),
   _new_dir(new_dir),
@@ -71,7 +78,13 @@ MovePath::MovePath(const std::string &path_name, const std::string &new_dir) :
 	}
 
 	// Set changed path
-	_target_paths.alter(path_name, new_dir);
+	if (new_dir.empty())
+	{
+		_target_paths.erase(path_name);
+	} else
+	{
+		_target_paths.alter(path_name, new_dir);
+	}
 }
 
 MovePath::~MovePath()
@@ -212,9 +225,15 @@ void MovePath::poll()
 			pkg::path_table &paths = Packages::instance()->package_base()->paths();
 			try
 			{
-				std::string path_defn = Packages::make_path_definition(_new_dir);
+				if (_new_dir.empty())
+				{
+					paths.erase(_path_name);
+				} else
+				{
+					std::string path_defn = Packages::make_path_definition(_new_dir);
 
-				paths.alter(_path_name, path_defn);
+					paths.alter(_path_name, path_defn);
+				}
 				paths.commit();
 				_state = UPDATE_VARS;
 				_cost_centipc += UPDATE_PATHS_COST;
@@ -258,7 +277,11 @@ void MovePath::poll()
 			    source.remove();
 			} catch(tbx::OsError &oe)
 			{
-			    if (_warning == NO_WARNING) _warning = DELETE_FAILED;
+				// OK not to delete non-empty directories
+				if (!source.directory())
+				{
+					if (_warning == NO_WARNING) _warning = DELETE_FAILED;
+				}
 			}
 			_files_copied.pop();
 
@@ -319,25 +342,15 @@ void MovePath::poll()
 void MovePath::build_installed_packages()
 {
    pkg::pkgbase *package_base = Packages::instance()->package_base();
-   const pkg::binary_control_table& ctrltab = package_base->control();
-   std::string prev_pkgname;
+   const pkg::status_table& curstat = package_base->curstat();
 
-   for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
-	 i !=ctrltab.end(); ++i)
+   for (pkg::status_table::const_iterator i=curstat.begin();
+	 i !=curstat.end(); ++i)
    {
-	  std::string pkgname=i->first.pkgname;
-	  if (pkgname!=prev_pkgname)
-	  {
-		  prev_pkgname=pkgname;
-
-		  pkg::status_table::const_iterator sti = package_base->curstat().find(pkgname);
-
-		  if (sti != package_base->curstat().end()
-			  && (*sti).second.state() == pkg::status::state_installed)
-		  {
-			  _installed.push(pkgname);
-		  }
-	  }
+		if ((*i).second.state() == pkg::status::state_installed)
+		{
+			 _installed.push(i->first);
+		}
    }
 }
 
@@ -450,8 +463,17 @@ bool MovePath::add_files(const std::string &package)
 bool MovePath::check_file(const std::string &package, const std::string &path_name)
 {
 	pkg::path_table &paths = Packages::instance()->package_base()->paths();
-	std::string old_loc = paths(path_name, package);
-	std::string new_loc = _target_paths(path_name, package);
+	std::string old_loc, new_loc;
+
+	try
+	{
+		old_loc = paths(path_name, package);
+		new_loc = _target_paths(path_name, package);
+	} catch(...)
+	{
+		_error = NO_PATH_FOR_FILE;
+		return false;
+	}
 
 	if (old_loc != new_loc)
 	{
