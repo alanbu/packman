@@ -231,8 +231,10 @@ void PathsWindow::add()
 	if (pmstate()->ok_to_move())
 	{
 	    _add_path = true;
+	    tbx::app()->catch_poll_exceptions(false);
 
 		tbx::SaveAs add_path("AddPath");
+		add_path.file_name("Location");
 		add_path.set_save_to_file_handler(this);
 		add_path.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
 		add_path.show_as_menu();
@@ -246,10 +248,14 @@ void PathsWindow::remove()
 {
 	if (pmstate()->ok_to_move())
 	{
+	    tbx::app()->catch_poll_exceptions(false);
 		std::string path;
 		if (_paths.first_selected() != -1)
 		{
 			path = _paths.item_text(_paths.first_selected());
+			std::string::size_type eq_pos = path.find('=');
+			if (eq_pos != std::string::npos && eq_pos > 0) path.erase(eq_pos-1);
+
 			std::string msg(
 			"When a logical path is removed all installed packages that\n"
 			"use the path will be moved. If there is a large number of\n"
@@ -306,17 +312,20 @@ void PathsWindow::do_add(tbx::SaveAs saveas, const std::string &file_name)
 {
    	pkg::pkgbase *pkgbase = Packages::instance()->package_base();
 	const pkg::path_table &paths =pkgbase->paths();
-tbx::WritableField path_field = saveas.window().gadget(2);
+	tbx::WritableField path_field = saveas.window().gadget(2);
    std::string path_name = path_field.text();
    if (path_name.empty())
    {
        tbx::show_message("You must enter a logical path name","","error");
+   } else if (*(file_name.rbegin()) == '.')
+   {
+	   tbx::show_message("You must enter a location for the path","", "error");
    } else
    {
       std::string::size_type dot_pos = path_name.find('.');
       if (dot_pos == std::string::npos)
       {
-         tbx::show_message("The logical path should a child of another logical path","", "error");
+          tbx::show_message("The added logical path should a child of an existing logical path","", "error");
       } else if (*(path_name.rbegin()) == '.')
       {
          tbx::show_message("The logical path can not end with a '.'","","error");
@@ -333,8 +342,21 @@ tbx::WritableField path_field = saveas.window().gadget(2);
                 "Use move to move it instead.","","error");
          } else
          {
-            tbx::show_message("TODO: The actual add");
-            // new MovePathWindow(path_name, file_name);
+        	 bool is_child = true;
+        	 try
+        	 {
+        		 std::string new_loc = paths(path_name, "");
+        	 } catch(...)
+        	 {
+        		 is_child = false;
+        	 }
+        	 if (is_child)
+        	 {
+        		 new MovePathWindow(path_name, file_name);
+        	 } else
+        	 {
+                 tbx::show_message("The added logical path should a child of an existing logical path","", "error");
+        	 }
          }
       }
    }
@@ -345,8 +367,29 @@ tbx::WritableField path_field = saveas.window().gadget(2);
  */
 void PathsWindow::RemovePath::execute()
 {
-   tbx::show_message("TODO: Remove the path");
-   // new MovePathWindow(_path, "");
+   	pkg::pkgbase *pkgbase = Packages::instance()->package_base();
+	pkg::path_table &paths =pkgbase->paths();
+	std::string location;
+	bool move_path = true;
+
+	try
+	{
+		location = paths(_path, "");
+		move_path = tbx::Path(location).exists();
+	} catch(...)
+	{
+		// Can't resolve path so treat as it no longer exists
+		move_path = false;
+	}
+	if (move_path)
+	{
+		new MovePathWindow(_path, "");
+	} else
+	{
+		// Location on disc doesn't exist so just erase it
+		paths.erase(_path);
+		paths.commit();
+	}
 }
 
 /**

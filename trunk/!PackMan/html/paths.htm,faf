@@ -9,8 +9,11 @@
 <p>This Window shows the paths where packages are installed by PackMan.</p>
 <p>Each entry shows the Logical name of the path used in the package
 along with the location on disc it is mapped to.</p>
-<p>The <b>Show Definitions</b> option button toggles the display between
-showing the path used and the definition of the path in the <code>Paths</code> file.</p>
+<p>It is recommended that you leave the paths at their standard locations
+and use stubs to gain access to application from other directories.
+However it is appreciated that some people prefer their own disc layout
+or have multiple discs and want some packages installed on other discs.</p>
+
 <p>The <b>Open</b> button will open a filer window for the currently
 selected path. If the path contains the special "@" character it is not
 possible to open the path in this way so a message will be shown instead.</p>
@@ -19,15 +22,50 @@ possible to open the path in this way so a message will be shown instead.</p>
 a new location. It only allows this if the current location is not part of
 the !Boot structure.</p>
 <p>When "Move" is selected it shows a window that allows you to specify the
-new location of the path by dragging the folder icon. Once dragged the
+new location of the path. Type in a new name and/or drag the folder icon
+to the new location. Once dragged or the Save button is pressed the
 <a href="movepathwnd.htm">Move Path Window</a> will be shown and any
 files installed in the old path will be moved to the new path.
-A check will be made that no files will be overwritten is done as part
+A check that that no files will be overwritten is done as part
 of this process.</p>
+
+<p>The <b>Add</b> button allows you to add a new logical path to the
+list of paths. The path added must be a child of another logical path.
+A new window will be opened in which you can enter the logical path
+name and the new location. Dragging the folder icon to a filer directory
+will fill in the directory for the new location.
+Once dragged or the Save button is pressed the
+<a href="movepathwnd.htm">Move Path Window</a> will be shown and any
+files installed at or below the new logical path will be checked to
+see if they need to be moved and then moved to the new location on
+disc if necessary.
+A check that no files will be overwritten is done as part
+of this process.</p>
+<p>For example, you may want to have all the games in a the $.Games directory
+instead of in the default $.Apps.Games directory on your disc. To do this add a new path called
+Apps.Games, set the location to Games and drag the directory folder to the $ directory
+on your hard disc. Any games you already have installed into $.Apps.Games will
+be moved to $.Games. Any game installed after this will be placed
+in the $.Games directory.</p>
+
+<p>The <b>Remove</b> button allows you to remove an existing logical path from the
+list of paths. Only paths that are the child of another logical path can be removed.
+You will be prompted to check you are sure you wish to remove the path
+and if you continue the
+<a href="movepathwnd.htm">Move Path Window</a> will be shown and any
+files installed which were in the removed path will have there location on
+disc reevaluated and will be moved if necessary.
+A check that no files will be overwritten is done as part
+of this process. If the directory for the path doesn't exist on disc
+the logical path will be deleted without showing the Move Path Window.</p>
+
+<p>The <b>Show Definitions</b> option button toggles the display between
+showing the path used and the definition of the path in the <code>Paths</code> file.</p>
+
 
 <h2>Changing the paths manually</h2>
 
-<p>The installation paths should normally be changes through the PackMan
+<p>The installation paths should normally be changed through the PackMan
 user interface, but if you want to do it manually use the following instructions.
 This is not recommended for anything but the <code>Apps</code>
 and <code>Manuals</code> paths.</p>

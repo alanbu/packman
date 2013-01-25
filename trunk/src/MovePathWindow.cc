@@ -228,6 +228,7 @@ std::string MovePathWindow::error_text()
 	{
 	case MovePath::NO_ERROR: text = "No error"; break;
 	case MovePath::TARGET_FILE_EXISTS: text = "An installed file already exists at the destination"; break;
+	case MovePath::NO_PATH_FOR_FILE: text = "The new paths table does not contain a location for an installed file"; break;
 	case MovePath::CREATE_DIR_FAILED: text = "Unable to create a directory at the new location"; break;
 	case MovePath::COPY_FAILED: text = "Failed to copy a file"; break;
 	case MovePath::PATH_UPDATE_FAILED: text = "Failed to update the paths file"; break;
