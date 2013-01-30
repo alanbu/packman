@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -98,6 +98,54 @@ bool Packages::ensure_package_base()
 	}
 	return (_package_base != 0);
 }
+
+/**
+ * Get cached list of unique package names.
+ *
+ * The list is different from the order in the binary control
+ * table as the names are put in case insensitive sort order
+ *
+ * This is calculate the first time it is requested and
+ * then again after reset_package_list is called
+ */
+const std::vector<std::string> &Packages::package_list()
+{
+	if (_package_list.empty())
+	{
+		const pkg::binary_control_table& ctrltab = _package_base->control();
+		std::string prev_pkgname = "";
+
+		for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
+			 i !=ctrltab.end(); ++i)
+		{
+			  std::string pkgname=i->first.pkgname;
+			  if (pkgname!=prev_pkgname)
+			  {
+				  prev_pkgname=pkgname;
+				  int i = (int)_package_list.size() - 1;
+				  while (i >= 0 && tbx::compare_ignore_case(pkgname, _package_list[i]) < 0) i--;
+				  if (i < (int)_package_list.size() - 1)
+				  {
+					  _package_list.insert(_package_list.begin() + i + 1, pkgname);
+				  } else
+				  {
+					  _package_list.push_back(pkgname);
+				  }
+			  }
+		}
+	}
+
+	return _package_list;
+}
+
+/**
+ * Reset cached list of package names
+ */
+void Packages::reset_package_list()
+{
+	_package_list.clear();
+}
+
 
 /**
  * Return a sorted, comma separated list of all the sections

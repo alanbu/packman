@@ -105,6 +105,7 @@ void UpdateListWindow::poll()
 				delete _upd;
 				_upd=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
+                Packages::instance()->reset_package_list();
                 Packages::instance()->unset_upgrades_available();
                 if (Packages::instance()->upgrades_available())
                 {
