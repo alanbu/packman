@@ -50,7 +50,6 @@ Possible future changes (i.e. under consideration)
 - Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute)
 - Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
 - Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
-- Sort order in package list currently is ASCII so Textseek comes after THSound would probably be better as a case insensitive order.
 - Cancel processing during install/remove
 - Adjust on install does an immediate install (from Jess Hampshire)
 - Download other list on timeout (from Grahame Parish)

@@ -124,24 +124,18 @@ void MainWindow::refresh()
 	_store_menu_select.menu_selection = tbx::view::ItemView::NO_INDEX;
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
+   const std::vector<std::string> &package_list = Packages::instance()->package_list();
    const pkg::binary_control_table& ctrltab = package_base->control();
-   std::string prev_pkgname;
 
-   for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
-	 i !=ctrltab.end(); ++i)
+   for (std::vector<std::string>::const_iterator i = package_list.begin();
+	 i !=package_list.end(); ++i)
    {
-	  std::string pkgname=i->first.pkgname;
-	  if (pkgname!=prev_pkgname)
-	  {
-		  // Don't use i->second for ctrl as it may not be the latest version
-		  // instead look it up.
-		  const pkg::binary_control &ctrl = ctrltab[pkgname];
-		  prev_pkgname=pkgname;
+	  std::string pkgname=*i;
+	  const pkg::binary_control &ctrl = ctrltab[pkgname];
 
-		  if (_filter == 0 || _filter->ok_to_show(ctrl))
-		  {
-			  _shown_packages.push_back(&ctrl);
-		  }
+	  if (_filter == 0 || _filter->ok_to_show(ctrl))
+	  {
+		  _shown_packages.push_back(&ctrl);
 	  }
    }
 

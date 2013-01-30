@@ -33,6 +33,7 @@ class pkgbase;
 
 }; /* namespace pkg; */
 
+#include <vector>
 #include <string>
 /**
  * Class to handle packages
@@ -43,6 +44,7 @@ class Packages
 	static Packages *_instance;
 	std::string _sections;
 	enum {DONT_KNOW, NO, YES} _upgrades_available;
+	std::vector<std::string> _package_list;
 
 public:
 	Packages();
@@ -53,6 +55,9 @@ public:
 	pkg::pkgbase *package_base() const {return _package_base;}
 
 	bool ensure_package_base();
+
+	const std::vector<std::string> &package_list();
+	void reset_package_list();
 
 	std::string sections();
 
