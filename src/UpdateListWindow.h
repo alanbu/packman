@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -36,6 +36,8 @@
 #include "libpkg/thread.h"
 #include "libpkg/update.h"
 
+#include <set>
+
 /**
  * Class to show window and update list of available packages
  */
@@ -47,6 +49,7 @@ class UpdateListWindow : pkg::thread
 	tbx::ActionButton _cancel_button;
 	tbx::ActionButton _upgrade_all;
     static UpdateListWindow *_instance;
+    std::set<std::string> _whats_old;
 
     class CancelCommand : public tbx::Command
     {
@@ -81,6 +84,9 @@ public:
     void cancel();
 
     virtual void poll();
+
+private:
+    bool write_whats_new();
 };
 
 #endif /* UPDATELISTWINDOW_H_ */
