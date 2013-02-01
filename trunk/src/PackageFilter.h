@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -28,6 +28,7 @@
 #define PACKAGEFILTER_H_
 
 #include "libpkg/binary_control.h"
+#include <set>
 
 /**
  * Interface to filter the main view
@@ -77,6 +78,21 @@ public:
 	SectionFilter(const std::string &section) :
 		_section_key("Section"), _section(section) {}
 	virtual ~SectionFilter() {}
+
+	virtual bool ok_to_show(const pkg::binary_control &ctrl);
+};
+
+/**
+ * Filter to show new packages
+ */
+class WhatsNewFilter : public PackageFilter
+{
+private:
+	std::set<std::string> _whats_new;
+
+public:
+	WhatsNewFilter();
+	virtual ~WhatsNewFilter() {}
 
 	virtual bool ok_to_show(const pkg::binary_control &ctrl);
 };

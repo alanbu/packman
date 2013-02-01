@@ -29,6 +29,8 @@
 #include "ErrorWindow.h"
 #include "tbx/application.h"
 #include "libpkg/download.h"
+#include <algorithm>
+#include <iterator>
 
 UpdateListWindow *UpdateListWindow::_instance = 0;
 
@@ -52,6 +54,10 @@ UpdateListWindow::UpdateListWindow() :
 
 	// Start libpkg threads
 	tbx::app()->add_idle_command(&_thread_runner);
+
+	// Set up list of packages before update
+	const std::vector<std::string> &package_list = Packages::instance()->package_list();
+	std::copy(package_list.begin(), package_list.end(), std::inserter(_whats_old, _whats_old.end()));
 
     _window.show();
 }
@@ -111,6 +117,7 @@ void UpdateListWindow::poll()
                 {
                 	_upgrade_all.fade(false);
                 }
+                //TODO: _what_new.fade(!write_whats_new());
 				break;
 			case pkg::update::state_fail:
 				_action.text("Failed");
@@ -145,5 +152,40 @@ void UpdateListWindow::CancelCommand::execute()
 	_me->_instance = 0;
     tbx::app()->remove_idle_command(&(_me->_thread_runner));
 	delete _me;
+}
+
+/**
+ * Write packages that are new with this update to a file
+ *
+ * @return true if there were any new packages
+ */
+bool UpdateListWindow::write_whats_new()
+{
+	const std::vector<std::string> &package_list = Packages::instance()->package_list();
+	std::set<std::string> whats_new;
+	for (std::vector<std::string>::const_iterator i = package_list.begin();
+			i != package_list.end(); ++i)
+	{
+		if (_whats_old.find(*i) != _whats_old.end())
+		{
+			whats_new.insert(*i);
+		}
+	}
+
+	bool new_stuff = true;
+	if (!whats_new.empty())
+	{
+		std::ofstream wn("<Choices$Write>.PackMan.WhatsNew", std::ios_base::out | std::ios_base::trunc);
+		if (wn)
+		{
+			std::ostream_iterator<std::string> out_it(wn, " ");
+			std::copy(whats_new.begin(), whats_new.end(), out_it);
+		} else
+		{
+			new_stuff = false;
+		}
+	}
+
+	return new_stuff;
 }
 

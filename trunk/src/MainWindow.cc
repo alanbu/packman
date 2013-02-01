@@ -79,7 +79,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_selection.add_listener(this);
 
 	std::string sects = Packages::instance()->sections();
-	std::string filter_set("All,Installed,Upgrades,Search Results");
+	std::string filter_set("All,Installed,Upgrades,What's New,Search Results");
 	if (!sects.empty()) filter_set += "," + sects;
 	_filters_stringset.available(filter_set);
 
@@ -257,6 +257,9 @@ void MainWindow::filter_changed(const std::string &name)
 	} else if (name == "Upgrades")
 	{
 		_filter = new UpgradeFilter();
+	} else if (name == "What's New")
+	{
+		_filter = new WhatsNewFilter();
 	} else if (name == "Search Results")
 	{
 		_filter = _search_filter;

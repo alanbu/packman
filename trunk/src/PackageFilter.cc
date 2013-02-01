@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -30,6 +30,10 @@
 #include "tbx/stringutils.h"
 
 #include "libpkg/pkgbase.h"
+
+#include <iterator>
+#include <algorithm>
+#include <fstream>
 
 /**
  * Check if a package is installed.
@@ -78,6 +82,31 @@ bool SectionFilter::ok_to_show(const pkg::binary_control &ctrl)
 
 	return (s != ctrl.end() && (*s).second == _section);
 }
+
+/**
+ * Read set of Whats new from file
+ */
+WhatsNewFilter::WhatsNewFilter()
+{
+	std::ifstream in("<Choices$Write>.PackMan.WhatsNew");
+	if (in)
+	{
+		std::istream_iterator<std::string> in_iter(in);
+		std::istream_iterator<std::string> eos;
+		std::copy(in_iter, eos, std::inserter(_whats_new, _whats_new.end()));
+	}
+}
+
+/**
+ * Show the last new packages only
+ */
+bool WhatsNewFilter::ok_to_show(const pkg::binary_control &ctrl)
+{
+	if (_whats_new.empty()) return false;
+	std::set<std::string>::iterator found = _whats_new.find(ctrl.pkgname());
+	return (found != _whats_new.end());
+}
+
 
 /**
  * Construct search filter
