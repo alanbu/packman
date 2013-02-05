@@ -178,3 +178,16 @@ void VerifyAllAskCommand::execute()
 		tbx::show_question_as_menu(q, "Verify All", &_verify_all_command);
 	}
 }
+
+
+/**
+ * Show Whats New in filter in a new window
+ */
+void ShowWhatsNewCommand::execute()
+{
+	if (pmstate()->installed())
+	{
+		MainWindow *main = new MainWindow();
+		main->set_filter("What's New");
+	}
+}

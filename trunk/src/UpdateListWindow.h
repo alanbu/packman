@@ -27,6 +27,8 @@
 #ifndef UPDATELISTWINDOW_H_
 #define UPDATELISTWINDOW_H_
 
+#include "Commands.h"
+
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/slider.h"
@@ -43,13 +45,16 @@
  */
 class UpdateListWindow : pkg::thread
 {
+    static UpdateListWindow *_instance;
+
 	tbx::Window _window;
 	tbx::DisplayField _action;
 	tbx::Slider _progress;
 	tbx::ActionButton _cancel_button;
+	tbx::ActionButton _whats_new;
 	tbx::ActionButton _upgrade_all;
-    static UpdateListWindow *_instance;
     std::set<std::string> _whats_old;
+    ShowWhatsNewCommand _show_whats_new;
 
     class CancelCommand : public tbx::Command
     {

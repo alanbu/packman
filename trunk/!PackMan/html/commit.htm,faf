@@ -10,6 +10,9 @@ package and it's dependencies.</P>
 <P>It displays a message of what stage in the process it is in and a progress bar to show
 how far through the operation it is.</P>
 <P>If the operation completes successfully. Click on the button to dismiss it.</P>
+<p>If new packages have been added to the your list of packages the "What's New..." button will be enabled.
+This button will open a <a href="main.htm">Main Window</a> with the filter set to "What's new".
+</p>
 <p>If the one or more upgrades to already installed packages are detected in the new
 lists the Upgrade All button will be enabled that leads to the
 <a href="upgradeall.htm">Upgrade All Window</a> that allows all the upgrades to be

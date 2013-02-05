@@ -39,6 +39,7 @@ UpdateListWindow::UpdateListWindow() :
     _action(_window.gadget(1)),
     _progress(_window.gadget(2)),
     _cancel_button(_window.gadget(3)),
+    _whats_new(_window.gadget(5)),
     _upgrade_all(_window.gadget(4)),
     _cancel_command(this),
     _upd(0),
@@ -47,6 +48,8 @@ UpdateListWindow::UpdateListWindow() :
    _instance = this;
    _cancel_button.add_select_command(&_cancel_command);
    _cancel_button.fade(true);
+
+   _whats_new.add_select_command(&_show_whats_new);
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
 
@@ -117,7 +120,7 @@ void UpdateListWindow::poll()
                 {
                 	_upgrade_all.fade(false);
                 }
-                //TODO: _what_new.fade(!write_whats_new());
+                _whats_new.fade(!write_whats_new());
 				break;
 			case pkg::update::state_fail:
 				_action.text("Failed");
@@ -166,14 +169,14 @@ bool UpdateListWindow::write_whats_new()
 	for (std::vector<std::string>::const_iterator i = package_list.begin();
 			i != package_list.end(); ++i)
 	{
-		if (_whats_old.find(*i) != _whats_old.end())
+		if (_whats_old.find(*i) == _whats_old.end())
 		{
 			whats_new.insert(*i);
 		}
 	}
 
-	bool new_stuff = true;
-	if (!whats_new.empty())
+	bool new_stuff = !whats_new.empty();
+	if (new_stuff)
 	{
 		std::ofstream wn("<Choices$Write>.PackMan.WhatsNew", std::ios_base::out | std::ios_base::trunc);
 		if (wn)
