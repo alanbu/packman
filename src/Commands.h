@@ -157,4 +157,13 @@ public:
 };
 
 
+/**
+ * Show the main window with the "What's New" filter selected
+ */
+class ShowWhatsNewCommand : public tbx::Command
+{
+public:
+	virtual void execute();
+};
+
 #endif /* COMMANDS_H_ */
