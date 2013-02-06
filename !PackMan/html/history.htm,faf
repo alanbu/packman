@@ -14,6 +14,9 @@
   <li>Added Enable/Disable button to sources window to allow a source to be temporarily disabled.</li>
   <li>Added Known Sources button to the sources window to show a list of sources that can be used.</li>
   <li>Packages are now shown sorted in the more natural case-insensitive order.</li>
+  <li>Added Add/Remove paths to Paths window to allow logical subpaths to be added/removed. For example you
+could add Apps.Games and move all the games to a new location on disk. This new location would then be
+use for future installations of anything that goes into the Apps.Games logical path.</li>
   <li>What's new filter to show the packages which were added after the last update lists. The update
 lists window contains a button to show a window with this filter already selected.</li>
   <li>Improved layout of Info window (thanks go to Fred Graute for the new design)</li>
