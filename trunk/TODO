@@ -12,14 +12,10 @@ Version 0.7.x
 - LibPkg: Get policy manual updated at riscpkg.org (I've checked in my changes).
 - Default Sources for a new install change to armv5-programs and armv6-programs
 - Default Sources add disabled raspberry-pi specific, riscpkg Unstable and autobuilder. Check if netsurf builds still exists.
-- Sources window - add description/information for sources PackMan knows about
-- Add Path in paths window to allow subpaths to be moved.
-- Remove Path in path window to allow a path to be removed.
 
 Version 0.8
 -----------
 
-- Whats New filter (and button after update lists)
 - Ensure panes are always at least as wide as the main window
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
 - have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
