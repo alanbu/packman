@@ -7,7 +7,7 @@
 <h2>History</h2>
 <UL>
 
-<LI><B>0.7.x Beta - ???</LI>
+<LI><B>0.7.1 Beta - March 2013</B></LI>
 <UL>
   <li>Added verify all option to iconbar advanced menu to look for
       installed packages with missing files</li>
