@@ -1,4 +1,22 @@
-# This would not normally be the best distribution for new users, but at
-# the time of writing it is the only one available.
+# Default set of packages used when PackMan is first installed
+#
+# Packages on lines starting with a # are initially disabled
+#
+# The main package lists are switching to the ROOL site
+# (www.riscosopen.org) as they have received some testing 
 
-pkg http://www.riscpkg.org/pkg/Unstable
+pkg http://packages.riscosopen.org/packages/pkg/programs-armv5
+pkg http://packages.riscosopen.org/packages/pkg/programs-armv7
+
+# Core system packages for the Raspberry Pi RISC OS distribution.
+ 
+#pkg http://packages.riscosopen.org/packages/pkg/raspberrypi-system
+
+# New system components that are under test (may break your system)
+#pkg http://packages.riscosopen.org/packages/pkg/raspberrypi-testing
+
+# Original packaging list from www.riscpkg.org
+#pkg http://www.riscpkg.org/pkg/Unstable
+
+# Autobuilder - useful ported applications and the GCC compiler
+#pkg http://www.riscos.info/packages/pkg/autobuilt
