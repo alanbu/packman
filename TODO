@@ -12,6 +12,7 @@ Version 0.7.x
 - LibPkg: Get policy manual updated at riscpkg.org (I've checked in my changes).
 - Default Sources for a new install change to armv5-programs and armv6-programs
 - Default Sources add disabled raspberry-pi specific, riscpkg Unstable and autobuilder. Check if netsurf builds still exists.
+- Got a crash on KnownSources when the html file was missing
 
 Version 0.8
 -----------

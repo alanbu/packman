@@ -26,4 +26,4 @@ $(PACKAGES): %:
 
 
 build:
-	make
+	make -C src
