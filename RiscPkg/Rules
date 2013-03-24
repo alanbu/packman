@@ -15,6 +15,7 @@ pkg:
 	svn export Sprites Temp/Sprites
 	svn export !PackMan $(INSTALL_TO)/!PackMan
 	cp !PackMan/!RunImage $(INSTALL_TO)/!PackMan
+	cp !PackMan/Res $(INSTALL_TO)/!PackMan
 	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
 	rm -rf Temp
 
