@@ -24,4 +24,4 @@ IconSprites <Obey$Dir>.!Sprites
 If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprites
 
 WimpSlot -min 2720k -max 2720k
-/<PackMan$Dir>.!RunImage %*0 > <Obey$Dir>.stdout
+/<PackMan$Dir>.!RunImage %*0
