@@ -2,8 +2,7 @@ Rough plan/ideas
 
 Once something is done it is moved to history.htm.
 
-Items marked LibPkg: will need work done in the LibPkg backend library
-as well.
+Items marked LibPkg: will need work done in the LibPkg backend library as well.
 
 Version 0.7.x
 -------------
@@ -44,7 +43,7 @@ Things to check
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
-- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute)
+- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
 - Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
 - Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 - Cancel processing during install/remove
@@ -58,6 +57,12 @@ Possible future changes (i.e. under consideration)
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
 - Previous versions - theoretically LibPkg can handle this. I would have to make sure.
 - Keep the install/remove window open until it is specifically closed and add further installs to it so multiple installs can be done at once.
+- The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore). 
+- Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
+
+
+
+
 
 Install/Remove scripts
 ----------------------
