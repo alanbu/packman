@@ -16,6 +16,8 @@ Version 0.7.x
 Version 0.8
 -----------
 
+- Drag and Drop to set install location - this is likely to need a modification to the Control file fields to specify what is draggable.
+- Look into if Sprites and SysVars should be removed from the Package and replaced with using the standard Look At functionality. (Interestingly, it appears that there is a more or less complete programmatic interface for the 'Look at', 'Add to Apps' and 'Run' windows (see section 5.2): http://www.marutan.net/wikiref/Acorn%20Registered%20Developer%20REFERNC/RO4/API/HTML/CONFIGUR.HTM
 - Ensure panes are always at least as wide as the main window
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
 - have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
@@ -31,6 +33,7 @@ For versions after 0.8
 - Implement Hold functionality from LibPkg to stop a package being upgraded
 - Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
 - Make it easier to see/install recommendations and suggestions
+- Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one.
 
 Things to check
 ---------------
@@ -59,8 +62,13 @@ Possible future changes (i.e. under consideration)
 - Keep the install/remove window open until it is specifically closed and add further installs to it so multiple installs can be done at once.
 - The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore). 
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
-
-
+- When upgrading check if the old version has been moved and prompt for it's location if it has.
+- Consider how to let PackMan know if an application has been moved from outside of PackMan.
+- Simplify install from a local package
+- With local install show dialogue to allow any unmet dependencies to be dragged into it.
+- Export Package - create a package containing a package and all it's dependencies.
+- Expert mode - give options to install even when dependencies are missing or there are conflicts.
+- Multiple sections/categories.
 
 
 
