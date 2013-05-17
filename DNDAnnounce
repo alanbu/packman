@@ -1,0 +1,26 @@
+Feedback wanted for a drag-and-drop install location interface for PackMan
+
+One of the most common complaints about PackMan is that it doesn't
+allow you to specify where it installs applications.
+
+This has been alleviated a little in later versions as it lets you move
+applications after they have been installed or pre-set the install
+directory for groups of items.
+
+However, the next step would be to allow you to specify where you want
+your apps before it installs them.
+
+To this end I've create a simple test application called (TestDrag)
+that shows my ideas for implementing this.
+
+The download and a few screen shots can be found at:
+
+https://sites.google.com/site/alansriscosstuff/testdrag
+
+This UI also includes options for adding application to Boot and Apps,
+which I am also thinking about including when the drag-and-drop is
+implemented.
+
+Please take a look at this and send me any feedback on it - good or bad.
+If you don't like it, alternative ideas would be greatly appreciated.
+

@@ -1,40 +1,27 @@
-Packman package manager 0.7 beta released
+Packman package manager 0.7.1 beta released
 
-Packman version 0.7-3 beta is now available.
+Packman version 0.7.1 beta is now available.
 
-This release is primarily driven for the people who are considering
-replacing software they already have installed with packaged versions
-of it.
+New to this version:
 
-PackMan now allows applications to be moved from their default install
-location. If an application is moved using PackMan, it will remember
-it's location so it can update it or remove it.
+- What's new filter shows all the packages that are new to you.
 
-If another application already exists at the location moved to,
-PackMan will back it up (after checking you want to replace it).
+- Enable/Disable individual sources for a package list. If for some
+  reason one of your package list becomes temporarily unavailable
+  this allows you to easily switch them off and back on again.
 
-This backup functionality has also been built into creating stubs and
-links (the recommended way of being able to access packages from other
-locations).
+- Add/Remove paths. With this change you can now set the default
+  directories for whole categories of packages.
 
-To make it easier to install packages where you may already have
-another version on your disc a Conflict Manager window is now shown
-when files conflict. This gives you the option of letting PackMan
-backup the conflicting files for you.
+- The default sources for the packages list with a new install have
+  been changed to the those provided by ROOL. This will not affect
+  existing users. If existing users want to change to the new lists,
+  please go to the sources window and update the paths there. A new
+  help page has been added to show what the most common available
+  sources of packages are as a reference. 
 
-To keep track of these backups a Backup Manager window has been added.
-From here you can also view, delete or restore a backup.
-
-It also includes a few other minor bug fixes, the full list of changes
-can be seen on the history page in the documentation.
-
-This release is functionally the same as the Raspberry Pi version of
-PackMan (0.7-4) provided on the ROOL SD card, but uses just the standard
-riscpkg source for the list of packages and does not include the
-Raspberry Pi specific paths. If you are installing this on a Raspberry
-Pi which doesn't have the pre-loaded PackMan you may wish to
-change the sources (Iconbar menu->Advanced->Sources) to those
-found at http://packages.riscosopen.org/packages.
+- and other minor bug fixes and improvements. The full history can
+  be seen in the help file.
 
 If you already have a previous version of !PackMan or !RiscPkg
 installed you can install it or upgrade it from either of
@@ -42,7 +29,6 @@ these programs.
 
 Otherwise go to https://sites.google.com/site/alansriscosstuff/packman
 for download and installation instructions.
-
 
 PackMan is a package manager front end for packages distributed
 using the RISC OS Packaging Project (see http://www.riscpkg.org).
