@@ -17,6 +17,7 @@ Version 0.8
 -----------
 
 - Drag and Drop to set install location - this is likely to need a modification to the Control file fields to specify what is draggable.
+- For Drag and drop give the choice of creating a stub instead of setting the install location (from Jess Hampshire).
 - Look into if Sprites and SysVars should be removed from the Package and replaced with using the standard Look At functionality. (Interestingly, it appears that there is a more or less complete programmatic interface for the 'Look at', 'Add to Apps' and 'Run' windows (see section 5.2): http://www.marutan.net/wikiref/Acorn%20Registered%20Developer%20REFERNC/RO4/API/HTML/CONFIGUR.HTM
 - Ensure panes are always at least as wide as the main window
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
