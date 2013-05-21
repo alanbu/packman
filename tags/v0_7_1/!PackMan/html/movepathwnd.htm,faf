@@ -1,0 +1,20 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Move Path Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Move Path Window</H2>
+<P>The Move Path Window is shown when a path is being moved by using the Paths Window, Move button.</P>
+<P>Before the Move Path Window is shown checks are made that the path isn't moved onto itself.</P>
+<P>When a path is moved all the files that have been installed in that path are moved to the new path. If a lot of files have been installed to a particular path this could take a long while.</P>
+<P>Before copying anything the target of any files copied are checked and if a file already exists the move stops.</P>
+<P>The move can be cancelled up until the time it changes the path location in PackMan (this occurs after all files are copied).</P>
+<P>If the move is cancelled or an error occurs any copies done so far will be undone. This is called unwinding.</P>
+<P>The "Faster" button on the window increases the speed of the move at the cost of whole desktop responsiveness. Once selected it will change its text to "Slower" and selecting it again will
+return to the standard move speed which gives a more responsive desktop.</P>
+<P>Note: Moving a path only copies installed files whereas if you moved an application
+from the Applications Window the whole application is moved. Normally this will mean the same set of files
+get copied.</P>
+</BODY>
+</HTML>

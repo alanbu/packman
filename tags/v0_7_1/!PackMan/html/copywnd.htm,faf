@@ -1,0 +1,19 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Copyright Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Copyright of a package</H2>
+
+<p>This Window shows the text of the copyright of an installed package.</p>
+<p>It is reached from the Copyright menu option on the Package menu.</p>
+<p>The copyright is written as part of the Package and will normally
+who what the copyright is of the package, who wrote it and who
+packaged it.</p>
+<p>The copyright tells you what you can do with the package
+and restrictions on its use and any restrictions on distributing
+the package.</p>
+
+</BODY>
+</HTML>

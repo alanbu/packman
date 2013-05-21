@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Iconbar icon</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Iconbar icon</H2>
+
+<P>Click on the iconbar with the select button to see the <A HREF="main.htm">main window</A>
+that is used for maintaining the packages.
+</P>
+<p>Click on the iconbar with the adjust button to see the <a href="main.htm">main window</a>
+with the list of packages you have installed selected in the filter.
+</p>
+<P>Click on the iconbar with the menu button to show a menu with the following choices:
+<TABLE>
+<TR>
+  <TD>Info</TD>
+  <TD>Shows information on the PackMan application including the current version
+  </TD>
+</TR>
+<TR>
+  <TD>Help</TD>
+  <TD>Launches the Help file to show help on PackMan
+  </TD>
+</TR>
+<TR>
+  <TD>Advanced</TD>
+  <TD>Leads to the <A HREF="advmenu.htm">Advanced menu</A> that provides advanced options for configuring the packaging
+system.
+  </TD>
+</TR>
+<TR>
+  <td>Upgrade All</td>
+  <td>Upgrades all installed packages which have an upgrade available.
+   Either the <A href="upgradeall.htm">Upgrade All</A> dialogue is shown that lists
+   the packages that will be upgraded and
+   lets you upgrade them all in one go, or a message is shown if there are no
+   upgrades currently available. If there are no upgrades available you may
+   want to run the update lists option and try again to see if any new
+   upgrades have appeared since the last time you updated the lists.</td>
+</TR>
+<TR>
+  <TD>Update Lists</TD>
+  <TD>This downloads the latest versions of the package lists that are used to
+      provide the list of packages that are available. It shows a window to indicate
+      the progress of the List update. This Window also contains an "Upgrade All"
+      button that is enabled after the download of the lists if there are any
+      upgrades available.
+  </TD>
+</TR>
+<TR>
+  <TD>Quit</TD>
+  <TD>Close the package Manager</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

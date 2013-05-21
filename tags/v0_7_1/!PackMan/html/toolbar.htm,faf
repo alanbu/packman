@@ -1,0 +1,36 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Toolbar</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Toolbar</H2>
+<P>The toolbar runs across the top of the main menu and provides icons
+to give short cuts to common features of PackMan and the filter that
+allow you to show a subset of the packages.</P>
+<P>The icons are faded if they are not currently available.
+e.g. The first four need an item to be selected.</P>
+<P>The items on the toolbar are (from left to right):
+<UL>
+<LI>Install/Update icon - Installs or Updates the selected package.
+ A green arrow on the icon pointing right is an install, an orange one
+ pointing up is an upgrade. Selecting on the icon shows the
+ <A HREF="install.htm">Install window</A></LI>
+<LI>Remove icon - Removes the selected package. Selecting the icon shows
+the <A HREF="remove.htm">Remove window</A></LI>
+<LI>Apps icon - Shows the <A HREF="apps.htm">Applications Window</A>
+which shows you what application are in an installed package and
+allows you to view their location and create links to them.</LI>
+<LI>Info icon - Show information about the package in the
+ <A HREF = "info.htm">Package information window</A></LI>
+<LI>Filter list - select the arrow by the side of the current filter
+and it shows a menu, which allows you to filter the packages displayed
+by their status (installed, upgrades), the search result or a
+category of package.</LI>
+<LI>Search icon - show the <A HREF="search.htm">Search Window</A> that
+allows the package names text to be searched.</LI>
+</UL>
+</P>
+
+</BODY>
+</HTML>

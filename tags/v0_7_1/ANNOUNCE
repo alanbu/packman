@@ -1,0 +1,50 @@
+Packman package manager 0.7.1 beta released
+
+Packman version 0.7.1 beta is now available.
+
+New to this version:
+
+- What's new filter shows all the packages that are new to you.
+
+- Enable/Disable individual sources for a package list. If for some
+  reason one of your package list becomes temporarily unavailable
+  this allows you to easily switch them off and back on again.
+
+- Add/Remove paths. With this change you can now set the default
+  directories for whole categories of packages.
+
+- The default sources for the packages list with a new install have
+  been changed to the those provided by ROOL. This will not affect
+  existing users. If existing users want to change to the new lists,
+  please go to the sources window and update the paths there. A new
+  help page has been added to show what the most common available
+  sources of packages are as a reference. 
+
+- and other minor bug fixes and improvements. The full history can
+  be seen in the help file.
+
+If you already have a previous version of !PackMan or !RiscPkg
+installed you can install it or upgrade it from either of
+these programs.
+
+Otherwise go to https://sites.google.com/site/alansriscosstuff/packman
+for download and installation instructions.
+
+PackMan is a package manager front end for packages distributed
+using the RISC OS Packaging Project (see http://www.riscpkg.org).
+
+It can be used instead of or alongside !RiscPkg.
+
+Its features include:
+
+- Status bar showing more information on the selected package.
+- Filters to allow display of packages for a specific category,
+  what's installed or upgrades to already installed packages.
+- Search for a package.
+- Single buttons to start an install, upgrade or removal of a package.
+- Menu option to upgrade all your packages at once.
+
+System requirements
+
+RISC OS 4.0 or greater with long filenames
+Internet connection for downloading packages

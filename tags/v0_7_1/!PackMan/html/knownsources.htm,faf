@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Known Sources</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Known Sources</H2>
+
+<P>This page list the main sources that the PackMan author knew of
+at the time of this release of PackMan.</P>
+<P>Multiple sources can be selected and where a package is on two or more
+lists the latest version of the package will be used.</P>
+<P>In late 2012, RISC OS Open created a set of packaging lists.
+See <A HREF="http://packages.riscosopen.org/packages">http://packages.riscosopen.org/packages</A>.
+It is recommend that these lists are now used.
+<UL>
+<LI><B>http://packages.riscosopen.org/packages/pkg/programs-armv5</B>
+ - ARMv5 programs and libraries suitable hardware with ARMv5 compatability
+(this includes the Raspberry Pi in compatibility mode). This
+list is an edited list of packages from the riscpkg and autobuilder lists below
+which have had some testing on the Raspberry Pi. A lot of these programs will
+also be compatible with ARMv7 and later machines as well. This is a synonym for
+the <B>http://packages.riscosopen.org/packages/pkg/raspberrypi-programs-armv5</B>
+ list setup by default with the Raspberry Pi SD Images.
+</LI>
+<LI><B>http://packages.riscosopen.org/packages/pkg/programs-armv7</B>
+- User-contributed ARMv7 programs and libraries suitable for Raspberry Pi and other
+machines with the ARMv7 or later processor. This is a synonym for
+the <B>http://packages.riscosopen.org/packages/pkg/raspberrypi-programs-armv7</B>
+ list setup by default with the Raspberry Pi SD Images.
+</LI>
+<LI><B>http://packages.riscosopen.org/packages/pkg/raspberrypi-system</B>
+- Core system packages for the Raspberry Pi RISC OS distribution. This list
+is for use with the Raspberry Pi computer only.
+</LI>
+<LI><B>http://packages.riscosopen.org/packages/pkg/raspberrypi-testing</B>
+- New system components that are under test (may break your system).
+</LI>
+</UL>
+<P>The older lists add more packages, but they may not have been tested on
+the modern (post Iyonix) hardware so should be treated with caution. They should
+be fine on Risc PC (RISC OS 4.0 or greater) and Iyonix computers.
+<UL>
+<LI><b>http://www.riscpkg.org/pkg/Unstable</b> - This was the main packaging
+list.
+This list comes from the <A HREF="http://www.riscpkg.org">RISC OS Packaging
+Project</A>.</LI>
+<LI><b>http://www.riscos.info/packages/pkg/autobuilt</b> - This contains a useful
+list of ported applications, games, libraries and the latest GCC compiler.
+See the <A HREF="http://www.riscos.info/index.php/Packages">Packages</A>
+page at www.riscos.info for more details.
+</LI>
+</UL>
+</P>
+</BODY>
+</HTML>
