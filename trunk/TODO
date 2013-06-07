@@ -4,27 +4,22 @@ Once something is done it is moved to history.htm.
 
 Items marked LibPkg: will need work done in the LibPkg backend library as well.
 
-Version 0.7.x
--------------
-
-- Single version for all RISC OS machines (standardise Raspberry Pi changes)
-- LibPkg: Get policy manual updated at riscpkg.org (I've checked in my changes).
-- Default Sources for a new install change to armv5-programs and armv6-programs
-- Default Sources add disabled raspberry-pi specific, riscpkg Unstable and autobuilder. Check if netsurf builds still exists.
-- Got a crash on KnownSources when the html file was missing
 
 Version 0.8
 -----------
 
-- Drag and Drop to set install location - this is likely to need a modification to the Control file fields to specify what is draggable.
-- For Drag and drop give the choice of creating a stub instead of setting the install location (from Jess Hampshire).
-- Look into if Sprites and SysVars should be removed from the Package and replaced with using the standard Look At functionality. (Interestingly, it appears that there is a more or less complete programmatic interface for the 'Look at', 'Add to Apps' and 'Run' windows (see section 5.2): http://www.marutan.net/wikiref/Acorn%20Registered%20Developer%20REFERNC/RO4/API/HTML/CONFIGUR.HTM
+- LibPkg and PackMan: Drag and Drop to set install location - this is likely to need a modification to the Control file fields to specify what is draggable. See Components section below.
+- LibPkg and PackMan: Look into if Sprites and SysVars should be removed from the Package and replaced with using the standard Look At functionality. (Interestingly, it appears that there is a more or less complete programmatic interface for the 'Look at', 'Add to Apps' and 'Run' windows (see section 5.2): http://www.marutan.net/wikiref/Acorn%20Registered%20Developer%20REFERNC/RO4/API/HTML/CONFIGUR.HTM
+- Keep the install/remove window open until it is specifically closed and add further installs to it so multiple installs can be done at once.
 - Ensure panes are always at least as wide as the main window
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
 - have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
 - LibPkg: logging (see below) - may only be a partial implementation for this release.
 - Options window to enable/control logging
 - See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
+- Check if netsurf builds still exists.
+- Got a crash on KnownSources when the html file was missing
+
 
 For versions after 0.8
 ----------------------
@@ -47,6 +42,7 @@ Things to check
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
+- For Drag and drop give the choice of creating a stub instead of setting the install location (from Jess Hampshire).
 - Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
 - Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
 - Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
@@ -60,7 +56,6 @@ Possible future changes (i.e. under consideration)
 - Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
 - Previous versions - theoretically LibPkg can handle this. I would have to make sure.
-- Keep the install/remove window open until it is specifically closed and add further installs to it so multiple installs can be done at once.
 - The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore). 
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - When upgrading check if the old version has been moved and prompt for it's location if it has.
@@ -68,9 +63,45 @@ Possible future changes (i.e. under consideration)
 - Simplify install from a local package
 - With local install show dialogue to allow any unmet dependencies to be dragged into it.
 - Export Package - create a package containing a package and all it's dependencies.
+- Package file format get file type for Packages.
+- Possibly allow a package file to contain multiple packages.
+- Possibly allow a package file be a stub package to tell PackMan to download something.
 - Expert mode - give options to install even when dependencies are missing or there are conflicts.
 - Multiple sections/categories.
 
+
+Components
+----------
+
+To support setting the install location, defaults for LookAt and other things in future I'm going to add a new field to the control record.
+
+The policy manual entry will be:
+
+The 'Components' field
+
+This contains a comma-separated list of the components that have extra configuration options.
+
+components-list = [ component-details, { [ws], ',', [ws], component-details } ]
+
+The component-details consists of the the component file/folder name and its options.
+
+component-details = file-name, [ws], component_options ;
+component-options = '(', { [ws], component_option {[ws] ',' component-option } ,[ws], ')'
+
+component-option = 'Moveable' , 'LookAt' ;
+
+'Moveable' means that this component can be installed to a different location or moved after install.
+
+'LookAt' means that this component suggests that it will be looked at on booting. i.e. It is added to the !Boot options 'Look At' list. At install time the user will be able to override this suggestion. As a guideline this flag should only be set for components that are run by double clicking on a file type or command line utilities.
+
+For example:
+
+Components: Apps.Development.!PackIt (Moveable,LookAt)
+
+
+Future options may include
+ 'Font' install as a RISC OS font.
+ 'SysMerge' This component is a system module so use sys merge logic to update it (e.g. If a new version of the module has been installed update the package version, but leave the existing module in place).
 
 
 Install/Remove scripts
@@ -89,7 +120,24 @@ My current thoughts/things to sort out are:
 LibPkg logging
 --------------
 
-The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working. It could also be used as a history of whats done.
+The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working. 
+
+Lastest log idea
+
+- log is just built in memory and view log button is added to component window (this window should allow the log to be saved)
+- log entry consists of an id and zero or more parameters
+- ids specify type 10000-19999 errors, 20000-29999 runtime warnings, 30000-39999 invalid package warnings, 40000-49999 Information.
+- each log entry should have the time and date it was added.
+- maintains a count of erros and warnings, so warnings can be brought to attention after action.
+
+so logging lines will be something like:
+  log().log(log::INFO_DOWNLOADS_STARTED);
+  log().log(log::ERROR_FILE_COPY_FAILED, file_name, except.what());
+
+
+Previous log idea
+
+It could also be used as a history of whats done.
 
 The log will be written to <Packages$Dir>.Log
 
