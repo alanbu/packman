@@ -28,6 +28,7 @@
 #include "ErrorWindow.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/filesystem.h"
+#include "libpkg/log.h"
 #include <string>
 #include <set>
 #include <cstdlib>
@@ -42,7 +43,10 @@ Packages *Packages::_instance = 0;
 
 Packages g_packages; // Single instance of the packages
 
-Packages::Packages() : _package_base(0), _upgrades_available(DONT_KNOW)
+Packages::Packages() :
+     _package_base(0),
+     _upgrades_available(DONT_KNOW),
+     _logging(false)
 {
 	_instance = this;
 }
@@ -301,4 +305,13 @@ std::string Packages::make_path_definition(const std::string &full_path)
 	}
 
 	return result;
+}
+
+/**
+ * Start a new log and return it
+ */
+std::tr1::shared_ptr<pkg::log> Packages::new_log()
+{
+    _log = std::tr1::shared_ptr<pkg::log>(new pkg::log());
+    return _log;
 }

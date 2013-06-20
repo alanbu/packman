@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -30,11 +30,13 @@
 namespace pkg {
 
 class pkgbase;
+class log;
 
 }; /* namespace pkg; */
 
 #include <vector>
 #include <string>
+#include <tr1/memory>
 /**
  * Class to handle packages
  */
@@ -45,6 +47,8 @@ class Packages
 	std::string _sections;
 	enum {DONT_KNOW, NO, YES} _upgrades_available;
 	std::vector<std::string> _package_list;
+	bool _logging;
+	std::tr1::shared_ptr<pkg::log> _log;
 
 public:
 	Packages();
@@ -66,6 +70,12 @@ public:
 	bool upgrades_available();
 
 	static std::string make_path_definition(const std::string &full_path);
+
+	bool logging() const {return _logging;}
+	void logging(bool on) {_logging = on;}
+
+	std::tr1::shared_ptr<pkg::log> current_log() const {return _log;}
+	std::tr1::shared_ptr<pkg::log> new_log();
 };
 
 #endif /* PACKAGES_H_ */

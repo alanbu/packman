@@ -18,11 +18,14 @@
 // in no namespace
 #include <map>
 #include <set>
+#include <tr1/memory>
 
 using namespace std;
 #include "libpkg/commit.h"
 #include "libpkg/thread.h"
+#include "libpkg/log.h"
 
+class LogViewer;
 
 /**
  * Class to show a progress window and commit changes
@@ -34,6 +37,8 @@ class CommitWindow : public pkg::thread
 	tbx::DisplayField _action;
 	tbx::Slider _progress;
 	tbx::ActionButton _cancel_button;
+	tbx::ActionButton _show_log;
+
     static CommitWindow *_instance;
 
     class CancelCommand : public tbx::Command
@@ -56,6 +61,14 @@ class CommitWindow : public pkg::thread
     pkg::commit *_commit;
     pkg::commit::state_type _state;
 
+	/** The log file for this operation */
+	std::tr1::shared_ptr<pkg::log> _log;
+	/** The log viewer shown from this window */
+	LogViewer *_log_viewer;
+
+	/** Binding from log button to show log command */
+	tbx::CommandMethod<CommitWindow> _show_log_command;
+
 private:
     void open_conflicts_window();
 
@@ -71,6 +84,8 @@ public:
     void close();
 
     virtual void poll();
+
+    void show_log();
 };
 
 #endif /* COMMITWINDOW_H_ */

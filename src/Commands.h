@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2011 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -165,5 +165,15 @@ class ShowWhatsNewCommand : public tbx::Command
 public:
 	virtual void execute();
 };
+
+/**
+ * Show the log viewer window which shows the last log
+ */
+ class ShowLogViewerCommand : public tbx::Command
+ {
+ public:
+       enum { COMMAND_ID = 10 };
+       virtual void execute();
+ };
 
 #endif /* COMMANDS_H_ */

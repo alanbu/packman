@@ -39,6 +39,10 @@
 #include "libpkg/update.h"
 
 #include <set>
+#include <tr1/memory>
+
+class pkg::log;
+class LogViewer;
 
 /**
  * Class to show window and update list of available packages
@@ -53,6 +57,7 @@ class UpdateListWindow : pkg::thread
 	tbx::ActionButton _cancel_button;
 	tbx::ActionButton _whats_new;
 	tbx::ActionButton _upgrade_all;
+	tbx::ActionButton _show_log;
     std::set<std::string> _whats_old;
     ShowWhatsNewCommand _show_whats_new;
 
@@ -80,6 +85,14 @@ class UpdateListWindow : pkg::thread
 	 * This field is used to detect changes to the update operation state. */
 	pkg::update::state_type _state;
 
+	/** The log file for this operation */
+	std::tr1::shared_ptr<pkg::log> _log;
+	/** The log viewer shown from this window */
+	LogViewer *_log_viewer;
+
+	/** Binding from log button to show log command */
+	tbx::CommandMethod<UpdateListWindow> _show_log_command;
+
 public:
     UpdateListWindow();
 	virtual ~UpdateListWindow();
@@ -92,6 +105,7 @@ public:
 
 private:
     bool write_whats_new();
+    void show_log();
 };
 
 #endif /* UPDATELISTWINDOW_H_ */

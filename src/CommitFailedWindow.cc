@@ -26,6 +26,7 @@
 
 #include "CommitFailedWindow.h"
 #include "Packages.h"
+#include "LogViewer.h"
 
 
 #include "tbx/window.h"
@@ -41,15 +42,28 @@
 using namespace std;
 
 #include "libpkg/commit.h"
+#include "libpkg/log.h"
 
 
-CommitFailedWindow::CommitFailedWindow(pkg::commit *commit, std::string last_action)
+CommitFailedWindow::CommitFailedWindow(pkg::commit *commit, std::string last_action, std::tr1::shared_ptr<pkg::log> commit_log) :
+		_log(commit_log),
+		_log_viewer(0),
+	    _show_log_command(this, &CommitFailedWindow::show_log)
 {
 	tbx::Window window("CommitFail");
 	tbx::DisplayField when(window.gadget(0));
 	tbx::Button msg(window.gadget(1));
 	msg.value(commit->message());
 	when.text("Failed to install/remove package when " + last_action);
+
+	if (_log)
+	{
+		tbx::ActionButton log_button(window.gadget(3));
+		log_button.add_select_command(&_show_log_command);
+	} else
+	{
+		window.remove_gadget(3);
+	}
 
 	// Dump class and object when window is hidden
 	window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<CommitFailedWindow>(this));
@@ -58,4 +72,13 @@ CommitFailedWindow::CommitFailedWindow(pkg::commit *commit, std::string last_act
 
 CommitFailedWindow::~CommitFailedWindow()
 {
+}
+
+/**
+ * Show (or reshow) the log
+ */
+void CommitFailedWindow::show_log()
+{
+	if (_log_viewer == 0) _log_viewer = new LogViewer(_log);
+	_log_viewer->show();
 }

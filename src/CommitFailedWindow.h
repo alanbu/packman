@@ -28,20 +28,38 @@
 #define COMMITFAILEDWINDOW_H_
 
 #include <string>
+#include "tbx/actionbutton.h"
+#include "tbx/command.h"
+#include <tr1/memory>
 
 namespace pkg
 {
    class commit;
+   class log;
 }
+
+class LogViewer;
 
 /**
  * Class to show failure message from install/remove
  */
 class CommitFailedWindow
 {
+	tbx::ActionButton _show_log;
+	/** The log file for this operation */
+	std::tr1::shared_ptr<pkg::log> _log;
+	/** The log viewer shown from this window */
+	LogViewer *_log_viewer;
+
+	/** Binding from log button to show log command */
+	tbx::CommandMethod<CommitFailedWindow> _show_log_command;
+
 public:
-	CommitFailedWindow(pkg::commit *commit, std::string last_action);
+	CommitFailedWindow(pkg::commit *commit, std::string last_action, std::tr1::shared_ptr<pkg::log> commit_log);
 	virtual ~CommitFailedWindow();
+
+private:
+	void show_log();
 };
 
 #endif /* COMMITFAILEDWINDOW_H_ */
