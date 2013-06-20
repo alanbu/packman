@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -27,8 +27,10 @@
 #include "UpdateListWindow.h"
 #include "Packages.h"
 #include "ErrorWindow.h"
+#include "LogViewer.h"
 #include "tbx/application.h"
 #include "libpkg/download.h"
+#include "libpkg/log.h"
 #include <algorithm>
 #include <iterator>
 
@@ -43,7 +45,9 @@ UpdateListWindow::UpdateListWindow() :
     _upgrade_all(_window.gadget(4)),
     _cancel_command(this),
     _upd(0),
-    _state(pkg::update::state_done)
+    _state(pkg::update::state_done),
+    _log_viewer(0),
+    _show_log_command(this, &UpdateListWindow::show_log)
 {
    _instance = this;
    _cancel_button.add_select_command(&_cancel_command);
@@ -53,7 +57,7 @@ UpdateListWindow::UpdateListWindow() :
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
 
-	_upd=new pkg::update(*package_base);
+   _upd=new pkg::update(*package_base);
 
 	// Start libpkg threads
 	tbx::app()->add_idle_command(&_thread_runner);
@@ -61,6 +65,19 @@ UpdateListWindow::UpdateListWindow() :
 	// Set up list of packages before update
 	const std::vector<std::string> &package_list = Packages::instance()->package_list();
 	std::copy(package_list.begin(), package_list.end(), std::inserter(_whats_old, _whats_old.end()));
+
+	if (Packages::instance()->logging())
+	{
+	    _show_log  = _window.gadget(6);
+		_log = Packages::instance()->new_log();
+		_upd->log_to(_log.get());
+		_show_log.add_select_command(&_show_log_command);
+		_show_log.fade(true);
+	} else
+	{
+		// Remove log button
+		_window.remove_gadget(6);
+	}
 
     _window.show();
 }
@@ -111,6 +128,7 @@ void UpdateListWindow::poll()
 				_action.text("Done");
 				_cancel_button.text("Close");
 			    _cancel_button.fade(false);
+			    if (!_show_log.null()) _show_log.fade(false);
 				delete _upd;
 				_upd=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
@@ -126,6 +144,7 @@ void UpdateListWindow::poll()
 				_action.text("Failed");
 				_cancel_button.text("Close");
 			    _cancel_button.fade(false);
+			    if (!_show_log.null()) _show_log.fade(false);
 				new ErrorWindow(_upd->message(), "Failed to update package list(s)");
 				delete _upd;
 				_upd=0;
@@ -155,6 +174,15 @@ void UpdateListWindow::CancelCommand::execute()
 	_me->_instance = 0;
     tbx::app()->remove_idle_command(&(_me->_thread_runner));
 	delete _me;
+}
+
+/**
+ * Show (or reshow) the log
+ */
+void UpdateListWindow::show_log()
+{
+	if (_log_viewer == 0) _log_viewer = new LogViewer(_log);
+	_log_viewer->show();
 }
 
 /**

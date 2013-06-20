@@ -9,6 +9,7 @@
 #include "Packages.h"
 #include "ConflictManager.h"
 #include "CommitFailedWindow.h"
+#include "LogViewer.h"
 
 #include "tbx/application.h"
 #include "tbx/deleteonhidden.h"
@@ -36,7 +37,9 @@ CommitWindow::CommitWindow() :
     _cancel_button(_window.gadget(3)),
     _cancel_command(this),
     _commit(0),
-    _state(pkg::commit::state_done)
+    _state(pkg::commit::state_done),
+    _log_viewer(0),
+    _show_log_command(this, &CommitWindow::show_log)
 {
    _instance = this;
    _cancel_button.add_select_command(&_cancel_command);
@@ -79,6 +82,20 @@ CommitWindow::CommitWindow() :
 
 	// Begin new commit operation.
 	_commit = new pkg::commit(*package_base, packages);
+
+	// Set up logging
+	if (Packages::instance()->logging())
+	{
+		_log = Packages::instance()->new_log();
+		_commit->log_to(_log.get());
+		_show_log = _window.gadget(4);
+		_show_log.add_select_command(&_show_log_command);
+		_show_log.fade(true);
+	} else
+	{
+		// Remove logging button
+		_window.remove_gadget(4);
+	}
 
 	// Start libpkg threads
 	tbx::app()->add_idle_command(&_thread_runner);
@@ -142,6 +159,7 @@ void CommitWindow::poll()
 				_action.text("Done");
 				_cancel_button.text("Close");
 				_cancel_button.fade(false);
+                if (!_show_log.null()) _show_log.fade(false);
 				delete _commit;
 				_commit=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
@@ -157,7 +175,7 @@ void CommitWindow::poll()
 						open_conflicts_window();
 					} else
 					{
-						new CommitFailedWindow(_commit, last_action);
+						new CommitFailedWindow(_commit, last_action, _log);
 					}
 					_cancel_button.text("Close");
 					_cancel_button.fade(false);
@@ -166,6 +184,7 @@ void CommitWindow::poll()
 					tbx::app()->remove_idle_command(&_thread_runner);
 					// Defer delete to idle
 					tbx::app()->add_idle_command(&_cancel_command);
+	                if (!_show_log.null()) _show_log.fade(false);
 				}
 				break;
 			}
@@ -240,4 +259,13 @@ void CommitWindow::open_conflicts_window()
 {
 //	new ConflictsWindow(_commit->files_that_conflict());
 	new ConflictManager(_commit->files_that_conflict());
+}
+
+/**
+ * Show (or reshow) the log
+ */
+void CommitWindow::show_log()
+{
+	if (_log_viewer == 0) _log_viewer = new LogViewer(_log);
+	_log_viewer->show();
 }

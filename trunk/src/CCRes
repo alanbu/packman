@@ -709,7 +709,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:344,808,1256,1020
+  window.visible:128,196,1040,408
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -758,6 +758,17 @@ window_object {
     help_limit:*
     flags:actionbutton_IS_LOCAL
     text:"Processing..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:16,-196,204,-144
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Log..."
     text_limit:*
     click_show:""
     action:&0
@@ -1199,6 +1210,17 @@ window_object {
     click_show:""
     action:&0
   }
+  actionbutton_object {
+    cmp:&6
+    bbox:16,-204,204,-152
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Log..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
 }
 
 window_object {
@@ -1606,6 +1628,17 @@ window_object {
     help_limit:*
     flags:actionbutton_IS_DEFAULT | actionbutton_IS_CANCEL
     text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:44,-288,232,-236
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Log..."
     text_limit:*
     click_show:""
     action:&0
@@ -2749,6 +2782,19 @@ menu_object {
     sub_menu_object_name:""
     sub_menu_action:&0
     click_action:&9
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:10
+    flags:
+    cmp:&a
+    text:"View Log..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&a
     help:""
     help_limit:*
   }
@@ -4268,4 +4314,84 @@ window_object {
     flags:label_NO_BOX
     label:"Location on disc"
   }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"Log"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:"LogMenu"
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:208,388,1340,924
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Log Viewer"
+  window.title_text_limit:*
+  window.title_valid:""
+}
+
+menu_object {
+  header_flags:
+  version:102
+  object_name:"LogMenu"
+  menu_flags:
+  title:"Log Viewer"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:
+  hide_action:
+  Entry {
+    cmp:0
+    flags:menu_ENTRY_SUB_MENU | 0x4000
+    cmp:&0
+    text:"Save Log"
+    text_limit:*
+    click_object_name:"LogSaveAs"
+    sub_menu_object_name:"LogSaveAs"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+}
+
+saveas_object {
+  header_flags:toolbox_OBJECT_SHARED
+  version:100
+  object_name:"LogSaveAs"
+  saveas_flags:saveas_NO_SELECTION_BUTTON
+  file_name:"PkgLog"
+  file_type:&fff
+  title:"Save Log as text"
+  title_limit:*
+  alternative_window_name:""
 }

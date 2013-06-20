@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
 	packman.add_command(HELP_COMMAND_ID, &show_help);
 	packman.add_command(UpgradeAllCommand::COMMAND_ID, new UpgradeAllCommand());
 	packman.add_command(UpdateListCommand::COMMAND_ID, new UpdateListCommand());
+	packman.add_command(ShowLogViewerCommand::COMMAND_ID, new ShowLogViewerCommand());
 
 	// Windows that probably won't be used as often so create on demand
 	tbx::MatchLifetime<AppsWindow> mlt_apps("Apps");

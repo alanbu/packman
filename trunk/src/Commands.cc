@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -36,9 +36,11 @@
 #include "PackManState.h"
 #include "UpgradeAllWindow.h"
 #include "VerifyWindow.h"
+#include "LogViewer.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
+#include "tbx/messagewindow.h"
 
 #include <string>
 
@@ -191,3 +193,39 @@ void ShowWhatsNewCommand::execute()
 		main->set_filter("What's New");
 	}
 }
+
+/**
+ * Local class to turn on logging - just used by show log viewer command for now
+ */
+ class TurnOnLoggingCommand : public tbx::Command
+ {
+    public:
+       void execute()
+       {
+          Packages::instance()->logging(true);
+       }
+};
+
+/**
+ * Show a log viewer if possible
+ */
+ void ShowLogViewerCommand::execute()
+ {
+     Packages *p = Packages::instance();
+     std::tr1::shared_ptr<pkg::log> lg = p->current_log();
+     if (lg)
+     {
+         new LogViewer(lg);
+     } else if (p->logging())
+     {
+         tbx::show_message("No logs have been created yet");
+     } else
+     {
+         tbx::show_question_as_menu(
+           "No logs have been created yet and no logs"
+           " will be produced as logging is turned off.\n\n"
+           "Do you wish to turn logging on now?",
+           "Show Log Viewer",
+           new TurnOnLoggingCommand(), 0, true);
+     }
+ }
