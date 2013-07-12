@@ -199,7 +199,7 @@ void Packages::clear_selection()
 	pkg::status_table::const_iterator i;
 	std::set < std::string > selected;
 
-	// Get list of packages with there stateClear any old selection
+	// Get list of packages with there state and clear any old selection
 	for (i = seltable.begin(); i != seltable.end(); ++i)
 	{
 		pkg::status curstat = _package_base->curstat ()[i->first];
@@ -218,6 +218,127 @@ void Packages::clear_selection()
 
 	_package_base->fix_dependencies(selected);
 	_package_base->remove_auto();
+}
+
+/**
+ * Select a package for install or upgrade
+ *
+ * @param bctrl binary control record of package to install/upgrade
+ */
+void Packages::select_install(const pkg::binary_control *bctrl)
+{
+	const std::string &pkgname = bctrl->pkgname();
+	std::set<std::string> seed;
+	pkg::status curstat = _package_base->curstat()[pkgname];
+	pkg::status selstat = _package_base->selstat()[pkgname];
+	selstat.state(pkg::status::state_installed);
+	if (curstat.state() == pkg::status::state_installed)
+	{
+		// Upgrade so need version as well
+		const pkg::control& ctrl=_package_base->control()[pkgname];
+		selstat.version(ctrl.version());
+	}
+	_package_base->selstat().insert(pkgname,selstat);
+	seed.insert(pkgname);
+	_package_base->fix_dependencies(seed);
+	_package_base->remove_auto();
+}
+
+/**
+ * Select a package to remove
+ *
+ * @param bctrl binary control record of package to removee
+ */
+void Packages::select_remove(const pkg::binary_control *bctrl)
+{
+	const std::string &pkgname = bctrl->pkgname();
+	std::set<std::string> seed;
+	pkg::status curstat = _package_base->curstat()[pkgname];
+	pkg::status selstat = _package_base->selstat()[pkgname];
+	selstat.state(pkg::status::state_removed);
+	_package_base->selstat().insert(pkgname,selstat);
+	seed.insert(pkgname);
+	_package_base->fix_dependencies(seed);
+	_package_base->remove_auto();
+}
+
+/**
+ * Select all packages that can be upgraded.
+ *
+ * @returns true if upgrades are available
+ */
+bool Packages::select_upgrades()
+{
+	if (_upgrades_available == NO) return false;
+
+	pkg::status_table &seltable = _package_base->selstat ();
+	pkg::status_table &curtable = _package_base->curstat();
+	std::set < std::string > seed;
+
+    // Select all upgrades
+    const pkg::binary_control_table& ctrltab = _package_base->control();
+    std::string prev_pkgname;
+
+    for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
+	 i !=ctrltab.end(); ++i)
+    {
+	   std::string pkgname=i->first.pkgname;
+	   if (pkgname!=prev_pkgname)
+	   {
+		  // Don't use i->second for ctrl as it may not be the latest version
+		  // instead look it up.
+		  prev_pkgname=pkgname;
+
+          pkg::status curstat=curtable[pkgname];
+		  pkg::status selstat=seltable[pkgname];
+		  if (selstat.state()>=pkg::status::state_installed)
+		  {
+		 	 const pkg::control& ctrl=ctrltab[pkgname];
+			 selstat.version(ctrl.version());
+			 if (_upgrades_available != YES)
+			 {
+				  pkg::version inst_version(curstat.version());
+				  pkg::version cur_version(ctrl.version());
+
+				  if (inst_version < cur_version)
+				  {
+					  _upgrades_available = YES;
+				  }
+			 }
+			 if (_upgrades_available == YES)
+			 {
+				 _package_base->selstat().insert(pkgname,selstat);
+				 seed.insert(pkgname);
+			 }
+		  }
+	   }
+    }
+
+	_package_base->fix_dependencies (seed);
+	_package_base->remove_auto ();
+
+	return (_upgrades_available == YES);
+}
+
+/**
+ * Remove package from the selection
+ *
+ * @param pkgname name of package to remove
+ */
+void Packages::deselect(const std::string &pkgname)
+{
+	std::set<std::string> seed;
+	pkg::status curstat = _package_base->curstat()[pkgname];
+	pkg::status selstat = _package_base->selstat()[pkgname];
+
+	if (selstat != curstat)
+	{
+		selstat = curstat;
+		_package_base->selstat().insert(pkgname,selstat);
+		seed.insert(pkgname);
+		_package_base->fix_dependencies(seed);
+		_package_base->remove_auto();
+	}
 }
 
 /**
@@ -269,6 +390,8 @@ bool Packages::upgrades_available()
 
 	return (_upgrades_available != NO);
 }
+
+
 
 /**
  * Convert paths to path relative to Boot$Dir if possible

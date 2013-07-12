@@ -26,7 +26,6 @@
 
 #include "Commands.h"
 #include "MainWindow.h"
-#include "IRWindow.h"
 #include "CommitWindow.h"
 #include "UpdateListWindow.h"
 #include "SourcesWindow.h"
@@ -34,9 +33,9 @@
 #include "BackupWindow.h"
 #include "Packages.h"
 #include "PackManState.h"
-#include "UpgradeAllWindow.h"
 #include "VerifyWindow.h"
 #include "LogViewer.h"
+#include "PackageConfigWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -54,9 +53,8 @@ void InstallCommand::execute()
 
 	if (pmstate()->ok_to_commit())
 	{
-		if (_install == 0) _install = new IRWindow(false);
-		_install->set_package(pkg_control);
-		_install->show();
+		Packages::instance()->select_install(pkg_control);
+		PackageConfigWindow::update();
 	}
 }
 
@@ -70,9 +68,8 @@ void RemoveCommand::execute()
 
 	if (pmstate()->ok_to_commit())
 	{
-		if (_remove == 0) _remove = new IRWindow(true);
-		_remove->set_package(pkg_control);
-		_remove->show();
+		Packages::instance()->select_remove(pkg_control);
+		PackageConfigWindow::update();
 	}
 }
 
@@ -130,10 +127,11 @@ void UpgradeAllCommand::execute()
 	{
 		if (pmstate()->ok_to_commit())
 		{
-			if (_upgrade == 0) _upgrade = new UpgradeAllWindow();
-			if (_upgrade->set_upgrades())
+			bool upgrades = Packages::instance()->select_upgrades();
+			if (upgrades)
 			{
-			   _upgrade->show();
+				PackageConfigWindow::update();
+				PackageConfigWindow::bring_to_top();
 			} else
 			{
 			   tbx::Window no_upgrades("NoUpgrades");

@@ -492,208 +492,6 @@ window_object {
 window_object {
   header_flags:
   version:102
-  object_name:"Install"
-  window_flags:window_AUTO_CLOSE
-  help_message:""
-  help_limit:*
-  sprite_name:""
-  pointer_limit:0
-  hotspot:0,0
-  menu_name:""
-  default_focus:toolbox_WINDOW_FOCUS
-  show_action:
-  hide_action:
-  toolbar_ibl:""
-  toolbar_itl:""
-  toolbar_ebl:""
-  toolbar_etl:""
-  window.visible:664,340,1488,1108
-  window.xscroll:0
-  window.yscroll:0
-  window.next:wimp_TOP
-  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
-  window.title_fg:wimp_COLOUR_BLACK
-  window.title_bg:wimp_COLOUR_LIGHT_GREY
-  window.work_fg:wimp_COLOUR_BLACK
-  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
-  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
-  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
-  window.highlight_bg:wimp_COLOUR_CREAM
-  window.extra_flags:
-  window.extent:0,-1024,1280,0
-  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
-  window.work_flags:
-  window.sprite_area:&ffffffff
-  window.xmin:100
-  window.ymin:100
-  window.title_text:"Install package:"
-  window.title_text_limit:*
-  window.title_valid:""
-  label_object {
-    cmp:&0
-    bbox:20,-64,208,-12
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Install:"
-  }
-  displayfield_object {
-    cmp:&1
-    bbox:248,-68,804,-16
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:64
-  }
-  label_object {
-    cmp:&2
-    bbox:20,-144,208,-92
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Version:"
-  }
-  displayfield_object {
-    cmp:&3
-    bbox:248,-140,804,-88
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:32
-  }
-  label_object {
-    cmp:&4
-    bbox:16,-216,204,-164
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Summary:"
-  }
-  displayfield_object {
-    cmp:&5
-    bbox:16,-272,808,-220
-    help_message:""
-    help_limit:*
-    flags:
-    text:""
-    text_limit:128
-  }
-  label_object {
-    cmp:&6
-    bbox:12,-328,412,-288
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Dependencies also installed:"
-  }
-  scrolllist_object {
-    cmp:&7
-    bbox:16,-508,396,-340
-    help_message:""
-    help_limit:*
-    flags:
-    event:0
-    foreground:os_COLOUR_BLACK
-    background:os_COLOUR_WHITE
-  }
-  label_object {
-    cmp:&8
-    bbox:8,-588,168,-536
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Total:"
-  }
-  displayfield_object {
-    cmp:&9
-    bbox:208,-584,396,-532
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:10
-  }
-  label_object {
-    cmp:&a
-    bbox:20,-652,168,-600
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Total size:"
-  }
-  displayfield_object {
-    cmp:&b
-    bbox:208,-652,448,-600
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:32
-  }
-  actionbutton_object {
-    cmp:&c
-    bbox:28,-756,232,-688
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_DEFAULT
-    text:"Install"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  actionbutton_object {
-    cmp:&d
-    bbox:280,-748,468,-696
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_CANCEL
-    text:"Cancel"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  scrolllist_object {
-    cmp:&e
-    bbox:428,-508,808,-340
-    help_message:""
-    help_limit:*
-    flags:
-    event:0
-    foreground:os_COLOUR_BLACK
-    background:os_COLOUR_WHITE
-  }
-  label_object {
-    cmp:&f
-    bbox:424,-332,792,-280
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Packages to remove"
-  }
-  label_object {
-    cmp:&10
-    bbox:432,-580,596,-528
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Remove:"
-  }
-  displayfield_object {
-    cmp:&11
-    bbox:612,-580,800,-528
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:"Display"
-    text_limit:*
-  }
-}
-
-window_object {
-  header_flags:
-  version:102
   object_name:"Commit"
   window_flags:
   help_message:""
@@ -922,156 +720,6 @@ window_object {
     adjust_show:""
     fade_text:""
     fade_text_limit:*
-  }
-}
-
-window_object {
-  header_flags:
-  version:102
-  object_name:"Remove"
-  window_flags:window_AUTO_CLOSE
-  help_message:""
-  help_limit:*
-  sprite_name:""
-  pointer_limit:0
-  hotspot:0,0
-  menu_name:""
-  default_focus:toolbox_WINDOW_FOCUS
-  show_action:
-  hide_action:
-  toolbar_ibl:""
-  toolbar_itl:""
-  toolbar_ebl:""
-  toolbar_etl:""
-  window.visible:664,428,1484,1108
-  window.xscroll:0
-  window.yscroll:0
-  window.next:wimp_TOP
-  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
-  window.title_fg:wimp_COLOUR_BLACK
-  window.title_bg:wimp_COLOUR_LIGHT_GREY
-  window.work_fg:wimp_COLOUR_BLACK
-  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
-  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
-  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
-  window.highlight_bg:wimp_COLOUR_CREAM
-  window.extra_flags:
-  window.extent:0,-1024,1280,0
-  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
-  window.work_flags:
-  window.sprite_area:&ffffffff
-  window.xmin:100
-  window.ymin:100
-  window.title_text:"Remove package:"
-  window.title_text_limit:*
-  window.title_valid:""
-  label_object {
-    cmp:&0
-    bbox:20,-64,208,-12
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Remove:"
-  }
-  displayfield_object {
-    cmp:&1
-    bbox:248,-68,804,-16
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:64
-  }
-  label_object {
-    cmp:&2
-    bbox:20,-144,208,-92
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Version:"
-  }
-  displayfield_object {
-    cmp:&3
-    bbox:248,-140,804,-88
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:32
-  }
-  label_object {
-    cmp:&4
-    bbox:16,-216,204,-164
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Summary:"
-  }
-  displayfield_object {
-    cmp:&5
-    bbox:16,-272,808,-220
-    help_message:""
-    help_limit:*
-    flags:
-    text:""
-    text_limit:128
-  }
-  label_object {
-    cmp:&8
-    bbox:8,-588,168,-536
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Total:"
-  }
-  actionbutton_object {
-    cmp:&c
-    bbox:584,-664,788,-596
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_DEFAULT
-    text:"Remove"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  actionbutton_object {
-    cmp:&d
-    bbox:352,-656,540,-604
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_CANCEL
-    text:"Cancel"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  scrolllist_object {
-    cmp:&e
-    bbox:20,-520,484,-352
-    help_message:""
-    help_limit:*
-    flags:
-    event:0
-    foreground:os_COLOUR_BLACK
-    background:os_COLOUR_WHITE
-  }
-  label_object {
-    cmp:&f
-    bbox:16,-344,804,-292
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Other packages that depend on this that will be removed"
-  }
-  displayfield_object {
-    cmp:&11
-    bbox:208,-584,396,-532
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:10
   }
 }
 
@@ -2345,157 +1993,6 @@ window_object {
     text_limit:*
     click_show:""
     action:&0
-  }
-}
-
-window_object {
-  header_flags:
-  version:102
-  object_name:"UpgradeAll"
-  window_flags:window_AUTO_CLOSE
-  help_message:""
-  help_limit:*
-  sprite_name:""
-  pointer_limit:0
-  hotspot:0,0
-  menu_name:""
-  default_focus:toolbox_WINDOW_FOCUS
-  show_action:
-  hide_action:
-  toolbar_ibl:""
-  toolbar_itl:""
-  toolbar_ebl:""
-  toolbar_etl:""
-  window.visible:664,340,1488,1108
-  window.xscroll:0
-  window.yscroll:0
-  window.next:wimp_TOP
-  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
-  window.title_fg:wimp_COLOUR_BLACK
-  window.title_bg:wimp_COLOUR_LIGHT_GREY
-  window.work_fg:wimp_COLOUR_BLACK
-  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
-  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
-  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
-  window.highlight_bg:wimp_COLOUR_CREAM
-  window.extra_flags:
-  window.extent:0,-1024,1280,0
-  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
-  window.work_flags:
-  window.sprite_area:&ffffffff
-  window.xmin:100
-  window.ymin:100
-  window.title_text:"Upgrade all installed packages"
-  window.title_text_limit:*
-  window.title_valid:""
-  label_object {
-    cmp:&6
-    bbox:20,-52,784,-12
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Packages that will be upgraded:"
-  }
-  scrolllist_object {
-    cmp:&7
-    bbox:28,-284,796,-56
-    help_message:""
-    help_limit:*
-    flags:
-    event:0
-    foreground:os_COLOUR_BLACK
-    background:os_COLOUR_WHITE
-  }
-  label_object {
-    cmp:&8
-    bbox:8,-588,168,-536
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Total:"
-  }
-  displayfield_object {
-    cmp:&9
-    bbox:208,-584,396,-532
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:10
-  }
-  label_object {
-    cmp:&a
-    bbox:20,-652,168,-600
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Total size:"
-  }
-  displayfield_object {
-    cmp:&b
-    bbox:208,-652,448,-600
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:""
-    text_limit:32
-  }
-  actionbutton_object {
-    cmp:&c
-    bbox:28,-756,232,-688
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_DEFAULT
-    text:"Upgrade All"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  actionbutton_object {
-    cmp:&d
-    bbox:280,-748,468,-696
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_CANCEL
-    text:"Cancel"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  scrolllist_object {
-    cmp:&e
-    bbox:28,-516,788,-348
-    help_message:""
-    help_limit:*
-    flags:
-    event:0
-    foreground:os_COLOUR_BLACK
-    background:os_COLOUR_WHITE
-  }
-  label_object {
-    cmp:&f
-    bbox:20,-348,480,-296
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Packages that will be removed"
-  }
-  label_object {
-    cmp:&10
-    bbox:432,-580,596,-528
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Remove:"
-  }
-  displayfield_object {
-    cmp:&11
-    bbox:612,-580,800,-528
-    help_message:""
-    help_limit:*
-    flags:displayfield_HCENTRED
-    text:"Display"
-    text_limit:*
   }
 }
 
@@ -4394,4 +3891,312 @@ saveas_object {
   title:"Save Log as text"
   title_limit:*
   alternative_window_name:""
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"PackConfig"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:120,172,1200,660
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-488,1080,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Package configuration"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:12,-56,748,-4
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Packages to configure"
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:16,-116,1056,-56
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:80
+  }
+  displayfield_object {
+    cmp:&2
+    bbox:16,-188,204,-136
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:*
+  }
+  label_object {
+    cmp:&3
+    bbox:228,-192,692,-140
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Recomendations or suggestions"
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:696,-192,880,-140
+    help_message:""
+    help_limit:*
+    flags:gadget_FADED
+    text:"View/Add..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  displayfield_object {
+    cmp:&5
+    bbox:16,-252,204,-200
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:8
+  }
+  label_object {
+    cmp:&6
+    bbox:224,-252,388,-200
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Downloads"
+  }
+  displayfield_object {
+    cmp:&7
+    bbox:412,-252,744,-200
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0K"
+    text_limit:32
+  }
+  label_object {
+    cmp:&8
+    bbox:16,-316,472,-264
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Components to configure"
+  }
+  displayfield_object {
+    cmp:&9
+    bbox:20,-400,1060,-324
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"No configurable components"
+    text_limit:*
+  }
+  actionbutton_object {
+    cmp:&a
+    bbox:448,-472,636,-420
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&b
+    bbox:672,-472,1056,-420
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Install/Upgrade/Remove"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  button_object {
+    cmp:&1000
+    bbox:24,-108,892,-64
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"Package"
+    value_limit:80
+    validation:""
+    validation_limit:*
+  }
+  actionbutton_object {
+    cmp:&1001
+    bbox:900,-108,1048,-64
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Withdraw"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"CompProto"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:32,496,1072,872
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:""
+  window.title_text_limit:*
+  window.title_valid:""
+  button_object {
+    cmp:&0
+    bbox:28,-140,784,-88
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED | wimp_ICON_RJUSTIFIED | wimp_BUTTON_WRITABLE
+    button_esg:0
+    button_fg:wimp_COLOUR_DARK_GREEN
+    button_bg:wimp_COLOUR_WHITE
+    value:"Path"
+    value_limit:256
+    validation:""
+    validation_limit:*
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:804,-140,1024,-88
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"Leaf name"
+    text_limit:64
+  }
+  draggable_object {
+    cmp:&2
+    bbox:860,-84,956,-4
+    help_message:""
+    help_limit:*
+    flags:draggable_SPRITE | draggable_DROP_SHADOW
+    text:"Draggable"
+    text_limit:*
+    sprite_name:"package"
+    sprite_limit:*
+  }
+  label_object {
+    cmp:&3
+    bbox:28,-72,216,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Boot options:"
+  }
+  optionbutton_object {
+    cmp:&4
+    bbox:252,-68,424,-24
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Look at"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&5
+    bbox:432,-68,560,-24
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Run"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&6
+    bbox:576,-68,816,-24
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Add To Apps"
+    label_limit:*
+    action:&0
+  }
+  button_object {
+    cmp:&7
+    bbox:24,-160,1028,-156
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_DARK_GREY
+    button_bg:wimp_COLOUR_WHITE
+    value:"Button"
+    value_limit:8
+    validation:""
+    validation_limit:*
+  }
 }

@@ -44,6 +44,7 @@
 									<listOptionValue builtIn="false" value="\Misc/cygwin/home/riscos/cross/include/c++/4.1.2"/>
 									<listOptionValue builtIn="false" value="/home/alanb/roworkspace/tbx"/>
 									<listOptionValue builtIn="false" value="&quot;\Misc\cygwin\home\riscos\env\include&quot;"/>
+									<listOptionValue builtIn="false" value="/home/alanb/libpkgstuff/libpkg_curl/include"/>
 									<listOptionValue builtIn="false" value="/home/riscos/env/include"/>
 									<listOptionValue builtIn="false" value="\Misc/cygwin/home/riscos/cross/arm-unknown-riscos/include/libunixlib"/>
 									<listOptionValue builtIn="false" value="\Misc/cygwin/home/alanb/roworkspace/tbx"/>
@@ -66,6 +67,7 @@
 							<tool command="/home/riscos/cross/bin/arm-unknown-riscos-g++" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GLDErrorParser" id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.682667682" name="Cygwin C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug">
 								<option id="gnu.cpp.link.option.paths.1264712537" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/home/alanb/roworkspace/tbx/Debug"/>
+									<listOptionValue builtIn="false" value="/home/alanb/libpkgstuff/libpkg_curl/lib"/>
 									<listOptionValue builtIn="false" value="/home/riscos/env/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.388630825" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
@@ -80,16 +82,6 @@
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
 								</inputType>
 							</tool>
-						</toolChain>
-					</folderInfo>
-					<folderInfo id="cdt.managedbuild.config.gnu.cygwin.exe.debug.2000663255.1410421115" name="/" resourcePath="unittests">
-						<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug.115910505" name="Cygwin GCC" superClass="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug" unusedChildren="">
-							<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug.1486275946" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug.2012171348"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.cygwin.base.1245768186" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.cygwin.base.1667395306"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1307920865" name="Cygwin C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1230327457"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.268760975" name="Cygwin C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.1023016656"/>
-							<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.1230097223" name="Cygwin C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.837315582"/>
-							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.42634701" name="Cygwin C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.682667682"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
