@@ -6,8 +6,15 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>xxxx Beta - Whenever</B>
+<UL>
+<LI>Replaced install/upgrade all and remove window with a single package configuration window.<LI>
+<LI>Multiple packages can be added to the new configuration window and then they can all
+be installed, upgraded or removed at once.</LI>
+</UL>
+</LI>
 
-<LI><B>0.7.1 Beta - March 2013</B></LI>
+<LI><B>0.7.1 Beta - March 2013</B>
 <UL>
   <li>Added verify all option to iconbar advanced menu to look for
       installed packages with missing files</li>
@@ -36,6 +43,7 @@ lists window contains a button to show a window with this filter already selecte
      </ul>
   </li>
 </UL>
+</LI>
 <LI><B>0.7 Beta - September 2012</B>
 <UL>
  <li>Changed history to put newest version at the top</li>

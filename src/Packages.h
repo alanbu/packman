@@ -31,6 +31,7 @@ namespace pkg {
 
 class pkgbase;
 class log;
+class binary_control;
 
 }; /* namespace pkg; */
 
@@ -66,6 +67,11 @@ public:
 	std::string sections();
 
 	void clear_selection();
+	void select_install(const pkg::binary_control *bctrl);
+	void select_remove(const pkg::binary_control *bctrl);
+	bool select_upgrades();
+	void deselect(const std::string &pkgname);
+
 	void unset_upgrades_available();
 	bool upgrades_available();
 
