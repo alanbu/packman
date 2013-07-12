@@ -1,0 +1,87 @@
+-- Lua script to change the version everywhere it needs to
+-- run with lua setversion <new_version>
+
+package_name="PackMan"
+beta= " Beta"
+
+package_version = arg[1]
+if package_version == nil then
+   print( "You must enter a version number on the command line" )
+   return
+end
+
+version_pattern="%d+%.%d+%.?%d*"
+package_version_pattern = version_pattern .. "%-%d+"
+
+if string.find(package_version,"^"..package_version_pattern .. "$") == nil then
+   print( "Version must be in the form of n.n[.n]-n")
+   return
+end
+
+_,_,version=string.find(package_version, "("..version_pattern..")")
+
+print("Version without package number " .. version)
+errors=0
+
+function replace_in_file(file, pattern, repl)
+local f=io.open(file,"r")
+if f == nil then
+   print("** Unable to open '"..file.."'")
+   errors = errors + 1
+   return
+end
+
+local text = f:read("*all")
+
+f:close()
+
+new_text, found = string.gsub(text, pattern, repl, 1)
+if found > 0 then
+   print("Version replaced in '"..file.."' " .. found .. " times.")
+
+   f = io.open(file,"w+")
+   if f == nil then
+      print("** Unable to open '"..file.."' to update it")
+      errors = errors + 1
+   else
+      f:write(new_text)
+      f:close()
+   end
+
+else
+   print("** Failed to replace version in '"..file.."'")
+   errors = errors + 1
+end
+
+end
+
+-- Application files
+
+replace_in_file("!"..package_name.."/!Boot,feb", "(Set "..package_name.."%$Version%s+\")"..version_pattern,"%1"..version)
+replace_in_file("!"..package_name.."/HelpText", "("..package_name.." )"..version_pattern, "%1"..version)
+replace_in_file("!"..package_name.."/html/index.htm,faf","(version )"..version_pattern.."%.", "%1"..version..".")
+replace_in_file("!"..package_name.."/html/history.htm,faf","(<B>).-(</B>)", "%1"..version..beta.." - ".. os.date("%B %Y").."%2")
+
+-- Source files
+replace_in_file("src/CCRes", "(prog_version:\").-\"","%1"..version..beta.." ("..os.date("%d %b %Y")..")\"")
+
+-- Packaging files
+
+replace_in_file("RiscPkg/Control", "(Version:%s+)"..package_version_pattern, "%1"..package_version)
+replace_in_file("RiscPkg/Rules", "(VERSION=)"..package_version_pattern,"%1"..package_version)
+
+
+-- SysVars version
+f = io.open("SysVars/"..package_name.."=24Version","w+")
+if f == nil then
+   print("** Unable to open SysVars/" .. package_name)
+   errors = errors + 1
+else
+   f:write(version)
+   f:close()
+   print("Updated version in SysVars/"..package_name)
+end
+
+
+print("Finished with " .. errors .. " error(s)")
+
