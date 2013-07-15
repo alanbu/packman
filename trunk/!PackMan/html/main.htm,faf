@@ -21,6 +21,8 @@ The left hand column is either:
 <LI>a green tick if the package is installed</LI>
 <LI>an orangish tick if the package is installed and there
   is an upgrade available.</LI>
+<LI>A rectangle partially filled with green from the left during package installation/removal. If this appears while packages are not being installed it means the install failed and did not manage to fully restore the original state. The best solution to this is to remove the package and then try reinstalling it again. Alternatively a second attempt at installing has a good chance of continuing from where the install failed. Packages in this state will be added to the next Package Configuration Window shown until they are fixed.
+</LI>
 </UL>
 <P>
 The ticks have a small "a" by them if the package was
