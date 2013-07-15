@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2011 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -70,7 +70,7 @@ class MainWindow :
 	class StatusSprite : public tbx::view::ItemViewValue<tbx::Sprite *>
 	{
 		MainWindow *_me;
-		static tbx::UserSprite _sprites[4];
+		static tbx::UserSprite _sprites[8];
 
 	public:
 		StatusSprite(MainWindow *me);
@@ -166,7 +166,7 @@ public:
 	virtual void handle_change(pkg::table& t);
 	virtual void selection_changed(const tbx::view::SelectionChangedEvent &event);
 
-	enum InstallState {NOT_INSTALLED, INSTALLED, OLD_VERSION};
+	enum InstallState {NOT_INSTALLED, PART_INSTALLED, INSTALLED, OLD_VERSION};
 
 	InstallState install_state(const pkg::binary_control *bctrl, bool *auto_inst = 0);
 

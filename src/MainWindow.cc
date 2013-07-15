@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2012 Alan Buckley
+* Copyright 2009-2013 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -148,7 +148,7 @@ void MainWindow::refresh()
 }
 
 // Sprites to use
-tbx::UserSprite MainWindow::StatusSprite::_sprites[4];
+tbx::UserSprite MainWindow::StatusSprite::_sprites[8];
 
 
 MainWindow::StatusSprite::StatusSprite(MainWindow *me) : _me(me)
@@ -157,10 +157,12 @@ MainWindow::StatusSprite::StatusSprite(MainWindow *me) : _me(me)
 	{
 		// Load sprite when first instance of class is created
 		tbx::SpriteArea *area = tbx::app()->sprite_area();
-		_sprites[0] = area->get_sprite("status_i");
-		_sprites[1] = area->get_sprite("status_u");
-		_sprites[2] = area->get_sprite("status_ia");
-		_sprites[3] = area->get_sprite("status_ua");
+		_sprites[0] = area->get_sprite("status_p");
+		_sprites[1] = area->get_sprite("status_i");
+		_sprites[2] = area->get_sprite("status_u");
+		_sprites[4] = area->get_sprite("status_pa");
+		_sprites[5] = area->get_sprite("status_ia");
+		_sprites[6] = area->get_sprite("status_ua");
 	}
 };
 
@@ -169,7 +171,7 @@ tbx::Sprite *MainWindow::StatusSprite::value(unsigned int index) const
 	std::string pkgname = _me->_shown_packages[index]->pkgname();
 	bool auto_installed;
 	int sprite_index = (int)(_me->install_state(_me->_shown_packages[index], &auto_installed)) - 1;
-	if (auto_installed) sprite_index |= 2;
+	if (auto_installed) sprite_index |= 4;
 
 	return (sprite_index < 0) ? 0 : &_sprites[sprite_index];
 }
@@ -384,6 +386,11 @@ void MainWindow::update_toolbar(int index)
 		fade_remove = true;
 		_install_button.on(false);
 		break;
+	case PART_INSTALLED:
+		fade_install = false;
+		fade_remove = false;
+		_install_button.on(false);
+		break;
 	case INSTALLED:
 		fade_install = true;
 		fade_remove = false;
@@ -406,6 +413,7 @@ void MainWindow::update_toolbar(int index)
  * @param bctrl binary control record for package
  * @param auto_inst  pointer to variable to update with auto installed status
  *              or 0 if not interested.
+ *              For PART_INSTALLED packages this flag is used to indicate the files were unpacked
  *
  * @returns InstallState with current state
  */
@@ -417,11 +425,19 @@ MainWindow::InstallState MainWindow::install_state(const pkg::binary_control *bc
 
     pkg::pkgbase *package_base = Packages::instance()->package_base();
 	pkg::status_table::const_iterator sti = package_base->curstat().find(pkgname);
-	if (sti == package_base->curstat().end()
-		  || (*sti).second.state() != pkg::status::state_installed
-		  )
+	if (sti == package_base->curstat().end())
 	{
 		state = NOT_INSTALLED;
+	} else if ((*sti).second.state() != pkg::status::state_installed )
+	{
+		if ( (*sti).second.state() <= pkg::status::state_removed )
+		{
+			state = NOT_INSTALLED;
+			if (auto_inst) *auto_inst = ( (*sti).second.state() >= pkg::status::state_unpacked );
+		} else
+		{
+			state = PART_INSTALLED;
+		}
 	} else
 	{
 		  pkg::version inst_version((*sti).second.version());
