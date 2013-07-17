@@ -64,7 +64,7 @@ public:
 		CPPUNIT_ASSERT(!test.flag(pkg::component::add_to_apps));
 
 		// Test look_at flag
-		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt ( look_at )"));
+		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt ( LookAt )"));
 		CPPUNIT_ASSERT(test.name() == "Apps.Misc.!PackIt");
 		CPPUNIT_ASSERT(test.path().empty());
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::moveable), false);
@@ -82,16 +82,16 @@ public:
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::add_to_apps), false);
 
 		// Test add_to_apps flag
-		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt ( add_to_apps)"));
+		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt ( AddToApps)"));
 		CPPUNIT_ASSERT(test.name() == "Apps.Misc.!PackIt");
 		CPPUNIT_ASSERT(test.path().empty());
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::moveable), false);
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::look_at), false);
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::run), false);
-		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::add_to_apps), false);
+		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::add_to_apps), true);
 
 		// Test combination of two flags
-		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt (Moveable look_at)"));
+		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt (Moveable LookAt)"));
 		CPPUNIT_ASSERT(test.name() == "Apps.Misc.!PackIt");
 		CPPUNIT_ASSERT(test.path().empty());
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::moveable), true);
@@ -100,7 +100,7 @@ public:
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::add_to_apps), false);
 
 		// Test combination of three flags
-		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt ( look_at Moveable Run )"));
+		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt ( LookAt Moveable Run )"));
 		CPPUNIT_ASSERT(test.name() == "Apps.Misc.!PackIt");
 		CPPUNIT_ASSERT(test.path().empty());
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::moveable), true);
@@ -109,7 +109,7 @@ public:
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::add_to_apps), false);
 
 		// Test all four flags together
-		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt (  add_to_apps   look_at Moveable Run )"));
+		CPPUNIT_ASSERT_NO_THROW(test = pkg::component("Apps.Misc.!PackIt (  AddToApps   LookAt Moveable Run )"));
 		CPPUNIT_ASSERT(test.name() == "Apps.Misc.!PackIt");
 		CPPUNIT_ASSERT(test.path().empty());
 		CPPUNIT_ASSERT_EQUAL(test.flag(pkg::component::moveable), true);
@@ -121,7 +121,7 @@ public:
 		CPPUNIT_ASSERT_THROW( test = pkg::component("Apps oops"), pkg::component::parse_error);
 		CPPUNIT_ASSERT_THROW( test = pkg::component("Apps.Test (Moveable"), pkg::component::parse_error);
 		CPPUNIT_ASSERT_THROW( test = pkg::component("Apps.Test (MadeUpFlag)"), pkg::component::parse_error);
-		CPPUNIT_ASSERT_THROW( test = pkg::component("Apps.Test (look_at MadeUpFlag)"), pkg::component::parse_error);
+		CPPUNIT_ASSERT_THROW( test = pkg::component("Apps.Test (LookAt MadeUpFlag)"), pkg::component::parse_error);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public:
 	void test_parse_list()
 	{
 		std::vector<pkg::component> components;
-		std::string compstr("Apps.Misc.MyApp1 (Moveable look_at), System.Stuff.Thingy , Manuals.MyAppDoc (Moveable)");
+		std::string compstr("Apps.Misc.MyApp1 (Moveable LookAt), System.Stuff.Thingy , Manuals.MyAppDoc (Moveable)");
 		CPPUNIT_ASSERT_NO_THROW(pkg::parse_component_list(compstr.begin(), compstr.end(), &components));
 
 		CPPUNIT_ASSERT(components.size() == 3);
@@ -209,7 +209,7 @@ public:
 	{
 		const char *TestFile = "<PMUnitTests$Dir>.results.CompTest";
 		pkg::component test1("Apps.Misc.!PackIt (Moveable)");
-		pkg::component test2("Apps.Misc.!DocView (Moveable, look_at)");
+		pkg::component test2("Apps.Misc.!DocView (Moveable LookAt)");
 		pkg::component test3("System.Modules.CleverMod");
 
 		std::ofstream out(TestFile);
