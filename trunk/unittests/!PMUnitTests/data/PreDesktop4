@@ -1,0 +1,122 @@
+|Start RISCOS !Boot 0.26 comments
+| Pre Desktop setup activities. This file gets Obeyed before the desktop starts.
+|
+| When modifying the file by adding a section of lines it is recommended that
+| the lines be bracketed by lines which start with |Start and |End. In this way
+| it is easy to identify sections of line which shouldn't be broken up. For
+| application writers who want to install a section of lines we advise that
+| your company, application, version and section be identified. This enables
+| a future install or update program to easily identify the section of lines
+| which needs changing.
+|End
+
+|Start RISCOS WindowManager 3.98 installation
+| ------------------------------------------
+|
+|     Nested Window Manager installation
+|
+| ------------------------------------------
+|
+| Load the Window Manager from !System, then ensure that we have all
+| the necessary sprites etc present.
+|
+If "<BootResources$Path>"="" Then Set BootResources$Path Boot:Resources.
+If "<Boot$OSVersion>"="3.50" Then SetMacro Run$Path ,%.,Boot:Library.
+If "<Boot$OSVersion>"="3.50" Then Set Boot$OSVersion 350
+If "<System$Path>"="" Then Run BootResources:!System
+If Boot$OSVersion < 350 Then RMEnsure DragASprite 0.10 RMLoad System:Modules.DragASprit
+If Boot$OSVersion < 350 Then IconSprites BootResources:Wimp.310Spr
+|End
+
+|Start RISCOS !Boot 0.26 Aliases
+| -------------------
+|
+|       Aliases
+|
+| -------------------
+|
+| Add more command aliases here.
+|
+| Here are some examples that might be added:
+| Alias Basic Basic64 %%*0
+| Alias Mode Echo |<22>|<%%0>
+|
+Set Alias$Alias Set Alias$%%0 %%*1
+Alias UnAlias Unset Alias$%%0
+Alias Path Set %%0$Path %%1
+Alias PathMacro SetMacro %%0$Path %%1
+
+Alias Logon SafeLogon %%*0
+Alias Desktop_SetPalette ||%%*0
+|End
+
+|Start RISCOS !Boot 0.26 Paths
+| -------------------
+|
+|       Paths
+|
+| -------------------
+|
+| Add more paths here.
+|
+| The macros Path and PathMacro are available:
+| Path <name> <path>            sets <name>$Path to <path> GSTransed.
+| PathMacro <name> <path>       sets <name>$Path (macro) to <path> un-
+|                                       GSTransed
+|
+| Here are some example paths that might be useful:
+| Set CLib$Dir ADFS::HardDisc.$.CLib
+| PathMacro CLib <CLib$Dir>.
+| Path BASIC ADFS::MyDisc.$.BasicLib.
+|
+Path BootResources Boot:RO370Hook.Res.,Boot:RO360Hook.Res.,Boot:RO350Hook.Res.,Boot:RO310Hook.Res.,<BootResources$Dir>.
+If Boot$OSVersion >= 400 Then PrepPath BootResources$path Boot:RO400Hook.Res.
+|End
+
+|Start RISCOS !Boot 0.26 Options
+| -------------------
+|
+|       Options
+|
+| -------------------
+|
+| Add/change options here. This is for options which don't have other places
+| to be set up.
+|
+| Here are some example options which might be useful:
+| Set NFS$TruncateLength 999999
+| Set Copy$Options "A ~C ~D F N L ~P Q R ~S ~T ~V"
+|
+IfThere Boot:Utils.BandLimit Then Run Boot:Utils.BandLimit
+|End
+
+|Start RISCOS !Boot 0.26 ResApps
+| -------------------
+|
+|       ResApps
+|
+| -------------------
+|
+| More applications to appear in Resources can be added here.
+|
+IfThere Boot:^.Apps then AddApp Boot:^.Apps.!*
+IfThere Boot:RO360Hook.Apps Then AddApp Boot:RO360Hook.Apps.!*
+IfThere Boot:RO370Hook.Apps Then AddApp Boot:RO370Hook.Apps.!*
+IfThere Boot:RO400Hook.Apps Then AddApp Boot:RO400Hook.Apps.!*
+IfThere Boot:^.Printing.!Printers Then AddApp Boot:^.Printing.!Printers
+|End
+
+|Start RISCOS BootApps 0.01 ResApps
+IfThere Boot:^.!PackMan Then AddApp Boot:^.!PackMan
+|End
+
+|Start RISCOS !Boot 0.26 Miscellaneous options
+| -------------------
+|
+|       Misc
+|
+| -------------------
+|
+| Put other things which need setting up here.
+|
+|End
