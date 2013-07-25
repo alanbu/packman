@@ -29,23 +29,76 @@
  * or if it was on the boot drive
  * IfThere Boot:^.Apps.Desktop.!Fred Then Filer_Boot Boot:^.Apps.Desktop.!Fred
  *
+ * Notes on Boot.Desktop Run at section
+ *
+ * Section starts
+ * |Start RISCOS BootRun 0.01 Run
+ * and ends
+ * |End
+ *
+ * If it's not there is should be inserted after the section
+ * |Start RISCOS BootBoot 0.01 Boot
+ * If that is not there it should go after
+ * |Start RISCOS !Boot 0.26 Auto tasks
+ *
+ * Entries should be added with the path relative to boot if possible
+ *
+ * Format of an entry is
+ * IfThere HostFS:$.Dev.!GCC Then Filer_Boot HostFS:$.Dev.!GCC
+ * IfThere HostFS:$.Dev.!GCC Then Filer_Run HostFS:$.Dev.!GCC
+ *
+ * or if it was on the boot drive
+ * IfThere Boot:^.Apps.Desktop.!Fred Then Filer_Boot Boot:^.Apps.Desktop.!Fred
+ * IfThere Boot:^.Apps.Desktop.!Fred Then Filer_Run Boot:^.Apps.Desktop.!Fred
+ *
+ * 
+ * Notes on Boot.PreDesktop Add to apps section
+ *
+ * Section starts
+ * |Start RISCOS BootAddToApps 0.01 AddToApps ????
+ * and ends
+ * |End
+ *
+ * If it's not there is should be inserted after the section
+ * |Start RISCOS !Boot 0.26 Auto tasks ??????
+ *
+ * Entries should be added with the path relative to boot if possible
+ *
+ * Format of an entry is
+ * IfThere HostFS:$.Dev.!GCC Then AddToApps HostFS:$.Dev.!GCC
+ *
+ * or if it was on the boot drive
+ * IfThere Boot:^.Apps.Desktop.!Fred Then AddToApps Boot:^.Apps.Desktop.!Fred
  */
 
 /**
- * Construct look_at object by setting the correct path and reading
- * the Boot.Desktop file
+ * Construct boot_options_file object by setting parameters for the options
+ * file it will edit.
+ *
+ * @param file_name Choices file name to be updated
+ * @param section_prefix prefix for section title
+ * @param section_version section version
+ * @param section_suffix suffix for section title
+ * @param command command to write to section
+ * @param command2 optional second command for section
  */
-look_at::look_at() :
-   _path_name("<Choices$Write>.Boot.Desktop"),
+boot_options_file::boot_options_file(const char *file_name, const char *section_prefix, const char *section_version, const char *section_suffix, const char *command, const char *command2 /*= 0*/) :
+   _section_prefix(section_prefix),
+   _section_version(section_version),
+   _section_suffix(section_suffix),
+   _command(command),
+   _command2(command2),
    _file_contents(0),
    _section(0),
    _end_section(0),
    _modified(false)
 {
+	_path_name = "<Choices$Write>.Boot.";
+	_path_name += file_name;
 	rollback();
 }
 
-look_at::~look_at()
+boot_options_file::~boot_options_file()
 {
 	delete [] _file_contents;
 }
@@ -55,7 +108,7 @@ look_at::~look_at()
  *
  * @throws std::runtime_error if it fails to open the file
  */
-void look_at::rollback()
+void boot_options_file::rollback()
 {
 	delete [] _file_contents;
 	_file_contents = 0;
@@ -83,7 +136,7 @@ void look_at::rollback()
  *
  * @throws std::ios_base::failure if commit fails to write the file
  */
-void look_at::commit()
+void boot_options_file::commit()
 {
 	if (!_modified) return;
 
@@ -97,7 +150,7 @@ void look_at::commit()
 
 		if (_section == 0)
 		{
-			char *insert_after = find_section("RISCOS !Boot", "Auto tasks");
+			char *insert_after = find_insert_section();
 			if (insert_after) insert_after = find_section_end(insert_after);
 			if (insert_after) insert_after = next_line(insert_after);
 			if (insert_after)
@@ -110,8 +163,14 @@ void look_at::commit()
 				file.write(_file_contents, sizeof(_file_contents));
 				rest = 0;
 			}
-			const char *start_text = "\n|Start RISCOS BootBoot 0.01 Boot\n";
+			const char *start_text = "\n|Start ";
 			file.write(start_text, std::strlen(start_text));
+			file.write(_section_prefix, std::strlen(_section_prefix));
+			file.write(" ", 1);
+			file.write(_section_version, std::strlen(_section_version));
+			file.write(" ", 1);
+			file.write(_section_suffix, std::strlen(_section_suffix));
+			file.write("\n", 1);
 		} else
 		{
 			char *next = next_line(_section);
@@ -126,10 +185,8 @@ void look_at::commit()
 				file.write(app.c_str()+1, app.size()-1);
 			} else
 			{
-				file.write("IfThere ", sizeof("IfThere ")-1);
-				file.write(app.c_str(), app.size());
-				file.write(" Then Filer_Boot ", sizeof(" Then Filer_Boot ")-1);
-				file.write(app.c_str(), app.size());
+				file << "IfThere " << app << " Then " << _command << " " << app;
+				if (_command2) file << "\nIfThere " << app << " Then " << _command2 << " " << app;
 			}
 			file.write("\n",1);
 		}
@@ -146,15 +203,15 @@ void look_at::commit()
  * This method is for unit testing and would not normally be used.
  * call rollback() to read the test file after this method.
  */
-void look_at::use_test_path_name(const std::string &path_name)
+void boot_options_file::use_test_path_name(const std::string &path_name)
 {
 	_path_name = path_name;
 }
 
 /**
- * See if file has the lookat section defined
+ * See if file has the section defined
  */
-bool look_at::has_lookat_section() const
+bool boot_options_file::has_section() const
 {
 	return (_section != 0);
 }
@@ -165,7 +222,7 @@ bool look_at::has_lookat_section() const
  * @param app application to check
  * @returns true if application is contained in the look ups
  */
-bool look_at::contains(const std::string &app) const
+bool boot_options_file::contains(const std::string &app) const
 {
 	std::string app_name = name_in_section(app);
 	for(std::vector<std::string>::const_iterator i = _apps.begin(); i != _apps.end(); ++i)
@@ -181,7 +238,7 @@ bool look_at::contains(const std::string &app) const
  * @param app name of application to add
  * @returns true if app was added, false if it's already there.
  */
-bool look_at::add(const std::string &app)
+bool boot_options_file::add(const std::string &app)
 {
 	std::string app_name = name_in_section(app);
 	for(std::vector<std::string>::iterator i = _apps.begin(); i != _apps.end(); ++i)
@@ -201,7 +258,7 @@ bool look_at::add(const std::string &app)
  * @param app name of application to remove
  * @returns true if application was found and removed
  */
-bool look_at::remove(const std::string &app)
+bool boot_options_file::remove(const std::string &app)
 {
 	std::string app_name = name_in_section(app);
 	for(std::vector<std::string>::iterator i = _apps.begin(); i != _apps.end(); ++i)
@@ -224,7 +281,7 @@ bool look_at::remove(const std::string &app)
  * @param app application to replace it with
  * @returns true if the replace was done
  */
-bool look_at::replace(const std::string &was_app, const std::string &app)
+bool boot_options_file::replace(const std::string &was_app, const std::string &app)
 {
 	std::string replace_app = name_in_section(was_app);
 	for(std::vector<std::string>::iterator i = _apps.begin(); i != _apps.end(); ++i)
@@ -249,7 +306,7 @@ bool look_at::replace(const std::string &was_app, const std::string &app)
  * @param app application to check (is not standardized)
  * @returns true if application is contained in the look ups
  */
-bool look_at::contains_raw(const std::string &app) const
+bool boot_options_file::contains_raw(const std::string &app) const
 {
 	for(std::vector<std::string>::const_iterator i = _apps.begin(); i != _apps.end(); ++i)
 	{
@@ -261,9 +318,9 @@ bool look_at::contains_raw(const std::string &app) const
 /**
  * Parse section we are interested into C++ structures
  */
-void look_at::parse_section()
+void boot_options_file::parse_section()
 {
-	_section = find_section("RISCOS BootBoot", "Boot");
+	_section = find_section(_section_prefix, _section_suffix);
 	_end_section = 0;
 	_apps.clear();
 	if (_section)
@@ -271,7 +328,7 @@ void look_at::parse_section()
 		char *line_end = std::strchr(_section,'\n');
 		char *line_start = (line_end) ? line_end + 1 : 0;
 		bool parsing = (line_start != 0);
-		std::string word, app;
+		std::string word, cmd, app;
 		char *token;
 
 		while (parsing)
@@ -294,15 +351,15 @@ void look_at::parse_section()
 					&& parse_word(token, app)
 					&& parse_word(token, word)
 					&& (word == "Then")
-					&& parse_word(token, word)
-					&& (word == "Filer_Boot")
+					&& parse_word(token, cmd)
+					&& (cmd == _command || (_command2 != 0 && cmd == _command2))
 					&& parse_word(token, word)
 					&& (word == app)
 					&& !parse_word(token, word) // Check for end of line
 					)
 				{					
 					// Just need app name
-					_apps.push_back(app);
+					if (_command2 == 0 || cmd == _command) _apps.push_back(app);
 				} else
 				{
 					// Save whole line if we don't understand it
@@ -330,7 +387,7 @@ void look_at::parse_section()
  * @param word parsed out (empty if at end of line)
  * @returns true if a word is found.
  */
-bool look_at::parse_word(char *&pos, std::string &word) const
+bool boot_options_file::parse_word(char *&pos, std::string &word) const
 {
 	word.clear();
 	while (*pos == ' ') pos++;
@@ -352,7 +409,7 @@ bool look_at::parse_word(char *&pos, std::string &word) const
  * @param suffix suffix name of section
  * @returns pointer to start of section or 0 if not found
  */
-char *look_at::find_section(const char *name, const char *suffix)
+char *boot_options_file::find_section(const char *name, const char *suffix)
 {
 	std::string prefix("|Start ");
 	prefix += name;
@@ -391,7 +448,7 @@ char *look_at::find_section(const char *name, const char *suffix)
  * @param section location in section to find
  * @returns section end or 0 if not found
  */
-char *look_at::find_section_end(char *section) const
+char *boot_options_file::find_section_end(char *section) const
 {
 	char *end = std::strstr(section, "\n|End");
 	if (end)
@@ -410,7 +467,7 @@ char *look_at::find_section_end(char *section) const
  * @param line line to find next line for
  * @returns start of next line
  */
-char *look_at::next_line(char *line) const
+char *boot_options_file::next_line(char *line) const
 {
 	while (*line && *line != '\n') line++;
 	if (*line == '\n') line++;
@@ -426,11 +483,11 @@ char *look_at::next_line(char *line) const
  * @param app name of application
  * @returns name that will be stored in the file
  */
-std::string look_at::name_in_section(const std::string &app) const
+std::string boot_options_file::name_in_section(const std::string &app) const
 {
 	if (_boot_drive.empty())
 	{
-		const_cast<look_at *>(this)->_boot_drive = canonicalise("Boot:^");
+		const_cast<boot_options_file *>(this)->_boot_drive = canonicalise("Boot:^");
 	}
 	if (app.compare(0, _boot_drive.size(), _boot_drive) == 0)
 	{
@@ -446,7 +503,7 @@ std::string look_at::name_in_section(const std::string &app) const
 /**
  * Dump apps array to cout - debugging helper
  */
-void look_at::dump_apps() const
+void boot_options_file::dump_apps() const
 {
 	for(std::vector<std::string>::const_iterator i = _apps.begin(); i != _apps.end(); ++i)
 	{
