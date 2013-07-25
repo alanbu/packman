@@ -6,11 +6,11 @@
 #include "fileutils.h"
 
 // Dummy application names used in tests
-const char *test_app = "HostFS:$.Dev.!GCC";
-const char *test_not_app = "HostFS:$.Dev.!Fred"; 
-const char *test_quiz_app = "HostFS:$.Games.!Quiz";
-const char *boot_drive_app = "Boot:^.!PackMan";
-const char *boot_drive_quiz_app = "Boot:^.Diversions.!Quiz";
+static const char *test_app = "HostFS:$.Dev.!GCC";
+static const char *test_not_app = "HostFS:$.Dev.!Fred"; 
+static const char *test_quiz_app = "HostFS:$.Games.!Quiz";
+static const char *boot_drive_app = "Boot:^.!PackMan";
+static const char *boot_drive_quiz_app = "Boot:^.Diversions.!Quiz";
 
 // Expand boot drive app to full pathname
 static std::string test_boot_drive_app = canonicalise(boot_drive_app);
@@ -34,7 +34,7 @@ class LookAtTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE_END();
 
 private:
-	look_at *_look_at;
+	look_at_options *_look_at;
 
 public:
 	/**
@@ -42,7 +42,7 @@ public:
 	 */
 	void setUp()
 	{
-		_look_at = new look_at();
+		_look_at = new look_at_options();
 	}
 
 	/**
@@ -68,11 +68,11 @@ public:
 	{
 		_look_at->use_test_path_name("<PMUnitTests$Dir>.data.Desktop1");
 		_look_at->rollback(); // Load test file
-		CPPUNIT_ASSERT(!_look_at->has_lookat_section());
+		CPPUNIT_ASSERT(!_look_at->has_section());
 
 		_look_at->use_test_path_name("<PMUnitTests$Dir>.data.Desktop2");
 		_look_at->rollback(); // Load test file
-		CPPUNIT_ASSERT(_look_at->has_lookat_section());
+		CPPUNIT_ASSERT(_look_at->has_section());
 	}
 
 	/**
