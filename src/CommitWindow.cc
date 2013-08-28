@@ -131,6 +131,9 @@ void CommitWindow::poll()
 			_state=_commit->state();
 			switch (_state)
 			{
+			case pkg::commit::state_paths:
+				_action.text("Checking/setting paths for components");
+				break;
 			case pkg::commit::state_pre_download:
 				_action.text("Preparing for downloading");
 				break;
@@ -149,17 +152,34 @@ void CommitWindow::poll()
 			case pkg::commit::state_update_sysvars:
 				_action.text("Updating system variables");
 				break;
-
 			case pkg::commit::state_update_sprites:
 				_action.text("Updating sprite pool");
 				break;
-
+			case pkg::commit::state_update_boot_options:
+				_action.text("Updating boot options");
+				break;
+			case pkg::commit::state_boot_files:
+				_action.text("Booting files");
+				break;
+			case pkg::commit::state_run_files:
+				_action.text("Running files");
+				break;
+			case pkg::commit::state_add_files_to_apps:
+				_action.text("Adding files to Apps");
+				break;
 			case pkg::commit::state_done:
                 _progress.value(100);
 				_action.text("Done");
 				_cancel_button.text("Close");
 				_cancel_button.fade(false);
                 if (!_show_log.null()) _show_log.fade(false);
+                if (_commit->warnings())
+                {
+                	std::tr1::shared_ptr<pkg::log> warnings(_commit->detach_warnings());
+                	LogViewer *viewer = new LogViewer(warnings);
+                	viewer->title("Commit Warnings");
+                	viewer->show();
+                }
 				delete _commit;
 				_commit=0;
                 tbx::app()->remove_idle_command(&_thread_runner);

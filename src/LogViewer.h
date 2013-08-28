@@ -62,6 +62,8 @@ public:
    LogViewer(std::tr1::shared_ptr<pkg::log> log);
    ~LogViewer();
 
+   void title(const std::string &title);
+
    void show();
 };
 

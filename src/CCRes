@@ -3851,7 +3851,7 @@ window_object {
   window.xmin:100
   window.ymin:100
   window.title_text:"Log Viewer"
-  window.title_text_limit:*
+  window.title_text_limit:64
   window.title_valid:""
 }
 
@@ -4037,7 +4037,7 @@ window_object {
     bbox:672,-472,1056,-420
     help_message:""
     help_limit:*
-    flags:
+    flags:actionbutton_IS_LOCAL
     text:"Install/Upgrade/Remove"
     text_limit:*
     click_show:""

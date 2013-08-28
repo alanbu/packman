@@ -232,12 +232,8 @@ void Packages::select_install(const pkg::binary_control *bctrl)
 	pkg::status curstat = _package_base->curstat()[pkgname];
 	pkg::status selstat = _package_base->selstat()[pkgname];
 	selstat.state(pkg::status::state_installed);
-	if (curstat.state() == pkg::status::state_installed)
-	{
-		// Upgrade so need version as well
-		const pkg::control& ctrl=_package_base->control()[pkgname];
-		selstat.version(ctrl.version());
-	}
+	const pkg::control& ctrl=_package_base->control()[pkgname];
+	selstat.version(ctrl.version());
 	_package_base->selstat().insert(pkgname,selstat);
 	seed.insert(pkgname);
 	_package_base->fix_dependencies(seed);

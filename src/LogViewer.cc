@@ -65,6 +65,15 @@ LogViewer::~LogViewer()
 }
 
 /**
+ * Set the title for the logviewer
+ * @param title the new title
+ */
+void LogViewer::title(const std::string &title)
+{
+	_window.title(title);
+}
+
+/**
  * Show the log viewer window
  */
 void LogViewer::show()

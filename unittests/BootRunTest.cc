@@ -2,7 +2,7 @@
 #include "cppunit/TestFixture.h"
 #include "cppunit/extensions/HelperMacros.h"
 
-#include "look_at.h"
+#include "libpkg/boot_options_file.h"
 #include "fileutils.h"
 
 // Dummy application names used in tests
@@ -23,7 +23,7 @@ class BootRunTest : public CppUnit::TestFixture
 {
 	CPPUNIT_TEST_SUITE( BootRunTest );
 
-	CPPUNIT_TEST( test_path_name );
+	CPPUNIT_TEST( test_pathname );
 	CPPUNIT_TEST( test_section_presence );
 	CPPUNIT_TEST( test_contains );
 	CPPUNIT_TEST( test_add );
@@ -34,7 +34,7 @@ class BootRunTest : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE_END();
 
 private:
-	run_options *_boot_run;
+	pkg::run_options *_boot_run;
 
 public:
 	/**
@@ -42,7 +42,7 @@ public:
 	 */
 	void setUp()
 	{
-		_boot_run = new run_options();
+		_boot_run = new pkg::run_options();
 	}
 
 	/**
@@ -56,9 +56,9 @@ public:
 	/**
 	 * Test the path name is what we expect
 	 */
-	void test_path_name()
+	void test_pathname()
 	{
-		CPPUNIT_ASSERT(_boot_run->path_name() == "<Choices$Write>.Boot.Desktop");
+		CPPUNIT_ASSERT(_boot_run->pathname() == "<Choices$Write>.Boot.Desktop");
 	}
 
 	/**
@@ -66,11 +66,11 @@ public:
 	 */
 	void test_section_presence()
 	{
-		_boot_run->use_test_path_name("<PMUnitTests$Dir>.data.Desktop6");
+		_boot_run->use_test_pathname("<PMUnitTests$Dir>.data.Desktop6");
 		_boot_run->rollback(); // Load test file
 		CPPUNIT_ASSERT(!_boot_run->has_section());
 
-		_boot_run->use_test_path_name("<PMUnitTests$Dir>.data.Desktop7");
+		_boot_run->use_test_pathname("<PMUnitTests$Dir>.data.Desktop7");
 		_boot_run->rollback(); // Load test file
 		CPPUNIT_ASSERT(_boot_run->has_section());
 	}
@@ -81,20 +81,20 @@ public:
 	void test_contains()
 	{
 		// Check file which as no look at section
-		_boot_run->use_test_path_name("<PMUnitTests$Dir>.data.Desktop6");
+		_boot_run->use_test_pathname("<PMUnitTests$Dir>.data.Desktop6");
 		_boot_run->rollback(); // Load test file
 
 		CPPUNIT_ASSERT(!_boot_run->contains(test_app));
 
 		// Check file with one entry
-		_boot_run->use_test_path_name("<PMUnitTests$Dir>.data.Desktop7");
+		_boot_run->use_test_pathname("<PMUnitTests$Dir>.data.Desktop7");
 		_boot_run->rollback(); // Load test file
 		CPPUNIT_ASSERT(!_boot_run->contains(test_app));
 		CPPUNIT_ASSERT(!_boot_run->contains(test_not_app));
 		CPPUNIT_ASSERT(_boot_run->contains(test_boot_drive_app));
 
 		// Check file with two entries
-		_boot_run->use_test_path_name("<PMUnitTests$Dir>.data.Desktop8");
+		_boot_run->use_test_pathname("<PMUnitTests$Dir>.data.Desktop8");
 		_boot_run->rollback(); // Load test file
 
 		CPPUNIT_ASSERT(_boot_run->contains(test_app));
@@ -114,7 +114,7 @@ public:
 		// Double check copy worked
 		CPPUNIT_ASSERT(compare_files(data_file, test_file));
 
-		_boot_run->use_test_path_name(test_file);
+		_boot_run->use_test_pathname(test_file);
 		_boot_run->rollback(); // Load test file
 		
 		// Add first item
@@ -146,7 +146,7 @@ public:
 		// Double check copy worked
 		CPPUNIT_ASSERT(compare_files(data_file, test_file));
 
-		_boot_run->use_test_path_name(test_file);
+		_boot_run->use_test_pathname(test_file);
 		CPPUNIT_ASSERT_NO_THROW(_boot_run->rollback()); // Load test file
 
 		// Remove last item
@@ -181,7 +181,7 @@ public:
 		// Double check copy worked
 		CPPUNIT_ASSERT(compare_files(data_file, test_file));
 
-		_boot_run->use_test_path_name(test_file);
+		_boot_run->use_test_pathname(test_file);
 		CPPUNIT_ASSERT_NO_THROW(_boot_run->rollback()); // Load test file
 
 		// Test move on non-boot drive
@@ -221,7 +221,7 @@ public:
 		// Double check copy worked
 		CPPUNIT_ASSERT(compare_files(data_file, test_file));
 
-		_boot_run->use_test_path_name(test_file);
+		_boot_run->use_test_pathname(test_file);
 		CPPUNIT_ASSERT_NO_THROW(_boot_run->rollback()); // Load test file
 
 		CPPUNIT_ASSERT(!_boot_run->has_section()); // Double check file doesn't have a run section

@@ -30,6 +30,7 @@
 #include "AbbrevSize.h"
 
 #include "libpkg/pkgbase.h"
+#include "libpkg/component_update.h"
 
 #include "tbx/stringutils.h"
 #include "tbx/button.h"
@@ -127,9 +128,25 @@ void PackageConfigWindow::bring_to_top()
  */
 void PackageConfigWindow::apply()
 {
-	CommitCommand commit;
-	commit.execute();
-	delete this;
+	try
+	{
+		pkg::component_update comp_update(Packages::instance()->package_base()->component_update_pathname());
+		int i = 0;
+		bool dum_path_set; // Needed for call below but not used
+		for (std::vector<pkg::component>::iterator c = _components.begin(); c != _components.end(); ++c)
+		{
+			get_component(i++, *c, dum_path_set);
+			comp_update.insert(*c);
+		}
+		comp_update.commit();
+
+		CommitCommand commit;
+		commit.execute();
+		delete this;
+	} catch (std::exception &e)
+	{
+		tbx::show_message(std::string("Failed to start the configuration.\nError: ") + e.what());
+	}
 }
 
 /**
@@ -244,7 +261,6 @@ void PackageConfigWindow::package_added()
 			tbx::BBox comp_bbox = comp_area.bounds();
 			int row_y = comp_bbox.max.y;
 			int x = comp_bbox.min.x;
-			std::string comp;
 //TODO: assert(res_window.num_gadgets() == COMP_COUNT)
 
 			if (!_components.empty())
@@ -268,7 +284,7 @@ void PackageConfigWindow::package_added()
 			// Add new components to the end first
 			for (int comp_no = (int)_components.size(); comp_no < (int)new_comps.size(); ++comp_no)
 			{
-				comp = new_comps[comp_no];
+				pkg::component &comp = new_comps[comp_no];
 				int first_id = FIRST_COMPONENT + (comp_no << COMP_SHIFT);
 				int lowest = 0;
 				int highest = -1000;
@@ -302,12 +318,10 @@ void PackageConfigWindow::package_added()
 				tbx::Draggable comp_drag = _window.gadget(first_id + COMP_DRAGGABLE);
 				_path_chooser.add_path_listeners(comp_no);
 
-				int found_idx = find_component(comp);
+				int found_idx = find_component(comp.name());
 				if (found_idx == -1)
 				{
-					tbx::Path path("<Boot$Dir>.^");
-					path.down(comp);
-					path.canonicalise();
+					tbx::Path path(Packages::instance()->package_base()->paths()(comp.name(),""));
 					comp_path.value(path.parent());
 					comp_leaf.text(path.leaf_name());
 					if (_components.empty())
@@ -557,12 +571,11 @@ void PackageConfigWindow::build_lists_from_selection(std::vector<PackageInfo> &n
 			version = selstat.version();
 			if (version.empty()) version = ctrl.version();
 
-			//TODO: build new component to configure list
 			if (curstat.state() != pkg::status::state_installed)
 			{
 				// New package so add components
-				// comps =bctrl->components();
-				// if (!comps.empty()) pkg::parse_component_list(new_comps, comps.begin(), comps.end());
+				std::string comps = ctrl.components();
+				if (!comps.empty()) pkg::parse_component_list(comps.begin(), comps.end(), &new_comps);
 			}
 			//TODO: Do we need to somehow check if upgrade components have changed?
 		} else if (pkg::remove_req(curstat, i->second))
@@ -690,14 +703,12 @@ void PackageConfigWindow::update_existing_components(std::vector<pkg::component>
 				{
 					// New component
 					item = pkg::component(new_comps[comp_no]);
-					tbx::Path path("<Boot$Dir>.^");
-					path.down(new_comps[comp_no]);
-					path.canonicalise();
-					item.path(path.parent());
+					tbx::Path path(Packages::instance()->package_base()->paths()(item.name(), ""));
+					item.path(path);
 					path_set = false;
 				} else if (found_idx < size)
 				{
-					// Component we saved in case it go overwritten
+					// Component we saved in case it got overwritten
 					item = current[found_idx];
 					path_set = current_path_set[found_idx];
 				} else
@@ -770,7 +781,10 @@ void PackageConfigWindow::get_component(int idx, pkg::component &item, bool &pat
 {
 	int first_id = FIRST_COMPONENT + (idx << COMP_SHIFT);
 	tbx::Button but = _window.gadget(first_id + COMP_PATH);
-	item.path( but.value() );
+	tbx::Path path(but.value());
+	tbx::DisplayField df = _window.gadget(first_id + COMP_LEAF);
+	path.down(df.text());
+	item.path( path );
 	path_set = (but.foreground() != _default_path_colour);
 	tbx::OptionButton ob = _window.gadget(first_id + COMP_LOOK_AT);
 	item.flag(pkg::component::look_at,ob.on());
@@ -798,7 +812,8 @@ void PackageConfigWindow::set_component(int idx, const pkg::component &item, boo
 {
 	int first_id = FIRST_COMPONENT + (idx << COMP_SHIFT);
 	tbx::Button but = _window.gadget(first_id + COMP_PATH);
-	but.value(item.path());
+	tbx::Path path(item.path());
+	but.value(path.parent());
 	but.foreground(path_set ? _default_path_colour : _changed_path_colour);
 	tbx::OptionButton ob = _window.gadget(first_id + COMP_LOOK_AT);
 	ob.on(item.flag(pkg::component::look_at));
@@ -807,8 +822,7 @@ void PackageConfigWindow::set_component(int idx, const pkg::component &item, boo
 	ob = _window.gadget(first_id + COMP_ADD_TO_APPS);
 	ob.on(item.flag(pkg::component::add_to_apps));
 	tbx::DisplayField df = _window.gadget(first_id + COMP_LEAF);
-	tbx::Path logical_path(item.name());
-	df.text(logical_path.leaf_name());
+	df.text(path.leaf_name());
 }
 
 /**
