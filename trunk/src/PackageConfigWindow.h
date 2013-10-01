@@ -52,6 +52,7 @@ class PackageConfigWindow : tbx::ButtonSelectedListener
 
 	tbx::CommandMethod<PackageConfigWindow> _apply_command;
 	tbx::CommandMethod<PackageConfigWindow> _cancel_command;
+	tbx::CommandMethod<PackageConfigWindow> _recommends_command;
 
 	enum Action {INSTALL, UPGRADE, REMOVE, AUTO_INSTALL, AUTO_UPGRADE, AUTO_REMOVE};
 	struct PackageInfo
@@ -117,6 +118,7 @@ public:
 private:
 	void apply();
 	void cancel();
+	void recommends();
 
 	virtual void button_selected(tbx::ButtonSelectedEvent &event);
 	void remove_package_from_list(int package_idx);
@@ -129,6 +131,7 @@ private:
 
 	void update_existing_components(std::vector<pkg::component> &new_comps);
 	void update_download_totals();
+	void update_recomendations();
 	void update_apply_button();
 
 	void get_component(int idx, pkg::component &item, bool &path_set);

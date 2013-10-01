@@ -14,7 +14,7 @@ While it is open you can add more packages to configure by using any of the abov
 <UL>
   <LI>Packages to install/upgrade/configure - This is a list of the actions that will be taken. The "Withdraw" button allows a package to be removed from this list and no longer installed/removed.</LI>
   <LI>Recommendations or suggestions - Shows the number of recommendations or suggestions made by the packages selected for install or upgrade that are not already installed.</LI>
-  <LI>View/Add button - If there are any recommendations or suggestions this button will show a window that allows them to be easily added to the list of packages to be installed.</LI>
+  <LI>View/Add button - If there are any recommendations or suggestions this button will show the <A HREF="recommendswnd.htm">Recommendations/Suggestions Window</A> that allows them to be easily added to the list of packages to be installed.</LI>
   <LI>Downloads - to the left shows the number of packages that need to be downloaded and to the right the total size of the packages to be downloaded.</LI>
   <LI>Components to configure - This is a list of components in the packages to be installed that can have additional configuration options set. If there are none, the following box shows a message "No configurable components" otherwise the box contains a list of all the components that can be configured. Each component has
 the following fields

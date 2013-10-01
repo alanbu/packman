@@ -240,6 +240,30 @@ void Packages::select_install(const pkg::binary_control *bctrl)
 	_package_base->remove_auto();
 }
 
+
+/**
+ * Add latest version of given packages to selections for install or upgrade
+ *
+ * @param add_packages list of packages to select
+ */
+void Packages::select_install(const std::vector<std::string> &add_packages)
+{
+	std::set<std::string> seed;
+	for(std::vector<std::string>::const_iterator i = add_packages.begin(); i != add_packages.end(); ++i)
+	{
+		std::string pkgname = *i;
+		pkg::status curstat = _package_base->curstat()[pkgname];
+		pkg::status selstat = _package_base->selstat()[pkgname];
+		selstat.state(pkg::status::state_installed);
+		const pkg::control& ctrl=_package_base->control()[pkgname];
+		selstat.version(ctrl.version());
+		_package_base->selstat().insert(pkgname,selstat);
+		seed.insert(pkgname);
+	}
+	_package_base->fix_dependencies(seed);
+	_package_base->remove_auto();
+}
+
 /**
  * Select a package to remove
  *
@@ -434,3 +458,106 @@ std::tr1::shared_ptr<pkg::log> Packages::new_log()
     _log = std::tr1::shared_ptr<pkg::log>(new pkg::log());
     return _log;
 }
+
+/**
+ * Get recommendations and suggestions for a list of packages
+ *
+ * @param packages array of package name/package version specifying packages to check
+ * @param recommends vector to hold list of recommendations
+ * @param suggests vector to hold list of suggestions
+ */
+void Packages::get_recommendations(const std::vector< std::pair<std::string, std::string> > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests)
+{
+	const pkg::binary_control_table& ctrltab = _package_base->control();
+	const pkg::status_table &seltable = _package_base->selstat();
+	const pkg::status_table &curtable = _package_base->curstat();
+	std::set< std::string > recs_found;
+	std::set< std::string > sugs_found;
+
+	for(std::vector< std::pair<std::string, std::string> >::const_iterator i = packages.begin();
+			i != packages.end(); ++i)
+	{
+		try
+		{
+			pkg::binary_control_table::key_type key(i->first, pkg::version(i->second));
+			const pkg::binary_control &ctrl = ctrltab[key];
+			if (ctrl.pkgname() == i->first) // double check package was found
+			{
+				std::string recommends = ctrl.recommends();
+				if (!recommends.empty())
+				{
+					std::vector< std::vector<pkg::dependency> > choices;
+					pkg::parse_dependency_list(recommends.begin(), recommends.end(), &choices);
+					std::vector< std::vector<pkg::dependency> >::iterator list;
+					for (list = choices.begin(); list != choices.end(); ++list)
+					{
+						for (std::vector<pkg::dependency>::iterator dep = list->begin(); dep != list->end(); ++dep)
+						{
+							std::set< std::string > :: iterator found = recs_found.find(dep->pkgname());
+							// Add it to list or update version if it's an older version
+							if (found == recs_found.end())
+							{
+								recs_found.insert(dep->pkgname());
+							}
+							found = sugs_found.find(dep->pkgname());
+							if (found != sugs_found.end()) sugs_found.erase(dep->pkgname());
+						}
+					}
+				}
+
+				std::string suggests = ctrl.suggests();
+				if (!suggests.empty())
+				{
+					std::vector< std::vector<pkg::dependency> > choices;
+					pkg::parse_dependency_list(suggests.begin(), suggests.end(), &choices);
+					std::vector< std::vector<pkg::dependency> >::iterator list;
+					for (list = choices.begin(); list != choices.end(); ++list)
+					{
+						for (std::vector<pkg::dependency>::iterator dep = list->begin(); dep != list->end(); ++dep)
+						{
+							std::set< std::string >::iterator found = sugs_found.find(dep->pkgname());
+							std::set< std::string >::iterator rec_found = recs_found.find(dep->pkgname());
+							// Add it to list or update version if it's an older version
+							if (found == sugs_found.end() && rec_found == recs_found.end())
+							{
+								sugs_found.insert(dep->pkgname());
+							}
+						}
+					}
+				}
+			}
+		} catch(...)
+		{
+			// Ignore any errors and just don't add the problem items
+		}
+	}
+
+	for (std::set< std::string >::iterator i = recs_found.begin(); i != recs_found.end();++i)
+	{
+		const std::string &pkgname = *i;
+		const pkg::binary_control &ctrl = ctrltab[pkgname];
+		if (ctrl.pkgname() == pkgname
+			&& curtable[pkgname].state() != pkg::status::state_installed
+			&& seltable[pkgname].state() != pkg::status::state_installed
+			)
+		{
+			// version not specified
+			recommends.push_back(pkgname);
+		}
+	}
+
+	for (std::set< std::string >::iterator i = sugs_found.begin(); i != sugs_found.end();++i)
+	{
+		const std::string &pkgname = *i;
+		const pkg::binary_control &ctrl = ctrltab[pkgname];
+		if (ctrl.pkgname() == pkgname
+			&& curtable[pkgname].state() != pkg::status::state_installed
+			&& seltable[pkgname].state() != pkg::status::state_installed
+			)
+		{
+			// version not specified
+			suggests.push_back(pkgname);
+		}
+	}
+}
+

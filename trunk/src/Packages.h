@@ -68,6 +68,7 @@ public:
 
 	void clear_selection();
 	void select_install(const pkg::binary_control *bctrl);
+	void select_install(const std::vector<std::string> &add_packages);
 	void select_remove(const pkg::binary_control *bctrl);
 	bool select_upgrades();
 	void deselect(const std::string &pkgname);
@@ -82,6 +83,8 @@ public:
 
 	std::tr1::shared_ptr<pkg::log> current_log() const {return _log;}
 	std::tr1::shared_ptr<pkg::log> new_log();
+
+	void get_recommendations(const std::vector< std::pair<std::string, std::string> > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests);
 };
 
 #endif /* PACKAGES_H_ */
