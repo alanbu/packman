@@ -28,6 +28,7 @@
 #include "Packages.h"
 #include "Commands.h"
 #include "AbbrevSize.h"
+#include "RecommendsWindow.h"
 
 #include "libpkg/pkgbase.h"
 #include "libpkg/component_update.h"
@@ -62,6 +63,7 @@ PackageConfigWindow::PackageConfigWindow() : _window("PackConfig"),
 	_path_chooser(this),
 	_apply_command(this, &PackageConfigWindow::apply),
 	_cancel_command(this, &PackageConfigWindow::cancel),
+	_recommends_command(this, &PackageConfigWindow::recommends),
 	_row_height(0),
 	_top_margin(0)
 {
@@ -69,6 +71,8 @@ PackageConfigWindow::PackageConfigWindow() : _window("PackConfig"),
 	apply_button.add_select_command(&_apply_command);
 	tbx::ActionButton cancel_button = _window.gadget(CANCEL_BUTTON);
 	cancel_button.add_select_command(&_cancel_command);
+	tbx::ActionButton recommends_button = _window.gadget(RECOMMEND_BROWSE);
+	recommends_button.add_select_command(&_recommends_command);
 
 	tbx::DisplayField ft = _window.gadget(COMPONENT_AREA);
 	_no_component_text = ft.text();
@@ -156,6 +160,28 @@ void PackageConfigWindow::cancel()
 {
 	Packages::instance()->clear_selection();
 	delete this;
+}
+
+/**
+ * Show the recommendations window
+ */
+void PackageConfigWindow::recommends()
+{
+	std::vector< std::pair<std::string,std::string> > packages_to_check;
+	std::vector< std::string> recs_found;
+	std::vector< std::string> sugs_found;
+
+	for(std::vector<PackageInfo>::iterator i = _packages.begin(); i != _packages.end(); ++i)
+	{
+		if (i->action != REMOVE && i->action != AUTO_REMOVE)
+		{
+			packages_to_check.push_back(std::make_pair(i->name,i->version));
+		}
+	}
+
+	Packages::instance()->get_recommendations(packages_to_check, recs_found, sugs_found);
+
+	new RecommendsWindow(recs_found, sugs_found);
 }
 
 /**
@@ -370,6 +396,7 @@ void PackageConfigWindow::package_added()
 		_window.extent(extent);
 	}
 
+	update_recomendations();
 	update_apply_button();
 }
 
@@ -512,6 +539,7 @@ void PackageConfigWindow::package_removed()
 	}
 
 	update_apply_button();
+	update_recomendations();
 }
 
 
@@ -620,6 +648,30 @@ void PackageConfigWindow::update_download_totals()
 	tbx::DisplayField download_size(_window.gadget(DOWNLOAD_SIZE));
 	download_total.text(tbx::to_string(_download_count));
 	download_size.text(abbrev_size(_download_size));
+}
+
+/**
+ * Update recommendations and suggestions count and enable view button
+ */
+void PackageConfigWindow::update_recomendations()
+{
+	std::vector< std::pair<std::string,std::string> > packages_to_check;
+	std::vector< std::string > recs_found;
+
+	for(std::vector<PackageInfo>::iterator i = _packages.begin(); i != _packages.end(); ++i)
+	{
+		if (i->action != REMOVE && i->action != AUTO_REMOVE)
+		{
+			packages_to_check.push_back(std::make_pair(i->name,i->version));
+		}
+	}
+
+	Packages::instance()->get_recommendations(packages_to_check, recs_found, recs_found);
+	tbx::DisplayField recs_count(_window.gadget(RECOMMEND_COUNT));
+	tbx::ActionButton recs_browse(_window.gadget(RECOMMEND_BROWSE));
+
+	recs_count.text(tbx::to_string(recs_found.size()));
+	recs_browse.fade(recs_found.empty());
 }
 
 /**

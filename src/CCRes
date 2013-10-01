@@ -3290,7 +3290,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:936,1040,2636,1940
+  window.visible:2,260,1598,1160
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -3965,14 +3965,14 @@ window_object {
     help_message:""
     help_limit:*
     flags:label_NO_BOX
-    label:"Recomendations or suggestions"
+    label:"Recommendations or suggestions"
   }
   actionbutton_object {
     cmp:&4
-    bbox:696,-192,880,-140
+    bbox:712,-192,896,-140
     help_message:""
     help_limit:*
-    flags:gadget_FADED
+    flags:actionbutton_IS_LOCAL | gadget_FADED
     text:"View/Add..."
     text_limit:*
     click_show:""
@@ -4198,5 +4198,109 @@ window_object {
     value_limit:8
     validation:""
     validation_limit:*
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Recommends"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:376,132,1472,396
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-264,1096,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Recommendations/Suggestions"
+  window.title_text_limit:*
+  window.title_valid:""
+  button_object {
+    cmp:&0
+    bbox:0,-44,1100,0
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Recommends"
+    value_limit:*
+    validation:"C/ffcc77"
+    validation_limit:*
+  }
+  button_object {
+    cmp:&1
+    bbox:-8,-160,1100,-116
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Suggests"
+    value_limit:*
+    validation:"C/55cc77"
+    validation_limit:*
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:572,-240,760,-188
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:812,-244,1072,-176
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Add selected"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&10
+    bbox:28,-100,1088,-56
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Option"
+    label_limit:80
+    action:&0
   }
 }
