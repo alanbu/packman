@@ -47,6 +47,7 @@
 #include "SearchWindow.h"
 #include "InstallWindow.h"
 #include "CacheWindow.h"
+#include "BootOptionsWindow.h"
 
 /**
  * Show the main packman window if it's not already shown
@@ -113,6 +114,7 @@ int main(int argc, char *argv[])
 	tbx::MatchLifetime<AppMoveTo> mlt_app_move_to("AppMoveTo");
 	tbx::MatchLifetime<CopyrightWindow> mlt_copyright("Copyright");
 	tbx::MatchLifetime<SearchWindow> mlt_search("Search");
+	tbx::MatchLifetime<BootOptionsWindow> mlt_boot_options("BootOpts");
 
 	iconbar.add_select_command(new ShowMainWindowCommand());
 	iconbar.add_adjust_command(new ShowInstalledCommand());
