@@ -1140,6 +1140,19 @@ menu_object {
     help_limit:*
   }
   Entry {
+    cmp:10
+    flags:menu_ENTRY_SEPARATE | menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&a
+    text:"Boot options"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"BootOpts"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
     cmp:7
     flags:
     cmp:&7
@@ -4302,5 +4315,115 @@ window_object {
     label:"Option"
     label_limit:80
     action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"BootOpts"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:608,488,1260,860
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Boot options for '@'"
+  window.title_text_limit:128
+  window.title_valid:""
+  optionbutton_object {
+    cmp:&0
+    bbox:40,-72,508,-28
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Look at on startup"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&1
+    bbox:40,-124,360,-80
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Run on startup"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&2
+    bbox:40,-176,360,-132
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Add to Apps"
+    label_limit:*
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:208,-348,396,-296
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:436,-348,624,-296
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Apply"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&5
+    bbox:24,-240,660,-188
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Changes from unchecking an option will not"
+  }
+  label_object {
+    cmp:&6
+    bbox:24,-288,632,-236
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"take effect until after the next reboot."
   }
 }

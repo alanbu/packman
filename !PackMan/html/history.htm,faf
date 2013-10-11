@@ -13,6 +13,7 @@
 be installed, upgraded or removed at once.</LI>
 <LI>Main package list windows now show a rectangle partially filled with green during installation
 and after an installation if it failed and had not been restored to a good state.</LI>
+<LI>Applications Window menu now includes option to set the RISC OS Boot options for an application.</LI>
 </UL>
 </LI>
 
