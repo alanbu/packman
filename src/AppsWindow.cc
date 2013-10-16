@@ -38,9 +38,14 @@
 
 #include "libpkg/binary_control.h"
 #include "libpkg/pkgbase.h"
+#include "libpkg/version.h"
+#include "libpkg/component.h"
 
 #include <fstream>
 #include <cstdlib>
+
+/** The earliest standards version that uses the new components field. */
+const pkg::version first_components_version("0.4");
 
 AppsWindow::AppsWindow(tbx::Object obj) :
 	_window(obj),
@@ -93,48 +98,75 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	MainWindow *main = MainWindow::from_window(event.id_block().ancestor_object());
 	const pkg::binary_control *ctrl = main->selected_package();
 
-
 	if (ctrl != 0)
 	{
 		std::string pkgname = ctrl->pkgname();
 		std::string title = "Applications in package '" + pkgname.substr(0,100) + "'";
 		_window.title(title);
 
-		// Open manifest.
 		pkg::pkgbase *pb = Packages::instance()->package_base();
-		std::string files_pathname=pb->info_pathname(pkgname)+std::string(".Files");
-		std::ifstream in(files_pathname.c_str());
-		std::string last_pathname;
+		std::string comp_str = ctrl->components();
 
-		while (in)
+		if (!comp_str.empty() || pkg::version(ctrl->standards_version()) >= first_components_version)
 		{
-			// Read pathname from manifest.
-			std::string line;
-			getline(in,line);
-
-			// Look for exclamation mark at start of path component.
-			std::string::size_type f=line.find(".!");
-			if (f!=std::string::npos)
+			// Use component field
+			if (!comp_str.empty())
 			{
-				// Isolate pathname up to and including the matching
-				// path component.
-				std::string::size_type e=line.find(".",f+1);
-				std::string src_pathname=line.substr(0,e);
-
-				// Disregard the path component if it is the leafname
-				// (that is, if it refers to a file rather than a directory).
-				if (e!=std::string::npos)
+				try
 				{
-					if (last_pathname != src_pathname)
+					std::vector<pkg::component> comps;
+					pkg::parse_component_list(comp_str.begin(), comp_str.end(), &comps);
+					for (std::vector<pkg::component>::iterator i = comps.begin(); i !=comps.end(); ++i)
 					{
-						last_pathname = src_pathname;
-						// Add to window if pathname not already known.
-						_apps.push_back(IconData(src_pathname));
+						if (i->flag(pkg::component::movable))
+						{
+							_apps.push_back(IconData(i->name()));
+						}
+					}
+				} catch(...)
+				{
+					// Ignore exceptions and jist don't add components
+				}
+
+				_view.inserted(0, _apps.size());
+			}
+		} else
+		{
+			// Scan list of install files for applications
+			std::string files_pathname=pb->info_pathname(pkgname)+std::string(".Files");
+			std::ifstream in(files_pathname.c_str());
+			std::string last_pathname;
+
+			while (in)
+			{
+				// Read pathname from manifest.
+				std::string line;
+				getline(in,line);
+
+				// Look for exclamation mark at start of path component.
+				std::string::size_type f=line.find(".!");
+				if (f!=std::string::npos)
+				{
+					// Isolate pathname up to and including the matching
+					// path component.
+					std::string::size_type e=line.find(".",f+1);
+					std::string src_pathname=line.substr(0,e);
+
+					// Disregard the path component if it is the leafname
+					// (that is, if it refers to a file rather than a directory).
+					if (e!=std::string::npos)
+					{
+						if (last_pathname != src_pathname)
+						{
+							last_pathname = src_pathname;
+							// Add to window if pathname not already known.
+							_apps.push_back(IconData(src_pathname));
+						}
 					}
 				}
 			}
+			_view.inserted(0, _apps.size());
 		}
-		_view.inserted(0, _apps.size());
 	}
 }
 
