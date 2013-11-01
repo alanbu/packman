@@ -79,6 +79,7 @@ public:
 
 	void add_child_file(const std::string &child_name);
 
+	const tbx::Path &source_path() const {return _source;}
 	tbx::Path target_path() const {return tbx::Path(_target_dir, _source.leaf_name());}
 	const tbx::Path &target_dir() const {return _target_dir;}
 

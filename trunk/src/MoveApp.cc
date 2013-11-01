@@ -31,11 +31,13 @@
  */
 const int PATHS_COST  = 50000;
 const int VARS_COST   = 100000;
+const int BOOT_OPTIONS_COST = 100000;
 
 MoveApp::MoveApp(const std::string &logical_path, const std::string &app_path, const std::string &to_path) :
   _logical_path(logical_path),
   _copy_handler(app_path, tbx::Path(to_path).parent()),
   _backup_handler(0),
+  _comps_moved(0),
   _state(START),
   _error(NO_ERROR),
   _warning(NO_WARNING),
@@ -71,6 +73,7 @@ void MoveApp::setup_backup(const tbx::Path &target)
 MoveApp::~MoveApp()
 {
 	delete _backup_handler;
+	delete _comps_moved;
 }
 
 /**
@@ -190,9 +193,11 @@ void MoveApp::poll()
 			pkg::path_table &paths = Packages::instance()->package_base()->paths();
 			try
 			{
+				_comps_moved = new ComponentsMoved(_copy_handler.source_path());
 				std::string path_defn = Packages::make_path_definition(_copy_handler.target_path());
 				paths.alter(_logical_path, path_defn);
 				paths.commit();
+				_comps_moved->check_if_moved();
 				_state = UPDATE_VARS;
 				_cost_done += PATHS_COST;
 			} catch(...)
@@ -212,10 +217,25 @@ void MoveApp::poll()
 		// if it ever did it would be corrected by the next install
 		// or update.
 		pkg::update_sysvars(*(Packages::instance()->package_base()));
-		_state = DELETE_OLD_FILES;
+		_state = UPDATE_BOOT_OPTIONS;
 		_cost_done += VARS_COST;
 		_copy_handler.start_delete_source();
 		_cost_stage_start = _cost_done - _copy_handler.cost_done();
+		break;
+
+	case UPDATE_BOOT_OPTIONS:
+		if (_comps_moved && _comps_moved->state() != ComponentsMoved::DONE)
+		{
+			_comps_moved->poll();
+			_cost_done = _cost_stage_start + (BOOT_OPTIONS_COST * _comps_moved->poll_count() / _comps_moved->poll_total());
+		} else
+		{
+			delete _comps_moved;
+			_comps_moved = 0;
+			_state = DELETE_OLD_FILES;
+			_cost_stage_start += BOOT_OPTIONS_COST;
+			_cost_done = _cost_stage_start;
+		}
 		break;
 
 	case DELETE_OLD_FILES:
@@ -324,6 +344,7 @@ void MoveApp::calc_cost_total(bool backup_only)
 	else _cost_total += _copy_handler.total_cost();
 	_cost_total += PATHS_COST;
 	_cost_total += VARS_COST;
+	_cost_total += BOOT_OPTIONS_COST;
 }
 
 /**

@@ -11,6 +11,9 @@
 <LI>Replaced install/upgrade all and remove window with a single package configuration window.<LI>
 <LI>Multiple packages can be added to the new configuration window and then they can all
 be installed, upgraded or removed at once.</LI>
+<LI>Understands the new packaging back-end standards version which allows components within a package to be
+specified. New format packages will allow the installation location to be set on install as
+well as the boot options</LI>
 <LI>Main package list windows now show a rectangle partially filled with green during installation
 and after an installation if it failed and had not been restored to a good state.</LI>
 <LI>Applications Window menu now includes option to set the RISC OS Boot options for an application.</LI>

@@ -28,6 +28,7 @@
 #define MOVEPATH_H_
 
 #include "FSObjectCopy.h"
+#include "ComponentsMoved.h"
 
 #include "libpkg/path_table.h"
 #include "tbx/path.h"
@@ -54,7 +55,7 @@
 class MovePath
 {
 public:
-	enum State {FIND_INSTALLED, BUILD_FILE_LIST, CHECKING_FILES, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, DELETE_OLD_FILES, DONE, UNWIND_COPY, FAILED};
+	enum State {FIND_INSTALLED, BUILD_FILE_LIST, CHECKING_FILES, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, UPDATE_BOOT_OPTIONS, DELETE_OLD_FILES, DONE, UNWIND_COPY, FAILED};
 	enum Error {NO_ERROR, TARGET_FILE_EXISTS, NO_PATH_FOR_FILE, CANCELLED, CREATE_DIR_FAILED, COPY_FAILED, PATH_UPDATE_FAILED};
 	enum Warning {NO_WARNING, DELETE_FAILED, UNWIND_COPY_FAILED};
 
@@ -65,6 +66,7 @@ private:
 	State _state;
 	Error _error;
 	Warning _warning;
+	ComponentsMoved *_comps_moved;
 	std::queue<std::string> _installed;
 	std::queue<std::pair<std::string, std::string> > _check_list;
 	std::queue< std::pair<std::string, std::string> > _file_list;
