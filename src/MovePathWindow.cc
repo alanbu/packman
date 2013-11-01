@@ -110,6 +110,10 @@ void MovePathWindow::execute()
 			_status_text.text("Updating system variables");
 			break;
 
+		case MovePath::UPDATE_BOOT_OPTIONS:
+			_status_text.text("Updating boot options");
+			break;
+
 		case MovePath::DELETE_OLD_FILES:
 			_status_text.text("Deleting original files");
 			break;

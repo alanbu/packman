@@ -105,6 +105,10 @@ void MoveWindow::execute()
 			_status_text.text("Updating system variables");
 			break;
 
+		case MoveApp::UPDATE_BOOT_OPTIONS:
+			_status_text.text("Updating boot options");
+			break;
+
 		case MoveApp::DELETE_OLD_FILES:
 			_status_text.text("Deleting original files");
 			break;

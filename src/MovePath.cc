@@ -40,8 +40,9 @@ const int INSTALLED_COST       = 10;
 const int TOTAL_ADD_FILES_COST = 990;
 const int TOTAL_CHECK_FILES_COST = 2000;
 const int TOTAL_COPY_COST      = 6400;
-const int UPDATE_PATHS_COST    = 200;
-const int UPDATE_VARS_COST     = 400;
+const int UPDATE_PATHS_COST    = 100;
+const int UPDATE_VARS_COST     = 350;
+const int BOOT_OPTIONS_COST    = 150;
 
 // Following constant speeds it up a little by doing multiple checks in a single
 // poll - don't make it to large or the desktop responsiveness suffers
@@ -61,6 +62,7 @@ MovePath::MovePath(const std::string &path_name, const std::string &new_dir) :
   _state(FIND_INSTALLED),
   _error(NO_ERROR),
   _warning(NO_WARNING),
+  _comps_moved(0),
   _cost_done(0),
   _cost_total(0),
   _cost_centipc(0),
@@ -89,6 +91,7 @@ MovePath::MovePath(const std::string &path_name, const std::string &new_dir) :
 
 MovePath::~MovePath()
 {
+	delete _comps_moved;
 }
 
 /**
@@ -225,6 +228,7 @@ void MovePath::poll()
 			pkg::path_table &paths = Packages::instance()->package_base()->paths();
 			try
 			{
+				_comps_moved = new ComponentsMoved(paths(_path_name,""));
 				if (_new_dir.empty())
 				{
 					paths.erase(_path_name);
@@ -235,6 +239,7 @@ void MovePath::poll()
 					paths.alter(_path_name, path_defn);
 				}
 				paths.commit();
+				_comps_moved->check_if_moved();
 				_state = UPDATE_VARS;
 				_cost_centipc += UPDATE_PATHS_COST;
 			} catch(...)
@@ -253,11 +258,29 @@ void MovePath::poll()
 		// if it ever did it would be corrected by the next install
 		// or update.
 		pkg::update_sysvars(*(Packages::instance()->package_base()));
-		_state = DELETE_OLD_FILES;
+		_state = UPDATE_BOOT_OPTIONS;
 		_cost_centipc += UPDATE_VARS_COST;
 		_last_dir = tbx::Path("");
 		break;
 
+	case UPDATE_BOOT_OPTIONS:
+		if (_comps_moved && _comps_moved->state() != ComponentsMoved::DONE)
+		{
+			_comps_moved->poll();
+			if (_cost_total)
+			{
+				_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST
+						+ UPDATE_PATHS_COST + UPDATE_VARS_COST
+						+ (BOOT_OPTIONS_COST * _comps_moved->poll_count() / _comps_moved->poll_total())
+						+ (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
+			}
+		} else
+		{
+			delete _comps_moved;
+			_comps_moved = 0;
+			_state = DELETE_OLD_FILES;
+		}
+		break;
 
 	case DELETE_OLD_FILES:
 		if (_files_copied.empty())
@@ -288,7 +311,8 @@ void MovePath::poll()
 			_cost_done += FILEOP_COST;
 			if (_cost_total)
 			{
-				_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST + UPDATE_PATHS_COST + UPDATE_VARS_COST
+				_cost_centipc = INSTALLED_COST + TOTAL_ADD_FILES_COST + TOTAL_CHECK_FILES_COST
+						+ UPDATE_PATHS_COST + UPDATE_VARS_COST + BOOT_OPTIONS_COST
 						+ (int)(((long long)TOTAL_COPY_COST * _cost_done)/_cost_total);
 			}
 		}

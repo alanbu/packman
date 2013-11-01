@@ -23,6 +23,7 @@
 
 #include "tbx/path.h"
 #include "FSObjectCopy.h"
+#include "ComponentsMoved.h"
 
 /**
  * Class to move an application on the disc and
@@ -40,7 +41,7 @@
 class MoveApp
 {
 public:
-	enum State {START_BACKUP, BACKUP_FILES, START, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, DELETE_OLD_FILES, DONE, UNWIND_COPY, UNWIND_BACKUP, FAILED};
+	enum State {START_BACKUP, BACKUP_FILES, START, COPYING_FILES, UPDATE_PATHS, UPDATE_VARS, UPDATE_BOOT_OPTIONS, DELETE_OLD_FILES, DONE, UNWIND_COPY, UNWIND_BACKUP, FAILED};
 	enum Error {NO_ERROR, COPY_FAILED, PATH_UPDATE_FAILED, BACKUP_FAILED, CANCELLED};
 	enum Warning {NO_WARNING, DELETE_FAILED, UNWIND_PATHS_FAILED, UNWIND_COPY_FAILED, UNWIND_BACKUP_FAILED};
 
@@ -48,6 +49,7 @@ private:
 	std::string _logical_path;
 	FSObjectCopy _copy_handler;
 	FSObjectCopy *_backup_handler;
+	ComponentsMoved *_comps_moved;
 	State _state;
 	Error _error;
 	Warning _warning;
