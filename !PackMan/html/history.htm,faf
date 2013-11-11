@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>xxxx Beta - Whenever</B>
+<LI><B>0.8 Beta - November 2013</B>
 <UL>
 <LI>Replaced install/upgrade all and remove window with a single package configuration window.<LI>
 <LI>Multiple packages can be added to the new configuration window and then they can all
