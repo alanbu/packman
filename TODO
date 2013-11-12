@@ -4,31 +4,19 @@ Once something is done it is moved to history.htm.
 
 Items marked LibPkg: will need work done in the LibPkg backend library as well.
 
+For versions after 0.8
+----------------------
 
-Version 0.8
------------
-
-- LibPkg and PackMan: Drag and Drop to set install location - this is likely to need a modification to the Control file fields to specify what is draggable. See Components section below.
-- LibPkg and PackMan: Look into if Sprites and SysVars should be removed from the Package and replaced with using the standard Look At functionality. (Interestingly, it appears that there is a more or less complete programmatic interface for the 'Look at', 'Add to Apps' and 'Run' windows (see section 5.2): http://www.marutan.net/wikiref/Acorn%20Registered%20Developer%20REFERNC/RO4/API/HTML/CONFIGUR.HTM
-- Keep the install/remove window open until it is specifically closed and add further installs to it so multiple installs can be done at once.
 - Ensure panes are always at least as wide as the main window
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
 - have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
-- LibPkg: logging (see below) - may only be a partial implementation for this release.
 - Options window to enable/control logging
 - See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
 - Check if netsurf builds still exists.
 - Got a crash on KnownSources when the html file was missing
-
-
-For versions after 0.8
-----------------------
-
-- Finish off logging (if not done above)
 - Run scripts during install remove (see below)
 - Implement Hold functionality from LibPkg to stop a package being upgraded
 - Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
-- Make it easier to see/install recommendations and suggestions
 - Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one.
 
 Things to check
@@ -56,7 +44,7 @@ Possible future changes (i.e. under consideration)
 - Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
 - Previous versions - theoretically LibPkg can handle this. I would have to make sure.
-- The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore). 
+- The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore).
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - When upgrading check if the old version has been moved and prompt for it's location if it has.
 - Consider how to let PackMan know if an application has been moved from outside of PackMan.
@@ -120,7 +108,7 @@ My current thoughts/things to sort out are:
 LibPkg logging
 --------------
 
-The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working. 
+The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working.
 
 Lastest log idea
 
