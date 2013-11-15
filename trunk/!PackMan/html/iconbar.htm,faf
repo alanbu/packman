@@ -33,9 +33,9 @@ system.
 <TR>
   <td>Upgrade All</td>
   <td>Upgrades all installed packages which have an upgrade available.
-   Either the <A href="upgradeall.htm">Upgrade All</A> dialogue is shown that lists
-   the packages that will be upgraded and
-   lets you upgrade them all in one go, or a message is shown if there are no
+   Either the <A href="configpackage.htm">Configure Package Window</A> is shown with all
+   the packages that will be upgraded added to is to they can all be upgraded
+   in one go, or a message is shown if there are no
    upgrades currently available. If there are no upgrades available you may
    want to run the update lists option and try again to see if any new
    upgrades have appeared since the last time you updated the lists.</td>

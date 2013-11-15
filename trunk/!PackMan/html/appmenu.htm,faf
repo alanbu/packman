@@ -10,11 +10,11 @@
 <P>It provide the following options
 <UL>
 <LI>Install - install or upgrade the selected application.
-    When selected it leads to the <A HREF="install.htm>Install Dialog</A> to install/upgrade the package.
+    When selected it leads to the <A HREF="configpackage.htm">Configure Package Window</A> to install/upgrade the package.
     This option is disabled if the application is installed and up to date.
 </LI>
 <LI>Remove - remove the selected application.
-    When selected it leads to the <A HREF="remove.htm>Remove Dialog</A> to remove the package.
+    When selected it leads to the <A HREF="configpackage.htm">Configure Package Window</A> to remove the package.
     This option is disabled if the application is not installed.
 </LI>
 <LI>Apps - shows the <A HREF="apps.htm">Applications Window</A>
