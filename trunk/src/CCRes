@@ -2665,7 +2665,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:296,352,900,928
+  window.visible:296,484,884,928
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -2689,7 +2689,7 @@ window_object {
   window.title_valid:""
   draggable_object {
     cmp:&82bc00
-    bbox:248,-396,348,-320
+    bbox:248,-252,348,-176
     help_message:""
     help_limit:*
     flags:draggable_SPRITE | draggable_DROP_SHADOW
@@ -2700,7 +2700,7 @@ window_object {
   }
   writablefield_object {
     cmp:&82bc01
-    bbox:36,-472,560,-420
+    bbox:36,-328,560,-276
     help_message:""
     help_limit:*
     flags:writablefield_RJUSTIFIED
@@ -2713,7 +2713,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&82bc02
-    bbox:276,-552,404,-500
+    bbox:276,-408,404,-356
     help_message:""
     help_limit:*
     flags:actionbutton_IS_CANCEL
@@ -2724,7 +2724,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&82bc03
-    bbox:420,-560,560,-492
+    bbox:420,-416,560,-348
     help_message:""
     help_limit:*
     flags:actionbutton_IS_DEFAULT
@@ -2734,32 +2734,8 @@ window_object {
     action:&0
   }
   label_object {
-    cmp:&82bc04
-    bbox:32,-64,572,-12
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Note: It is recommended that you use"
-  }
-  label_object {
-    cmp:&82bc05
-    bbox:36,-108,576,-56
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"stub applications rather than physically"
-  }
-  label_object {
-    cmp:&82bc06
-    bbox:36,-152,576,-100
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"move paths with this window."
-  }
-  label_object {
     cmp:&82bc07
-    bbox:28,-212,568,-160
+    bbox:28,-68,568,-16
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -2767,7 +2743,7 @@ window_object {
   }
   label_object {
     cmp:&82bc08
-    bbox:32,-256,572,-204
+    bbox:32,-112,572,-60
     help_message:""
     help_limit:*
     flags:label_NO_BOX
@@ -2775,135 +2751,11 @@ window_object {
   }
   label_object {
     cmp:&82bc09
-    bbox:32,-304,572,-252
+    bbox:32,-160,572,-108
     help_message:""
     help_limit:*
     flags:label_NO_BOX
     label:"take a while."
-  }
-}
-
-saveas_object {
-  header_flags:
-  version:100
-  object_name:"MoveAppTo"
-  saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_NO_SELECTION_BUTTON
-  file_name:"Untitled"
-  file_type:&2000
-  title:"Move application '@'"
-  title_limit:128
-  alternative_window_name:"MoveAppWnd"
-}
-
-window_object {
-  header_flags:
-  version:102
-  object_name:"AppMoveWnd"
-  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
-  help_message:""
-  help_limit:*
-  sprite_name:""
-  pointer_limit:0
-  hotspot:0,0
-  menu_name:""
-  default_focus:toolbox_NULL_COMPONENT
-  show_action:
-  hide_action:
-  toolbar_ibl:""
-  toolbar_itl:""
-  toolbar_ebl:""
-  toolbar_etl:""
-  window.visible:444,496,1040,920
-  window.xscroll:0
-  window.yscroll:0
-  window.next:wimp_TOP
-  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
-  window.title_fg:wimp_COLOUR_BLACK
-  window.title_bg:wimp_COLOUR_LIGHT_GREY
-  window.work_fg:wimp_COLOUR_BLACK
-  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
-  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
-  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
-  window.highlight_bg:wimp_COLOUR_CREAM
-  window.extra_flags:
-  window.extent:0,-1024,1280,0
-  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
-  window.work_flags:
-  window.sprite_area:&ffffffff
-  window.xmin:100
-  window.ymin:100
-  window.title_text:"Move Application '@'"
-  window.title_text_limit:128
-  window.title_valid:""
-  draggable_object {
-    cmp:&82bc00
-    bbox:248,-232,348,-156
-    help_message:""
-    help_limit:*
-    flags:draggable_SPRITE | draggable_DROP_SHADOW
-    text:"Draggable"
-    text_limit:*
-    sprite_name:"application"
-    sprite_limit:*
-  }
-  writablefield_object {
-    cmp:&82bc01
-    bbox:36,-308,560,-256
-    help_message:""
-    help_limit:*
-    flags:writablefield_RJUSTIFIED
-    text:""
-    text_limit:256
-    allowable:""
-    allowable_limit:*
-    prev:toolbox_NULL_COMPONENT
-    next:toolbox_NULL_COMPONENT
-  }
-  actionbutton_object {
-    cmp:&82bc02
-    bbox:276,-388,404,-336
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_CANCEL
-    text:"Cancel"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  actionbutton_object {
-    cmp:&82bc03
-    bbox:420,-396,560,-328
-    help_message:""
-    help_limit:*
-    flags:actionbutton_IS_DEFAULT
-    text:"Save"
-    text_limit:*
-    click_show:""
-    action:&0
-  }
-  label_object {
-    cmp:&82bc04
-    bbox:32,-64,572,-12
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"Note: It is recommended that you use"
-  }
-  label_object {
-    cmp:&82bc05
-    bbox:36,-108,576,-56
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"stub applications rather than physically"
-  }
-  label_object {
-    cmp:&82bc06
-    bbox:36,-152,576,-100
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX
-    label:"move applications with this window."
   }
 }
 
@@ -2916,7 +2768,7 @@ saveas_object {
   file_type:&2000
   title:"Move application '@'"
   title_limit:128
-  alternative_window_name:"AppMoveWnd"
+  alternative_window_name:""
 }
 
 window_object {
