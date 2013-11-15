@@ -9,10 +9,6 @@
 <p>This Window shows the paths where packages are installed by PackMan.</p>
 <p>Each entry shows the Logical name of the path used in the package
 along with the location on disc it is mapped to.</p>
-<p>It is recommended that you leave the paths at their standard locations
-and use stubs to gain access to application from other directories.
-However it is appreciated that some people prefer their own disc layout
-or have multiple discs and want some packages installed on other discs.</p>
 
 <p>The <b>Open</b> button will open a filer window for the currently
 selected path. If the path contains the special "@" character it is not
