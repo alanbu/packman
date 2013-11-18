@@ -688,6 +688,7 @@ void PackageConfigWindow::update_apply_button()
 			install = true;
 			break;
 		case UPGRADE:
+		case AUTO_UPGRADE:
 			upgrade = true;
 			break;
 		case REMOVE:
@@ -695,7 +696,6 @@ void PackageConfigWindow::update_apply_button()
 			break;
 		case AUTO_INSTALL:
 		case AUTO_REMOVE:
-		case AUTO_UPGRADE:
 			// These do not affect the button text
 			break;
 		}
