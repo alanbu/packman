@@ -14,8 +14,8 @@ New to this version:
   Packages will need to be updated to the new format
   before this is available for them. I intend to do this
   for the packages I maintain soon. Details of what is
-  required for other developers can be found on the packman
-  page below.
+  required for other developers can be found at:
+  https://sites.google.com/site/alansriscosstuff/packman/packagecomponents
 
 - Allows configuration of the standard RISC OS boot options for
   a component of a package (i.e. look at, run and add to apps).
