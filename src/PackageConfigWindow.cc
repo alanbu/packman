@@ -350,6 +350,21 @@ void PackageConfigWindow::package_added()
 					tbx::Path path(Packages::instance()->package_base()->paths()(comp.name(),""));
 					comp_path.value(path.parent());
 					comp_leaf.text(path.leaf_name());
+					if (comp.flag(pkg::component::look_at))
+					{
+						tbx::OptionButton comp_lookat = _window.gadget(first_id + COMP_LOOK_AT);
+						comp_lookat.on(true);
+					}
+					if (comp.flag(pkg::component::run))
+					{
+						tbx::OptionButton comp_run = _window.gadget(first_id + COMP_RUN);
+						comp_run.on(true);
+					}
+					if (comp.flag(pkg::component::add_to_apps))
+					{
+						tbx::OptionButton comp_add = _window.gadget(first_id + COMP_ADD_TO_APPS);
+						comp_add.on(true);
+					}
 					if (_components.empty())
 					{
 						// Get path colours
