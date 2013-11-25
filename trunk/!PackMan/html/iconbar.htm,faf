@@ -54,5 +54,7 @@ system.
   <TD>Close the package Manager</TD>
 </TR>
 </TABLE>
+<P>Drag a package file from that filer and drop it onto the iconbar to insert a local package from
+the list of packages and show the Configure Packages Window with it selected for install.</P>
 </BODY>
 </HTML>

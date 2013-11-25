@@ -17,6 +17,8 @@ well as the boot options</LI>
 <LI>Main package list windows now show a rectangle partially filled with green during installation
 and after an installation if it failed and had not been restored to a good state.</LI>
 <LI>Applications Window menu now includes option to set the RISC OS Boot options for an application.</LI>
+<LI>A Package file dragged from the filer to the icon bar icon now automatically adds the package
+to the Configure Packages Window (showing it if it is not already shown)</LI>
 </UL>
 </LI>
 
