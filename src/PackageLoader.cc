@@ -26,6 +26,8 @@
 
 #include "PackageLoader.h"
 #include "Packages.h"
+#include "PackageConfigWindow.h"
+#include "PackManState.h"
 #include "tbx/reporterror.h"
 #include "libpkg/filesystem.h"
 #include "libpkg/zipfile.h"
@@ -67,6 +69,41 @@ bool PackageLoader::load_file(tbx::LoadEvent &event)
 				pkg::copy_object(pathname, cache_pathname);
 				package_base->control().insert(ctrl);
 				package_base->control().commit();
+
+				// Attempt to show dragged item in the configuration window
+				// immediately
+				try
+				{
+					pkg::status_table::const_iterator sti = package_base->curstat().find(pkgname);
+					bool can_show = false;
+					if (sti == package_base->curstat().end()
+						  || (*sti).second.state() != pkg::status::state_installed
+						  )
+					{
+						can_show = true; // Not installed so we can install it now
+					} else
+					{
+						  pkg::version inst_version((*sti).second.version());
+						  pkg::version cur_version(pkgvrsn);
+						  can_show = (inst_version < cur_version);
+					}
+					if (can_show)
+					{
+						if (pmstate()->ok_to_commit())
+						{
+							Packages::instance()->select_install(&ctrl);
+							PackageConfigWindow::update();
+						}
+					} else
+					{
+						std::string msg;
+						msg = "Version " + pkgvrsn + " or later of package " + pkgname + " is already installed";
+					   tbx::report_error(msg);
+					}
+				} catch (...)
+				{
+					tbx::report_error("Unable to select Package for configuration window");
+				}
 			} else
 			{
 				tbx::report_error("Not a package (Package name or version not found)", 0);
