@@ -56,15 +56,6 @@ void AppMoveTo::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	_source_path = apps_window->selected_app_path();
 	_logical_path = apps_window->selected_app_logical_path();
 	_saveas.file_name(_source_path.leaf_name());
-
-	std::string title = _saveas.title();
-	std::string::size_type rep_pos = title.find('@');
-
-	if (rep_pos != std::string::npos)
-	{
-		title.replace(rep_pos, 1, _source_path.leaf_name());
-		_saveas.title(title);
-	}
 }
 
 /**
