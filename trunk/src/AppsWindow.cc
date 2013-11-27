@@ -44,6 +44,8 @@
 #include <fstream>
 #include <cstdlib>
 
+#include <swis.h>
+
 /** The earliest standards version that uses the new components field. */
 const pkg::version first_components_version("0.4");
 
@@ -210,12 +212,26 @@ void AppsWindow::itemview_clicked(const tbx::view::ItemViewClickEvent &event)
 AppsWindow::IconData::IconData(std::string logical_path) :
 	_logical_path(logical_path)
 {
-	std::string::size_type f=logical_path.find(".!");
+	std::string::size_type f=logical_path.rfind(".");
 	_name = logical_path.substr(f+1);
-	_sprite_name = _name;
 
-    tbx::WimpSprite ws(_sprite_name);
-	if (!ws.exist()) _sprite_name = "application";
+	tbx::Path ftpath(full_path());
+	tbx::PathInfo ftinfo;
+	ftpath.raw_path_info(ftinfo, true);
+	int file_type;
+
+	if (ftinfo.image_file())
+	{
+		// Image FS items also come back as directories so get raw file type
+		file_type = ftinfo.raw_file_type();
+	} else
+	{
+		file_type = ftinfo.file_type();
+	}
+
+	tbx::WimpSprite ws(file_type, _name);
+	if (ws.exist()) _sprite_name = ws.name();
+	else _sprite_name = "file_xxx"; // Use unknown file type
 }
 
 /**
