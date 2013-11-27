@@ -318,7 +318,6 @@ void AppsWindow::app_run()
 	{
 		std::string cmd("Filer_Run ");
 		cmd += _apps[*i].full_path();
-		cmd += ".!Run";
 		try
 		{
 		   tbx::app()->os_cli(cmd);
