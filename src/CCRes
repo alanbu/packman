@@ -121,7 +121,7 @@ proginfo_object {
   purpose:"Package Management"
   author:"© 2009-2013 Alan Buckley"
   licence_type:None
-  prog_version:"0.8 Beta (15 Nov 2013)"
+  prog_version:"0.8 Beta (27 Nov 2013)"
   alternative_window_name:""
   visit_url:""
   visit_url_event:&82b42
@@ -2766,7 +2766,7 @@ saveas_object {
   saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_NO_SELECTION_BUTTON
   file_name:"Untitled"
   file_type:&2000
-  title:"Move application '@'"
+  title:"Move"
   title_limit:128
   alternative_window_name:""
 }

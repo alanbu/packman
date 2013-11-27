@@ -63,7 +63,7 @@ void AppSaveAs::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	{
 	case STUB: _saveas.title("Create Stub"); break;
 	case LINK: _saveas.title("Create link"); break;
-	case COPY: _saveas.title("Copy application"); break;
+	case COPY: _saveas.title("Copy"); break;
 	}
 
 	// Menu item id specifies type of save
