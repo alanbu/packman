@@ -380,7 +380,13 @@ void AppsWindow::drag_finished (const tbx::BBox &final)
 
 	tbx::view::Selection::Iterator i = _selection.begin();
 	tbx::Path path(_apps[*i].full_path());
-	saver.save(where, path.leaf_name(), tbx::FILE_TYPE_APPLICATION, 1024);
+	if (path.file_type() == tbx::FILE_TYPE_APPLICATION)
+	{
+		saver.save(where, path.leaf_name(), tbx::FILE_TYPE_APPLICATION, 1024);
+	} else
+	{
+		tbx::show_message("Drag ignored! A Drag creates a stub, which is only available for an application");
+	}
 }
 
 

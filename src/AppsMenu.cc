@@ -50,6 +50,17 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	AppsWindow *apps_window = AppsWindow::from_window(event.id_block().ancestor_object());
 	std::string app_path = apps_window->selected_app_path();
 
+	/* Menu item number from Res file
+	 * 1 - create stub
+	 * 2 - create link
+	 * 3 - copy
+	 * 4 - move
+	 * 10 - boot options
+	 * 7 - boot
+	 * 9 - run
+	 * 5 - help
+	 * 6 - view
+	 */
 	if (app_path.empty())
 	{
 		// Either no selection or multiple selection
@@ -60,6 +71,7 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 			tbx::Menu app_menu = _app_item.submenu();
 			for (int i = 1; i <= 4; i++)
 				app_menu.item(i).fade(true);
+			app_menu.item(10).fade(true);
 		} else
 		{
 			_app_item.text("Apps ''");
@@ -74,8 +86,17 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		_app_item.text(app_text);
 		_app_item.fade(false);
 		tbx::Menu app_menu = _app_item.submenu();
-		for (int i = 1; i <= 3; i++)
-			app_menu.item(i).fade(false);
+		// Ensure options that are faded for multi-selections are enabled
+		app_menu.item(2).fade(false);
+		app_menu.item(3).fade(false);
+        app_menu.item(10).fade(false);
+
+        bool not_app = (path.file_type() != tbx::FILE_TYPE_APPLICATION);
+
+        // Fade options only available to applications (not individual files)
+        app_menu.item(1).fade(not_app);
+        app_menu.item(7).fade(not_app);
+        app_menu.item(5).fade(not_app);
 
 		// Can't move anything from !Boot
 		bool cant_move = app_path.empty() || (tbx::find_ignore_case(app_path, ".!Boot.") != std::string::npos);
