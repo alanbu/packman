@@ -18,6 +18,7 @@ For versions after 0.8
 - Implement Hold functionality from LibPkg to stop a package being upgraded
 - Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
 - Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one.
+- Install filter doesn't update with new packages after an install
 
 Things to check
 ---------------
