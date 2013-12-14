@@ -177,13 +177,11 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
  */
 void AppsWindow::has_been_hidden(const tbx::EventInfo &event)
 {
-	// If ancestor object is null then the main window has been deleted
-	// which automatically deletes this one so we can't clear the data
-	if (!event.id_block().ancestor_object().null())
-	{
-	   _apps.clear();
-	   _view.cleared();
-	}
+   _apps.clear();
+    // Display is regenerated when reshown so don't update now
+    _view.updates_enabled(false);
+   _view.cleared();
+   _view.updates_enabled(true);
 }
 
 /**
