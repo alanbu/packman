@@ -1,4 +1,4 @@
-Packman package manager 0.8 beta released
+Packman package manager 0.8 beta released with set install location
 
 Packman version 0.8 beta is now available.
 
@@ -19,6 +19,9 @@ New to this version:
 
 - Allows configuration of the standard RISC OS boot options for
   a component of a package (i.e. look at, run and add to apps).
+
+- Drop a package file onto the iconbar icon and it's automatically
+  added to the configuration window, ready to install.
 
 
 If you already have a previous version of !PackMan or !RiscPkg
