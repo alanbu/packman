@@ -1,0 +1,5 @@
+#/bin/sh
+
+echo "Copy unittests to rpcemu"
+cp -rf !PMUnitTests /cygdrive/c/Misc/RPCEmu/HOSTFS/Dev/TbxDev
+

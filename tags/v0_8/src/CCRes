@@ -1,0 +1,4281 @@
+RESF:1.01
+
+iconbar_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:100
+  object_name:"IconbarIcon"
+  iconbar_flags:iconbar_GENERATE_SELECT_CLICKED | iconbar_GENERATE_ADJUST_CLICKED
+  position:wimp_ICON_BAR_RIGHT
+  priority:0
+  sprite_name:"!packman"
+  sprite_limit:*
+  text:""
+  text_limit:*
+  menu:"IconbarMenu"
+  select_action:&0
+  adjust_action:&0
+  select_show:""
+  adjust_show:""
+  help_message:""
+  help_limit:*
+}
+
+menu_object {
+  header_flags:
+  version:102
+  object_name:"IconbarMenu"
+  menu_flags:
+  title:"PackMan"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:
+  hide_action:
+  Entry {
+    cmp:0
+    flags:menu_ENTRY_SUB_MENU
+    cmp:&0
+    text:"Info"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"ProgInfo"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:5
+    flags:
+    cmp:&5
+    text:"Help..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&6
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:7
+    flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&7
+    text:"Advanced"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"AdvMenu"
+    sub_menu_action:&0
+    click_action:&0
+    help:"Show more advanced options"
+    help_limit:*
+  }
+  Entry {
+    cmp:6
+    flags:
+    cmp:&6
+    text:"Upgrade All"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&7
+    help:"Upgrade all installed packages"
+    help_limit:*
+  }
+  Entry {
+    cmp:2
+    flags:
+    cmp:&2
+    text:"Update Lists"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&3
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:1
+    flags:
+    cmp:&1
+    text:"Quit"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&82a91
+    help:""
+    help_limit:*
+  }
+}
+
+proginfo_object {
+  header_flags:
+  version:101
+  object_name:"ProgInfo"
+  proginfo_flags:
+  title:""
+  title_limit:*
+  purpose:"Package Management"
+  author:"© 2009-2013 Alan Buckley"
+  licence_type:None
+  prog_version:"0.8 Beta (14 Dec 2013)"
+  alternative_window_name:""
+  visit_url:""
+  visit_url_event:&82b42
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Section"
+  window_flags:window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:"ListMenu"
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:"Summary"
+  toolbar_etl:""
+  window.visible:232,280,1204,916
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_IGNORE_XEXTENT | wimp_WINDOW_IGNORE_YEXTENT | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:wimp_WINDOW_NEVER3D | wimp_WINDOW_ALWAYS3D
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:wimp_BUTTON_REPEAT | wimp_BUTTON_DOUBLE_DRAG
+  window.sprite_area:&0
+  window.xmin:4
+  window.ymin:4
+  window.title_text:"PackMan - Section"
+  window.title_text_limit:128
+  window.title_valid:""
+}
+
+menu_object {
+  header_flags:toolbox_OBJECT_SHARED
+  version:102
+  object_name:"MainMenu"
+  menu_flags:menu_GENERATE_ABOUT_TO_BE_SHOWN | menu_GENERATE_DIALOGUE_COMPLETED
+  title:"PackMan"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:&0
+  hide_action:&0
+  Entry {
+    cmp:1
+    flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&1
+    text:"Package"
+    text_limit:64
+    click_object_name:""
+    sub_menu_object_name:"PackageMenu"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:4
+    flags:menu_ENTRY_FADED
+    cmp:&4
+    text:"Upgrade All"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&7
+    help:"Shows window that allows you to upgrade all installed packages"
+    help_limit:*
+  }
+  Entry {
+    cmp:5
+    flags:menu_ENTRY_SEPARATE
+    cmp:&5
+    text:"Update Lists"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&3
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:2
+    flags:menu_ENTRY_SUB_MENU | 0x4000
+    cmp:&2
+    text:"Search"
+    text_limit:*
+    click_object_name:"Search"
+    sub_menu_object_name:"Search"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:3
+    flags:
+    cmp:&3
+    text:"Help..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&6
+    help:""
+    help_limit:*
+  }
+}
+
+menu_object {
+  header_flags:toolbox_OBJECT_SHARED
+  version:102
+  object_name:"PackageMenu"
+  menu_flags:menu_GENERATE_ABOUT_TO_BE_SHOWN
+  title:"Package"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:&0
+  hide_action:
+  Entry {
+    cmp:1
+    flags:
+    cmp:&1
+    text:"Install"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&1
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:2
+    flags:menu_ENTRY_SEPARATE
+    cmp:&2
+    text:"Remove"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&2
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:3
+    flags:menu_ENTRY_SEPARATE
+    cmp:&3
+    text:"Apps..."
+    text_limit:*
+    click_object_name:"Apps"
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:4
+    flags:0x4000
+    cmp:&4
+    text:"Info..."
+    text_limit:*
+    click_object_name:"Info"
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:5
+    flags:menu_ENTRY_SUB_MENU | 0x4000
+    cmp:&5
+    text:"Copyright"
+    text_limit:*
+    click_object_name:"Copyright"
+    sub_menu_object_name:"Copyright"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Summary"
+  window_flags:window_IS_TOOL_BAR
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:4,872,2048,1124
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_PANE | wimp_WINDOW_IGNORE_XEXTENT | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-252,5000,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&0
+  window.xmin:100
+  window.ymin:12
+  window.title_text:""
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:24,-52,124,-12
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Name:"
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:120,-60,456,-8
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
+  }
+  label_object {
+    cmp:&2
+    bbox:472,-60,544,-8
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Inst:"
+  }
+  displayfield_object {
+    cmp:&3
+    bbox:564,-60,780,-8
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
+  }
+  label_object {
+    cmp:&4
+    bbox:788,-60,884,-8
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Avail:"
+  }
+  displayfield_object {
+    cmp:&5
+    bbox:904,-60,1116,-8
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
+  }
+  textarea_object {
+    cmp:&6
+    bbox:20,-240,1176,-72
+    help_message:""
+    help_limit:*
+    flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | gadget_FADED
+    type:0
+    event:0
+    text:"TextArea"
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  toolaction_object {
+    cmp:&7
+    bbox:1124,-56,1172,-8
+    help_message:"Toggle status bar size"
+    help_limit:*
+    flags:toolaction_GENERATE_SELECT
+    off_text:"sb_small"
+    off_text_limit:*
+    on_text:"sb_large"
+    on_text_limit:*
+    click_action:&0
+    select_show:""
+    adjust_action:&0
+    adjust_show:""
+    fade_text:""
+    fade_text_limit:*
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_ANCESTOR
+  version:102
+  object_name:"Main"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:"MainMenu"
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:"Summary"
+  toolbar_itl:"ActionBar"
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:128,244,1360,992
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_SCROLL_REPEAT | wimp_WINDOW_IGNORE_XEXTENT | wimp_WINDOW_IGNORE_YEXTENT | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:wimp_WINDOW_NEVER3D | wimp_WINDOW_ALWAYS3D
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:wimp_BUTTON_REPEAT | wimp_BUTTON_DOUBLE_DRAG
+  window.sprite_area:&0
+  window.xmin:4
+  window.ymin:4
+  window.title_text:"PackMan"
+  window.title_text_limit:128
+  window.title_valid:""
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Commit"
+  window_flags:
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:128,196,1040,408
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Installing/removing packages"
+  window.title_text_limit:*
+  window.title_valid:""
+  displayfield_object {
+    cmp:&1
+    bbox:12,-64,896,-12
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:128
+  }
+  slider_object {
+    cmp:&2
+    bbox:12,-132,896,-68
+    help_message:""
+    help_limit:*
+    flags:slider_KNOB_COLOUR_VERY_LIGHT_GREY | slider_KNOB_COLOUR_MID_DARK_GREY | slider_KNOB_COLOUR_DARK_BLUE
+    lower_bound:0
+    upper_bound:100
+    step_size:1
+    initial_value:0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:360,-200,548,-148
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Processing..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:16,-196,204,-144
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Log..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"ActionBar"
+  window_flags:window_IS_TOOL_BAR
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:2,1126,1598,1198
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_PANE | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-72,5000,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&0
+  window.xmin:100
+  window.ymin:52
+  window.title_text:""
+  window.title_text_limit:*
+  window.title_valid:""
+  toolaction_object {
+    cmp:&0
+    bbox:8,-68,72,-4
+    help_message:"Install/Upgrade the selected package"
+    help_limit:*
+    flags:toolaction_GENERATE_SELECT | gadget_FADED
+    off_text:"install"
+    off_text_limit:*
+    on_text:"upgrade"
+    on_text_limit:*
+    click_action:&1
+    select_show:""
+    adjust_action:&0
+    adjust_show:""
+    fade_text:"faded"
+    fade_text_limit:*
+  }
+  toolaction_object {
+    cmp:&1
+    bbox:96,-68,160,-4
+    help_message:"Remove the selected package"
+    help_limit:*
+    flags:toolaction_GENERATE_SELECT | gadget_FADED
+    off_text:"remove"
+    off_text_limit:*
+    on_text:""
+    on_text_limit:*
+    click_action:&2
+    select_show:""
+    adjust_action:&0
+    adjust_show:""
+    fade_text:"faded"
+    fade_text_limit:*
+  }
+  label_object {
+    cmp:&2
+    bbox:364,-64,472,-12
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Filter:"
+  }
+  stringset_object {
+    cmp:&3
+    bbox:484,-64,940,-12
+    help_message:""
+    help_limit:*
+    flags:stringset_GENERATE_USER_VALUE_CHANGED | stringset_JUSTIFICATION_CENTRED
+    string_set:"Installed,Upgrades,All"
+    title:"Filter"
+    initial_selected_string:"All"
+    selected_string_limit:32
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  toolaction_object {
+    cmp:&7
+    bbox:188,-68,252,-4
+    help_message:"Show application that were installed by the selected package"
+    help_limit:*
+    flags:toolaction_GENERATE_SELECT | gadget_FADED
+    off_text:"apps"
+    off_text_limit:*
+    on_text:""
+    on_text_limit:*
+    click_action:&0
+    select_show:"Apps"
+    adjust_action:&0
+    adjust_show:""
+    fade_text:"faded_apps"
+    fade_text_limit:*
+  }
+  toolaction_object {
+    cmp:&8
+    bbox:284,-68,348,-4
+    help_message:"Show information on the selected package"
+    help_limit:*
+    flags:toolaction_GENERATE_SELECT | gadget_FADED
+    off_text:"info"
+    off_text_limit:*
+    on_text:""
+    on_text_limit:*
+    click_action:&0
+    select_show:"Info"
+    adjust_action:&0
+    adjust_show:""
+    fade_text:""
+    fade_text_limit:*
+  }
+  toolaction_object {
+    cmp:&9
+    bbox:956,-68,1020,-4
+    help_message:"Search the package"
+    help_limit:*
+    flags:toolaction_GENERATE_SELECT
+    off_text:"search"
+    off_text_limit:*
+    on_text:""
+    on_text_limit:*
+    click_action:&0
+    select_show:"Search"
+    adjust_action:&0
+    adjust_show:""
+    fade_text:""
+    fade_text_limit:*
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"Conflicts"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:208,388,1340,924
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Files that conflict"
+  window.title_text_limit:*
+  window.title_valid:""
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"UpdateList"
+  window_flags:
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:428,264,1344,480
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Updating the list of packages"
+  window.title_text_limit:*
+  window.title_valid:""
+  displayfield_object {
+    cmp:&1
+    bbox:16,-64,900,-12
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:128
+  }
+  slider_object {
+    cmp:&2
+    bbox:16,-140,900,-68
+    help_message:""
+    help_limit:*
+    flags:slider_KNOB_COLOUR_VERY_LIGHT_GREY | slider_KNOB_COLOUR_MID_DARK_GREY | slider_KNOB_COLOUR_DARK_BLUE
+    lower_bound:0
+    upper_bound:100
+    step_size:1
+    initial_value:0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:232,-204,436,-152
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Updating..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:692,-204,896,-152
+    help_message:"Shows window allowing you to upgrade installed packages"
+    help_limit:*
+    flags:gadget_FADED
+    text:"Upgrade All"
+    text_limit:*
+    click_show:""
+    action:&7
+  }
+  actionbutton_object {
+    cmp:&5
+    bbox:456,-204,676,-152
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"What's new..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&6
+    bbox:16,-204,204,-152
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Log..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHARED
+  version:102
+  object_name:"Search"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:&1
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:544,588,1364,832
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Search for text"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:12,-72,200,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Search for:"
+  }
+  writablefield_object {
+    cmp:&1
+    bbox:216,-72,784,-20
+    help_message:""
+    help_limit:*
+    flags:
+    text:""
+    text_limit:64
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  optionbutton_object {
+    cmp:&2
+    bbox:44,-136,512,-92
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Search in current filter"
+    label_limit:*
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:356,-216,544,-164
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:592,-224,796,-156
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_LOCAL
+    text:"Search"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHARED | toolbox_OBJECT_ANCESTOR
+  version:102
+  object_name:"Copyright"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:128,244,1360,992
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_IGNORE_XEXTENT | wimp_WINDOW_IGNORE_YEXTENT | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:wimp_WINDOW_NEVER3D | wimp_WINDOW_ALWAYS3D
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:wimp_BUTTON_REPEAT | wimp_BUTTON_DOUBLE_DRAG
+  window.sprite_area:&0
+  window.xmin:4
+  window.ymin:4
+  window.title_text:"Copyright"
+  window.title_text_limit:128
+  window.title_valid:""
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHARED | toolbox_OBJECT_ANCESTOR
+  version:102
+  object_name:"Apps"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:"AppsMenu"
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:624,628,1344,932
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:wimp_BUTTON_REPEAT | wimp_BUTTON_DOUBLE_DRAG
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Applications in this package"
+  window.title_text_limit:128
+  window.title_valid:""
+}
+
+menu_object {
+  header_flags:
+  version:102
+  object_name:"AppsMenu"
+  menu_flags:menu_GENERATE_ABOUT_TO_BE_SHOWN | menu_GENERATE_DIALOGUE_COMPLETED
+  title:"Application"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:&0
+  hide_action:&0
+  Entry {
+    cmp:0
+    flags:menu_ENTRY_SUB_MENU
+    cmp:&0
+    text:"App ''"
+    text_limit:128
+    click_object_name:""
+    sub_menu_object_name:"AppMenu"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+}
+
+menu_object {
+  header_flags:
+  version:102
+  object_name:"AppMenu"
+  menu_flags:
+  title:"Selection"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:
+  hide_action:
+  Entry {
+    cmp:1
+    flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&1
+    text:"Create stub"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"AppSaveAs"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:2
+    flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&2
+    text:"Create link"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"AppSaveAs"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:3
+    flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&3
+    text:"Copy"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"AppSaveAs"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:4
+    flags:menu_ENTRY_SEPARATE | menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&4
+    text:"Move"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"AppMoveTo"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:10
+    flags:menu_ENTRY_SEPARATE | menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&a
+    text:"Boot options"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"BootOpts"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:7
+    flags:
+    cmp:&7
+    text:"Boot"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&a
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:9
+    flags:
+    cmp:&9
+    text:"Run"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&b
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:5
+    flags:menu_ENTRY_SEPARATE
+    cmp:&5
+    text:"Help"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&c
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:6
+    flags:
+    cmp:&6
+    text:"View"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&d
+    help:""
+    help_limit:*
+  }
+}
+
+saveas_object {
+  header_flags:
+  version:100
+  object_name:"AppSaveAs"
+  saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_NO_SELECTION_BUTTON
+  file_name:"Untitled"
+  file_type:&2000
+  title:"Create stub/link/copy"
+  title_limit:*
+  alternative_window_name:""
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"CommitFail"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:252,448,1500,772
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Error while installing/removing package(s)"
+  window.title_text_limit:*
+  window.title_valid:""
+  displayfield_object {
+    cmp:&0
+    bbox:48,-84,1224,-32
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"When error occurred"
+    text_limit:256
+  }
+  button_object {
+    cmp:&1
+    bbox:48,-200,1224,-84
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Error message that is very long and spills over onto multiple lines because it is very very long"
+    value_limit:512
+    validation:"L;R2"
+    validation_limit:9
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:516,-300,720,-232
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:44,-288,232,-236
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Log..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+saveas_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:100
+  object_name:"InstPackApp"
+  saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_NO_SELECTION_BUTTON
+  file_name:"Untitled"
+  file_type:&2000
+  title:""
+  title_limit:*
+  alternative_window_name:"InstPackWnd"
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE | toolbox_OBJECT_SHARED
+  version:102
+  object_name:"Sources"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:900,492,2040,952
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Sources for packages"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:20,-64,284,-12
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"List of sources"
+  }
+  scrolllist_object {
+    cmp:&1
+    bbox:28,-372,1116,-72
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:304,-60,492,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | actionbutton_IS_MENU
+    text:"Add..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:928,-60,1116,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Remove"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:724,-444,912,-392
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&5
+    bbox:932,-444,1120,-392
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Save"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&6
+    bbox:36,-440,408,-396
+    help_message:""
+    help_limit:*
+    flags:optionbutton_ON
+    label:"Refresh package lists"
+    label_limit:*
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:512,-60,700,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | actionbutton_IS_MENU | gadget_FADED
+    text:"Edit..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:716,-60,904,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Disable"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&9
+    bbox:436,-444,700,-392
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Known sources..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"InstSave"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:476,188,1116,652
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Install Package database directory"
+  window.title_text_limit:*
+  window.title_valid:""
+  draggable_object {
+    cmp:&0
+    bbox:16,-196,124,-124
+    help_message:""
+    help_limit:*
+    flags:draggable_SPRITE | draggable_DROP_SHADOW
+    text:"Draggable"
+    text_limit:*
+    sprite_name:"!packages"
+    sprite_limit:64
+  }
+  writablefield_object {
+    cmp:&1
+    bbox:32,-352,620,-300
+    help_message:""
+    help_limit:*
+    flags:writablefield_HCENTRED | gadget_FADED
+    text:"Writable"
+    text_limit:*
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:32,-432,220,-380
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:420,-444,624,-376
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"OK"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&4
+    bbox:152,-72,652,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"To use PackMan you must have a"
+  }
+  label_object {
+    cmp:&5
+    bbox:152,-120,652,-68
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"package database directory."
+  }
+  label_object {
+    cmp:&6
+    bbox:152,-164,652,-112
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Click OK to create one in the"
+  }
+  label_object {
+    cmp:&7
+    bbox:152,-208,652,-156
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"recommended location, or drag"
+  }
+  label_object {
+    cmp:&8
+    bbox:152,-252,652,-200
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"the !Packages icon to a directory"
+  }
+  label_object {
+    cmp:&9
+    bbox:152,-300,652,-248
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"of your choice."
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"InstPackWnd"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:&82bc01
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:540,352,1228,768
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Create Package Directory"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&4
+    bbox:200,-72,720,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"To use PackMan you must have a"
+  }
+  label_object {
+    cmp:&5
+    bbox:200,-108,700,-56
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"package database directory."
+  }
+  label_object {
+    cmp:&6
+    bbox:200,-144,688,-92
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Click OK to create one in the"
+  }
+  label_object {
+    cmp:&7
+    bbox:200,-180,676,-128
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"recommended location, or drag"
+  }
+  label_object {
+    cmp:&8
+    bbox:200,-216,684,-164
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"the !Packages icon to a directory"
+  }
+  label_object {
+    cmp:&9
+    bbox:200,-256,716,-204
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"of your choice"
+  }
+  draggable_object {
+    cmp:&82bc00
+    bbox:24,-172,180,-68
+    help_message:""
+    help_limit:*
+    flags:draggable_SPRITE | draggable_DROP_SHADOW
+    text:"Draggable"
+    text_limit:*
+    sprite_name:"file_fae"
+    sprite_limit:*
+  }
+  writablefield_object {
+    cmp:&82bc01
+    bbox:20,-312,668,-260
+    help_message:""
+    help_limit:*
+    flags:writablefield_HCENTRED
+    text:""
+    text_limit:256
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  actionbutton_object {
+    cmp:&82bc02
+    bbox:260,-388,448,-336
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&82bc03
+    bbox:464,-396,668,-328
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"OK"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"SourceEdit"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:&1
+  show_action:&0
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:540,88,1580,316
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Add or Edit a package source"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:12,-68,496,-16
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"URL to source package index file:"
+  }
+  writablefield_object {
+    cmp:&1
+    bbox:16,-128,1008,-76
+    help_message:""
+    help_limit:*
+    flags:
+    text:""
+    text_limit:256
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:576,-196,764,-144
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:804,-204,1008,-136
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"OK"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"Error"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:252,544,1500,772
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Error"
+  window.title_text_limit:128
+  window.title_valid:""
+  displayfield_object {
+    cmp:&1
+    bbox:48,-132,1224,-16
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"Error details"
+    text_limit:512
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:516,-216,720,-148
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE | toolbox_OBJECT_SHARED
+  version:102
+  object_name:"Paths"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:720,828,1992,1360
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Install paths for packages"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:20,-64,284,-12
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"List of Paths"
+  }
+  scrolllist_object {
+    cmp:&1
+    bbox:28,-432,1240,-64
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:1052,-60,1240,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | actionbutton_IS_MENU | gadget_FADED
+    text:"Open"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:1052,-504,1240,-452
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&7
+    bbox:28,-496,368,-452
+    help_message:""
+    help_limit:*
+    flags:optionbutton_GENERATE_STATE_CHANGED
+    label:"Show definition"
+    label_limit:*
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:352,-60,540,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Move"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&9
+    bbox:568,-60,756,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Add"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&a
+    bbox:792,-60,980,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Remove"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE | toolbox_OBJECT_SHARED
+  version:102
+  object_name:"NoUpgrades"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:324,352,1296,572
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"No upgrades available"
+  window.title_text_limit:*
+  window.title_valid:""
+  button_object {
+    cmp:&0
+    bbox:16,-132,132,-28
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_SPRITE | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"information"
+    value_limit:*
+    validation:""
+    validation_limit:*
+  }
+  label_object {
+    cmp:&1
+    bbox:148,-68,944,-16
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"There are currently no upgrades available for your installed"
+  }
+  label_object {
+    cmp:&2
+    bbox:148,-120,892,-68
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"packages."
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:376,-200,580,-132
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Cache"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:424,180,1444,860
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Package Cache"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&1
+    bbox:32,-520,280,-468
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Items in cache:"
+  }
+  label_object {
+    cmp:&2
+    bbox:32,-588,220,-536
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Cache size:"
+  }
+  displayfield_object {
+    cmp:&3
+    bbox:304,-520,544,-468
+    help_message:""
+    help_limit:*
+    flags:
+    text:"0"
+    text_limit:12
+  }
+  displayfield_object {
+    cmp:&4
+    bbox:304,-588,548,-536
+    help_message:""
+    help_limit:*
+    flags:
+    text:"0MB"
+    text_limit:14
+  }
+  actionbutton_object {
+    cmp:&5
+    bbox:44,-660,308,-608
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Clear All"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&6
+    bbox:344,-660,640,-608
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Clear Old Versions"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:792,-668,996,-600
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&8
+    bbox:564,-520,752,-468
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Old versions:"
+  }
+  displayfield_object {
+    cmp:&9
+    bbox:768,-520,996,-468
+    help_message:""
+    help_limit:*
+    flags:
+    text:"0"
+    text_limit:12
+  }
+}
+
+menu_object {
+  header_flags:toolbox_OBJECT_ANCESTOR
+  version:102
+  object_name:"AdvMenu"
+  menu_flags:
+  title:"Advanced"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:
+  hide_action:
+  Entry {
+    cmp:3
+    flags:0x4000
+    cmp:&3
+    text:"Sources..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&4
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:4
+    flags:
+    cmp:&4
+    text:"Paths..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&5
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:8
+    flags:
+    cmp:&8
+    text:"Backups..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&8
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:7
+    flags:menu_ENTRY_IS_MENU
+    cmp:&7
+    text:"Cache..."
+    text_limit:*
+    click_object_name:"Cache"
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:9
+    flags:
+    cmp:&9
+    text:"Verify All..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&9
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:10
+    flags:
+    cmp:&a
+    text:"View Log..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&a
+    help:""
+    help_limit:*
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Move"
+  window_flags:
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:400,628,1312,840
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Moving application"
+  window.title_text_limit:128
+  window.title_valid:""
+  displayfield_object {
+    cmp:&1
+    bbox:12,-64,896,-12
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:128
+  }
+  slider_object {
+    cmp:&2
+    bbox:12,-132,896,-68
+    help_message:""
+    help_limit:*
+    flags:slider_KNOB_COLOUR_VERY_LIGHT_GREY | slider_KNOB_COLOUR_MID_DARK_GREY | slider_KNOB_COLOUR_DARK_BLUE
+    lower_bound:0
+    upper_bound:1000
+    step_size:1
+    initial_value:0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:360,-200,548,-148
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Processing..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:16,-200,204,-148
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Faster"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"MoveExists"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:296,304,1400,672
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Application already exists!"
+  window.title_text_limit:*
+  window.title_valid:""
+  button_object {
+    cmp:&0
+    bbox:24,-152,140,-48
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_SPRITE | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"question"
+    value_limit:*
+    validation:""
+    validation_limit:*
+  }
+  label_object {
+    cmp:&1
+    bbox:168,-80,404,-28
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"The application:"
+  }
+  displayfield_object {
+    cmp:&2
+    bbox:464,-80,732,-28
+    help_message:""
+    help_limit:*
+    flags:
+    text:""
+    text_limit:12
+  }
+  label_object {
+    cmp:&3
+    bbox:168,-144,444,-92
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Already exists at:"
+  }
+  displayfield_object {
+    cmp:&4
+    bbox:464,-148,1088,-96
+    help_message:""
+    help_limit:*
+    flags:displayfield_RJUSTIFIED
+    text:""
+    text_limit:256
+  }
+  label_object {
+    cmp:&5
+    bbox:36,-228,352,-176
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Continue anyway?"
+  }
+  label_object {
+    cmp:&6
+    bbox:36,-308,1076,-248
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"(If you continue a backup will be made in a subdirectory prefixed "Backup")"
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:896,-224,1084,-172
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"No"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:664,-232,868,-164
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Yes"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&9
+    bbox:36,-352,1080,-300
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"(Delete/restore this backup from the Iconbar Advanced->Backups window)"
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE | toolbox_OBJECT_SHARED
+  version:102
+  object_name:"Backups"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:472,140,1444,552
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Backups made before moving/installing packages"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:20,-64,284,-12
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"List of backups"
+  }
+  scrolllist_object {
+    cmp:&1
+    bbox:28,-328,956,-64
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:324,-60,512,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | actionbutton_IS_MENU | gadget_FADED
+    text:"View"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:764,-60,952,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"Restore..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:756,-404,960,-336
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:540,-60,728,-8
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | actionbutton_IS_MENU | gadget_FADED
+    text:"Delete..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+saveas_object {
+  header_flags:
+  version:100
+  object_name:"MoveTo"
+  saveas_flags:saveas_GENERATE_DIALOGUE_COMPLETED | saveas_NO_SELECTION_BUTTON
+  file_name:"Untitled"
+  file_type:&1000
+  title:"Move Path '@'"
+  title_limit:128
+  alternative_window_name:"MoveToWnd"
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"MoveToWnd"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:296,484,884,928
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Move Path '@'"
+  window.title_text_limit:128
+  window.title_valid:""
+  draggable_object {
+    cmp:&82bc00
+    bbox:248,-252,348,-176
+    help_message:""
+    help_limit:*
+    flags:draggable_SPRITE | draggable_DROP_SHADOW
+    text:"Draggable"
+    text_limit:*
+    sprite_name:"directory"
+    sprite_limit:12
+  }
+  writablefield_object {
+    cmp:&82bc01
+    bbox:36,-328,560,-276
+    help_message:""
+    help_limit:*
+    flags:writablefield_RJUSTIFIED
+    text:""
+    text_limit:256
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  actionbutton_object {
+    cmp:&82bc02
+    bbox:276,-408,404,-356
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&82bc03
+    bbox:420,-416,560,-348
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Save"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&82bc07
+    bbox:28,-68,568,-16
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Warning: Moving a path that contains a"
+  }
+  label_object {
+    cmp:&82bc08
+    bbox:32,-112,572,-60
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"large number of installed files may"
+  }
+  label_object {
+    cmp:&82bc09
+    bbox:32,-160,572,-108
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"take a while."
+  }
+}
+
+saveas_object {
+  header_flags:
+  version:100
+  object_name:"AppMoveTo"
+  saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_NO_SELECTION_BUTTON
+  file_name:"Untitled"
+  file_type:&2000
+  title:"Move"
+  title_limit:128
+  alternative_window_name:""
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"ConflictMan"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:268,236,1328,904
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_IGNORE_XEXTENT | wimp_WINDOW_IGNORE_YEXTENT | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-2496,2000,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Conflict Manager"
+  window.title_text_limit:*
+  window.title_valid:""
+  scrolllist_object {
+    cmp:&0
+    bbox:28,-560,1028,-132
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  actionbutton_object {
+    cmp:&1
+    bbox:20,-640,256,-588
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Show File List..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:432,-640,620,-588
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:748,-640,1032,-588
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Backup and Retry"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&4
+    bbox:156,-120,936,-68
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"One or more files conflict with files already on your disk"
+  }
+  label_object {
+    cmp:&5
+    bbox:156,-68,536,-16
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Unable to install/update!"
+  }
+  button_object {
+    cmp:&6
+    bbox:16,-120,132,-16
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_SPRITE | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"error"
+    value_limit:8
+    validation:""
+    validation_limit:*
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Verify"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:1004,808,1908,1116
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Verifying installed packages"
+  window.title_text_limit:*
+  window.title_valid:""
+  displayfield_object {
+    cmp:&0
+    bbox:12,-64,888,-12
+    help_message:""
+    help_limit:*
+    flags:
+    text:""
+    text_limit:128
+  }
+  label_object {
+    cmp:&1
+    bbox:16,-152,176,-100
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Packages:"
+  }
+  slider_object {
+    cmp:&2
+    bbox:192,-148,884,-88
+    help_message:""
+    help_limit:*
+    flags:slider_KNOB_COLOUR_VERY_LIGHT_GREY | slider_KNOB_COLOUR_MID_DARK_GREY | slider_KNOB_COLOUR_DARK_BLUE
+    lower_bound:0
+    upper_bound:100
+    step_size:1
+    initial_value:50
+  }
+  label_object {
+    cmp:&3
+    bbox:28,-208,176,-156
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Files:"
+  }
+  slider_object {
+    cmp:&4
+    bbox:192,-216,884,-156
+    help_message:""
+    help_limit:*
+    flags:slider_KNOB_COLOUR_VERY_LIGHT_GREY | slider_KNOB_COLOUR_MID_DARK_GREY | slider_KNOB_COLOUR_DARK_BLUE
+    lower_bound:0
+    upper_bound:100
+    step_size:1
+    initial_value:50
+  }
+  actionbutton_object {
+    cmp:&5
+    bbox:380,-284,568,-232
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"VerifyFail"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:1900,760,2960,1428
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_IGNORE_XEXTENT | wimp_WINDOW_IGNORE_YEXTENT | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-2496,2000,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Package(s) Verification failure"
+  window.title_text_limit:*
+  window.title_valid:""
+  scrolllist_object {
+    cmp:&0
+    bbox:28,-560,1028,-132
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  actionbutton_object {
+    cmp:&1
+    bbox:20,-640,256,-588
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Show File List..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:432,-640,620,-588
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:748,-640,1032,-588
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"How to fix..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&5
+    bbox:156,-100,924,-48
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"One or more installed packages has missing files"
+  }
+  button_object {
+    cmp:&6
+    bbox:16,-120,132,-16
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_SPRITE | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"error"
+    value_limit:8
+    validation:""
+    validation_limit:*
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"Missing"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:208,388,1340,924
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"List of missing installed files"
+  window.title_text_limit:*
+  window.title_valid:""
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Info"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:2,260,1598,1160
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-900,1700,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Information on package"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:16,-76,216,-24
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Package"
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:228,-76,588,-24
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:32
+  }
+  label_object {
+    cmp:&2
+    bbox:16,-140,216,-88
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Version"
+  }
+  displayfield_object {
+    cmp:&3
+    bbox:228,-140,588,-88
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:32
+  }
+  label_object {
+    cmp:&4
+    bbox:616,-76,816,-24
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Installed"
+  }
+  displayfield_object {
+    cmp:&5
+    bbox:828,-204,1188,-152
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:32
+  }
+  label_object {
+    cmp:&6
+    bbox:616,-204,816,-152
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Section"
+  }
+  displayfield_object {
+    cmp:&7
+    bbox:828,-140,1188,-88
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:32
+  }
+  label_object {
+    cmp:&8
+    bbox:616,-140,816,-88
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Priority"
+  }
+  displayfield_object {
+    cmp:&9
+    bbox:228,-268,588,-216
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:16
+  }
+  label_object {
+    cmp:&a
+    bbox:16,-268,216,-216
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Size"
+  }
+  displayfield_object {
+    cmp:&b
+    bbox:228,-332,1188,-280
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:256
+  }
+  displayfield_object {
+    cmp:&d
+    bbox:228,-396,1188,-344
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:256
+  }
+  label_object {
+    cmp:&e
+    bbox:16,-332,216,-280
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"URL"
+  }
+  displayfield_object {
+    cmp:&f
+    bbox:828,-268,1188,-216
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:16
+  }
+  label_object {
+    cmp:&10
+    bbox:16,-396,216,-344
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Source"
+  }
+  displayfield_object {
+    cmp:&11
+    bbox:228,-460,1188,-408
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:128
+  }
+  label_object {
+    cmp:&12
+    bbox:16,-204,216,-152
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Licence"
+  }
+  displayfield_object {
+    cmp:&13
+    bbox:228,-204,588,-152
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
+  }
+  label_object {
+    cmp:&14
+    bbox:616,-268,816,-216
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Standards"
+  }
+  label_object {
+    cmp:&16
+    bbox:16,-460,216,-408
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Maintainer"
+  }
+  button_object {
+    cmp:&18
+    bbox:1236,-280,1676,-236
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_DARK_GREEN
+    value:"Depends"
+    value_limit:*
+    validation:"C/33ccff"
+    validation_limit:*
+  }
+  scrolllist_object {
+    cmp:&19
+    bbox:1236,-440,1676,-280
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_VERY_LIGHT_GREY
+  }
+  button_object {
+    cmp:&1a
+    bbox:1236,-64,1676,-20
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Conflicts"
+    value_limit:*
+    validation:"C/1133ff"
+    validation_limit:*
+  }
+  scrolllist_object {
+    cmp:&1b
+    bbox:1236,-224,1676,-64
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_VERY_LIGHT_GREY
+  }
+  button_object {
+    cmp:&1c
+    bbox:1236,-496,1676,-452
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Recommends"
+    value_limit:*
+    validation:"C/ffcc77"
+    validation_limit:*
+  }
+  scrolllist_object {
+    cmp:&1d
+    bbox:1236,-656,1676,-496
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_VERY_LIGHT_GREY
+  }
+  button_object {
+    cmp:&1e
+    bbox:1236,-712,1676,-668
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Suggests"
+    value_limit:*
+    validation:"C/55cc77"
+    validation_limit:*
+  }
+  scrolllist_object {
+    cmp:&1f
+    bbox:1236,-872,1676,-712
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_VERY_LIGHT_GREY
+  }
+  label_object {
+    cmp:&20
+    bbox:16,-524,216,-472
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Description"
+  }
+  textarea_object {
+    cmp:&21
+    bbox:228,-872,1188,-472
+    help_message:""
+    help_limit:*
+    flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | textarea_STATE_WORDWRAPPING_ENABLED | gadget_FADED
+    type:0
+    event:0
+    text:"TextArea"
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  displayfield_object {
+    cmp:&22
+    bbox:828,-76,1188,-24
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:32
+  }
+  button_object {
+    cmp:&2c
+    bbox:1208,-1020,1216,4
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_BLACK
+    value:""
+    value_limit:8
+    validation:""
+    validation_limit:*
+  }
+}
+
+saveas_object {
+  header_flags:
+  version:100
+  object_name:"AddPath"
+  saveas_flags:saveas_GENERATE_DIALOGUE_COMPLETED | saveas_NO_SELECTION_BUTTON
+  file_name:"Untitled"
+  file_type:&1000
+  title:"Add a new path"
+  title_limit:128
+  alternative_window_name:"AddPathWnd"
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"AddPathWnd"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:876,252,1464,976
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Add a new path"
+  window.title_text_limit:128
+  window.title_valid:""
+  writablefield_object {
+    cmp:&2
+    bbox:36,-448,560,-396
+    help_message:""
+    help_limit:*
+    flags:writablefield_HCENTRED
+    text:""
+    text_limit:128
+    allowable:"a-zA-Z0-9.!"
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  draggable_object {
+    cmp:&82bc00
+    bbox:460,-548,560,-472
+    help_message:""
+    help_limit:*
+    flags:draggable_SPRITE | draggable_DROP_SHADOW
+    text:"Draggable"
+    text_limit:*
+    sprite_name:"directory"
+    sprite_limit:12
+  }
+  writablefield_object {
+    cmp:&82bc01
+    bbox:36,-620,560,-568
+    help_message:""
+    help_limit:*
+    flags:writablefield_RJUSTIFIED
+    text:""
+    text_limit:256
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  actionbutton_object {
+    cmp:&82bc02
+    bbox:276,-700,404,-648
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&82bc03
+    bbox:420,-708,560,-640
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Save"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&82bc04
+    bbox:32,-64,572,-12
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Note: It is recommended that you use"
+  }
+  label_object {
+    cmp:&82bc05
+    bbox:36,-108,576,-56
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"stub applications rather than physically"
+  }
+  label_object {
+    cmp:&82bc06
+    bbox:36,-152,576,-100
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"add paths with this window."
+  }
+  label_object {
+    cmp:&82bc07
+    bbox:28,-212,568,-160
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Warning: Adding a path that contains a"
+  }
+  label_object {
+    cmp:&82bc08
+    bbox:32,-256,572,-204
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"large number of installed files may"
+  }
+  label_object {
+    cmp:&82bc09
+    bbox:32,-304,572,-252
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"take a while."
+  }
+  label_object {
+    cmp:&82bc0a
+    bbox:36,-384,224,-332
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Path name"
+  }
+  label_object {
+    cmp:&82bc0c
+    bbox:32,-540,396,-488
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Location on disc"
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"Log"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:"LogMenu"
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:208,388,1340,924
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Log Viewer"
+  window.title_text_limit:64
+  window.title_valid:""
+}
+
+menu_object {
+  header_flags:
+  version:102
+  object_name:"LogMenu"
+  menu_flags:
+  title:"Log Viewer"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:
+  hide_action:
+  Entry {
+    cmp:0
+    flags:menu_ENTRY_SUB_MENU | 0x4000
+    cmp:&0
+    text:"Save Log"
+    text_limit:*
+    click_object_name:"LogSaveAs"
+    sub_menu_object_name:"LogSaveAs"
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+}
+
+saveas_object {
+  header_flags:toolbox_OBJECT_SHARED
+  version:100
+  object_name:"LogSaveAs"
+  saveas_flags:saveas_NO_SELECTION_BUTTON
+  file_name:"PkgLog"
+  file_type:&fff
+  title:"Save Log as text"
+  title_limit:*
+  alternative_window_name:""
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"PackConfig"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:120,172,1200,660
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-488,1080,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Package configuration"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:12,-56,748,-4
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Packages to configure"
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:16,-116,1056,-56
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:80
+  }
+  displayfield_object {
+    cmp:&2
+    bbox:16,-188,204,-136
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:*
+  }
+  label_object {
+    cmp:&3
+    bbox:228,-192,692,-140
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Recommendations or suggestions"
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:712,-192,896,-140
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL | gadget_FADED
+    text:"View/Add..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  displayfield_object {
+    cmp:&5
+    bbox:16,-252,204,-200
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:8
+  }
+  label_object {
+    cmp:&6
+    bbox:224,-252,388,-200
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Downloads"
+  }
+  displayfield_object {
+    cmp:&7
+    bbox:412,-252,744,-200
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0K"
+    text_limit:32
+  }
+  label_object {
+    cmp:&8
+    bbox:16,-316,472,-264
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Components to configure"
+  }
+  displayfield_object {
+    cmp:&9
+    bbox:20,-400,1060,-324
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"No configurable components"
+    text_limit:*
+  }
+  actionbutton_object {
+    cmp:&a
+    bbox:448,-472,636,-420
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&b
+    bbox:672,-472,1056,-420
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Install/Upgrade/Remove"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  button_object {
+    cmp:&1000
+    bbox:24,-108,892,-64
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"Package"
+    value_limit:80
+    validation:""
+    validation_limit:*
+  }
+  actionbutton_object {
+    cmp:&1001
+    bbox:900,-108,1048,-64
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Withdraw"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"CompProto"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:32,496,1072,872
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:""
+  window.title_text_limit:*
+  window.title_valid:""
+  button_object {
+    cmp:&0
+    bbox:28,-140,784,-88
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED | wimp_ICON_RJUSTIFIED | wimp_BUTTON_WRITABLE
+    button_esg:0
+    button_fg:wimp_COLOUR_DARK_GREEN
+    button_bg:wimp_COLOUR_WHITE
+    value:"Path"
+    value_limit:256
+    validation:""
+    validation_limit:*
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:804,-140,1024,-88
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"Leaf name"
+    text_limit:64
+  }
+  draggable_object {
+    cmp:&2
+    bbox:860,-84,956,-4
+    help_message:""
+    help_limit:*
+    flags:draggable_SPRITE | draggable_DROP_SHADOW
+    text:"Draggable"
+    text_limit:*
+    sprite_name:"package"
+    sprite_limit:*
+  }
+  label_object {
+    cmp:&3
+    bbox:28,-72,216,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Boot options:"
+  }
+  optionbutton_object {
+    cmp:&4
+    bbox:252,-68,424,-24
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Look at"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&5
+    bbox:432,-68,560,-24
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Run"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&6
+    bbox:576,-68,816,-24
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Add To Apps"
+    label_limit:*
+    action:&0
+  }
+  button_object {
+    cmp:&7
+    bbox:24,-160,1028,-156
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_DARK_GREY
+    button_bg:wimp_COLOUR_WHITE
+    value:"Button"
+    value_limit:8
+    validation:""
+    validation_limit:*
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Recommends"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:376,132,1472,396
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-264,1096,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Recommendations/Suggestions"
+  window.title_text_limit:*
+  window.title_valid:""
+  button_object {
+    cmp:&0
+    bbox:0,-44,1100,0
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Recommends"
+    value_limit:*
+    validation:"C/ffcc77"
+    validation_limit:*
+  }
+  button_object {
+    cmp:&1
+    bbox:-8,-160,1100,-116
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"Suggests"
+    value_limit:*
+    validation:"C/55cc77"
+    validation_limit:*
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:572,-240,760,-188
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:812,-244,1072,-176
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Add selected"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&10
+    bbox:28,-100,1088,-56
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Option"
+    label_limit:80
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"BootOpts"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:&0
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:608,488,1260,860
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Boot options for '@'"
+  window.title_text_limit:128
+  window.title_valid:""
+  optionbutton_object {
+    cmp:&0
+    bbox:40,-72,508,-28
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Look at on startup"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&1
+    bbox:40,-124,360,-80
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Run on startup"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&2
+    bbox:40,-176,360,-132
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Add to Apps"
+    label_limit:*
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:208,-348,396,-296
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&4
+    bbox:436,-348,624,-296
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Apply"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&5
+    bbox:24,-240,660,-188
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Changes from unchecking an option will not"
+  }
+  label_object {
+    cmp:&6
+    bbox:24,-288,632,-236
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"take effect until after the next reboot."
+  }
+}

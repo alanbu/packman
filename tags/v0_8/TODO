@@ -1,0 +1,146 @@
+Rough plan/ideas
+
+Once something is done it is moved to history.htm.
+
+Items marked LibPkg: will need work done in the LibPkg backend library as well.
+
+For versions after 0.8
+----------------------
+
+- Ensure panes are always at least as wide as the main window
+- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
+- have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
+- Options window to enable/control logging
+- See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
+- Check if netsurf builds still exists.
+- Got a crash on KnownSources when the html file was missing
+- Run scripts during install remove (see below)
+- Implement Hold functionality from LibPkg to stop a package being upgraded
+- Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
+- Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one.
+- Install filter doesn't update with new packages after an install
+
+Things to check
+---------------
+
+- Sources window should not allow a second Update Lists window to be run.
+- Check progress bar in update lists. Was 100% when it still had more to do.
+- I thought get list failure had a more useful error message stating the list name - it didn't appear to when I had a problem recently.
+
+
+Possible future changes (i.e. under consideration)
+--------------------------------------------------
+
+- For Drag and drop give the choice of creating a stub instead of setting the install location (from Jess Hampshire).
+- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
+- Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
+- Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
+- Cancel processing during install/remove
+- Adjust on install does an immediate install (from Jess Hampshire)
+- Download other list on timeout (from Grahame Parish)
+  I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal (the New Sources list in 0.7.x should make enabling/disabling easier)
+- Automatic run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
+- Verify individual packages (the Verify All seems fairly quick so this
+  may not be required).
+- Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
+- Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
+- Previous versions - theoretically LibPkg can handle this. I would have to make sure.
+- The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore).
+- Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
+- When upgrading check if the old version has been moved and prompt for it's location if it has.
+- Consider how to let PackMan know if an application has been moved from outside of PackMan.
+- Simplify install from a local package
+- With local install show dialogue to allow any unmet dependencies to be dragged into it.
+- Export Package - create a package containing a package and all it's dependencies.
+- Package file format get file type for Packages.
+- Possibly allow a package file to contain multiple packages.
+- Possibly allow a package file be a stub package to tell PackMan to download something.
+- Expert mode - give options to install even when dependencies are missing or there are conflicts.
+- Multiple sections/categories.
+
+
+Components
+----------
+
+To support setting the install location, defaults for LookAt and other things in future I'm going to add a new field to the control record.
+
+The policy manual entry will be:
+
+The 'Components' field
+
+This contains a comma-separated list of the components that have extra configuration options.
+
+components-list = [ component-details, { [ws], ',', [ws], component-details } ]
+
+The component-details consists of the the component file/folder name and its options.
+
+component-details = file-name, [ws], component_options ;
+component-options = '(', { [ws], component_option {[ws] ',' component-option } ,[ws], ')'
+
+component-option = 'Moveable' , 'LookAt' ;
+
+'Moveable' means that this component can be installed to a different location or moved after install.
+
+'LookAt' means that this component suggests that it will be looked at on booting. i.e. It is added to the !Boot options 'Look At' list. At install time the user will be able to override this suggestion. As a guideline this flag should only be set for components that are run by double clicking on a file type or command line utilities.
+
+For example:
+
+Components: Apps.Development.!PackIt (Moveable,LookAt)
+
+
+Future options may include
+ 'Font' install as a RISC OS font.
+ 'SysMerge' This component is a system module so use sys merge logic to update it (e.g. If a new version of the module has been installed update the package version, but leave the existing module in place).
+
+
+Install/Remove scripts
+----------------------
+
+The idea here is to provide scripts that can be run during the installation/removal process when required. I still haven't managed to figure this out yet and where in the process they need to go, but they will need changes to the LibPkg backend.
+
+My current thoughts/things to sort out are:
+- Copied from debian installs there are four scripts that can be run prerm, postrm, preinst, postinst.
+- In LibPkg instead of scripts they can be any runnable filetype. This will allow BASIC to be used for instance.
+- LibPkg will probably need to ask the front end to run them and report when they are finished. My current thoughts are they should be run using Wimp StartTask in a taskwindow. Maybe LibPkg should fall back to system calls so it could theoretically be used in a command line utility.
+- Before each script a set of variable for the package will need to be defined. Things like LibPkg$Pkg$NewVersion, LibPkg$Pkg$Target1..N for the various directories. At the end the script would set LibPkg$Pkg$error if something went wrong. This still needs some thought.
+- Upgrade handling - this probably needs to call the old prerm and postrm, but the new preinst and postinst and probably needs parameters so the scripts can see it's an upgrade.
+- Failure handling - what get's called when unwinding.
+
+LibPkg logging
+--------------
+
+The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working.
+
+Lastest log idea
+
+- log is just built in memory and view log button is added to component window (this window should allow the log to be saved)
+- log entry consists of an id and zero or more parameters
+- ids specify type 10000-19999 errors, 20000-29999 runtime warnings, 30000-39999 invalid package warnings, 40000-49999 Information.
+- each log entry should have the time and date it was added.
+- maintains a count of erros and warnings, so warnings can be brought to attention after action.
+
+so logging lines will be something like:
+  log().log(log::INFO_DOWNLOADS_STARTED);
+  log().log(log::ERROR_FILE_COPY_FAILED, file_name, except.what());
+
+
+Previous log idea
+
+It could also be used as a history of whats done.
+
+The log will be written to <Packages$Dir>.Log
+
+A single flag will control if logging is no or off.
+
+Additional flags will control what is logged when logging is on
+- Errors in installation will always be logged.
+- Package - just log package installed/removed
+- Package details - log unpacking etc/steps
+- file processes - copying/deleting files etc.
+- file io - low level OS file call results.
+- lists - log whenever the lists are updated
+- list details - log download of each list
+
+Each log entry should have the time and date it was written.
+
+A new Window will be added to PackMan to allow logging options to be set, open and delete the log.

@@ -1,0 +1,23 @@
+
+Desktop (run tests)
+6 no boot or run
+7 one item added to new run section
+8 second item added from HostFS
+9 1st item removed
+10 second item removed
+
+11 boot but no Run
+12 one item added to 11
+
+13 replace test results
+
+
+
+PreDesktop (add to apps tests)
+ 1  no resapps
+ 2  one item added
+ 3  item added from HostFS
+ 4  second item removed
+ 5  first item removed
+ 6  new item added
+ 7  replace test results

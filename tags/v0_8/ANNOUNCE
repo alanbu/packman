@@ -1,0 +1,51 @@
+Packman package manager 0.8 beta released with set install location
+
+Packman version 0.8 beta is now available.
+
+New to this version:
+
+- New configuration window to allow multiple packages to be
+  installed/removed/upgraded at once.
+
+- Understands new Package format that allows the location to
+  install components of the selected packages to be specified
+  before the installation starts.
+
+  Packages will need to be updated to the new format
+  before this is available for them. I intend to do this
+  for the packages I maintain soon. Details of what is
+  required for other developers can be found at:
+  https://sites.google.com/site/alansriscosstuff/packman/packagecomponents
+
+- Allows configuration of the standard RISC OS boot options for
+  a component of a package (i.e. look at, run and add to apps).
+
+- Drop a package file onto the iconbar icon and it's automatically
+  added to the configuration window, ready to install.
+
+
+If you already have a previous version of !PackMan or !RiscPkg
+installed you can install it or upgrade it from either of
+these programs.
+
+Otherwise go to https://sites.google.com/site/alansriscosstuff/packman
+for download and installation instructions.
+
+PackMan is a package manager front end for packages distributed
+using the RISC OS Packaging Project (see http://www.riscpkg.org).
+
+It can be used instead of or alongside !RiscPkg.
+
+Its features include:
+
+- Status bar showing more information on the selected package.
+- Filters to allow display of packages for a specific category,
+  what's installed or upgrades to already installed packages.
+- Search for a package.
+- Single buttons to start an install, upgrade or removal of a package.
+- Menu option to upgrade all your packages at once.
+
+System requirements
+
+RISC OS 4.0 or greater with long filenames
+Internet connection for downloading packages

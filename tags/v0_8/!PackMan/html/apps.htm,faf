@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Applications Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Applications Window</H2>
+
+<P>This Window shows all the application that are installed as part of
+a package (if there are any).</P>
+<P>Select a package and press menu to see the following menu options.
+<UL>
+<LI>Create stub - create an application stub. This will forward the Help, Boot and Run
+actions for an application to the real application and can be used as a short cut
+to the application from another location on the disc</LI>
+<LI>Create link - create a LinkFS symbolic link</LI>
+<LI>Copy - make a copy the application</LI>
+<LI>Move - move the application to another location. Checks are made that the application isn't moved into itself and then the <a href="movewnd.htm">Move window</a> is displayed to show the progress of the move.</LI>
+<LI>Boot options - show the <A HREF="bootoptswnd.htm">Boot Options Window</A> that allows you to change the RISC OS startup options.</LI>
+<LI>Boot - Run the applications !Boot file</LI>
+<LI>Run - Run the application</LI>
+<LI>Help - Show the applications Help file</LI>
+<LI>View - Open the directory that contains the application.</LI>
+</UL>
+</P>
+<p>You can also run the application by double clicking on its icon. If you use the adjust
+mouse button instead of the select mouse button the Applications Window will be
+closed after the application is run.</p>
+<p>Dragging an application icon to the filer will also create an application stub.</p>
+
+</BODY>
+</HTML>

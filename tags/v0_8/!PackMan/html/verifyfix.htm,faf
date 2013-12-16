@@ -1,0 +1,33 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - How to fix verify problems</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>How to fix verify problems</H2>
+<P>These instructions are shown from the help and the "How to Fix" button
+on the verify failed window.</P>
+<P>A verify all menu option checks if any files in any installed
+package are not in the location they were initially installed to. It
+does not check the contents of the files. If there are missing files
+it is usually caused because the files were deleted or moved
+outside of PackMan so it could not update the package database with
+the new location or state of the files.</P>
+<P>The simplest way to fix these problems is to remove and then
+reinstall the package(s) with missing files in PackMan.</P>
+<P>If you intended just to delete the files anyway, just removing the
+package using PackMan is sufficient. PackMan has no trouble removing
+non-existant files and will remove any other files still remaining
+in the package and remove it from the package database.</P>
+<P>If you have moved the files to another location, as an alternative
+you can move them back to the location that PackMan expects them in,
+so it's database of file locations matches the hard disc.</P>
+<P>If you really wanted the files stored in the location they were at
+before you had moved them to match the package database you can go to
+the Apps Window and move the files back again using PackMan.
+This will update the package database of file locations so it can
+successfully update and remove the package in the future. It is
+recommended to leave the files in the default location and use the
+Stub applications to put shortcuts to them in other locations.</P>
+</BODY>
+</HTML>
