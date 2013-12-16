@@ -4,21 +4,39 @@ Once something is done it is moved to history.htm.
 
 Items marked LibPkg: will need work done in the LibPkg backend library as well.
 
-For versions after 0.8
+Version 0.8.x
+-------------
+
+I'm currently thinking of a point release to get a few of the more minor improvements in.
+
+- have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
+- Choices window to enable/control logging and say when update list message is shown.
+- LibPKG: Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one (see below)
+- Install filter doesn't update with new packages after an install
+- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
+- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
+- Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute) - Do this or get rid of it if we are opening multiple windows anyway.
+- Add Install/Upgrade/Remove button to the Info window (User request, but I don't remember who)
+- Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
+- Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
+- Save position on main window menu to remember package window location
+- Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
+
+Version 0.9
+-----------
+
+More major release which include new LibPkg standards version
+- Run scripts during install remove (see below) - only aiming to do PreRemove/PostInstall for now
+- Implement Hold functionality from LibPkg to stop a package being upgraded
+
+
+For versions after 0.9
 ----------------------
 
 - Ensure panes are always at least as wide as the main window
-- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this).
-- have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
-- Options window to enable/control logging
 - See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
 - Check if netsurf builds still exists.
-- Got a crash on KnownSources when the html file was missing
-- Run scripts during install remove (see below)
-- Implement Hold functionality from LibPkg to stop a package being upgraded
 - Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
-- Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one.
-- Install filter doesn't update with new packages after an install
 
 Things to check
 ---------------
@@ -26,30 +44,25 @@ Things to check
 - Sources window should not allow a second Update Lists window to be run.
 - Check progress bar in update lists. Was 100% when it still had more to do.
 - I thought get list failure had a more useful error message stating the list name - it didn't appear to when I had a problem recently.
+- Got a crash on KnownSources when the html file was missing
 
 
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
 - For Drag and drop give the choice of creating a stub instead of setting the install location (from Jess Hampshire).
-- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
-- Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
 - Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 - Cancel processing during install/remove
 - Adjust on install does an immediate install (from Jess Hampshire)
 - Download other list on timeout (from Grahame Parish)
   I have three sources set and if any one of them is unavailable then no updates can be applied from any of the other sources. It would be useful to timeout a connection to a source and skip to the next one.  The only way round this is to remove the source from the list and update lists again, but it's not ideal (the New Sources list in 0.7.x should make enabling/disabling easier)
 - Automatic run update lists - ask if you want to upgrade and optionally exit (from Jess Hampshire).
-- Verify individual packages (the Verify All seems fairly quick so this
-  may not be required).
+- Verify individual packages (the Verify All seems fairly quick so this may not be required).
 - Add option to check (verify should be added to 0.7.x/0.8), repair or re-install packages (Jess Hampshire)
-- Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire)
 - Previous versions - theoretically LibPkg can handle this. I would have to make sure.
 - The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore).
-- Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - When upgrading check if the old version has been moved and prompt for it's location if it has.
 - Consider how to let PackMan know if an application has been moved from outside of PackMan.
-- Simplify install from a local package
 - With local install show dialogue to allow any unmet dependencies to be dragged into it.
 - Export Package - create a package containing a package and all it's dependencies.
 - Package file format get file type for Packages.
@@ -59,8 +72,8 @@ Possible future changes (i.e. under consideration)
 - Multiple sections/categories.
 
 
-Components
-----------
+Components (now in 0.8 - delete from here when Policy Manual is updated)
+------------------------------------------------------------------------
 
 To support setting the install location, defaults for LookAt and other things in future I'm going to add a new field to the control record.
 
@@ -93,6 +106,47 @@ Future options may include
  'SysMerge' This component is a system module so use sys merge logic to update it (e.g. If a new version of the module has been installed update the package version, but leave the existing module in place).
 
 
+System Module checking (plan to add in 0.8.x)
+---------------------------------------------
+
+LibPKG: When checking for conflicts add additional test on any file in !System.Modules to see if it's a module. If it is read the module version and if its > package version add to files_that_conflict.
+In PackMan modify the conflict manager to report the existing of a newer module and prompt to "use existing" or "backup and retry"
+
+Save/Restore installed package lists
+------------------------------------
+
+Simple text format with sections
+- Header
+  - [PackMan Install List]
+  - Version=1  - Version so we can change it in future
+- Sources
+  - [Sources]
+  - Source1=...     - List of sources on machine
+- Paths
+  - [Paths]
+  - <logical_path>=<actual_path>
+- Packages
+  - [Packages]
+    - Package=version  - Only include installed packages (auto installed is expected to be picked up in normal processing)
+  
+Saving
+- Menu Advanced "Installed List..."
+  - Show list of packages to install and allow selection of ones to include
+  - Check box for don't include paths
+  - Check box for don't include sources
+  - Draggable to drag to save the list
+  
+Loading
+- Drag list to iconbar icon
+  - Remove packages already installed, sources already selected and paths changed locally.
+  - Show details of list (packages, paths and sources)
+  - Allow selection of packages to include
+  - Allow selection of paths to add
+  - Allow selection of sources to add
+  - Check if packages required are in currrent list, if not prompt for update lists after adding sources
+  - Check paths added are available - if not give chance to map to somewhere else.
+
+
 Install/Remove scripts
 ----------------------
 
@@ -106,6 +160,104 @@ My current thoughts/things to sort out are:
 - Upgrade handling - this probably needs to call the old prerm and postrm, but the new preinst and postinst and probably needs parameters so the scripts can see it's an upgrade.
 - Failure handling - what get's called when unwinding.
 
+My latest idea is to do PreRemove/PostInstall only as they can be run without having to mess about saving things
+
+LibPkg changes
+
+- New directory RiscPkg.Config contains configuration code.
+  - PreRemove file is run before a file is removed or upgraded
+  - PostInstall file is run after a file is installed, upgraded or when unwinding a failed install if PreRemove was run.
+  
+- During intial stages add list of config structures with the following fields
+  - Package name
+  - Action (Install/Upgrade/Remove)
+  - Remove version (not set for install)
+  - Install version (not set for remove)
+  - Has remove been run (set after remove script is run)
+  - map of component names to install location
+  
+- After initial checks (i.e. do downloads and file conflicts first) run any PreRemove code
+  - New commit stage "preremove"
+  - For each package check for file RiscPkg.Config.PreRemove and if exists do the following:
+    - Code is run by front end via new config_run interface using TaskWindow -wimpslot 512K -quit "..."
+    - Code called as PreRemove <Remove|Upgrade> <install version if upgrade>
+    - Before run following env variables are set
+      - LibPKG$CFG_ACTION = Remove|Upgrade
+      - LibPKG$CFG_REMOVE_VERSION
+      - LibPKG$CFG_INSTALL_VERSION
+      - LibPKG$CFG_PATH_... = ... Each component in package will have its location on disk made available
+      - LibPKG$CFG_RESULT = -2    -2 means code failed to run
+    - On exit the code must update LibPKG$CFG_RESULT as follows
+      - -1 Error
+      - 0 OK
+      - 1 Note (add note to new window shown after commit)
+      - 2 Warning (add warning to new window shown after commit)
+      If result is <> 0, must also set LibPKG$CFG_MESSAGE to message to be added to the notes window
+    - If result < 0 then configuration failed, jump to unwind preremove stage
+  
+- After all file have been copied and booted etc run any PostInstall scripts
+  - New commit stage post install.
+  - For each package check for file RiscPkg.Config.PostInstall and if exists do the following
+    - Code is run by front end via new config_run interface using TaskWindow -wimpslot 512K -quit "..."
+    - Code called as PostInstall <Install|Upgrade> <remove version if upgrade>
+    - Before run following env variables are set
+      - LibPKG$CFG_ACTION = Install|Upgrade
+      - LibPKG$CFG_REMOVE_VERSION
+      - LibPKG$CFG_INSTALL_VERSION
+      - LibPKG$CFG_PATH_... = ... Each component in package will have its location on disk made available
+      - LibPKG$CFG_RESULT = -2    -2 means code failed to run
+    - On exit the code must update LibPKG$CFG_RESULT as follows
+      - -1 Error
+      - 0 OK
+      - 1 Note (add note to new window shown after commit)
+      - 2 Warning (add warning to new window shown after commit)
+      If result is <> 0, must also set LibPKG$CFG_MESSAGE to message to be added to the notes window
+    - Error result does not cause an unwind, it just adds a message to the new post commit window
+    
+- If package is unwound due to an error
+  - new stage unwind_preremove
+  - For each package where remove code was called call PostInstall as follows
+    - Code is run by front end via new config_run interface using TaskWindow -wimpslot 512K -quit "..."
+    - Code called as PostInstall <Abort-Upgrade|Abort-Remove> <remove version if upgrade>
+    - Before run following env variables are set
+      - LibPKG$CFG_ACTION = Abort-Upgrade|Abort-Remove
+      - LibPKG$CFG_REMOVE_VERSION
+      - LibPKG$CFG_INSTALL_VERSION
+      - LibPKG$CFG_PATH_... = ... Each component in package will have its location on disk made available
+      - LibPKG$CFG_RESULT = -2    -2 means code failed to run
+    - On exit the code must update LibPKG$CFG_RESULT as follows
+      - -1 Error
+      - 0 OK
+      - 1 Note (add note to new window shown after commit)
+      - 2 Warning (add warning to new window shown after commit)
+      If result is <> 0, must also set LibPKG$CFG_MESSAGE to message to be added to the notes window
+    - Error result adds a message to the new post commit window
+    
+- After commit finished (success or failure)
+  - If any messages from config code show post commit window displaying them.
+
+Extra Notes:
+
+I'm hoping this will be enough for most apps, but in case it isn't the following names are
+reserved PreInstall, PostRemove, PreMove, PostMove.
+Also if PreInstall is implemented PostInstall may receive a new action "Abort-Install"
+
+The code will need to be run by the front end application as it should be run in a TaskWindow
+LibPkg will include an new interface pkg::config_run
+
+The interface will contain one method
+
+virtual bool run_config_code(std::string path_to_code)
+This should return false if it fails to start the code
+
+If it starts OK, the task window should be monitored and the following methods called in pkg::commit
+void config_code_failed() - TaskWindow failure after initial startup
+void config_code_output(std::string text) - Any output from the configuration script should be sent to the commit window which will add it to the log if logging is on
+void config_code_finished() - Called when config code has finished and task has completed.
+
+The implementation of this interface should be passed to the commit class as it is created.
+
+
 LibPkg logging
 --------------
 
@@ -117,7 +269,7 @@ Lastest log idea
 - log entry consists of an id and zero or more parameters
 - ids specify type 10000-19999 errors, 20000-29999 runtime warnings, 30000-39999 invalid package warnings, 40000-49999 Information.
 - each log entry should have the time and date it was added.
-- maintains a count of erros and warnings, so warnings can be brought to attention after action.
+- maintains a count of errors and warnings, so warnings can be brought to attention after action.
 
 so logging lines will be something like:
   log().log(log::INFO_DOWNLOADS_STARTED);
