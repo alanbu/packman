@@ -21,6 +21,7 @@ I'm currently thinking of a point release to get a few of the more minor improve
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - Save position on main window menu to remember package window location
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
+- Show hourglass while loading local packages
 
 Version 0.9
 -----------
@@ -115,19 +116,21 @@ In PackMan modify the conflict manager to report the existing of a newer module 
 Save/Restore installed package lists
 ------------------------------------
 
-Simple text format with sections
-- Header
-  - [PackMan Install List]
-  - Version=1  - Version so we can change it in future
-- Sources
-  - [Sources]
-  - Source1=...     - List of sources on machine
-- Paths
-  - [Paths]
-  - <logical_path>=<actual_path>
-- Packages
-  - [Packages]
-    - Package=version  - Only include installed packages (auto installed is expected to be picked up in normal processing)
+Only include installed packages (auto installed is expected to be picked up in normal processing)
+
+Simple xml format
+<packmanlist version="1">
+  <sources>
+    <source url = "..." />
+    ...
+  </sources>
+  <packages>
+    <package name = "..." version = "...">
+      <component name = "..." path = "..." <lookat> <run> <addtoapps> />
+      ...
+    </package>
+    ...
+  </packages>
   
 Saving
 - Menu Advanced "Installed List..."
@@ -147,8 +150,8 @@ Loading
   - Check paths added are available - if not give chance to map to somewhere else.
 
 
-Install/Remove scripts
-----------------------
+Install/Remove code
+-------------------
 
 The idea here is to provide scripts that can be run during the installation/removal process when required. I still haven't managed to figure this out yet and where in the process they need to go, but they will need changes to the LibPkg backend.
 
