@@ -17,11 +17,18 @@ I'm currently thinking of a point release to get a few of the more minor improve
 - Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
 - Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute) - Do this or get rid of it if we are opening multiple windows anyway.
 - Add Install/Upgrade/Remove button to the Info window (User request, but I don't remember who)
+- Add component in package to info window
+- Add scrollbars to the info window
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - Save position on main window menu to remember package window location
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
+- Fix text description display in info and summary windows
 - Show hourglass while loading local packages
+- Try to track down unreproducable bugs in first showing of Info and boot options.
+- Apps Window rename to Components window.
+- Easier first install - setup package db to say PackMan and SharedUnixLibrary are already installed and adjust paths file for PackMan.
+- Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 
 Version 0.9
 -----------
@@ -51,8 +58,9 @@ Things to check
 Possible future changes (i.e. under consideration)
 --------------------------------------------------
 
+- Scroll bars on conflicts window
+- Scroll bars on package configuration window so the full description of components can be shown.
 - For Drag and drop give the choice of creating a stub instead of setting the install location (from Jess Hampshire).
-- Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 - Cancel processing during install/remove
 - Adjust on install does an immediate install (from Jess Hampshire)
 - Download other list on timeout (from Grahame Parish)
@@ -111,6 +119,7 @@ System Module checking (plan to add in 0.8.x)
 ---------------------------------------------
 
 LibPKG: When checking for conflicts add additional test on any file in !System.Modules to see if it's a module. If it is read the module version and if its > package version add to files_that_conflict.
+It may be a better idea to count existing modules of a greater version as already installed and just update the package database.
 In PackMan modify the conflict manager to report the existing of a newer module and prompt to "use existing" or "backup and retry"
 
 Save/Restore installed package lists
