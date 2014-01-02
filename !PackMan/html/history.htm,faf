@@ -6,6 +6,11 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.8.1 Beta - ???? </B>
+<UL>
+<LI>Fixed incorrect menu item/button descriptions in installation help page</LI>
+</UL>
+</LI>
 <LI><B>0.8 Beta - December 2013</B>
 <UL>
 <LI>Replaced install/upgrade all and remove window with a single package configuration window.<LI>
