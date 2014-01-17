@@ -31,6 +31,7 @@
 #include "tbx/autocreate.h"
 #include "tbx/matchlifetime.h"
 #include "tbx/showhelp.h"
+#include "tbx/uncaughthandler.h"
 
 #include "Packages.h"
 #include "MainWindow.h"
@@ -48,6 +49,10 @@
 #include "InstallWindow.h"
 #include "CacheWindow.h"
 #include "BootOptionsWindow.h"
+
+#include <fstream>
+#include <ctime>
+
 
 /**
  * Show the main packman window if it's not already shown
@@ -83,6 +88,63 @@ public:
 		{
 			new InstallWindow();
 		}
+	}
+};
+
+/**
+ * Class to add some logging to uncaught exceptions
+ */
+class ReportUncaught : public tbx::UncaughtHandler
+{
+public:
+	virtual void uncaught_exception(std::exception *e)
+	{
+	    try
+	    {
+	    	std::string msg;
+	    	msg = "An unexpected error has occurred. ";
+	    	msg+= "PackMan will attempt to continue, but it would be ";
+	    	msg+= "advisable to close PackMan and restart it.";
+	    	msg+= " The error was: ";
+	    	msg+= ((e) ? e->what() : "An unknown exception");
+	    	if (msg.size() > 200)
+	    	{
+	    		msg.erase(200);
+	    		msg += "..";
+	    	}
+
+	    	msg+= ". Please report it to the PackMan author.";
+
+	    	try
+	    	{
+	    		std::ofstream log("<PackMan$Dir>.errorlog", std::ofstream::app);
+	    		if (log)
+	    		{
+	    			std::time_t rawtime;
+	    			struct std::tm * timeinfo;
+	    			char *ver = getenv("PackMan$Version");
+
+
+	    			std::time (&rawtime);
+	    			timeinfo = std::localtime (&rawtime);
+
+	    			log << "Unexpected exception in PackMan";
+	    			if (ver) log << " version " << ver << std::endl;
+	    			log << " on:    " << std::asctime(timeinfo);
+	    			log << " error: " << ((e) ? e->what() : "An unknown exception") << std::endl;
+	    			log << std::endl;
+	    			log.close();
+	    		}
+	    	} catch(...)
+	    	{
+	    		// Ignore log write errors
+	    	}
+
+	    	tbx::report_error(msg);
+	    } catch(...)
+	    {
+	    	tbx::report_error("Exception in uncaught handler - please report to PackMan author");
+	    }
 	}
 };
 
@@ -123,6 +185,9 @@ int main(int argc, char *argv[])
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
 	iconbar.menu().add_command(ShowBackupWindowCommand::COMMAND_ID, new ShowBackupWindowCommand());
 	iconbar.menu().add_command(VerifyAllAskCommand::COMMAND_ID, new VerifyAllAskCommand());
+
+	ReportUncaught error_handler;
+	packman.uncaught_handler(&error_handler);
 
 	iconbar.show();
 	packman.run();

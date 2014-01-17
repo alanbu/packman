@@ -9,6 +9,7 @@
 <LI><B>0.8.1 Beta - ???? </B>
 <UL>
 <LI>Fixed incorrect menu item/button descriptions in installation help page</LI>
+<LI>Log unexpected exceptions in the application to errorlog file</LI>
 </UL>
 </LI>
 <LI><B>0.8 Beta - December 2013</B>
