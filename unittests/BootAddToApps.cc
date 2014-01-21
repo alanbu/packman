@@ -57,7 +57,8 @@ public:
 	 */
 	void test_pathname()
 	{
-		CPPUNIT_ASSERT(_add_to_apps->pathname() == "<Choices$Write>.Boot.PreDesktop");
+		CPPUNIT_ASSERT(_add_to_apps->write_pathname() == "<Choices$Write>.Boot.PreDesktop");
+		CPPUNIT_ASSERT(_add_to_apps->read_pathname() == "Choices:Boot.PreDesktop");
 	}
 
 	/**

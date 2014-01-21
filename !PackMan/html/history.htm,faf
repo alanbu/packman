@@ -10,6 +10,7 @@
 <UL>
 <LI>Fixed incorrect menu item/button descriptions in installation help page</LI>
 <LI>Log unexpected exceptions in the application to errorlog file</LI>
+<LI>Always read choices for boot options (LookAt etc) from Choices path</LI>
 </UL>
 </LI>
 <LI><B>0.8 Beta - December 2013</B>

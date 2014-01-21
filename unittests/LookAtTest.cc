@@ -58,7 +58,8 @@ public:
 	 */
 	void test_pathname()
 	{
-		CPPUNIT_ASSERT(_look_at->pathname() == "<Choices$Write>.Boot.Desktop");
+		CPPUNIT_ASSERT(_look_at->write_pathname() == "<Choices$Write>.Boot.Desktop");
+		CPPUNIT_ASSERT(_look_at->read_pathname() == "Choices:Boot.Desktop");
 	}
 
 	/**
