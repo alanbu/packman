@@ -44,6 +44,10 @@
 class SummaryWindow;
 class PackageFilter;
 
+// Debug Flag to help track down if MainWindow is being used
+// when deleted or overwritten
+#define MAGIC_CHECK
+
 /**
  * Class to handle the main window which shows packages and
  * lets them be maintained.
@@ -53,6 +57,9 @@ class MainWindow :
 	pkg::table::watcher,
 	tbx::view::SelectionListener
 {
+#ifdef MAGIC_CHECK
+	unsigned int _magic;
+#endif
 	tbx::Window _window;
 	tbx::ToolAction _install_button;
 	tbx::ToolAction _remove_button;

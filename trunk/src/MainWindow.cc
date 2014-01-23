@@ -37,6 +37,10 @@
 #include <sstream>
 #include "libpkg/pkgbase.h"
 
+#ifdef MAGIC_CHECK
+const unsigned int ALLOC_MAGIC = 0xaaaaaaaa;
+const unsigned int DEALLOC_MAGIC = 0x55555555;
+#endif
 
 MainWindow::MainWindow() : _window("Main"), _view(_window),
    _status_sprite(this),
@@ -49,6 +53,9 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
    _remove(this),
    _store_menu_select(&_view)
 {
+#ifdef MAGIC_CHECK
+	_magic = ALLOC_MAGIC;
+#endif
 	_view.add_column(&_status_renderer, 50);
 	_view.add_column(&_name_renderer, 100);
 	_view.add_column(&_summary_renderer, 400);
@@ -104,6 +111,9 @@ MainWindow::~MainWindow()
     delete _summary;
     delete _filter;
     if (_filter != _search_filter) delete _search_filter;
+#ifdef MAGIC_CHECK
+	_magic = DEALLOC_MAGIC;
+#endif
 }
 
 /**
@@ -111,7 +121,17 @@ MainWindow::~MainWindow()
  */
 MainWindow *MainWindow::from_window(tbx::Window window)
 {
-	return reinterpret_cast<MainWindow *>(window.client_handle());
+	if (window.null()) throw std::invalid_argument("Attempting to get MainWindow from null toolbox handle");
+	MainWindow *mw = reinterpret_cast<MainWindow *>(window.client_handle());
+	if (mw == 0) throw std::invalid_argument("MainWindow has 0 client handle");
+#ifdef MAGIC_CHECK
+	if (mw->_magic != ALLOC_MAGIC)
+	{
+		if (mw->_magic == DEALLOC_MAGIC) throw std::invalid_argument("Attempting to use a deleted MainWindow");
+		throw std::invalid_argument("Corrupted magic number in MainWindow");
+	}
+#endif
+	return mw;
 }
 
 /**
@@ -228,7 +248,7 @@ const pkg::binary_control *MainWindow::selected_package()
 		index = _view.selection()->first();
 	}
 
-	return _shown_packages[index];
+	return _shown_packages.at(index);
 }
 
 /**
