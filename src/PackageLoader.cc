@@ -32,6 +32,7 @@
 #include "libpkg/filesystem.h"
 #include "libpkg/zipfile.h"
 #include "libpkg/pkgbase.h"
+#include "tbx/hourglass.h"
 
 #include <sstream>
 
@@ -54,6 +55,7 @@ bool PackageLoader::load_file(tbx::LoadEvent &event)
 
 		try
 		{
+			tbx::Hourglass hg;
 			std::string pathname(event.file_name());
 			pkg::binary_control ctrl = extract_control(pathname);
 			std::string pkgname(ctrl.pkgname());
@@ -96,16 +98,19 @@ bool PackageLoader::load_file(tbx::LoadEvent &event)
 						}
 					} else
 					{
+						hg.off();
 						std::string msg;
 						msg = "Version " + pkgvrsn + " or later of package " + pkgname + " is already installed";
 					   tbx::report_error(msg);
 					}
 				} catch (...)
 				{
+					hg.off();
 					tbx::report_error("Unable to select Package for configuration window");
 				}
 			} else
 			{
+				hg.off();
 				tbx::report_error("Not a package (Package name or version not found)", 0);
 				return false;
 			}
