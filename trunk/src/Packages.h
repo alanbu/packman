@@ -87,4 +87,6 @@ public:
 	void get_recommendations(const std::vector< std::pair<std::string, std::string> > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests);
 };
 
+std::string format_description(const pkg::binary_control *bctrl);
+
 #endif /* PACKAGES_H_ */
