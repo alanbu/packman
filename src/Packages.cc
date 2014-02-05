@@ -561,3 +561,29 @@ void Packages::get_recommendations(const std::vector< std::pair<std::string, std
 	}
 }
 
+/**
+ * Global function to format the description to show in a text area
+ */
+std::string format_description(const pkg::binary_control *bctrl)
+{
+	std::string desc = bctrl->description();
+	std::string::size_type lf_pos = desc.find('\n');
+	if (lf_pos != std::string::npos)
+	{
+		// First line is summary - so leave as is
+		// Replace other line feeds with spaces except when doubled which
+		// marks an end of paragraph
+		while ((lf_pos = desc.find('\n', lf_pos+1))!= std::string::npos)
+		{
+			if (lf_pos < desc.size()-2 && desc[lf_pos+1] == '\n')
+			{
+				lf_pos++;
+			} else
+			{
+				desc[lf_pos] = ' ';
+			}
+		}
+	}
+
+	return desc;
+}

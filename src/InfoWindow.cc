@@ -128,6 +128,6 @@ void InfoWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 		_installed.text((*sti).second.version());
 	}
 
-	_description.text(ctrl->description());
+	_description.text(format_description(ctrl));
 	_description.set_selection(0,0);
 }

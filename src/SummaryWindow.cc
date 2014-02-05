@@ -107,7 +107,7 @@ void SummaryWindow::set_selection_text(bool description)
     {
     	// Updating selection can set focus to window, so it is
     	// sometimes omitted if when the selection hasn't changed
-    	_description.text(bctrl->description());
+    	_description.text(format_description(bctrl));
     	_description.set_selection(0, 0);
     }
 }

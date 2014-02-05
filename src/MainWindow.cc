@@ -324,6 +324,7 @@ void MainWindow::handle_change(pkg::table& t)
 	else if (&t==&(package_base->control()))
 	{
 		// List of packages has changed
+		Packages::instance()->reset_package_list();
 		refresh();
 	}
 }
