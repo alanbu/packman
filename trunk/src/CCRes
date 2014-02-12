@@ -421,7 +421,7 @@ window_object {
     bbox:20,-240,1176,-72
     help_message:""
     help_limit:*
-    flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | gadget_FADED
+    flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | textarea_STATE_WORDWRAPPING_ENABLED | gadget_FADED
     type:0
     event:0
     text:"TextArea"

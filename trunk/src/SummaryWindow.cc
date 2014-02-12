@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -28,6 +28,7 @@
 #include "MainWindow.h"
 #include "Packages.h"
 #include "libpkg/pkgbase.h"
+#include "tbx/font.h"
 
 const int SMALL_SIZE = 64;
 const int LARGE_SIZE = 252;
@@ -46,6 +47,18 @@ SummaryWindow::SummaryWindow(MainWindow *main, tbx::Window main_wnd, tbx::view::
 	_toggle_size = tbwin.gadget(7);
 	_toggle_size.add_select_command(&_toggle_command);
 	_height = LARGE_SIZE;
+
+   // RISC OS 5 was failing to format correctly unless the font was set
+   tbx::Font dtf;
+   if (dtf.desktop_font())
+   {
+      tbx::FullFontDetails details;
+      dtf.read_details(details);
+      _description.font(details.identifier, details.x_point_size, details.y_point_size);
+   } else
+   {
+      _description.system_font(208,208);
+   }
 
 	_selection->add_listener(this);
 
