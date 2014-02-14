@@ -4,30 +4,38 @@ Once something is done it is moved to history.htm.
 
 Items marked LibPkg: will need work done in the LibPkg backend library as well.
 
+I'm currently thinking of a couple of point release to get a few of the more minor improvements in.
+
+Version 0.8.1
+-------------
+
+- LibPKG: Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one (see below)
+- Add component in package to info window
+- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
+- Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute) - Do this or get rid of it if we are opening multiple windows anyway.
+- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
+- Add scrollbars to the info window
+- Apps Window rename to Components window.
+- Easier first install - setup package db to say PackMan and SharedUnixLibrary are already installed and adjust paths file for PackMan.
+- Install window seems to lose default path colouring when a new item is added
+- Add "where's it installed?" to help
+- Add "packaging your own software" to help
+- Display when installing seems to show "Sprites" as last action and not any of boot options - check this.
+
+Done in version 0.8.1 but kept here to remind me to email the people who reported them
+- Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
+- Try to track down unreproducable bugs in first showing of Info and boot options - I think I've done this (tbx library fix) but couldn't reproduce it so can't be sure.
+
 Version 0.8.x
 -------------
 
-I'm currently thinking of a point release to get a few of the more minor improvements in.
-
 - have PackMan say "your package list is XX days old, would you like to update?" from Theo Markettos
 - Choices window to enable/control logging and say when update list message is shown.
-- LibPKG: Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one (see below)
 - Install filter doesn't update with new packages after an install
-- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
-- Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
-- Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute) - Do this or get rid of it if we are opening multiple windows anyway.
 - Add Install/Upgrade/Remove button to the Info window (User request, but I don't remember who)
-- Add component in package to info window
-- Add scrollbars to the info window
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
-- Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - Save position on main window menu to remember package window location
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
-- Fix text description display in info and summary windows
-- Show hourglass while loading local packages
-- Try to track down unreproducable bugs in first showing of Info and boot options.
-- Apps Window rename to Components window.
-- Easier first install - setup package db to say PackMan and SharedUnixLibrary are already installed and adjust paths file for PackMan.
 - Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 
 Version 0.9
@@ -115,12 +123,14 @@ Future options may include
  'SysMerge' This component is a system module so use sys merge logic to update it (e.g. If a new version of the module has been installed update the package version, but leave the existing module in place).
 
 
-System Module checking (plan to add in 0.8.x)
+System Module checking (plan to add in 0.8.1)
 ---------------------------------------------
 
-LibPKG: When checking for conflicts add additional test on any file in !System.Modules to see if it's a module. If it is read the module version and if its > package version add to files_that_conflict.
-It may be a better idea to count existing modules of a greater version as already installed and just update the package database.
-In PackMan modify the conflict manager to report the existing of a newer module and prompt to "use existing" or "backup and retry"
+Module checking details, after downloading a package that contains a single module, control files and optionally documentation in the Manuals path, libpkg will now check if an existing RISC OS module is installed at the same location.
+If the module if found and an older version, the package will overwrite it.
+If the module found is the same or greater than the package version it will be left in place and the package database updated with the found version.
+The module versions found already on the machine are always assumed to have a "-1" on the end for the package version, so using "-2" or greater on a package will mean the same version is overwritten.
+
 
 Save/Restore installed package lists
 ------------------------------------
@@ -163,6 +173,8 @@ Install/Remove code
 -------------------
 
 The idea here is to provide scripts that can be run during the installation/removal process when required. I still haven't managed to figure this out yet and where in the process they need to go, but they will need changes to the LibPkg backend.
+
+Having expermented with LUA in another project I'm wondering if I should use that instead.
 
 My current thoughts/things to sort out are:
 - Copied from debian installs there are four scripts that can be run prerm, postrm, preinst, postinst.

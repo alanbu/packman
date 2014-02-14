@@ -8,11 +8,13 @@
 <UL>
 <LI><B>0.8.1 Beta - ???? </B>
 <UL>
+<LI>Used latest LibPKG library which uses existing RISC OS modules to fulfill module packages</LI>
+<LI>Hourglass shown while loading local packages</LI>
+<LI>Improved display of description in Info Window and summary pane</LI>
 <LI>Fixed incorrect menu item/button descriptions in installation help page</LI>
 <LI>Log unexpected exceptions in the application to errorlog file</LI>
 <LI>Always read choices for boot options (LookAt etc) from Choices path</LI>
-<LI>Hourglass shown while loading local packages</LI>
-<LI>Improved display of description in Info Window and summary pane</LI>
+<LI>Used latest TBX library which includes a bug fix that may explain the occasional crash after a commit failure</LI>
 </UL>
 </LI>
 <LI><B>0.8 Beta - December 2013</B>
