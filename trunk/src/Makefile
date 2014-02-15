@@ -27,6 +27,7 @@ LDFLAGS = -LTBX: -ltbx -LLibPkg: -lpkg -LLibCurl: -lcurl -LZLib: -lz -lstdc++ -s
 ifeq ($(HOST),riscos)
   TARGET=^.!PackMan.!RunImage
   TARGETRES=^.!PackMan.Res
+  CCRES=<CCRes$$Dir>.ccres
 else
   TARGET=../!PackMan/!RunImage,ff8
   TARGETRES=../!PackMan/Res,fae
