@@ -32,6 +32,8 @@
 #include "tbx/scrolllist.h"
 #include "tbx/font.h"
 
+InfoWindow *InfoWindow::_instance = 0;
+
 const int NumDisplayFields = 10;
 
 static char*DisplayFields[] =
@@ -57,12 +59,12 @@ static char *DepFields[] =
                "Suggests"
 };
 
-InfoWindow::InfoWindow(tbx::Object object) :
-       _window(object),
+InfoWindow::InfoWindow() :
+       _window("Info"),
        _installed(_window.gadget(0x22)),
        _description(_window.gadget(0x21))
 {
-  _window.add_about_to_be_shown_listener(this);
+  _instance = this;
   // RISC OS 5 was failing to format correctly unless the font was set
   tbx::Font dtf;
   if (dtf.desktop_font())
@@ -74,24 +76,31 @@ InfoWindow::InfoWindow(tbx::Object object) :
   {
     _description.system_font(208,208);
   }
-
-  // Ensure class is deleted if object is
-  _window.add_object_deleted_listener(new tbx::ObjectDeleteClass<InfoWindow>(this));
 }
 
 InfoWindow::~InfoWindow()
 {
+	_instance = 0;
 }
 
 /**
- * Find currently selected package and update menu
+ * Show information for the binary control record
+ *
+ * @param ctrl binary control record to show
  */
-void InfoWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
+void InfoWindow::show(const pkg::binary_control *ctrl)
 {
-       MainWindow *main = MainWindow::from_window(event.id_block().ancestor_object());
-       const pkg::binary_control *ctrl = main->selected_package();
+	if (_instance == 0) new InfoWindow();
+	_instance->_window.show();
+	_instance->update_details(ctrl);
+}
 
-       if (ctrl == 0) return; // This shouldn't happen
+/**
+ * Update the information window
+ */
+void InfoWindow::update_details(const pkg::binary_control *ctrl)
+{
+    if (ctrl == 0) return; // This shouldn't happen
 
     int j;
 

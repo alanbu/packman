@@ -30,22 +30,25 @@
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/textarea.h"
-#include "tbx/abouttobeshownlistener.h"
+#include "libpkg/binary_control.h"
+
 
 /**
  * Class to handle window showing information on the
  * selected package
  */
-class InfoWindow : tbx::AboutToBeShownListener
+class InfoWindow
 {
 	tbx::Window _window;
 	tbx::DisplayField _installed;
 	tbx::TextArea _description;
+	static InfoWindow *_instance;
 public:
-	InfoWindow(tbx::Object object);
+	InfoWindow();
 	virtual ~InfoWindow();
 
-	void about_to_be_shown(tbx::AboutToBeShownEvent &event);
+	static void show(const pkg::binary_control *ctrl);
+	void update_details(const pkg::binary_control *ctrl);
 };
 
 #endif /* INFOWINDOW_H_ */

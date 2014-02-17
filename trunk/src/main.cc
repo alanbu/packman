@@ -160,7 +160,6 @@ int main(int argc, char *argv[])
 	// Attach auto created objects to C++ classes to handle them
 	packman.set_autocreate_listener("MainMenu", new tbx::AutoCreateClass<MainMenu>() );
 	packman.set_autocreate_listener("PackageMenu", new tbx::AutoCreateClass<PackageMenu>() );
-	packman.set_autocreate_listener("Info", new tbx::AutoCreateClass<InfoWindow>() );
 	packman.set_autocreate_listener("Cache", new tbx::AutoCreateClassOnce<CacheWindow>());
 
 	// Commands that can be run from anywhere

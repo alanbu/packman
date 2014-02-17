@@ -51,6 +51,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
    _summary_renderer(&_summary_text),
    _install(this),
    _remove(this),
+   _show_info(this),
    _store_menu_select(&_view)
 {
 #ifdef MAGIC_CHECK
@@ -63,11 +64,13 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_view.margin(tbx::Margin(0,68,0,254));
 	_view.auto_size(false);
 	_view.menu_selects(true);
+	_view.add_click_listener(&_show_info_on_dblclick);
 
 	_window.menu().add_has_been_hidden_listener(&_store_menu_select);
 
 	_window.add_command(InstallCommand::COMMAND_ID, &_install);
 	_window.add_command(RemoveCommand::COMMAND_ID, &_remove);
+	_window.add_command(ShowInfoCommand::COMMAND_ID, &_show_info);
 
 	_summary = new SummaryWindow(this, _window, &_selection);
 
@@ -487,4 +490,16 @@ void MainWindow::summary_size_changed(int by)
 	tbx::Margin m = _view.margin();
 	m.bottom += by;
 	_view.margin(m);
+}
+
+/**
+ * Show the information window if an item is double clicked
+ */
+void MainWindow::ShowInfoOnDblClick::itemview_clicked(const tbx::view::ItemViewClickEvent &event)
+{
+	if (event.item_hit() && event.click_event().is_select_double())
+	{
+		tbx::Window info("Info"); // Shared so should get the one already created
+		info.show();
+	}
 }
