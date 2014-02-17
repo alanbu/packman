@@ -39,13 +39,13 @@
 								<option id="gnu.cpp.compiler.cygwin.exe.debug.option.optimization.level.1426920587" name="Optimization Level" superClass="gnu.cpp.compiler.cygwin.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.cygwin.exe.debug.option.debugging.level.650361269" name="Debug Level" superClass="gnu.cpp.compiler.cygwin.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.300932721" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="\Misc/cygwin/home/riscos/cross/include/c++/4.1.2"/>
 									<listOptionValue builtIn="false" value="/home/alanb/roworkspace/tbx"/>
 									<listOptionValue builtIn="false" value="&quot;\Misc\cygwin\home\riscos\env\include&quot;"/>
 									<listOptionValue builtIn="false" value="/home/alanb/libpkgstuff/libpkg_curl/include"/>
-									<listOptionValue builtIn="false" value="/home/riscos/env/include"/>
 									<listOptionValue builtIn="false" value="\Misc/cygwin/home/riscos/cross/arm-unknown-riscos/include/libunixlib"/>
-									<listOptionValue builtIn="false" value="\Misc/cygwin/home/alanb/roworkspace/tbx"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Misc\cygwin\home\riscos\cross\include\c++\4.1.2&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/tbx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Misc\cygwin\home\riscos\env\include&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin.1511291793" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input.cygwin"/>
 							</tool>

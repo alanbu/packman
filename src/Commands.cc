@@ -36,6 +36,7 @@
 #include "VerifyWindow.h"
 #include "LogViewer.h"
 #include "PackageConfigWindow.h"
+#include "InfoWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -227,3 +228,14 @@ void ShowWhatsNewCommand::execute()
            new TurnOnLoggingCommand(), 0, true);
      }
  }
+
+ /**
+  * Show the information window for the selected package
+  */
+void ShowInfoCommand::execute()
+{
+	const pkg::binary_control *pkg_control = _main->selected_package();
+	if (pkg_control == 0) return;
+
+	InfoWindow::show(pkg_control);
+}

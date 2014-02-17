@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -175,5 +175,22 @@ public:
        enum { COMMAND_ID = 10 };
        virtual void execute();
  };
+
+ /**
+  * Command to show info on the current item
+  */
+ class ShowInfoCommand : public tbx::Command
+ {
+ private:
+ 	MainWindow *_main;
+ public:
+ 	enum {COMMAND_ID = 11}; // ID in resources
+
+ 	ShowInfoCommand(MainWindow *main) : _main(main) {}
+ 	virtual ~ShowInfoCommand() {}
+
+ 	virtual void execute();
+ };
+
 
 #endif /* COMMANDS_H_ */

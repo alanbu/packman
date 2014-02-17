@@ -123,6 +123,7 @@ class MainWindow :
 
 	InstallCommand _install;
 	RemoveCommand _remove;
+	ShowInfoCommand _show_info;
 
 	/********************************************
 	 * Toolbars
@@ -159,6 +160,13 @@ class MainWindow :
 		}
 	} _store_menu_select;
 
+	class ShowInfoOnDblClick : public tbx::view::ItemViewClickListener
+	{
+	public:
+		virtual ~ShowInfoOnDblClick() {}
+		virtual void itemview_clicked(const tbx::view::ItemViewClickEvent &event);
+
+	} _show_info_on_dblclick;
 public:
 	MainWindow();
 	virtual ~MainWindow();

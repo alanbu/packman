@@ -697,8 +697,8 @@ window_object {
     off_text_limit:*
     on_text:""
     on_text_limit:*
-    click_action:&0
-    select_show:"Info"
+    click_action:&b
+    select_show:""
     adjust_action:&0
     adjust_show:""
     fade_text:""
