@@ -303,10 +303,10 @@ menu_object {
     cmp:&4
     text:"Info..."
     text_limit:*
-    click_object_name:"Info"
+    click_object_name:""
     sub_menu_object_name:""
     sub_menu_action:&0
-    click_action:&0
+    click_action:&b
     help:""
     help_limit:*
   }
@@ -343,7 +343,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:4,872,2048,1124
+  window.visible:2,872,2046,1124
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -3155,11 +3155,11 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:2,260,1598,1160
+  window.visible:140,176,1840,1276
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
-  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
   window.title_fg:wimp_COLOUR_BLACK
   window.title_bg:wimp_COLOUR_LIGHT_GREY
   window.work_fg:wimp_COLOUR_BLACK
@@ -3168,7 +3168,7 @@ window_object {
   window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
   window.highlight_bg:wimp_COLOUR_CREAM
   window.extra_flags:
-  window.extent:0,-900,1700,0
+  window.extent:0,-1100,1700,0
   window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
   window.work_flags:
   window.sprite_area:&ffffffff
@@ -3486,7 +3486,7 @@ window_object {
   }
   button_object {
     cmp:&2c
-    bbox:1208,-1020,1216,4
+    bbox:1208,-872,1216,4
     help_message:""
     help_limit:*
     flags:
@@ -3498,6 +3498,35 @@ window_object {
     value_limit:8
     validation:""
     validation_limit:*
+  }
+  label_object {
+    cmp:&2d
+    bbox:28,-944,216,-892
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Components"
+  }
+  scrolllist_object {
+    cmp:&2e
+    bbox:224,-1012,1188,-884
+    help_message:""
+    help_limit:*
+    flags:
+    event:0
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
+  }
+  actionbutton_object {
+    cmp:&2f
+    bbox:1004,-1088,1192,-1036
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
   }
 }
 

@@ -162,7 +162,9 @@ class MainWindow :
 
 	class ShowInfoOnDblClick : public tbx::view::ItemViewClickListener
 	{
+		MainWindow *_main;
 	public:
+		ShowInfoOnDblClick(MainWindow *main) {_main = main;}
 		virtual ~ShowInfoOnDblClick() {}
 		virtual void itemview_clicked(const tbx::view::ItemViewClickEvent &event);
 
