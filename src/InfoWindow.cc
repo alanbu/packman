@@ -28,11 +28,19 @@
 #include "MainWindow.h"
 #include "Packages.h"
 #include "libpkg/pkgbase.h"
+#include "libpkg/component.h"
 #include "tbx/objectdelete.h"
 #include "tbx/scrolllist.h"
 #include "tbx/font.h"
 
+#include <sstream>
+
 InfoWindow *InfoWindow::_instance = 0;
+
+// Extra OS units required on top of text length for a scroll list (approx)
+const int ScrollListExtra = 80;
+// OS units margin on right of window (use when it's expanded)
+const int RightMargin = 16;
 
 const int NumDisplayFields = 10;
 
@@ -62,7 +70,8 @@ static char *DepFields[] =
 InfoWindow::InfoWindow() :
        _window("Info"),
        _installed(_window.gadget(0x22)),
-       _description(_window.gadget(0x21))
+       _description(_window.gadget(0x21)),
+       _components(_window.gadget(0x2e))
 {
   _instance = this;
   // RISC OS 5 was failing to format correctly unless the font was set
@@ -151,4 +160,43 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
 
        _description.text(format_description(ctrl));
        _description.set_selection(0,0);
+
+       std::string comps = ctrl->components();
+       _components.clear();
+       if (!comps.empty())
+       {
+    	   try
+    	   {
+			   std::vector<pkg::component> comp_list;
+			   pkg::path_table &paths = package_base->paths();
+			   tbx::WimpFont wf;
+			   int max_width = 0, width;
+			   std::string comp_path;
+			   pkg::parse_component_list(comps.begin(), comps.end(), &comp_list);
+			   for(std::vector<pkg::component>::iterator c = comp_list.begin(); c != comp_list.end();++c)
+			   {
+				   comp_path = paths(c->name(),"");
+				   _components.add_item(comp_path);
+				   width = wf.string_width_os(comp_path);
+				   if (width > max_width) max_width = width;
+			   }
+
+			   // Check if we need to resize to fit everything
+			   tbx::BBox comp_bounds = _components.bounds();
+			   if (max_width + ScrollListExtra > comp_bounds.width())
+			   {
+				   comp_bounds.max.x = comp_bounds.min.x + max_width + ScrollListExtra;
+				   _components.bounds(comp_bounds);
+				   tbx::BBox extent = _window.extent();
+				   if (comp_bounds.max.x + RightMargin > extent.max.x)
+				   {
+					   extent.max.x = comp_bounds.max.x + RightMargin;
+					   _window.extent(extent);
+				   }
+			   }
+    	   } catch(...)
+    	   {
+    		   // Ignore errors
+    	   }
+       }
 }

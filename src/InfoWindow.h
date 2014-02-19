@@ -30,6 +30,7 @@
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/textarea.h"
+#include "tbx/scrolllist.h"
 #include "libpkg/binary_control.h"
 
 
@@ -42,6 +43,7 @@ class InfoWindow
 	tbx::Window _window;
 	tbx::DisplayField _installed;
 	tbx::TextArea _description;
+	tbx::ScrollList _components;
 	static InfoWindow *_instance;
 public:
 	InfoWindow();

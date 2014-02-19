@@ -52,7 +52,8 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
    _install(this),
    _remove(this),
    _show_info(this),
-   _store_menu_select(&_view)
+   _store_menu_select(&_view),
+   _show_info_on_dblclick(this)
 {
 #ifdef MAGIC_CHECK
 	_magic = ALLOC_MAGIC;
@@ -499,7 +500,6 @@ void MainWindow::ShowInfoOnDblClick::itemview_clicked(const tbx::view::ItemViewC
 {
 	if (event.item_hit() && event.click_event().is_select_double())
 	{
-		tbx::Window info("Info"); // Shared so should get the one already created
-		info.show();
+		_main->_show_info.execute();
 	}
 }
