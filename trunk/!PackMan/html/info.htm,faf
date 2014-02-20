@@ -34,6 +34,10 @@ The install/upgrade process will automatically install these if they are not alr
 <LI>Recommends - list of packages that are recommended (but not essential) to be installed as well as this package</LI>
 <LI>Suggests - list of packages that may be useful when used alongside or with this package</LI>
 <LI>Description - full description of the package</LI>
+<LI>Components - list of components installed by this Package. If the package has been installed this
+gives the location the components have been installed to. If the package has not been installed the
+path shown is for the default location for the install and can be changed once the package has
+been selected for install.</LI>
 </UL>
 </P>
 

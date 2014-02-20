@@ -74,13 +74,13 @@ void AppsMenu::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 			app_menu.item(10).fade(true);
 		} else
 		{
-			_app_item.text("Apps ''");
+			_app_item.text("Component ''");
 			_app_item.fade(true);
 		}
 	} else
 	{
 		tbx::Path path(app_path);
-		std::string app_text("Apps '");
+		std::string app_text("Component '");
 		app_text += path.leaf_name();
 		app_text += "'";
 		_app_item.text(app_text);

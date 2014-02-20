@@ -14,6 +14,7 @@
 <LI>Double click on an item in a main window shows the information for the item</LI>
 <LI>Information window is now refreshed and brought to the top if it's already showing and information on a new item is selected</LI>
 <LI>Components added to Information window</LI>
+<LI>Help documentation and windows updated to replace "applications" with "components" where necessary</LI>
 <LI>Scrollbars and close button added to Information window</LI>
 <LI>Fixed incorrect menu item/button descriptions in installation help page</LI>
 <LI>Log unexpected exceptions in the application to errorlog file</LI>

@@ -18,8 +18,8 @@ e.g. The first four need an item to be selected.</P>
  <A HREF="configpackage.htm">Configure Package Window</A> with the selected package added to it for installation/upgrade</LI>
 <LI>Remove icon - Removes the selected package. Selecting the icon shows 
 the <A HREF="configpackage.htm">Configure Package Window</A> with the selected package added to it for removal</LI>
-<LI>Apps icon - Shows the <A HREF="apps.htm">Applications Window</A>
-which shows you what application are in an installed package and
+<LI>Components icon - Shows the <A HREF="apps.htm">Components Window</A>
+which shows you what components are in an installed package and
 allows you to view their location and create links to them.</LI>
 <LI>Info icon - Show information about the package in the
  <A HREF = "info.htm">Package information window</A></LI>

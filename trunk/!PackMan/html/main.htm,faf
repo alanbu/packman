@@ -56,9 +56,9 @@ will be updated to show it's new status</P>
 <P>Using the Menu button on the main window shows a menu with the
    following options</P>
 <UL>
-<LI>App "app_name" or Selection. This is a submenu that allows you to install,
- remove and view details on the selected package(s). For details see the
- <A HREF="appmenu.htm">Application Menu</A>.</LI>
+<LI>Package "app_name" or Selection. This is a submenu that allows you to install,
+ remove and view details on the selected package. For details see the
+ <A HREF="appmenu.htm">Package Menu</A>.</LI>
  <LI>Upgrade All - Leads to the <A HREF="configpackage.htm">Configure Packages Window</A> with all the the packages
    that will be upgraded and added to it. If no upgrades are available this option
    will be faded. If there are no upgrades available you may
