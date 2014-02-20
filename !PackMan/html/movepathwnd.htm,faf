@@ -13,8 +13,8 @@
 <P>If the move is cancelled or an error occurs any copies done so far will be undone. This is called unwinding.</P>
 <P>The "Faster" button on the window increases the speed of the move at the cost of whole desktop responsiveness. Once selected it will change its text to "Slower" and selecting it again will
 return to the standard move speed which gives a more responsive desktop.</P>
-<P>Note: Moving a path only copies installed files whereas if you moved an application
-from the Applications Window the whole application is moved. Normally this will mean the same set of files
+<P>Note: Moving a path only copies installed files whereas if you moved an application or directory
+from the Components Window the whole application or directory is moved. Normally this will mean the same set of files
 get copied.</P>
 </BODY>
 </HTML>

@@ -11,7 +11,6 @@ Version 0.8.1
 
 - LibPKG: Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one (see below)
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
-- Apps Window rename to Components window.
 - Easier first install - setup package db to say PackMan and SharedUnixLibrary are already installed and adjust paths file for PackMan.
 - Install window seems to lose default path colouring when a new item is added
 - Add "where's it installed?" to help
@@ -32,6 +31,7 @@ Version 0.8.x
 - Choices window to enable/control logging and say when update list message is shown.
 - Install filter doesn't update with new packages after an install
 - Add Install/Upgrade/Remove button to the Info window (User request, but I don't remember who)
+- Add Copyright and View (components) button to the Info window.
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
 - Save position on main window menu to remember package window location
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.

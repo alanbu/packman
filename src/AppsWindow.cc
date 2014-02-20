@@ -103,7 +103,7 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	if (ctrl != 0)
 	{
 		std::string pkgname = ctrl->pkgname();
-		std::string title = "Applications in package '" + pkgname.substr(0,100) + "'";
+		std::string title = "Components in package '" + pkgname.substr(0,100) + "'";
 		_window.title(title);
 
 		pkg::pkgbase *pb = Packages::instance()->package_base();

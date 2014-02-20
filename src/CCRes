@@ -288,7 +288,7 @@ menu_object {
     cmp:3
     flags:menu_ENTRY_SEPARATE
     cmp:&3
-    text:"Apps..."
+    text:"Components..."
     text_limit:*
     click_object_name:"Apps"
     sub_menu_object_name:""
@@ -673,7 +673,7 @@ window_object {
   toolaction_object {
     cmp:&7
     bbox:188,-68,252,-4
-    help_message:"Show application that were installed by the selected package"
+    help_message:"Show components that were installed by the selected package"
     help_limit:*
     flags:toolaction_GENERATE_SELECT | gadget_FADED
     off_text:"apps"
@@ -1045,7 +1045,7 @@ window_object {
   window.sprite_area:&ffffffff
   window.xmin:100
   window.ymin:100
-  window.title_text:"Applications in this package"
+  window.title_text:"Components in this package"
   window.title_text_limit:128
   window.title_valid:""
 }
@@ -1055,7 +1055,7 @@ menu_object {
   version:102
   object_name:"AppsMenu"
   menu_flags:menu_GENERATE_ABOUT_TO_BE_SHOWN | menu_GENERATE_DIALOGUE_COMPLETED
-  title:"Application"
+  title:"Component"
   title_limit:*
   help:""
   help_limit:*
@@ -1065,7 +1065,7 @@ menu_object {
     cmp:0
     flags:menu_ENTRY_SUB_MENU
     cmp:&0
-    text:"App ''"
+    text:"Component ''"
     text_limit:128
     click_object_name:""
     sub_menu_object_name:"AppMenu"
@@ -2347,7 +2347,7 @@ window_object {
   window.sprite_area:&ffffffff
   window.xmin:100
   window.ymin:100
-  window.title_text:"Moving application"
+  window.title_text:"Moving component"
   window.title_text_limit:128
   window.title_valid:""
   displayfield_object {
@@ -2431,7 +2431,7 @@ window_object {
   window.sprite_area:&ffffffff
   window.xmin:100
   window.ymin:100
-  window.title_text:"Application already exists!"
+  window.title_text:"Component already exists!"
   window.title_text_limit:*
   window.title_valid:""
   button_object {
@@ -2455,7 +2455,7 @@ window_object {
     help_message:""
     help_limit:*
     flags:label_NO_BOX
-    label:"The application:"
+    label:"The component:"
   }
   displayfield_object {
     cmp:&2

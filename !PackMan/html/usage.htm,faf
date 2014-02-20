@@ -18,15 +18,16 @@ a particular type or search for a package.
 Once you have a package you are interested in visible, just select it
 with the mouse and you can install/upgrade or remove it through the
 toolbar or the main windows menu.</P>
-<P>Most packages are installed into a subdirectory of the Apps directory
-on the drive with the !Boot application on it. Although the applications
-are installed in these fixed places, you can easily create
-links to them anywhere on your filing systems using the create stub
-or links option on the <A HREF="apps.htm">Apps Window</A> menu.</P>
-<P>The menu also allows you to find out more information on the selected
-package and show the location where an application was installed
-(using the Apps Window mentioned above).
-</P>
+<P>Most packages contain a component (file, directory or application) that you
+can set the installation location for from the 
+<A HREF="configpackage.htm">Configure Package Window</A>, which is shown
+when you install, upgrade or remove a package. A default location, which
+is usually a subdirectory of the Apps directory on the drive with the !Boot
+application on it, is shown to speed up the installation process for users
+happy with the suggested disc layout.</P>
+<P>After a component is installed you can easily see where it was put
+by looking in <A HREF="info.htm">Info Window</A> or the
+<A HREF="apps.htm">Components Window</A>.</P>
 
 <P>The information for the packages comes from lists held on the
 internet. New lists can be added to the lists used from the
