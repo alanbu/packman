@@ -1,0 +1,35 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Creating a Package</TITLE>
+</HEAD>
+<BODY>
+<P>
+If you are an author of software or other material that could be usefully distributed to other users please consider creating a Package for it and getting it uploaded to the RISC OS Open repository.
+</P>
+<P>
+If you find there is something missing from the list of packages, contact the software author and see if he could add a package for it.
+</P>
+<P>
+If the software author is unable to create a package themselves consider creating and maintaining a package so it can be made available to others and is easy to install on other machines.
+</P>
+<P>
+The most important thing to do before starting a Package is to check the copyright and distribution conditions of the Package. The licence must allow it to be distributed in this way before it can be packaged. Sometimes the licence just requires you get permission from the author. It is usually polite to do this anyway. The details of the licence and any permissions given should be put in the RiscPkg Copyright file.
+</P>
+<P>
+The RISC OS Open repository also requires that any applications are ARMv7 safe. Most files and BASIC programs are, but very old C and assembler programs may not be.
+</P>
+<P>
+Packages are just zip files with some additional control information. The only tools you need are a program that can create zip files and a text editor for the control files.</P>
+<P>
+My PackIt program (a package is available) is a very simple way to create packages and can be used either to fully maintain them or to act as a starting point to generate the initial package control files.
+</P>
+<P>Details of how to package are online at:
+<A HREF="https://www.riscosopen.org/wiki/documentation/show/RISC%20OS%20Packaging%20Guide">RISC OS Packaging Guide</A>
+</P>
+<P>The policy manuals for creating packages is at:
+<A HREF="http://www.riscpkg.org/policy.html">Policy Manual</A>
+<BR><I>At the time of release the policy manual had not been updated for components. See <A HREF="https://sites.google.com/site/alansriscosstuff/packman/packagecomponents">Package Components</A>
+</I>
+</P>
+</BODY>
+</HTML>
