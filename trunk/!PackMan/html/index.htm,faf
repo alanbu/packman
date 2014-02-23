@@ -31,10 +31,20 @@ bugs. Please send me feedback to improve this application.</P>
       <li><a href="cache.htm">Cache Window</a></li>
       <li><a href="verifyall.htm">Verify All Windows</a></li>
     </UL>
-  <LI><A HREF="contact.htm">Contacting the Author and Feedback</A></LI>
-  <LI><A HREF="copyright.htm">Copyright</A></LI>
-  <LI><A HREF="acknowledge.htm">Acknowledgements</A></LI>
-  <LI><A HREF="history.htm">History</A></LI>
+  <LI>Information on Packaging</LI>
+    <UL>
+      <LI><A HREF="where.htm">What's installed and where</A></LI>
+      <LI><A HREF="terminology.htm">Terminology</A></LI>
+      <LI><A HREF="creating.htm">Creating a Package</A></LI>
+    </UL>
+  <LI>Information on PackMan</LI>
+    <UL>
+      <LI><A HREF="contact.htm">Contacting the Author and Feedback</A></LI>
+      <LI><A HREF="copyright.htm">Copyright</A></LI>
+      <LI><A HREF="acknowledge.htm">Acknowledgements</A></LI>
+      <LI><A HREF="history.htm">History</A></LI>
+    </UL>
+  </LI>
 </UL>
 
 </BODY>
