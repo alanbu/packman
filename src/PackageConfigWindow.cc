@@ -754,7 +754,7 @@ void PackageConfigWindow::update_existing_components(std::vector<pkg::component>
 			if (new_comps[comp_no] != _components[comp_no])
 			{
 				current[comp_no] = pkg::component(_components[comp_no]);
-				get_component(comp_no, current[comp_no], current_path_set[size]);
+				get_component(comp_no, current[comp_no], current_path_set[comp_no]);
 			}
 		}
 		// Fill in the new details
