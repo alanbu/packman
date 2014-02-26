@@ -10,19 +10,28 @@ Version 0.8.1
 -------------
 
 - LibPKG: Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one (see below)
+- LibPKG: Failure to install something with a module as a dependency where  the module already exists in !system leaves it in a bad state complaining about files already existing when you try to install anything else that uses the module.
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
-- Easier first install - setup package db to say PackMan and SharedUnixLibrary are already installed and adjust paths file for PackMan.
-- Install window seems to lose default path colouring when a new item is added
-- Add "where's it installed?" to help
-- Add "packaging your own software" to help
 - Display when installing seems to show "Sprites" as last action and not any of boot options - check this.
 - Stop multiple instances of PackMan from running
+- Config window comes up with component missing error sometime when click withdraw
 
 Done in version 0.8.1 but kept here to remind me to email the people who reported them
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - Try to track down unreproducable bugs in first showing of Info and boot options - I think I've done this (tbx library fix) but couldn't reproduce it so can't be sure.
 - Could the Info window, when open, be updated automatically when you select a different package? (from Fred Graute)
 - Could double-clicking on a package in PackMan be made to open the Info window? (from Fred Graute and Tony Moore)
+
+Web pages updates
+-----------------
+Hopefully I can get time to fix some of the Packaging web pages
+www.riscos.info
+ - Make sure there is an entry for PackMan and add link to it to RiscPkg page
+ - GCCSDK pages link to PackMan not RiscPkg as it won't do the latest packages
+www.riscosopen.info
+ - check packages pages
+My site
+ - Add a draft policy manual? Graham doesn't seem to have updated the main one yet
 
 Version 0.8.x
 -------------
@@ -36,6 +45,7 @@ Version 0.8.x
 - Save position on main window menu to remember package window location
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
 - Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
+- After failure to commit should I reshow the configure window or clear all the entries?
 
 Version 0.9
 -----------

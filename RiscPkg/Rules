@@ -20,7 +20,7 @@ $(PACKAGES): %:
 	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
 	../fakepkginst
 	rm -f ../RiscPkg/$@
-	zip -r ../RiscPkg/$@ * -exclude="*.svn*" -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc
+	zip -r ../RiscPkg/$@ * -x *.svn* -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc
 
 fakepkginst: fakepkgsrc/fakepkginst.cc
 	g++ fakepkgsrc/fakepkginst.cc -ofakepkginst
