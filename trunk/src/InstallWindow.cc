@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -25,11 +25,27 @@
  */
 
 #include "InstallWindow.h"
+#include "Packages.h"
+#include "Commands.h"
 
 #include "libpkg/filesystem.h"
+#include "libpkg/pkgbase.h"
+#include "libpkg/path_table.h"
 #include "tbx/hourglass.h"
 #include "tbx/application.h"
+#include "tbx/messagewindow.h"
+#include "tbx/questionwindow.h"
 #include <cstdlib>
+
+/**
+ * Local class for package database successful install
+ * extra processing
+ */
+class InstallDbSuccess : public tbx::Command
+{
+public:
+	virtual void execute();
+};
 
 InstallWindow::InstallWindow() : _saveas("InstPackApp")
 {
@@ -66,6 +82,7 @@ void InstallWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std:
 	try
 	{
 	    tbx::app()->os_cli(cmd);
+	    tbx::app()->add_idle_command(new InstallDbSuccess());
 	} catch(...)
 	{
 	   // Shouldn't get here
@@ -74,3 +91,37 @@ void InstallWindow::saveas_save_to_file(tbx::SaveAs saveas, bool selection, std:
 	_saveas.file_save_completed(true, filename);
 }
 
+/**
+ * Package database has been successfully installed
+ * so read it back in and update PackMan path
+ * and prompt to do an update lists
+ */
+void InstallDbSuccess::execute()
+{
+	tbx::app()->remove_idle_command(this);
+	Packages *p = Packages::instance();
+	if (p->ensure_package_base())
+	{
+		pkg::pkgbase *pkg_base = p->package_base();
+		std::string packman_path = pkg::canonicalise("<PackMan$Dir>");
+		if (pkg_base->paths()("Apps.Admin.!PackMan","") != packman_path)
+		{
+			packman_path = pkg::boot_drive_relative(packman_path);
+			pkg_base->paths().alter("Apps.Admin.!PackMan", packman_path);
+			pkg_base->paths().commit();
+		}
+		tbx::show_question("!Packages has been successfully installed\n"
+				"You now need to update the list of packages available\n"
+				"from the Internet.\n\n"
+				"Do you wish to update the list now?",
+				"PackMan",
+				new UpdateListCommand(),
+				0,
+				true);
+	} else
+	{
+		tbx::show_message("Failed to create !Packages","PackMan","error");
+	}
+
+	delete this;
+}
