@@ -1,6 +1,6 @@
 # Makefile to package PackMan
 
-VERSION=0.8-1
+VERSION=0.8.0.1-1
 PACKAGES=PackMan_$(VERSION)
 INSTALL_TO=Temp/Apps/Admin
 
@@ -18,9 +18,9 @@ pkg: fakepkginst
 .PHONY: $(PACKAGES)
 $(PACKAGES): %:
 	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
-	../fakepkginst
+	^.fakepkginst
 	rm -f ../RiscPkg/$@
-	zip -r ../RiscPkg/$@ * -x *.svn* -i@../RiscPkg/$(firstword $(subst _, ,$@)).inc
+	zip -r ^.RiscPkg.$(subst .,/,$@) * -x */svn* -i@^.RiscPkg.$(firstword $(subst _, ,$@))/inc
 
 fakepkginst: fakepkgsrc/fakepkginst.cc
 	g++ fakepkgsrc/fakepkginst.cc -ofakepkginst
