@@ -1,4 +1,2 @@
-RiscPkg/*
-SysVars/*
-Sprites/*
-Apps/Admin/!PackMan/*
+RiscPkg.*
+Apps.Admin.!PackMan.*
