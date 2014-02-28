@@ -32,6 +32,7 @@
 #include "tbx/matchlifetime.h"
 #include "tbx/showhelp.h"
 #include "tbx/uncaughthandler.h"
+#include "tbx/taskmanager.h"
 
 #include "Packages.h"
 #include "MainWindow.h"
@@ -52,6 +53,7 @@
 
 #include <fstream>
 #include <ctime>
+#include "stdlib.h"
 
 
 /**
@@ -149,10 +151,35 @@ public:
 };
 
 /**
+ * Check if PackMan is already running and displays a message if it is.
+ *
+ * @returns true if PackMan is already running
+ */
+bool already_running()
+{
+	char *running_var = getenv("PackMan$Running");
+	if (running_var)
+	{
+		// Safety check in case last stopped because of a crash
+		tbx::TaskManager tm;
+		if (tm.running("Package Manager"))
+		{
+			tbx::report_error("PackMan is already running - You can only have one copy running at a time!");
+			return true;
+		}
+	}
+	return false;
+}
+
+
+/**
  * Entry point for program
  */
 int main(int argc, char *argv[])
 {
+	if (already_running()) return 0;
+	setenv("PackMan$Running","Yes",1);
+
 	tbx::Application packman("<PackMan$Dir>");
 	tbx::Iconbar iconbar("IconbarIcon");
 	tbx::ShowHelp show_help;
@@ -190,6 +217,8 @@ int main(int argc, char *argv[])
 
 	iconbar.show();
 	packman.run();
+
+	unsetenv("PackMan$Running");
 
 	return 0;
 }
