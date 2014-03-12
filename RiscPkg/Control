@@ -14,3 +14,4 @@ Description: Alternative Package Manager (Beta)
 
 Package: PackMan
 Depends: SharedUnixLibrary
+Components: Apps.Admin.!PackMan (Movable)
