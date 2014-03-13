@@ -95,6 +95,8 @@ Possible future changes (i.e. under consideration)
 - Possibly allow a package file be a stub package to tell PackMan to download something.
 - Expert mode - give options to install even when dependencies are missing or there are conflicts.
 - Multiple sections/categories.
+- Better error if Status file is corrupt when loading packages database (Fred Graute)
+- Or preferably more robust handling of Status file if it's missing tabs as it can when hand edited. Possibly by always putting something (e.g. 'User') in the last field. (Fred Graute)
 
 
 Components (now in 0.8 - delete from here when Policy Manual is updated)
