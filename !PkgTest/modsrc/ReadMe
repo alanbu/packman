@@ -1,0 +1,6 @@
+This directory contains the source code to create a simple module for testing package management with modules.
+
+It creates three versions of the same module with different versions so we can check what versions are installed in the tests.
+
+
+They are based on the Simple example provided with GCC

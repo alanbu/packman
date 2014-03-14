@@ -1,0 +1,25 @@
+-- Testing of install, upgrade and remove of RISC OS modules
+local pkg_name = "TestPkgModule";
+local mod_path = pkg.path("System.310.Modules.TestPkgModule");
+
+test.erase(pkg_name);
+
+test.message("Testing install of "..pkg_name.." 1.00");
+pkg.add(pkg_name.."_1/00-1");
+pkg.install(pkg_name);
+pkg.commit();
+
+test.check_module(mod_path, "1.00");
+
+test.message("Testing upgrade of "..pkg_name.." to 1.20");
+pkg.add(pkg_name.."_1/20-1");
+pkg.upgrade(pkg_name);
+pkg.commit();
+
+test.check_module(mod_path, "1.20");
+
+test.message("Testing removal of "..pkg_name);
+pkg.remove(pkg_name);
+pkg.commit();
+
+test.check_file_deleted(mod_path);
