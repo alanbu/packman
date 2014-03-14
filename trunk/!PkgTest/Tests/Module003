@@ -1,0 +1,26 @@
+-- Check older package doesn't overwrite newer module
+mod_path = pkg.path("System.310.Modules.TestPkgModule");
+pkg_name = "TestPkgModule";
+test.erase(pkg_name);
+
+test.message("Extracting version 1.20 of the module");
+test.extract_file("TestPkgModule_1/20-1", "System.310.Modules.TestPkgModule");
+
+test.message("Attempting to install verion 1.00-1");
+pkg.add("TestPkgModule_1/00-1");
+pkg.install(pkg_name);
+pkg.commit();
+
+test.message("Checking exist 1.20 version was used");
+test.check_module(mod_path, "1.20");
+test.check_version(pkg_name, "1.20-1");
+
+ctrl = pkg.control(pkg_name);
+test.check("Checking available version updated",
+           ctrl.Version == "1.20-1",
+           "Available versions is "..ctrl.Version.." not 1.20-1");
+test.check("Checking description updated",
+           string.find(ctrl.Description, "* Using already installed version") ~= 0,
+           "Description not updated to specify it's using an existing module");
+
+test.check_control_info(pkg_name);

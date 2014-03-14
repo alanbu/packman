@@ -1,0 +1,6 @@
+Module001	Install, upgrade and remove a RISC OS module
+Module002	Test a newer package overwrites an existing module
+Module003	Check older package doesn't overwrite newer module
+Module004	Check package doesn't overwrite one with the same version
+Module005	Check database state after failure
+Module006	Check upgrade after failure

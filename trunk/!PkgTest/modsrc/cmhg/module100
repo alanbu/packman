@@ -1,0 +1,12 @@
+; Copyright (c) 2005-2007 GCCSDK Developers
+; Small boiler plate example how to write RISC OS module using GCCSDK.
+
+date-string:            12 Feb 2014
+
+title-string:           TestPkgModule
+
+help-string:            TestPkgModule 1.00 (c) 2014 Alan Buckley
+
+initialisation-code:    gccmodule_init
+
+finalisation-code:      gccmodule_final

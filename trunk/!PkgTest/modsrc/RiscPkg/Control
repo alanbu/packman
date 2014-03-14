@@ -1,0 +1,10 @@
+Package: TestPkgModule
+Version: 1.00-1
+Section: Miscellaneous
+Priority: Optional
+Maintainer: Alan Buckley <alan_baa@hotmail.com>
+Standards-Version: 0.4.0
+Licence: Free
+Description: Test module for testing module installs
+ This is a test module that does nothing it. It has been created to be used for unit testing of the package manager.
+ e.g.Using !PkgTest
