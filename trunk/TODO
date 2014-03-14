@@ -9,10 +9,7 @@ I'm currently thinking of a couple of point release to get a few of the more min
 Version 0.8.1
 -------------
 
-- LibPKG: Check existing modules in !System to see if the required version is already installed and that you don't ever replace a newer version with an older one (see below)
-- LibPKG: Failure to install something with a module as a dependency where  the module already exists in !system leaves it in a bad state complaining about files already existing when you try to install anything else that uses the module.
 - Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
-- Display when installing seems to show "Sprites" as last action and not any of boot options - check this.
 - Config window comes up with component missing error sometime when click withdraw
 
 Done in version 0.8.1 but kept here to remind me to email the people who reported them
