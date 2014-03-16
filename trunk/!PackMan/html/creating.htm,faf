@@ -23,13 +23,13 @@ Packages are just zip files with some additional control information. The only t
 <P>
 My PackIt program (a package is available) is a very simple way to create packages and can be used either to fully maintain them or to act as a starting point to generate the initial package control files.
 </P>
-<P>Details of how to package are online at:
-<A HREF="https://www.riscosopen.org/wiki/documentation/show/RISC%20OS%20Packaging%20Guide">RISC OS Packaging Guide</A>
+<P>Details of how to package are online at
+<A HREF="https://sites.google.com/site/alansriscosstuff/packaging">RISC OS Packages</A>. This includes a link the latest version of the Policy guide
+that is implemented in PackMan.
 </P>
-<P>The policy manuals for creating packages is at:
-<A HREF="http://www.riscpkg.org/policy.html">Policy Manual</A>
-<BR><I>At the time of release the policy manual had not been updated for components. See <A HREF="https://sites.google.com/site/alansriscosstuff/packman/packagecomponents">Package Components</A>
-</I>
+<P><i>Note: at the time of releasing this version the original Policy Manual available at
+<A HREF="http://www.riscpkg.org/policy.html">Policy Manual</A> and as a package
+has not been updated with details of Components or Modules so please refer to the site above.</i>
 </P>
 </BODY>
 </HTML>
