@@ -1,12 +1,13 @@
 # Makefile for PkgTest
 
 # If you have fix deps uncomment following line for dependency scanning
-# include FixDeps:Rules/make
+include FixDeps:Rules/make
 
-CXXFLAGS = -O2 -Wall -mpoke-function-name -mthrowback -ITBX:
+CPPFLAGS= -ITBX: -ILibPKG: -ILibCurl: -Iluacc
+CXXFLAGS = -O2 -Wall -mpoke-function-name -mthrowback
 
 LD = g++
-LDFLAGS = -LTBX: -ltbx -lstdc++ -static
+LDFLAGS = -LTBX: -ltbx  -LLibPkg: -lpkg -LLibCurl: -lcurl -LZLib: -lz -Lluacc -llua -lstdc++ -static
 
 CCSRC = $(wildcard *.cc)
 OBJECTS = $(CCSRC:.cc=.o)
@@ -17,4 +18,4 @@ OBJECTS = $(CCSRC:.cc=.o)
 	$(LD) $(LDFLAGS) -o !RunImage,e1f $(OBJECTS)
 
 # IF you have fix deps uncomment following line
-# #include $(CCSRC:.cc=.d)
+include $(CCSRC:.cc=.d)
