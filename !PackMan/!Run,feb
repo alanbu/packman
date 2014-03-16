@@ -23,5 +23,10 @@ Set PackMan$Dir <Obey$Dir>
 IconSprites <Obey$Dir>.!Sprites
 If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprites
 
+| Use our copy of the Shared Unix Library only if another in not installed
+| If the version is incorrect it should be reported from PackMan
+RMEnsure SharedUnixLibrary 0.00 IfThere System:modules.SharedULib Then RMLoad System:modules.SharedULib
+RMEnsure SharedUnixLibrary 0.00 RMLoad <PackMan$Dir>.Resources.SharedULib
+
 WimpSlot -min 2720k -max 2720k
 /<PackMan$Dir>.!RunImage %*0
