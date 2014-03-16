@@ -11,7 +11,9 @@ pkg: fakepkginst
 	mkdir -p Temp/RiscPkg
 	mkdir -p $(INSTALL_TO)
 	cp RiscPkg/Copyright Temp/RiscPkg
-	cp -r !PackMan $(INSTALL_TO)
+	svn export !PackMan $(INSTALL_TO)/!PackMan
+	cp !PackMan/!RunImage $(INSTALL_TO)/!PackMan
+	cp !PackMan/Res $(INSTALL_TO)/!PackMan
 	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
 	rm -rf Temp
 
@@ -20,7 +22,7 @@ $(PACKAGES): %:
 	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
 	^.fakepkginst
 	rm -f ../RiscPkg/$@
-	zip -r ^.RiscPkg.$(subst .,/,$@) * -x */svn* -i@^.RiscPkg.$(firstword $(subst _, ,$@))/inc
+	zip -r ^.RiscPkg.$(subst .,/,$@) * -i@^.RiscPkg.$(firstword $(subst _, ,$@))/inc
 
 fakepkginst: fakepkgsrc/fakepkginst.cc
 	g++ fakepkgsrc/fakepkginst.cc -ofakepkginst
