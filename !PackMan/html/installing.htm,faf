@@ -23,6 +23,12 @@ disc which would put it in the default location of Apps.Admin.</LI>
 <P>PackMan is automatically marked as being installed in the location you ran it
 from. If you wish to move it later, use the move menu option from the <A HREF="apps.htm">Components
 Window</A>.</P>
-
+<P>PackMan requires the Shared Unix Library, but uses a copy in it's Resources directory
+if one is not installed. This is so PackMan can be used without any further setup.</P>
+<P>This can mean PackMan may fail with an error about the version of the Shared Unix Library
+if an older version has already been installed in !System. If this happens please download the
+latest version from <A HREF="http://www.riscos.info/packages/LibraryDetails.htm#SharedUnixLibrary">
+http://www.riscos.info/packages/LibraryDetails.htm#SharedUnixLibrary</A> and copy it
+to your !System.</P>
 </BODY>
 </HTML>
