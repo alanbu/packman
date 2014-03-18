@@ -9,9 +9,6 @@ I'm currently thinking of a couple of point release to get a few of the more min
 Version 0.8.1
 -------------
 
-- Display of summary in main window is truncated if it goes beyond the size of the tool icon bar (need a very wide window to see this - Cache package entry from RPi list shows this). I think I'm just going truncate the summary in the main display to 80 chars to fix this.
-- Config window comes up with component missing error sometime when click withdraw
-
 Done in version 0.8.1 but kept here to remind me to email the people who reported them
 - Help Text isn't displayed correctly in either summary window or info window. It wraps inconsistantly (from Tony Moore).
 - Try to track down unreproducable bugs in first showing of Info and boot options - I think I've done this (tbx library fix) but couldn't reproduce it so can't be sure.
@@ -54,7 +51,6 @@ More major release which include new LibPkg standards version
 For versions after 0.9
 ----------------------
 
-- Ensure panes are always at least as wide as the main window
 - See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
 - Check if netsurf builds still exists.
 - Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.

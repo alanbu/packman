@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2013 Alan Buckley
+* Copyright 2013-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -501,7 +501,7 @@ void PackageConfigWindow::package_removed()
 
 	int comp_ymove = 0;
 
-	if (new_list.size() != _components.size())
+	if (new_comps.size() != _components.size())
 	{
 		// Remove any left over components
 		for (unsigned int comp_idx = new_comps.size(); comp_idx < _components.size(); ++comp_idx)
