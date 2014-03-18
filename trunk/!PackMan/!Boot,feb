@@ -3,7 +3,7 @@ IconSprites <PackMan$Dir>.!Sprites
 
 Set PackMan$Help <PackMan$Dir>.!Help
 Set PackMan$Version "0.8.1"
-Set PackMan$Web "http://alanb.drobe.co.uk/packman.htm"
+Set PackMan$Web "https://sites.google.com/site/alansriscosstuff/packman"
 Set PackMan$Title "Package Manager"
 Set PackMan$Publisher "Alan Buckley"
 Set PackMan$Description "Package management - install, upgrade and remove applications easily."
