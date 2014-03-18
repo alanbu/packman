@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.8.1 Beta - ???? </B>
+<LI><B>0.8.1 Beta - March 2014</B>
 <UL>
 <LI>Used latest LibPKG library which uses existing RISC OS modules to fulfill module packages</LI>
 <LI>Mark PackMan as installed when the !Packages database is first setup so it does not need to be reinstalled</LI>
