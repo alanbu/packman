@@ -1,0 +1,7 @@
+RiscPkg = PkgTestDisc:!Boot.Resources.!Packages.Info.@
+Apps = PkgTestDisc:Apps
+Manuals = PkgTestDisc:Manuals
+Resources = PkgTestDisc:!Boot.Resources
+Sprites = PkgTestDisc:!Boot.Resources.!Packages.Sprites
+System = PkgTestDisc:!Boot.Resources.!System
+SysVars = PkgTestDisc:!Boot.Resources.!Packages.SysVars

@@ -1,0 +1,27 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Boot Options Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Boot Options Window</H2>
+<P>This Window allows you to update the Boot Options for the selected application or file.</P>
+<P>It is reached from the "Boot Options" menu item on the Applications Window.</P>
+<P>The Boot Options specify the actions to take when RISC OS is booted (started).
+ They can also be configured from the standard RISC OS configuration tool.</P>
+<P>The window contains the following fields</P>
+<ul>
+<LI>Look at - the application will be booted so all its system variables are set up.
+    This is useful for applications that are run when double clicking on a file type
+    or command line utilities that are placed within an application folder.</LI>
+<LI>Run - run the application on startup.</LI>
+<LI>Add To Apps - the application will be added to the "Apps" folder on the iconbar.</LI>
+<li>Cancel - close the window without updating the Boot Options.</li>
+<LI>Apply - apply the selected options.</LI>
+</ul>
+<P>When setting the options PackMan will boot the application for the "Look At" and "Run" options
+and add the applications to the "Apps" iconbar folder for the "Add To Apps" option immediately.</P>
+<P>Clearing any of the options will set up the relevant boot files for next time RISC OS is restarted,
+but does not clear any application variables or remove the application from the "Apps" folder.</P>
+</BODY>
+</HTML>

@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Components Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Components Window</H2>
+
+<P>This Window shows all the components (movable files, directories or applications) that are installed as part of
+a package (if there are any).</P>
+<P>Select a package and press menu to see the following menu options.
+<UL>
+<LI>Create stub - create an application stub. This will forward the Help, Boot and Run
+actions for an application to the real application and can be used as a short cut
+to the application from another location on the disc. Available for applications only.</LI>
+<LI>Create link - create a LinkFS symbolic link</LI>
+<LI>Copy - make a copy the component</LI>
+<LI>Move - move the component to another location. Checks are made that the component isn't moved into itself and then the <a href="movewnd.htm">Move window</a> is displayed to show the progress of the move.</LI>
+<LI>Boot options - show the <A HREF="bootoptswnd.htm">Boot Options Window</A> that allows you to change the RISC OS startup options.</LI>
+<LI>Boot - Run an applications !Boot file. Available for applications only.</LI>
+<LI>Run - Run the component.</LI>
+<LI>Help - Show an applications Help file. Available for applications only.</LI>
+<LI>View - Open the directory that contains the component.</LI>
+</UL>
+</P>
+<p>You can also run the component by double clicking on its icon. If you use the adjust
+mouse button instead of the select mouse button the Applications Window will be
+closed after the component is run.</p>
+<p>Dragging an application icon to the filer will also create an application stub.</p>
+
+</BODY>
+</HTML>

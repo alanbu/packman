@@ -1,0 +1,31 @@
+# Makefile to package PackMan
+
+VERSION=0.8.1-1
+PACKAGES=PackMan_$(VERSION)
+INSTALL_TO=Temp/Apps/Admin
+
+all: build pkg
+
+pkg: fakepkginst
+	rm -rf Temp
+	mkdir -p Temp/RiscPkg
+	mkdir -p $(INSTALL_TO)
+	cp RiscPkg/Copyright Temp/RiscPkg
+	svn export !PackMan $(INSTALL_TO)/!PackMan
+	cp !PackMan/!RunImage $(INSTALL_TO)/!PackMan
+	cp !PackMan/Res $(INSTALL_TO)/!PackMan
+	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
+	rm -rf Temp
+
+.PHONY: $(PACKAGES)
+$(PACKAGES): %:
+	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
+	^.fakepkginst
+	rm -f ../RiscPkg/$@
+	zip -r ^.RiscPkg.$(subst .,/,$@) * -i@^.RiscPkg.$(firstword $(subst _, ,$@))/inc
+
+fakepkginst: fakepkgsrc/fakepkginst.cc
+	g++ fakepkgsrc/fakepkginst.cc -ofakepkginst
+
+build:
+	make -C src

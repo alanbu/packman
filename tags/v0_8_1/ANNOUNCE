@@ -1,0 +1,62 @@
+Packman package manager 0.8.1 beta released with module checking and easier first install
+
+Packman version 0.8.1 beta is now available.
+
+New to this version:
+
+- Module checking. If an existing RISC OS module has already been
+  installed that matches the module in a Package, PackMan will use
+  existing module to fulfil the request for the package and update
+  it's database to reflect the found version.
+  
+- Easier first install experience. PackMan now marks itself
+  installed in the location it's first run and uses it's own
+  copy of the SharedUnixLibrary if one isn't already installed.
+  It will also prompt if you want to update the package lists
+  on this first run.
+  
+- Info window has been improved to show Components and can be
+  accessed by double clicking on a package.
+
+- Fixed documentation that was not referring correctly to the
+  Components which were added last release.
+  
+- Added links to documentation on new features in !PackMan that
+  have not been added to !RiscPkg.
+  
++ An assortment of minor bug fixes and UI improvements (see the
+  history page in the help for details) 
+
+If you already have a previous version of !PackMan or !RiscPkg
+installed you can install it or upgrade it from either of
+these programs.
+
+Otherwise go to https://sites.google.com/site/alansriscosstuff/packman
+for download and installation instructions.
+
+PackMan is a package manager front end for packages distributed
+using the RISC OS Packaging Project (see http://www.riscpkg.org).
+
+It can be used instead of or alongside !RiscPkg.
+
+Its features include:
+
+- Summary and detailed description of the packages
+- Filters to allow display of packages for a specific category,
+  what's installed, what's new or upgrades to already installed
+  packages.
+- Search for a package.
+- Single buttons to start an install, upgrade or removal of a package.
+- Menu option to upgrade all your packages at once.
+- Automatically install dependencies for you, always showing what
+  is going to be installed.
+- Install multiple packages at once.
+- Install the components from (non fixed location) packages where you
+  want (subject to a package upgrade that is ongoing). Older
+  (non fixed location) packages can be moved after install.
+  
+  
+System requirements
+
+RISC OS 4.0 or greater with long filenames
+Internet connection for downloading packages

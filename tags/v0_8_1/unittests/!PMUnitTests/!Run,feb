@@ -1,0 +1,3 @@
+Set PMUnitTests$Dir <Obey$Dir>
+Wipe <PMUnitTests$Dir>.results.* ~CF
+TaskWindow <PMUnitTests$Dir>.unittests -wimpslot 2048K

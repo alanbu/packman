@@ -1,0 +1,18 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - What's installed and where</TITLE>
+</HEAD>
+<BODY>
+<P>
+Most packages give you the choice of where the application, directory or file it contains will be installed. If you just accept the default it will normally be put in a subdirectory of the Apps directory or the Manuals directory in the root of your hard disc.
+</P>
+<P>
+You can see what has been installed and where by looking at the components field on the Info window or choosing the view option from the menu in the Components window.
+</P>
+<P>
+Some packages do not show any components, these are packages which are installing system modules or additional files inside a package they are dependent on.
+<P>
+The default paths shown in the package configuration window can be changed using the Paths window from the iconbar advanced menu.
+</P>
+</BODY>
+</HTML>

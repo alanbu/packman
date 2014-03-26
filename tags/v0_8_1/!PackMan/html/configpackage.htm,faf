@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Configure Package Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Configure Package Window</H2>
+<P>The Configure Package Window is used to confirm or cancel the installation/upgrade or removal of one or more packages and allow the configuration of any of the components in newly installed packages to be set. </P>
+<P>It is shown when you hit the toolbar Install or Remove buttons
+ or select the menu Install or Remove or Upgrate All options.</P>
+<P>The window remains open until the Cancel or Install/Upgrade/Remove button is pressed. 
+While it is open you can add more packages to configure by using any of the above methods on any of the open package list windows.</P>
+<P>It shows the following information
+<UL>
+  <LI>Packages to install/upgrade/configure - This is a list of the actions that will be taken. The "Withdraw" button allows a package to be removed from this list and no longer installed/removed.</LI>
+  <LI>Recommendations or suggestions - Shows the number of recommendations or suggestions made by the packages selected for install or upgrade that are not already installed.</LI>
+  <LI>View/Add button - If there are any recommendations or suggestions this button will show the <A HREF="recommendswnd.htm">Recommendations/Suggestions Window</A> that allows them to be easily added to the list of packages to be installed.</LI>
+  <LI>Downloads - to the left shows the number of packages that need to be downloaded and to the right the total size of the packages to be downloaded.</LI>
+  <LI>Components to configure - This is a list of components in the packages to be installed that can have additional configuration options set. If there are none, the following box shows a message "No configurable components" otherwise the box contains a list of all the components that can be configured. Each component has
+the following fields
+    <UL>
+      <LI>Boot Options - These options specify the actions to take when RISC OS is booted (started). During the install PackMan will also set these options up so a reboot is not necessary. The options are:
+        <UL>
+          <LI>Look at - the application will be booted so all its system variables are set up. This is useful for applications that are run when double clicking on a file type or command line utilities that are placed within an application folder.</LI>
+          <LI>Run - run the application on startup.</LI>
+          <LI>Add To Apps - the application will be added to the "Apps" folder on the iconbar.</LI>
+        </UL>
+      </LI>
+      <LI>Path to install to box - This box can be edited to specify where the component should be installed to. It can be set by editing the box, dragging the destination folder from the filer to the box or dragging the package icon to the folder you wish to install to. If the path is changed from the initial value the colour changes from green to black.</LI>
+    </UL>
+  </LI>
+  <LI>Cancel button - closes the window and forgets the packages currently selected.</LI>
+  <LI>Install/Upgrade/Remove button - The text of the button changes to indicate the actions pressing it will do.</LI>
+</UL>
+</P>
+<P>
+Pressing the Install/Upgrade/Remove button will take the appropriate actions to configure the packages, including installing, removing and upgrading the packages and configuring the components.
+This will then display the <A HREF="commit.htm">Commit Window</A> which
+will show the progress of the installation and report if it is successful
+or not.</P>
+<P><I>Note: When applications are removed, they will not be removed from the Apps folder and any system variables will not be unset until after the next reboot of RISC OS.</I><P>
+
+</BODY>
+</HTML>

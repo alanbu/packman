@@ -1,0 +1,266 @@
+This program is to provide unit testing for the LibPKG backend
+used by PackMan. It also uses some of the logic from PackMan
+to achieve this so does achieve some unit testing of PackMan
+as well.
+
+Currently it has been setup to be able to test packages without
+components. Work will need to be done on it to ensure components
+can be tested properly and isolated from the rest of the disc.
+
+It creates a test environment in a directory called TestDisc
+which is mapped to a system variable (PkgTestDisc) so it can
+be treated as the root of a filesystem.
+
+The TestDisc is created from the folder MasterDisc if it does
+not exists or if the option is selected from the main window.
+
+The tests are written in LUA and stored in the Tests directory.
+
+The lua interpreter is provide under a MIT copyright licences
+(see luacc/LUACopyright). See luacc/ReadME on how to build
+the library used for PkgTest.
+
+When run an icon is put on the iconbar. Click it to show
+the main window.
+
+Main Window
+-----------
+
+This window allows you to add/edit and run tests.
+
+The list at the top shows all the tests. Selecting an item and
+clicking Menu on this list will give the option to add a new test
+or edit an existing one. (See below for test details).
+
+The "Add libpkg log" option turns on libpkg logging during commits
+and adds the output of the log to the test logs.
+
+The "Create test disc" option will delete the current TestDisc
+folder if it exists and rebuild it.
+
+The "Run selected" button runs the selected tests.
+The "Run all" button runs all the tests.
+
+Once tests are started the "Run Tests" window is shown.
+
+Run Tests Window
+----------------
+
+The top list shows the test being run. An icon appears to the
+left one running. This is orange for running, green if the
+test passed and red if the test failed.
+
+As the bottom of the screen, information on the current
+running test and the progress through all the tests is shown.
+
+The "Pause" button allows you to pause the tests. Once paused
+the text changes to "Continue" so clicking it again will
+restart the test.
+
+The "Close" button is enabled when the tests finish and is
+used to close the window.
+
+Each test write a log containing information on what has
+run and details on any errors. Use the "View Log" button
+to view the log after a test has run.
+
+The "Edit Script" button allows you to edit the script.
+
+Writing test scripts
+--------------------
+
+The test scripts are written in LUA, documentation on this
+can be found at http://www.lua.org/docs.html.
+
+PkgTest adds the following functions for testing LibPkg.
+
+Library test - test specific functions
+
+test.message            - display a message
+test.fail               - fail the test
+test.erase              - erase a package
+test.check_module       - Check a module version
+test.check_file_deleted - check a file no longer exists
+test.extract_file       - extract a file from a package
+test.check_version      - check the install version of a package
+test.check              - use LUA to do a check
+test.check_control_info - check control info matches database info
+test.check_state        - check the package state
+text.pause              - pause test until "Continue" is hit on dialog
+
+Library pkg - LibPkg functions
+
+path        - get location on disc from a logical path
+add         - add a package file
+install     - mark a package for install
+upgrade     - mark a package for upgrade
+remove      - mark a package for remove
+withdraw    - unmark a package
+commit      - commit marked packages
+commit_fail - run a commit that is expected to faile
+control     - return the package control record
+
+Function reference
+==================
+
+test.message(<text>)
+--------------------
+
+Send message to log and window showing tests
+
+test.fail(<message>)
+--------------------
+
+Test has failed so stop the script
+
+test.erase(<package name>)
+--------------------------
+
+Fast erase of package from disc.
+
+This uses the installed Files list to delete all the
+files installed by a package and then deletes it
+from the package list and package tables.
+
+It is not an error if the package is not installed.
+
+This is often used at the beginning of a test to 
+ensure a package isn't partially installed from
+a previous test.
+
+test.check_module(<path to module>, <version>)
+----------------------------------------------
+ 
+Check the version of a module file
+ 
+Fails if module missing, invalid or version doesn't match
+
+test.check_file_deleted(<path to file>)
+---------------------------------------
+
+Check if a file has been deleted
+
+Fails if file exists on the file system
+
+test.extract.file(<package file>, <logical path of file to extract>)
+--------------------------------------------------------------------
+
+Extract a file from a package zip file.
+
+The extract file is put in the location the logical path resolves
+to on the hard disc.
+
+test.check_version(<package name>,<version>)
+--------------------------------------------
+
+Check installed package version
+
+Fails if package is not installed or the version is different
+
+test.check_state(<package name>,<state>)
+-----------------------------------------
+
+Check package state equals the value given.
+
+<state> can be one of: not present, removed, half unpacked,
+unpacked, half configured, installed.
+
+test.check(<description>, <lua check>, <error message if fails>)
+----------------------------------------------------------------
+
+Check if a condition is true
+
+This function allows the use of any lua code to perform a check
+which fails it the code results to false
+
+test.check_control_info(<package name>)
+---------------------------------------
+
+Checks that the control information for a package
+matches the available list
+
+test.pause(<message>)
+---------------------
+
+Pause the current test. This leaves it running in an
+idle loop so that files/etc can be checked as an aid
+to debugging
+
+
+path = pkg.path(<logical_path>)
+-------------------------------
+
+Get actual path for a logical path
+
+Fails if <logical_path> is invalid
+
+pkg.add(<package file name>)
+----------------------------
+
+Add a package from the <PkgTest$Dir>.Packages directory to
+the list of available packages and the cache so it is
+ready to be installed.
+ 
+Fails if package file can not be found or is invalid
+
+ 
+ pkg.install(<package name>)
+ ---------------------------
+ 
+ Mark package to be installed
+ 
+ Fails if package doesn't exist or is already installed
+
+pkg.upgrade(<package name>)
+---------------------------
+
+Mark package to be upgraded
+
+Fails if package doesn't exist or is not already installed
+or the latest version is already installed.
+
+pkg.remove(<package name>)
+--------------------------
+
+ Mark package to be removed
+
+Fails if package doesn't exist or is not installed
+
+pkg.withdraw(<package name>)
+----------------------------
+
+Withdraw package from list of packages to be commited
+
+Fails if package doesn't exist
+It is not an error if the package isn't selected for install/remove
+ 
+pkg.commit()
+------------
+
+Commit new packages status
+
+Fails if the commit fails
+
+pkg.commit_fail(<reason>)
+-------------------------
+
+ Commit new packages status expecting failure
+ 
+<reason> is:
+  "conflicts" for file conflicts
+  full message of failure error
+  text with *, where * is used as a simple wildcard for 0 or more characters.
+
+Fails if the commit succeeds or fails for a different reason than give
+ 
+ctrl = pkg.control(<package name>)
+----------------------------------
+  
+Return the control record for a given package
+
+Fails if <package name> isn't a control record
+
+The control record is return with the field names equal to the
+name in the control record.
+
+e.g. ver = pkg.control("MyPackage").Version would return the version field
