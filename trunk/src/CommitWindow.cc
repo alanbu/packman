@@ -1,3 +1,22 @@
+/*********************************************************************
+* Copyright 2009-2014 Alan Buckley
+*
+* This file is part of PackMan.
+*
+* PackMan is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* PackMan is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with PackMan. If not, see <http://www.gnu.org/licenses/>.
+*
+*****************************************************************************/
 /*
  * CommitWindow.cc
  *
@@ -63,21 +82,9 @@ CommitWindow::CommitWindow() :
 		const pkg::status& selstat=i->second;
 		const pkg::status& curstat=package_base->curstat()[pkgname];
 		if (unpack_req(curstat,selstat))
-			packages.insert(pkgname);
-	}
-
-	// For each entry in curstat, look to see whether the package
-	// should be removed.  If so, add it to the list of packages
-	// to be processed.
-	for (std::map<std::string,pkg::status>::const_iterator i=
-		package_base->curstat().begin();
-           i!=package_base->curstat().end();++i)
-	{
-		const string& pkgname=i->first;
-		const pkg::status& curstat=i->second;
-		const pkg::status& selstat=package_base->selstat()[pkgname];
+		   packages.insert(pkgname);
 		if (remove_req(curstat,selstat))
-			packages.insert(pkgname);
+			 packages.insert(pkgname);
 	}
 
 	// Begin new commit operation.
