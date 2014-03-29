@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.8.2 Beta - March 2014</B>
+<LI><B>0.8.2/0.8.3 Beta - March 2014</B>
 <UL>
 <LI>Single fix to stop PackMan uninstalling itself when it has been copied
 to disc for the first time and another package is installed</LI>
