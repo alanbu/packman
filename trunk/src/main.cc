@@ -50,127 +50,15 @@
 #include "InstallWindow.h"
 #include "CacheWindow.h"
 #include "BootOptionsWindow.h"
+#include "Choices.h"
+#include "MainCommands.h"
+#include "ChoicesWindow.h"
 
-#include <fstream>
-#include <ctime>
 #include "stdlib.h"
 
-
-/**
- * Show the main packman window if it's not already shown
- */
-class ShowMainWindowCommand : public tbx::Command
-{
-public:
-	virtual void execute()
-	{
-		if (Packages::instance()->ensure_package_base())
-		{
-			new MainWindow();
-		} else
-		{
-			new InstallWindow();
-		}
-	}
-};
-
-/**
- * Show the main window with the "Installed" filter selected
- */
-class ShowInstalledCommand : public tbx::Command
-{
-public:
-	virtual void execute()
-	{
-		if (Packages::instance()->ensure_package_base())
-		{
-			MainWindow *main = new MainWindow();
-			main->set_filter("Installed");
-		} else
-		{
-			new InstallWindow();
-		}
-	}
-};
-
-/**
- * Class to add some logging to uncaught exceptions
- */
-class ReportUncaught : public tbx::UncaughtHandler
-{
-public:
-	virtual void uncaught_exception(std::exception *e)
-	{
-	    try
-	    {
-	    	std::string msg;
-	    	msg = "An unexpected error has occurred. ";
-	    	msg+= "PackMan will attempt to continue, but it would be ";
-	    	msg+= "advisable to close PackMan and restart it.";
-	    	msg+= " The error was: ";
-	    	msg+= ((e) ? e->what() : "An unknown exception");
-	    	if (msg.size() > 200)
-	    	{
-	    		msg.erase(200);
-	    		msg += "..";
-	    	}
-
-	    	msg+= ". Please report it to the PackMan author.";
-
-	    	try
-	    	{
-	    		std::ofstream log("<PackMan$Dir>.errorlog", std::ofstream::app);
-	    		if (log)
-	    		{
-	    			std::time_t rawtime;
-	    			struct std::tm * timeinfo;
-	    			char *ver = getenv("PackMan$Version");
-
-
-	    			std::time (&rawtime);
-	    			timeinfo = std::localtime (&rawtime);
-
-	    			log << "Unexpected exception in PackMan";
-	    			if (ver) log << " version " << ver << std::endl;
-	    			log << " on:    " << std::asctime(timeinfo);
-	    			log << " error: " << ((e) ? e->what() : "An unknown exception") << std::endl;
-	    			log << std::endl;
-	    			log.close();
-	    		}
-	    	} catch(...)
-	    	{
-	    		// Ignore log write errors
-	    	}
-
-	    	tbx::report_error(msg);
-	    } catch(...)
-	    {
-	    	tbx::report_error("Exception in uncaught handler - please report to PackMan author");
-	    }
-	}
-};
-
-/**
- * Check if PackMan is already running and displays a message if it is.
- *
- * @returns true if PackMan is already running
- */
-bool already_running()
-{
-	char *running_var = getenv("PackMan$Running");
-	if (running_var)
-	{
-		// Safety check in case last stopped because of a crash
-		tbx::TaskManager tm;
-		if (tm.running("Package Manager"))
-		{
-			tbx::report_error("PackMan is already running - You can only have one copy running at a time!");
-			return true;
-		}
-	}
-	return false;
-}
-
+// Functions defined at end of file
+bool already_running();
+void prompt_for_update_lists();
 
 /**
  * Entry point for program
@@ -203,6 +91,7 @@ int main(int argc, char *argv[])
 	tbx::MatchLifetime<CopyrightWindow> mlt_copyright("Copyright");
 	tbx::MatchLifetime<SearchWindow> mlt_search("Search");
 	tbx::MatchLifetime<BootOptionsWindow> mlt_boot_options("BootOpts");
+	tbx::MatchLifetime<ChoicesWindow> mlt_choices("Choices");
 
 	iconbar.add_select_command(new ShowMainWindowCommand());
 	iconbar.add_adjust_command(new ShowInstalledCommand());
@@ -215,10 +104,60 @@ int main(int argc, char *argv[])
 	ReportUncaught error_handler;
 	packman.uncaught_handler(&error_handler);
 
+	choices().load();
+	prompt_for_update_lists();
+
 	iconbar.show();
 	packman.run();
 
 	unsetenv("PackMan$Running");
 
 	return 0;
+}
+
+
+/**
+ * Check if PackMan is already running and displays a message if it is.
+ *
+ * @returns true if PackMan is already running
+ */
+bool already_running()
+{
+	char *running_var = getenv("PackMan$Running");
+	if (running_var)
+	{
+		// Safety check in case last stopped because of a crash
+		tbx::TaskManager tm;
+		if (tm.running("Package Manager"))
+		{
+			tbx::report_error("PackMan is already running - You can only have one copy running at a time!");
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Check if we should prompt to update the lists
+ */
+void prompt_for_update_lists()
+{
+	int prompt_days = choices().update_prompt_days();
+	printf("Prompt days %d\n", prompt_days);
+	if (prompt_days < 0) return; // Never prompt
+	if (getenv("Packages$Dir") == 0) return; // Not installed
+	printf("Packages dir found\n");
+	tbx::Path master_list("<Packages$Dir>.Available");
+	tbx::UTCTime last_changed = master_list.modified_time();
+	if (last_changed.centiseconds() == 0) return; // File doesn't exists
+    int last_day =  (int)(last_changed.centiseconds() / 8640000LL);
+    int this_day = (int)(tbx::UTCTime::now().centiseconds() / 8640000LL);
+    int days_since_update = this_day - last_day;
+
+	printf("last day %d this day %d days since update %d\n", last_day, this_day, days_since_update);
+
+   if (days_since_update > prompt_days)
+   {
+	   tbx::app()->add_idle_command(new PromptForUpdateListsCommand(days_since_update));
+   }
 }

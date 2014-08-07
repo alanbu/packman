@@ -58,6 +58,19 @@ menu_object {
     help_limit:*
   }
   Entry {
+    cmp:8
+    flags:
+    cmp:&8
+    text:"Choices..."
+    text_limit:*
+    click_object_name:"Choices"
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
+  }
+  Entry {
     cmp:7
     flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
     cmp:&7
@@ -4306,5 +4319,92 @@ window_object {
     help_limit:*
     flags:label_NO_BOX
     label:"take effect until after the next reboot."
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Choices"
+  window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:&0
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:492,176,1572,348
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Choices"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:28,-80,532,-28
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Prompt for Update Lists on startup:"
+  }
+  stringset_object {
+    cmp:&1
+    bbox:556,-80,1056,-28
+    help_message:""
+    help_limit:*
+    flags:stringset_JUSTIFICATION_CENTRED
+    string_set:"Never,Daily,After 1 Week,After 2 Weeks,After 1 Month (30 days), After 3 Months (90 days)"
+    title:"Update Lists Prompt"
+    initial_selected_string:"After 1 Week"
+    selected_string_limit:32
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:664,-156,852,-104
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&3
+    bbox:864,-156,1052,-104
+    help_message:""
+    help_limit:*
+    flags:
+    text:"OK"
+    text_limit:*
+    click_show:""
+    action:&0
   }
 }

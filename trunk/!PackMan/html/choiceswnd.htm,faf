@@ -1,0 +1,18 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Choices Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Choices Window</H2>
+<P>The choices window allows you to set various options for PackMan.</P>
+The choices on the window are:
+<UL>
+<LI>Prompt for Update Lists on startup - This sets a reminder window to show after the given period of time after the last successful Package Lists Update. Choose the required period for the reminder (or "Never" if you do not want a reminder) from the list.
+</LI>
+<LI>Cancel - Close the window without updating the choices.</LI>
+<LI>OK - Update and save the choices</LI>
+</UL>
+
+</BODY>
+</HTML>
