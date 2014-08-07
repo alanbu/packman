@@ -6,6 +6,13 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.8.4 Beta - ????</B>
+<UL>
+<LI>Added a reminder message to update the Package List.
+ A new choices window contains an option to allow you to turn it off or configure
+how many days should pass before the reminder appears.
+</LI>
+</UL>
 <LI><B>0.8.2/0.8.3 Beta - March 2014</B>
 <UL>
 <LI>Single fix to stop PackMan uninstalling itself when it has been copied

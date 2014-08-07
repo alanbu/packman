@@ -25,6 +25,10 @@ with the list of packages you have installed selected in the filter.
   </TD>
 </TR>
 <TR>
+  <TD>Choices</TD>
+  <TD>Shows the <A HREF="choiceswnd.htm">Choices Window</A> that allows configuration of the options for PackMan.
+  </TD>
+<TR>
   <TD>Advanced</TD>
   <TD>Leads to the <A HREF="advmenu.htm">Advanced menu</A> that provides advanced options for configuring the packaging
 system.
