@@ -26,6 +26,7 @@
 
 #include "Packages.h"
 #include "ErrorWindow.h"
+#include "Choices.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/filesystem.h"
 #include "libpkg/log.h"
@@ -46,7 +47,7 @@ Packages g_packages; // Single instance of the packages
 Packages::Packages() :
      _package_base(0),
      _upgrades_available(DONT_KNOW),
-     _logging(false)
+     _logging(choices().enable_logging())
 {
 	_instance = this;
 }

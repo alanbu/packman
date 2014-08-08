@@ -29,7 +29,9 @@
 
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/buttonselectedlistener.h"
+#include "tbx/window.h"
 #include "tbx/stringset.h"
+#include "tbx/optionbutton.h"
 
 /**
  * Dialog to allow
@@ -38,11 +40,16 @@ class ChoicesWindow :
 		tbx::AboutToBeShownListener,
 		tbx::ButtonSelectedListener
 {
+	tbx::Window _window;
 	tbx::StringSet _update_list_prompt;
+	tbx::OptionButton _enable_logging;
+	static ChoicesWindow* _instance;
 
 public:
-	ChoicesWindow(tbx::Object object);
+	ChoicesWindow();
 	virtual ~ChoicesWindow();
+
+	static void show();
 
 private:
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);

@@ -18,7 +18,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cygwin.exe.debug.2000663255." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.base.1500559717" name="Cross GCC" superClass="cdt.managedbuild.toolchain.gnu.cross.base">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.583573887" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="arm-unknown-riscos-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.1206705540" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="c:\misc\cygwin\home\alanb\gccsdk\cross\bin" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.1206705540" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="c:\misc\cygwin\home\alanb\riscos\cross\bin" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1826086411" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
 							<builder buildPath="${workspace_loc:/packman/Debug}" id="org.eclipse.cdt.build.core.internal.builder.1434209724" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.8364321" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
@@ -61,7 +61,7 @@
 									<listOptionValue builtIn="false" value="/home/alanb/libpkgstuff/libpkg_curl/lib"/>
 									<listOptionValue builtIn="false" value="/home/riscos/env/lib"/>
 								</option>
-								<option id="gnu.cpp.link.option.flags.1902422861" superClass="gnu.cpp.link.option.flags" value="-static" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.1902422861" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-static" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1578583943" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

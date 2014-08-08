@@ -12,6 +12,7 @@
  A new choices window contains an option to allow you to turn it off or configure
 how many days should pass before the reminder appears.
 </LI>
+<LI>Added enable logging to choices window to allow logging to be turned on and off</LI>
 </UL>
 <LI><B>0.8.2/0.8.3 Beta - March 2014</B>
 <UL>

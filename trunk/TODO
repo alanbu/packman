@@ -21,7 +21,6 @@ My site
 Version 0.8.x
 -------------
 
-- Choices window to enable/control logging and say when update list message is shown.
 - Install filter doesn't update with new packages after an install
 - Add Install/Upgrade/Remove button to the Info window (User request, but I don't remember who)
 - Add Copyright and View (components) button to the Info window.

@@ -37,6 +37,7 @@
 #include "LogViewer.h"
 #include "PackageConfigWindow.h"
 #include "InfoWindow.h"
+#include "ChoicesWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -238,4 +239,15 @@ void ShowInfoCommand::execute()
 	if (pkg_control == 0) return;
 
 	InfoWindow::show(pkg_control);
+}
+
+/**
+ * Command to show the choices window
+ */
+void ShowChoicesWindowCommand::execute()
+{
+	if (pmstate()->installed())
+	{
+		ChoicesWindow::show();
+	}
 }
