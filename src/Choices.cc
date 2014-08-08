@@ -35,7 +35,9 @@ const int DEFAULT_PROMPT_DAYS = 7;
 
 
 Choices::Choices() :
-		_update_prompt_days(DEFAULT_PROMPT_DAYS)
+		_update_prompt_days(DEFAULT_PROMPT_DAYS),
+		_enable_logging(false),
+		_modified(false)
 {
 
 }
@@ -53,6 +55,16 @@ void Choices::update_prompt_days(int value)
 	}
 }
 
+void Choices::enable_logging(bool enable)
+{
+	if (enable != _enable_logging)
+	{
+		_enable_logging = enable;
+		_modified = true;
+	}
+}
+
+
 /**
  * Load choices file if it exists
  */
@@ -62,6 +74,7 @@ void Choices::load()
 	if (ps.load("Choices:PackMan.Choices"))
 	{
 		_update_prompt_days = ps.get("UpdatePromptDays", DEFAULT_PROMPT_DAYS);
+		_enable_logging = ps.get("EnableLogging", false);
 	}
 	_modified = false;
 }
@@ -75,10 +88,12 @@ bool Choices::save()
 {
 	tbx::PropertySet ps;
 	ps.set("UpdatePromptDays", _update_prompt_days);
+	ps.set("EnableLogging", _enable_logging);
 	if (ps.save("<Choices$Write>.PackMan.Choices"))
 	{
 		_modified = false;
 		return true;
 	}
+
 	return false;
 }

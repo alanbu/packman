@@ -192,5 +192,15 @@ public:
  	virtual void execute();
  };
 
+ /**
+  * Command to show the choices window
+  */
+ class ShowChoicesWindowCommand : public tbx::Command
+ {
+ public:
+	 enum {COMMAND_ID = 12}; // ID in resources
+	 virtual ~ShowChoicesWindowCommand() {} // Stop compiler warning
+	 virtual void execute();
+ };
 
 #endif /* COMMANDS_H_ */

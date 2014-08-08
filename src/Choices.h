@@ -33,6 +33,7 @@
 class Choices
 {
 	int _update_prompt_days;
+	bool _enable_logging;
 	bool _modified;
 
 public:
@@ -46,6 +47,9 @@ public:
 
 	int update_prompt_days() const {return _update_prompt_days;}
 	void update_prompt_days(int value);
+
+	bool enable_logging() const {return _enable_logging;}
+	void enable_logging(bool enable);
 };
 
 /**

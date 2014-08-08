@@ -52,7 +52,6 @@
 #include "BootOptionsWindow.h"
 #include "Choices.h"
 #include "MainCommands.h"
-#include "ChoicesWindow.h"
 
 #include "stdlib.h"
 
@@ -91,11 +90,11 @@ int main(int argc, char *argv[])
 	tbx::MatchLifetime<CopyrightWindow> mlt_copyright("Copyright");
 	tbx::MatchLifetime<SearchWindow> mlt_search("Search");
 	tbx::MatchLifetime<BootOptionsWindow> mlt_boot_options("BootOpts");
-	tbx::MatchLifetime<ChoicesWindow> mlt_choices("Choices");
 
 	iconbar.add_select_command(new ShowMainWindowCommand());
 	iconbar.add_adjust_command(new ShowInstalledCommand());
 	iconbar.add_loader(new PackageLoader());
+	iconbar.menu().add_command(ShowChoicesWindowCommand::COMMAND_ID, new ShowChoicesWindowCommand());
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
 	iconbar.menu().add_command(ShowBackupWindowCommand::COMMAND_ID, new ShowBackupWindowCommand());

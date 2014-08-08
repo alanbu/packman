@@ -27,6 +27,7 @@
 
 #include "ChoicesWindow.h"
 #include "Choices.h"
+#include "Packages.h"
 
 #include "tbx/window.h"
 #include "tbx/actionbutton.h"
@@ -36,24 +37,32 @@ const int NUM_UPDATE_LIST_CHOICES = 6;
 static int update_list_choices[NUM_UPDATE_LIST_CHOICES] =
 		{-1, 0, 7, 14, 30, 90};
 
-/**
- * Construct from existing toolbox object for "Choices" window
- *
- * @param object Window object for "Choices"
- */
-ChoicesWindow::ChoicesWindow(tbx::Object object)
-{
-	tbx::Window window(object);
-	_update_list_prompt = window.gadget(1);
+ChoicesWindow *ChoicesWindow::_instance = 0;
 
-	tbx::ActionButton ok_button = window.gadget(3);
+/**
+ * Construct choices window
+ */
+ChoicesWindow::ChoicesWindow() :
+		_window("Choices"),
+		_update_list_prompt(_window.gadget(1)),
+		_enable_logging(_window.gadget(4))
+{
+	tbx::ActionButton ok_button = _window.gadget(3);
 	ok_button.add_selected_listener(this);
 
-	window.add_about_to_be_shown_listener(this);
+	_window.add_about_to_be_shown_listener(this);
+	_instance = this;
 }
 
 ChoicesWindow::~ChoicesWindow()
 {
+	_instance = 0;
+}
+
+void ChoicesWindow::show()
+{
+	if (_instance) _instance->_window.show();
+	else new ChoicesWindow();
 }
 
 /**
@@ -75,6 +84,8 @@ void ChoicesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	if (index == NUM_UPDATE_LIST_CHOICES) index--;
 
 	_update_list_prompt.selected_index(index);
+
+	_enable_logging.on(opts.enable_logging());
 }
 
 /**
@@ -85,6 +96,16 @@ void ChoicesWindow::button_selected(tbx::ButtonSelectedEvent &event)
 	Choices &opts = choices();
 
 	opts.update_prompt_days(update_list_choices[_update_list_prompt.selected_index()]);
-	if (opts.modified()) opts.save();
+	opts.enable_logging(_enable_logging.on());
+
+	if (opts.modified())
+	{
+		opts.save();
+
+		if (Packages::instance())
+		{
+			Packages::instance()->logging(opts.enable_logging());
+		}
+	}
 }
 
