@@ -63,10 +63,10 @@ menu_object {
     cmp:&8
     text:"Choices..."
     text_limit:*
-    click_object_name:"Choices"
+    click_object_name:""
     sub_menu_object_name:""
     sub_menu_action:&0
-    click_action:&0
+    click_action:&c
     help:""
     help_limit:*
   }
@@ -4323,7 +4323,7 @@ window_object {
 }
 
 window_object {
-  header_flags:
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
   version:102
   object_name:"Choices"
   window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE
@@ -4340,7 +4340,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:492,176,1572,348
+  window.visible:484,152,1568,380
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -4387,7 +4387,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&2
-    bbox:664,-156,852,-104
+    bbox:664,-208,852,-156
     help_message:""
     help_limit:*
     flags:actionbutton_IS_CANCEL
@@ -4398,13 +4398,23 @@ window_object {
   }
   actionbutton_object {
     cmp:&3
-    bbox:864,-156,1052,-104
+    bbox:864,-208,1052,-156
     help_message:""
     help_limit:*
     flags:
     text:"OK"
     text_limit:*
     click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&4
+    bbox:60,-144,388,-100
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Enable logging"
+    label_limit:*
     action:&0
   }
 }
