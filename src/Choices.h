@@ -27,6 +27,8 @@
 #ifndef CHOICES_H_
 #define CHOICES_H_
 
+#include "tbx/bbox.h"
+
 /**
  * Class to hold choices for packman
  */
@@ -34,6 +36,8 @@ class Choices
 {
 	int _update_prompt_days;
 	bool _enable_logging;
+	tbx::BBox _main_window_pos;
+	bool _small_summary_bar;;
 	bool _modified;
 
 public:
@@ -50,6 +54,12 @@ public:
 
 	bool enable_logging() const {return _enable_logging;}
 	void enable_logging(bool enable);
+
+	const tbx::BBox &main_window_pos() const {return _main_window_pos;}
+	void main_window_pos(const tbx::BBox &new_pos);
+
+	bool small_summary_bar() const {return _small_summary_bar;}
+	void small_summary_bar(bool small);
 };
 
 /**

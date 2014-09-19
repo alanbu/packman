@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -28,6 +28,7 @@
 #include "Packages.h"
 #include "SummaryWindow.h"
 #include "PackageFilter.h"
+#include "Choices.h"
 
 #include "tbx/application.h"
 #include "tbx/stringset.h"
@@ -52,6 +53,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
    _install(this),
    _remove(this),
    _show_info(this),
+   _save_pos(this, &MainWindow::save_position),
    _store_menu_select(&_view),
    _show_info_on_dblclick(this)
 {
@@ -72,13 +74,20 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_window.add_command(InstallCommand::COMMAND_ID, &_install);
 	_window.add_command(RemoveCommand::COMMAND_ID, &_remove);
 	_window.add_command(ShowInfoCommand::COMMAND_ID, &_show_info);
+	_window.add_command(SAVE_MAIN_WINDOW_POSITION_COMMAND, &_save_pos);
 
 	_summary = new SummaryWindow(this, _window, &_selection);
 
 	_filter = 0; // Start with all packages
 	_search_filter = 0; // Search in all packages
 	refresh();
-	_window.show();
+
+	tbx::ShowFullSpec show_spec;
+	show_spec.visible_area.bounds() = choices().main_window_pos();
+	show_spec.visible_area.scroll() = tbx::Point(0,0);
+	show_spec.wimp_window = tbx::ShowFullSpec::WINDOW_SHOW_TOP;
+
+	_window.show(show_spec);
 
 	tbx::Window install_tb = _window.itl_toolbar();
 	_install_button = install_tb.gadget(0);
@@ -105,6 +114,11 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
    // Set up so hide window deletes the object class and then this class
    _window.add_has_been_hidden_listener(new tbx::DeleteObjectOnHidden());
    _window.add_object_deleted_listener(new tbx::ObjectDeleteClass<MainWindow>(this));
+
+	if (choices().small_summary_bar())
+	{
+		_summary->on_toggle_size();
+	}
 }
 
 MainWindow::~MainWindow()
@@ -491,6 +505,18 @@ void MainWindow::summary_size_changed(int by)
 	tbx::Margin m = _view.margin();
 	m.bottom += by;
 	_view.margin(m);
+}
+
+/**
+ * Save current position of window so it will be re-opened here later
+ */
+void MainWindow::save_position()
+{
+	tbx::WindowState state;
+	_window.get_state(state);
+	choices().main_window_pos(state.visible_area().bounds());
+	choices().small_summary_bar(_summary->is_small_size());
+	if (choices().modified()) choices().save();
 }
 
 /**

@@ -72,6 +72,9 @@ will be updated to show it's new status</P>
    last update lists.
  </LI>  
 <LI>Search - This leads to the <A HREF="search.htm">search dialog<A>.</LI>
+<LI>Save Position - This will save the current position of the main window and
+the size of the summary bar to your choices. When you next show a window it will
+be displayed at the saved position</LI>
 <LI>Help - This launches the Help file to show help on PackMan.</LI>
 </UL>
 

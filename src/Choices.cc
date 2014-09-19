@@ -27,6 +27,7 @@
 
 #include "Choices.h"
 #include "tbx/propertyset.h"
+#include <sstream>
 
 static Choices g_choices;
 Choices &choices() {return g_choices;}
@@ -37,6 +38,8 @@ const int DEFAULT_PROMPT_DAYS = 7;
 Choices::Choices() :
 		_update_prompt_days(DEFAULT_PROMPT_DAYS),
 		_enable_logging(false),
+		_main_window_pos(66,184,1518,1078),
+		_small_summary_bar(false),
 		_modified(false)
 {
 
@@ -64,6 +67,24 @@ void Choices::enable_logging(bool enable)
 	}
 }
 
+void Choices::main_window_pos(const tbx::BBox &new_pos)
+{
+	if (new_pos != _main_window_pos)
+	{
+		_main_window_pos = new_pos;
+		_modified = true;
+	}
+}
+
+void Choices::small_summary_bar(bool small)
+{
+	if (small != _small_summary_bar)
+	{
+		_small_summary_bar = small;
+		_modified = true;
+	}
+}
+
 
 /**
  * Load choices file if it exists
@@ -75,6 +96,20 @@ void Choices::load()
 	{
 		_update_prompt_days = ps.get("UpdatePromptDays", DEFAULT_PROMPT_DAYS);
 		_enable_logging = ps.get("EnableLogging", false);
+		_small_summary_bar = ps.get("SmallSummaryBar", false);
+		std::string box = ps.get("MainWindowPosition", "");
+		if (!box.empty())
+		{
+			std::istringstream is(box);
+			char comma;
+			tbx::BBox pos;
+			is >> pos.min.x >> comma >> pos.min.y
+			   >> comma >> pos.max.x >> comma >> pos.max.y;
+			if (pos.min.x < pos.max.x - 4 && pos.min.y < pos.max.y - 4)
+			{
+				_main_window_pos = pos;
+			}
+		}
 	}
 	_modified = false;
 }
@@ -89,6 +124,12 @@ bool Choices::save()
 	tbx::PropertySet ps;
 	ps.set("UpdatePromptDays", _update_prompt_days);
 	ps.set("EnableLogging", _enable_logging);
+	ps.set("SmallSummaryBar", _small_summary_bar);
+	std::ostringstream os;
+	os << _main_window_pos.min.x << ',' << _main_window_pos.min.y
+	   << ',' << _main_window_pos.max.x << ',' << _main_window_pos.max.y;
+	ps.set("MainWindowPosition", os.str());
+
 	if (ps.save("<Choices$Write>.PackMan.Choices"))
 	{
 		_modified = false;

@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *

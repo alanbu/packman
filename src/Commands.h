@@ -203,4 +203,9 @@ public:
 	 virtual void execute();
  };
 
+ /**
+  * Command used from Main window to save the position
+  */
+const int SAVE_MAIN_WINDOW_POSITION_COMMAND = 13;
+
 #endif /* COMMANDS_H_ */

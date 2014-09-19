@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -57,7 +57,7 @@ public:
 	void set_noselection_text();
     void set_selection_text(bool description);
 
-private:
+    bool is_small_size() const;
 	void on_toggle_size();
 };
 

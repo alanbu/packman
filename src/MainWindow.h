@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -124,6 +124,7 @@ class MainWindow :
 	InstallCommand _install;
 	RemoveCommand _remove;
 	ShowInfoCommand _show_info;
+	tbx::CommandMethod<MainWindow> _save_pos;
 
 	/********************************************
 	 * Toolbars
@@ -191,6 +192,8 @@ public:
 	void set_filter(const char *name);
 
 	void summary_size_changed(int by);
+
+	void save_position();
 
 private:
 	void filter_changed(const std::string &name);
