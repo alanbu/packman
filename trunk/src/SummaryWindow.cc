@@ -126,6 +126,14 @@ void SummaryWindow::set_selection_text(bool description)
 }
 
 /**
+ * Check if summary bar is at it's small size
+ */
+bool SummaryWindow::is_small_size() const
+{
+	return (_height == SMALL_SIZE);
+}
+
+/**
  * Toggle size button has been hit
  */
 void SummaryWindow::on_toggle_size()
