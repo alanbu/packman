@@ -14,8 +14,11 @@ empty if no packages contain the text.</P>
 The fields on the dialog are:
 <UL>
 <LI>Search for - Enter the text to be searched for</LI>
-<LI>Search in current filter - set this check box to restrict the search
-to the packages showing in the current filter</LI>
+<LI>Search in current status filter - set this check box to restrict the search
+to the packages selected by the current status filter.
+If this is not set, the status filter will be reset to "All".</LI>
+<LI>Search in current section filter - set this check box to restrict the search
+to the packages selected by the current section filter</LI>
 <LI>Cancel - Close the dialog without searching.</LI>
 <LI>Search - Do the package search</LI>
 </UL>

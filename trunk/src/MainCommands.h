@@ -67,7 +67,7 @@ public:
 		if (Packages::instance()->ensure_package_base())
 		{
 			MainWindow *main = new MainWindow();
-			main->set_filter("Installed");
+			main->set_status_filter("Installed");
 		} else
 		{
 			new InstallWindow();

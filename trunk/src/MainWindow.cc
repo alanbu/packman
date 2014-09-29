@@ -78,7 +78,8 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 
 	_summary = new SummaryWindow(this, _window, &_selection);
 
-	_filter = 0; // Start with all packages
+	_status_filter = 0; // Start with all packages
+	_section_filter = 0;
 	_search_filter = 0; // Search in all packages
 	refresh();
 
@@ -92,18 +93,20 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	tbx::Window install_tb = _window.itl_toolbar();
 	_install_button = install_tb.gadget(0);
 	_remove_button = install_tb.gadget(1);
-	_filters_stringset = install_tb.gadget(3);
+	_status_filter_stringset = install_tb.gadget(3);
+	_section_filter_stringset = install_tb.gadget(10);
 	_apps_button = install_tb.gadget(7);
 	_info_button = install_tb.gadget(8);
 
 	_selection.add_listener(this);
 
 	std::string sects = Packages::instance()->sections();
-	std::string filter_set("All,Installed,Upgrades,What's New,Search Results");
-	if (!sects.empty()) filter_set += "," + sects;
-	_filters_stringset.available(filter_set);
+	std::string section_set("All,Search Results");
+	if (!sects.empty()) section_set += "," + sects;
+	_section_filter_stringset.available(section_set);
 
-	_filters_stringset.add_text_changed_listener(this);
+	_status_filter_stringset.add_text_changed_listener(this);
+	_section_filter_stringset.add_text_changed_listener(this);
 
 	watch(Packages::instance()->package_base()->curstat());
 	watch(Packages::instance()->package_base()->control());
@@ -127,8 +130,9 @@ MainWindow::~MainWindow()
 	unwatch(Packages::instance()->package_base()->control());
 
     delete _summary;
-    delete _filter;
-    if (_filter != _search_filter) delete _search_filter;
+    if (_section_filter != _search_filter) delete _section_filter;
+    delete _status_filter;
+    delete _search_filter;
 #ifdef MAGIC_CHECK
 	_magic = DEALLOC_MAGIC;
 #endif
@@ -171,7 +175,9 @@ void MainWindow::refresh()
 	  std::string pkgname=*i;
 	  const pkg::binary_control &ctrl = ctrltab[pkgname];
 
-	  if (_filter == 0 || _filter->ok_to_show(ctrl))
+	  if ((_status_filter == 0 || _status_filter->ok_to_show(ctrl))
+			  && (_section_filter == 0 || _section_filter->ok_to_show(ctrl))
+			  )
 	  {
 		  _shown_packages.push_back(&ctrl);
 	  }
@@ -275,38 +281,62 @@ const pkg::binary_control *MainWindow::selected_package()
 void MainWindow::text_changed(tbx::TextChangedEvent &event)
 {
 	std::string name(event.text());
-	filter_changed(name);
+	if (event.id_block().self_component() == _section_filter_stringset)
+	{
+		section_filter_changed(name);
+	} else
+	{
+		status_filter_changed(name);
+	}
 }
 
 /**
- * Update the display when the filter has changed
+ * Update the display when the section filter has changed
  *
  * @param new name of filter
  */
-void MainWindow::filter_changed(const std::string &name)
+void MainWindow::section_filter_changed(const std::string &name)
 {
-	if (_filter != _search_filter) delete _filter;
-	_filter = 0;
+	if (_section_filter != _search_filter) delete _section_filter;
+	_section_filter = 0;
+
+	if (name == "All")
+	{
+		// Do nothing _filter = 0 is all packages
+	} else if (name == "Search Results")
+	{
+		_section_filter = _search_filter;
+	} else
+	{
+		// All others should be section filters
+		_section_filter = new SectionFilter(name);
+	}
+
+	refresh();
+}
+
+/**
+ * Update the display when the status filter has changed
+ *
+ * @param new name of filter
+ */
+void MainWindow::status_filter_changed(const std::string &name)
+{
+	if (_status_filter != _search_filter) delete _status_filter;
+	_status_filter = 0;
 
 	if (name == "All")
 	{
 		// Do nothing _filter = 0 is all packages
 	} else if (name == "Installed")
 	{
-		_filter = new InstalledFilter();
+		_status_filter = new InstalledFilter();
 	} else if (name == "Upgrades")
 	{
-		_filter = new UpgradeFilter();
+		_status_filter = new UpgradeFilter();
 	} else if (name == "What's New")
 	{
-		_filter = new WhatsNewFilter();
-	} else if (name == "Search Results")
-	{
-		_filter = _search_filter;
-	} else
-	{
-		// All others should be section filters
-		_filter = new SectionFilter(name);
+		_status_filter = new WhatsNewFilter();
 	}
 
 	refresh();
@@ -353,39 +383,58 @@ void MainWindow::handle_change(pkg::table& t)
  * @param text text to search for
  * @param in current filter - restrict search to current filter
  */
-void MainWindow::search(const std::string &text, bool in_current_filter)
+void MainWindow::search(const std::string &text, bool in_current_status, bool in_current_section)
 {
-	if (in_current_filter)
+	if (_section_filter == _search_filter) _section_filter = 0;
+	delete _search_filter;
+	_search_filter = 0;
+	if (in_current_section)
 	{
-		PackageFilter *search_filter = new SearchFilter(text, _filter);
-		if (_search_filter != _filter) delete _search_filter;
-		_search_filter = search_filter;
+		_search_filter = new SearchFilter(text, _section_filter);
 	} else
 	{
-		if (_search_filter != _filter) delete _search_filter;
-		delete _filter;
 		_search_filter = new SearchFilter(text, 0);
 	}
-	_filter = _search_filter;
+	_section_filter = _search_filter;
 
 	// Change string set to "Search Results" if necessary
-	if (_filters_stringset.selected() != "Search Results")
+	if (_section_filter_stringset.selected() != "Search Results")
 	{
 		// This will automatically update the display
-		_filters_stringset.selected("Search Results");
+		_section_filter_stringset.selected("Search Results");
+	}
+	if (!in_current_status)
+	{
+		if (_status_filter != 0)
+		{
+			delete _status_filter;
+			_status_filter = 0;
+			_status_filter_stringset.selected("All");
+		}
 	}
 	refresh();
 }
 
 /**
- * Set the filter for the window
+ * Set the section filter for the window
  *
  * @param name name of the new filter
  */
-void MainWindow::set_filter(const char *name)
+void MainWindow::set_section_filter(const char *name)
 {
-	_filters_stringset.selected(name);
-	filter_changed(name);
+	_section_filter_stringset.selected(name);
+	section_filter_changed(name);
+}
+
+/**
+ * Set the status filter for the window
+ *
+ * @param name name of the new filter
+ */
+void MainWindow::set_status_filter(const char *name)
+{
+	_status_filter_stringset.selected(name);
+	status_filter_changed(name);
 }
 
 

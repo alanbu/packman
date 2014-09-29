@@ -190,7 +190,7 @@ void ShowWhatsNewCommand::execute()
 	if (pmstate()->installed())
 	{
 		MainWindow *main = new MainWindow();
-		main->set_filter("What's New");
+		main->set_status_filter("What's New");
 	}
 }
 

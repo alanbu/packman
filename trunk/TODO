@@ -13,10 +13,6 @@ Hopefully I can get time to fix some of the Packaging web pages
 www.riscos.info
  - Make sure there is an entry for PackMan and add link to it to RiscPkg page
  - GCCSDK pages link to PackMan not RiscPkg as it won't do the latest packages
-www.riscosopen.info
- - check packages pages
-My site
- - Add a draft policy manual? Graham doesn't seem to have updated the main one yet
 
 Version 0.8.x
 -------------
@@ -26,7 +22,6 @@ Version 0.8.x
 - Add Copyright and View (components) button to the Info window.
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
-- Could the filter in PackMan make a distinction between filtering on section vs filtering a status (Installed etc)? At its simplest this could be just a separator in the menu but it the filter could also be split up. Eg to filter out upgrades in the Desktop section. (from Fred Graute)
 - After failure to commit should I reshow the configure window or clear all the entries?
 - Commit failure may be leaving Components file which shouldn't be there - need to test
 - LibPkg: Doesn't successfully "download" a file from the local disc if it's over 64K
