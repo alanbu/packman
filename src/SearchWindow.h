@@ -44,7 +44,8 @@ class SearchWindow :
 {
 	tbx::Window _window;
 	tbx::WritableField _text;
-	tbx::OptionButton _current;
+	tbx::OptionButton _current_status;
+	tbx::OptionButton _current_section;
 	MainWindow *_main;
 
 public:

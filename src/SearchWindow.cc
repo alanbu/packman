@@ -35,7 +35,8 @@
 SearchWindow::SearchWindow(tbx::Object obj) : _window(obj)
 {
 	_text = _window.gadget(1);
-	_current = _window.gadget(2);
+	_current_section = _window.gadget(2);
+	_current_status = _window.gadget(5);
 
 	tbx::ActionButton search = _window.gadget(4);
 	search.add_selected_listener(this);
@@ -60,7 +61,7 @@ void SearchWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
  */
 void SearchWindow::button_selected(tbx::ButtonSelectedEvent &event)
 {
-	_main->search(_text.text(), _current.on());
+	_main->search(_text.text(), _current_status.on(), _current_section.on());
 
 	if (!event.adjust())
 	{

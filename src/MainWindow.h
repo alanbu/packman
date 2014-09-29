@@ -65,11 +65,13 @@ class MainWindow :
 	tbx::ToolAction _remove_button;
 	tbx::ToolAction _apps_button;
 	tbx::ToolAction _info_button;
-	tbx::StringSet _filters_stringset;
+	tbx::StringSet _status_filter_stringset;
+	tbx::StringSet _section_filter_stringset;
 
 	tbx::view::ReportView _view;
 	tbx::view::SingleSelection _selection;
-	PackageFilter *_filter;
+	PackageFilter *_status_filter;
+	PackageFilter *_section_filter;
 
 	std::vector<const pkg::binary_control *> _shown_packages;
 
@@ -188,15 +190,17 @@ public:
 
 	InstallState install_state(const pkg::binary_control *bctrl, bool *auto_inst = 0);
 
-	void search(const std::string &text, bool in_current_filter);
-	void set_filter(const char *name);
+	void search(const std::string &text, bool in_current_status, bool in_current_section);
+	void set_section_filter(const char *name);
+	void set_status_filter(const char *name);
 
 	void summary_size_changed(int by);
 
 	void save_position();
 
 private:
-	void filter_changed(const std::string &name);
+	void section_filter_changed(const std::string &name);
+	void status_filter_changed(const std::string &name);
 	void update_toolbar(int index);
 };
 

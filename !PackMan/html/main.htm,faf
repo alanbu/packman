@@ -9,7 +9,7 @@
 <P>
 The main window shows a list of the packages
 available. You can filter the list by selecting
-a category from the drop down on the toolbar
+a status and/or category from the drop down lists on the toolbar
 or clicking on Find and searching for text in
 the package names and descriptions.
 </P>

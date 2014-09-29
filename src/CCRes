@@ -246,6 +246,19 @@ menu_object {
     help_limit:*
   }
   Entry {
+    cmp:6
+    flags:
+    cmp:&6
+    text:"Save Position"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&d
+    help:""
+    help_limit:*
+  }
+  Entry {
     cmp:3
     flags:
     cmp:&3
@@ -604,7 +617,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:2,1126,5000,1198
+  window.visible:2,1126,1598,1198
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -670,12 +683,12 @@ window_object {
   }
   stringset_object {
     cmp:&3
-    bbox:484,-64,940,-12
+    bbox:484,-64,732,-12
     help_message:""
     help_limit:*
     flags:stringset_GENERATE_USER_VALUE_CHANGED | stringset_JUSTIFICATION_CENTRED
-    string_set:"Installed,Upgrades,All"
-    title:"Filter"
+    string_set:"All,Installed,Upgrades,What's New"
+    title:"Status"
     initial_selected_string:"All"
     selected_string_limit:32
     allowable:""
@@ -719,7 +732,7 @@ window_object {
   }
   toolaction_object {
     cmp:&9
-    bbox:956,-68,1020,-4
+    bbox:1100,-64,1164,0
     help_message:"Search the package"
     help_limit:*
     flags:toolaction_GENERATE_SELECT
@@ -733,6 +746,21 @@ window_object {
     adjust_show:""
     fade_text:""
     fade_text_limit:*
+  }
+  stringset_object {
+    cmp:&a
+    bbox:752,-64,1084,-12
+    help_message:""
+    help_limit:*
+    flags:stringset_GENERATE_USER_VALUE_CHANGED | stringset_JUSTIFICATION_CENTRED
+    string_set:"All,Search Results"
+    title:"Section"
+    initial_selected_string:"All"
+    selected_string_limit:15
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
   }
 }
 
@@ -902,7 +930,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:544,588,1364,832
+  window.visible:544,540,1368,832
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -947,17 +975,17 @@ window_object {
   }
   optionbutton_object {
     cmp:&2
-    bbox:44,-136,512,-92
+    bbox:44,-192,512,-148
     help_message:""
     help_limit:*
     flags:
-    label:"Search in current filter"
+    label:"Search in current section filter"
     label_limit:*
     action:&0
   }
   actionbutton_object {
     cmp:&3
-    bbox:356,-216,544,-164
+    bbox:356,-268,544,-216
     help_message:""
     help_limit:*
     flags:actionbutton_IS_CANCEL
@@ -968,13 +996,23 @@ window_object {
   }
   actionbutton_object {
     cmp:&4
-    bbox:592,-224,796,-156
+    bbox:592,-276,796,-208
     help_message:""
     help_limit:*
     flags:actionbutton_IS_DEFAULT | actionbutton_IS_LOCAL
     text:"Search"
     text_limit:*
     click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&5
+    bbox:44,-140,556,-96
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Search in current status filter"
+    label_limit:*
     action:&0
   }
 }
