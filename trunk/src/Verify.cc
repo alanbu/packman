@@ -18,7 +18,7 @@
 *
 *****************************************************************************/
 
-#include "verify.h"
+#include "Verify.h"
 #include "Packages.h"
 #include "libpkg/pkgbase.h"
 #include "tbx/path.h"

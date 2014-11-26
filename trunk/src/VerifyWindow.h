@@ -22,9 +22,9 @@
 #define VERIFY_WINDOW_H
 
 #include "Verify.h"
-#include "tbx/DisplayField.h"
-#include "tbx/Slider.h"
-#include "tbx/Command.h"
+#include "tbx/displayfield.h"
+#include "tbx/slider.h"
+#include "tbx/command.h"
 
 class VerifyWindow : public tbx::Command
 {
