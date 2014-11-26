@@ -84,6 +84,8 @@ void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	tbx::WimpSprite tick("tick");
 	// Read sources from file so we also get the disabled sources
 	std::ifstream in("Choices:PackMan.Sources");
+    // If we can't open them fall back to the default
+	if (!in) in.open("<PackMan$Dir>.Resources.Sources");
 	while (in&&!in.eof())
 	{
 		// Read line from input stream.
