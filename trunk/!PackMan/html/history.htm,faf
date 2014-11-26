@@ -15,6 +15,10 @@ how many days should pass before the reminder appears.
 <LI>Added enable logging to choices window to allow logging to be turned on and off</LI>
 <LI>Save Position added to main window to remember location for next time a main window is shown</LI>
 <LI>Split filter in toolbar into two. One for the status and one for the section.</LI>
+<LI>Fixed empty Sources Window. The Sources Windows was always looking for the users list
+of sources, and so did not display the default sources used until the user modified the list.
+As the list was empty clicking save would set PackMan to use an empty list of sources from then on.
+</LI>
 </UL>
 <LI><B>0.8.2/0.8.3 Beta - March 2014</B>
 <UL>
