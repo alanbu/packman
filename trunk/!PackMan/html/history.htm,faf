@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.8.4 Beta - ????</B>
+<LI><B>0.8.4 Beta - November 2014</B>
 <UL>
 <LI>Added a reminder message to update the Package List.
  A new choices window contains an option to allow you to turn it off or configure
@@ -20,12 +20,15 @@ of sources, and so did not display the default sources used until the user modif
 As the list was empty clicking save would set PackMan to use an empty list of sources from then on.
 </LI>
 <LI>Fixed creating of PackMan choices directory to save WhatsNew to</LI>
+<LI>First release built with the GCC 4.7.4 compiler</LI>
 </UL>
+</LI>
 <LI><B>0.8.2/0.8.3 Beta - March 2014</B>
 <UL>
 <LI>Single fix to stop PackMan uninstalling itself when it has been copied
 to disc for the first time and another package is installed</LI>
 </UL>
+</LI>
 <LI><B>0.8.1 Beta - March 2014</B>
 <UL>
 <LI>Used latest LibPKG library which uses existing RISC OS modules to fulfill module packages</LI>
