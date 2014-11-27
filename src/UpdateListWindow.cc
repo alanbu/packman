@@ -28,6 +28,7 @@
 #include "Packages.h"
 #include "ErrorWindow.h"
 #include "LogViewer.h"
+#include "Choices.h"
 #include "tbx/application.h"
 #include "libpkg/download.h"
 #include "libpkg/log.h"
@@ -204,9 +205,11 @@ bool UpdateListWindow::write_whats_new()
 	}
 
 	bool new_stuff = !whats_new.empty();
+	if (new_stuff) new_stuff = Choices::ensure_choices_dir();
 	if (new_stuff)
 	{
-		std::ofstream wn("<Choices$Write>.PackMan.WhatsNew", std::ios_base::out | std::ios_base::trunc);
+		std::string wnpath(choices_write_path("WhatsNew"));
+		std::ofstream wn(wnpath.c_str(), std::ios_base::out | std::ios_base::trunc);
 		if (wn)
 		{
 			std::ostream_iterator<std::string> out_it(wn, " ");

@@ -27,10 +27,13 @@
 
 #include "Choices.h"
 #include "tbx/propertyset.h"
+#include "tbx/path.h"
 #include <sstream>
 
 static Choices g_choices;
 Choices &choices() {return g_choices;}
+
+const char *ChoicesDir = "<Choices$Write>.PackMan";
 
 const int DEFAULT_PROMPT_DAYS = 7;
 
@@ -92,7 +95,7 @@ void Choices::small_summary_bar(bool small)
 void Choices::load()
 {
 	tbx::PropertySet ps;
-	if (ps.load("Choices:PackMan.Choices"))
+	if (ps.load(choices_read_path("Choices")))
 	{
 		_update_prompt_days = ps.get("UpdatePromptDays", DEFAULT_PROMPT_DAYS);
 		_enable_logging = ps.get("EnableLogging", false);
@@ -130,11 +133,28 @@ bool Choices::save()
 	   << ',' << _main_window_pos.max.x << ',' << _main_window_pos.max.y;
 	ps.set("MainWindowPosition", os.str());
 
-	if (ps.save("<Choices$Write>.PackMan.Choices"))
+	if (ps.save(choices_write_path("Choices")))
 	{
 		_modified = false;
 		return true;
 	}
 
 	return false;
+}
+
+
+/**
+ * Ensure PackMan choices directory has been created
+ */
+bool Choices::ensure_choices_dir()
+{
+	tbx::Path choices_dir(ChoicesDir);
+	try
+	{
+	   choices_dir.create_directory();
+	   return true;
+	} catch(...)
+	{
+		return false;
+	}
 }

@@ -19,6 +19,7 @@ how many days should pass before the reminder appears.
 of sources, and so did not display the default sources used until the user modified the list.
 As the list was empty clicking save would set PackMan to use an empty list of sources from then on.
 </LI>
+<LI>Fixed creating of PackMan choices directory to save WhatsNew to</LI>
 </UL>
 <LI><B>0.8.2/0.8.3 Beta - March 2014</B>
 <UL>
