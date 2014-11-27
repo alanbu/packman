@@ -28,6 +28,7 @@
 #include "Packages.h"
 #include "ErrorWindow.h"
 #include "UpdateListWindow.h"
+#include "Choices.h"
 #include "tbx/application.h"
 #include "tbx/path.h"
 #include "tbx/deleteonhidden.h"
@@ -83,7 +84,8 @@ void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
 	tbx::WimpSprite tick("tick");
 	// Read sources from file so we also get the disabled sources
-	std::ifstream in("Choices:PackMan.Sources");
+	std::string sources_path(choices_read_path("Sources"));
+	std::ifstream in(sources_path.c_str());
     // If we can't open them fall back to the default
 	if (!in) in.open("<PackMan$Dir>.Resources.Sources");
 	while (in&&!in.eof())
@@ -255,17 +257,12 @@ void SourcesWindow::ShowKnownSources::execute()
  */
 void SourcesWindow::save()
 {
-	tbx::Path choices_dir("<Choices$Write>.PackMan");
-	try
+	if (!Choices::ensure_choices_dir())
 	{
-	   choices_dir.create_directory();
-	} catch(...)
+		new ErrorWindow("Unable to create", ChoicesDir, "Sources save failure");
+	} else
 	{
-		new ErrorWindow("Unable to create ", choices_dir, "Sources save failure");
-		return;
-	}
-	{
-		tbx::Path sources_path = choices_dir.child("Sources");
+		tbx::Path sources_path(choices_write_path("Sources"));
 
 		std::ofstream sfile(sources_path);
 		if (sfile)

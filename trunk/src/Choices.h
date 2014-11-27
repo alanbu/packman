@@ -28,6 +28,7 @@
 #define CHOICES_H_
 
 #include "tbx/bbox.h"
+#include <string>
 
 /**
  * Class to hold choices for packman
@@ -60,11 +61,39 @@ public:
 
 	bool small_summary_bar() const {return _small_summary_bar;}
 	void small_summary_bar(bool small);
+
+	static bool ensure_choices_dir();
 };
 
 /**
  * Get global choices
  */
 Choices &choices();
+
+// Location of choices directory for application
+extern const char *ChoicesDir;
+
+/**
+ * Return the path to write a file in the choices directory
+ */
+inline std::string choices_write_path(const char *leaf_name)
+{
+	std::string path(ChoicesDir);
+	path += ".";
+	path += leaf_name;
+	return path;
+}
+
+/**
+ * Return the path to read a file in the choices directory
+ */
+inline std::string choices_read_path(const char *leaf_name)
+{
+	std::string path("Choices:PackMan.");
+	path += leaf_name;
+	return path;
+}
+
+
 
 #endif /* CHOICES_H_ */

@@ -28,6 +28,7 @@
 #include "ChoicesWindow.h"
 #include "Choices.h"
 #include "Packages.h"
+#include "ErrorWindow.h"
 
 #include "tbx/window.h"
 #include "tbx/actionbutton.h"
@@ -100,12 +101,17 @@ void ChoicesWindow::button_selected(tbx::ButtonSelectedEvent &event)
 
 	if (opts.modified())
 	{
-		opts.save();
-
-		if (Packages::instance())
+		if (!Choices::ensure_choices_dir())
 		{
-			Packages::instance()->logging(opts.enable_logging());
+			new ErrorWindow("Unable to create", ChoicesDir, "Choices save failure");
+		} else
+		{
+			opts.save();
+
+			if (Packages::instance())
+			{
+				Packages::instance()->logging(opts.enable_logging());
+			}
 		}
 	}
 }
-
