@@ -4,6 +4,33 @@ VERSION=0.8.4-1
 PACKAGES=PackMan_$(VERSION)
 INSTALL_TO=Temp/Apps/Admin
 
+# Detect host
+HOST := $(shell uname -s)
+ifeq ($(HOST),)
+  # Assume RISC OS
+  HOST := riscos
+else
+  ifeq ($(HOST),RISC OS)
+    HOST := riscos
+  endif
+endif
+
+ifeq ($(HOST),riscos)
+   EXEEXT=
+   RESEXT=
+   TOOL_PATH=""
+   ZIP=zip
+   NATIVE_CXX=g++
+   FAKEPKGPREFIX="^."
+else
+   EXEEXT=,ff8
+   RESEXT=,fae
+   TOOL_PATH=$(GCCSDK_INSTALL_ENV)/bin/
+   ZIP=$(GCCSDK_INSTALL_ENV)/ro-path ../unix-zip
+   NATIVE_CXX=/usr/bin/g++
+   FAKEPKGPREFIX="../"
+endif
+
 all: build pkg
 
 pkg: fakepkginst
@@ -12,20 +39,20 @@ pkg: fakepkginst
 	mkdir -p $(INSTALL_TO)
 	cp RiscPkg/Copyright Temp/RiscPkg
 	svn export !PackMan $(INSTALL_TO)/!PackMan
-	cp !PackMan/!RunImage $(INSTALL_TO)/!PackMan
-	cp !PackMan/Res $(INSTALL_TO)/!PackMan
+	cp !PackMan/!RunImage$(EXEEXT) $(INSTALL_TO)/!PackMan
+	cp !PackMan/Res$(RESEXT) $(INSTALL_TO)/!PackMan
 	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
 	rm -rf Temp
 
 .PHONY: $(PACKAGES)
 $(PACKAGES): %:
-	riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
-	^.fakepkginst
+	$(TOOL_PATH)riscpkg-gencontrol $(firstword $(subst _, ,$@)) < ../RiscPkg/Control > RiscPkg/Control
+	$(FAKEPKGPREFIX)fakepkginst
 	rm -f ../RiscPkg/$@
-	zip -r ^.RiscPkg.$(subst .,/,$@) * -i@^.RiscPkg.$(firstword $(subst _, ,$@))/inc
+	$(ZIP) -r ^.RiscPkg.$(subst .,/,$@) * -i@^.RiscPkg.$(firstword $(subst _, ,$@))/inc
 
 fakepkginst: fakepkgsrc/fakepkginst.cc
-	g++ fakepkgsrc/fakepkginst.cc -ofakepkginst
+	$(NATIVE_CXX) fakepkgsrc/fakepkginst.cc -ofakepkginst
 
 build:
 	make -C src
