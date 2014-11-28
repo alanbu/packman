@@ -165,8 +165,6 @@ public:
 				0,
 				true);
 
-		printf("tried to show question\n");
-
 		delete this;
 	}
 };

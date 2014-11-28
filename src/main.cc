@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -142,18 +142,14 @@ bool already_running()
 void prompt_for_update_lists()
 {
 	int prompt_days = choices().update_prompt_days();
-	printf("Prompt days %d\n", prompt_days);
 	if (prompt_days < 0) return; // Never prompt
 	if (getenv("Packages$Dir") == 0) return; // Not installed
-	printf("Packages dir found\n");
 	tbx::Path master_list("<Packages$Dir>.Available");
 	tbx::UTCTime last_changed = master_list.modified_time();
 	if (last_changed.centiseconds() == 0) return; // File doesn't exists
     int last_day =  (int)(last_changed.centiseconds() / 8640000LL);
     int this_day = (int)(tbx::UTCTime::now().centiseconds() / 8640000LL);
     int days_since_update = this_day - last_day;
-
-	printf("last day %d this day %d days since update %d\n", last_day, this_day, days_since_update);
 
    if (days_since_update > prompt_days)
    {
