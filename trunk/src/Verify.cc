@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2012 Alan Buckley
+* Copyright 2012-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -24,11 +24,12 @@
 #include "tbx/path.h"
 #include <fstream>
 
-Verify::Verify()
+Verify::Verify() :
+   _state(BUILD_PACKAGE_LIST),
+   _cancel(false),
+   _package_total(0),
+   _file_total(0)
 {
-   _cancel = false;
-   _state = BUILD_PACKAGE_LIST;
-   _package_total = 0;
 }
 
 /**

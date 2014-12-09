@@ -38,6 +38,7 @@ class VerifyWindow : public tbx::Command
 
 public:
    VerifyWindow();
+   virtual ~VerifyWindow() {}
    virtual void execute();
 
 private:
