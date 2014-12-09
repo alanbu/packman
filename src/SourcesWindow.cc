@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2010-2013 Alan Buckley
+* Copyright 2010-2014 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -298,6 +298,7 @@ void SourcesWindow::save()
  */
 SourceEdit::SourceEdit(SourcesWindow *sources) :
 		_sources(sources),
+		_edit_index(-1),
 		_window("SourceEdit"),
 		_url(_window.gadget(1)),
 		_ok(this, &SourceEdit::ok)
