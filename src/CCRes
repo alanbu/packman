@@ -134,7 +134,7 @@ proginfo_object {
   purpose:"Package Management"
   author:"© 2009-2014 Alan Buckley"
   licence_type:None
-  prog_version:"0.8.4 Beta (27 Nov 2014)"
+  prog_version:"0.8.4 Beta (18 Dec 2014)"
   alternative_window_name:""
   visit_url:""
   visit_url_event:&82b42
