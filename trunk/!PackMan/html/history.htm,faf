@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.8.4 Beta - November 2014</B>
+<LI><B>0.8.4 Beta - December 2014</B>
 <UL>
 <LI>Added a reminder message to update the Package List.
  A new choices window contains an option to allow you to turn it off or configure
@@ -19,7 +19,10 @@ how many days should pass before the reminder appears.
 of sources, and so did not display the default sources used until the user modified the list.
 As the list was empty clicking save would set PackMan to use an empty list of sources from then on.
 </LI>
-<LI>Fixed creating of PackMan choices directory to save WhatsNew to</LI>
+<LI>Fixed creating of PackMan choices directory for save of the "WhatsNew" list</LI>
+<LI>Fixed prompt for initial update lists showing both buttons as default</LI> 
+<LI>File conflicts are no longer case sensitive so the case of a file in the package can
+change without causing a conflict.</LI>
 <LI>First release built with the GCC 4.7.4 compiler</LI>
 </UL>
 </LI>
