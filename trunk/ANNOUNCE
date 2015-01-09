@@ -1,28 +1,14 @@
-Packman package manager 0.8.1 beta released with module checking and easier first install
+Packman package manager 0.8.4 beta released
 
-Packman version 0.8.1 beta is now available.
+Packman version 0.8.4 beta is now available.
 
 New to this version:
 
-- Module checking. If an existing RISC OS module has already been
-  installed that matches the module in a Package, PackMan will use
-  existing module to fulfil the request for the package and update
-  it's database to reflect the found version.
-  
-- Easier first install experience. PackMan now marks itself
-  installed in the location it's first run and uses it's own
-  copy of the SharedUnixLibrary if one isn't already installed.
-  It will also prompt if you want to update the package lists
-  on this first run.
-  
-- Info window has been improved to show Components and can be
-  accessed by double clicking on a package.
-
+- Added a configurable reminder message to prompt to update the lists
+- Save position of the main window
+- Main Window filter split into status and section.
 - Fixed documentation that was not referring correctly to the
   Components which were added last release.
-  
-- Added links to documentation on new features in !PackMan that
-  have not been added to !RiscPkg.
   
 + An assortment of minor bug fixes and UI improvements (see the
   history page in the help for details) 
