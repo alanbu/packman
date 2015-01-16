@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Terminology</TITLE>
+</HEAD>
+<BODY>
+<P>This page describes some of the terminology used in PackMan.</P>
+<H3>Package Manager</H3>
+<P>PackMan is a Package Manager, it helps users find packages and install, upgrade or remove them.</P>
+<H3>Package</H3>
+<P>
+A Package is a container of files to install to a computer and some additional control information for use by the Package Manager to give information on the Package and details of how it should be installed.
+</P>
+<P>The packages used by PackMan are a zip file with the files to be installed placed in folders to indicate their default install location and a RiscPkg folder that contains the control information.
+</P>
+<H3>Components</H3>
+<P>
+Components are a reference to a file, directory or application in a Package that can have additional configuration by the user. e.g. Have it's install location set.
+</P>
+<P>
+A package may have zero or more components, but typically have one which is the application that is going to be installed.</P>
+<P>
+A package that has zero components consists of files that need to be installed into a fixed place on the HardDisc. e.g. System modules or additional files the are installed inside of folder created by another package.
+</P>
+<P><I>Note: Components are a relatively new feature and at the time of this release not all packages have been updated to use them.</I><P>
+<H3>Dependency</H3>
+<P>
+A dependency is a package that another package needs to have installed when it is installed. Often this is a RISC OS module, but can also be other programs or utilities needed for the contents of the package to be used correctly.
+</P>
+<P>PackMan will automatically install dependencies when they are needed or remove them if they were automatically installed and no package requires them any more. The <A HREF="configpackage.htm">Configure Package Window</A> automatically has the list of dependencies to be added/removed added to it.
+</P>
+<H3>Sources</H3>
+<P>Sources are the location where PackMan fetches the list of packages that are available.</P>
+<H3>Binary/Source Package</H3>
+<P>
+All the packages you see in the main window in PackMan are binary packages. A binary package is just a collection of files, directories or applications that will be installed on a computer.
+</P>
+<P>
+A source package is a package that contains the source to build an application/program/file and usually a way to create the binary package(s). Not all binary packages need a source package. The licence of some packages stipulates that the sources must be made available. There is no simple way to download these from PackMan, but you should be able to retrieve them from the sites that provide the Sources via a web browser.
+</P>
+<P>
+Confusingly a binary package can also contain the source as well. In which case a separate source package wouldn't be needed as the binary package would satisfy licensing requirements.
+</P>
+</BODY>
+</HTML>

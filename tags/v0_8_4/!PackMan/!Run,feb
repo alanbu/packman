@@ -1,0 +1,32 @@
+RMEnsure UtilityModule 3.10 Error PackMan needs RISC OS 3.10 or a later version
+If "<PackMan$Dir>"<>"<Obey$Dir>" Then /<Obey$Dir>.!Boot
+If "<System$Path>"="" Then Error System resources cannot be found; open a window containing the System application and try again
+WimpSlot -min 140k -max 140k
+RMEnsure Toolbox 1.36 /System:Modules.Toolbox.Toolbox
+RMEnsure Toolbox 1.36 Error PackMan needs version 1.36 or later of the Toolbox module
+RMEnsure Window 1.31 /System:Modules.Toolbox.Window
+RMEnsure Window 1.31 Error PackMan needs version 1.31 or later of the Window module
+RMEnsure Menu 0.24 /System:Modules.Toolbox.Menu
+RMEnsure Menu 0.24 Error PackMan needs version 0.24 or later of the Menu module
+RMEnsure Iconbar 1.12 /System:Modules.Toolbox.Iconbar
+RMEnsure Iconbar 1.12 Error PackMan needs version 1.12 or later of the Iconbar module
+RMEnsure ProgInfo 0.09 /System:Modules.Toolbox.ProgInfo
+RMEnsure ProgInfo 0.09 Error PackMan needs version 0.09 or later of the ProgInfo module
+RMEnsure TextGadgets 0.19 /System:Modules.Toolbox.TextGadget
+RMEnsure TextGadgets 0.19 Error PackMan needs version 0.19 of the TextGadget module
+RMENSURE SaveAs  0.16  RMLOAD System:modules.toolbox.SaveAs
+RMENSURE SaveAs  0.16  ERROR PackMan need version 0.16 or later of the SaveAs module
+RMENSURE ToolAction 0.16 RMLOAD System:modules.toolbox.ToolAction
+RMENSURE ToolAction 0.16 ERROR PackMan needs version 0.16 or later of the ToolAction module
+
+Set PackMan$Dir <Obey$Dir>
+IconSprites <Obey$Dir>.!Sprites
+If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprites
+
+| Use our copy of the Shared Unix Library only if another in not installed
+| If the version is incorrect it should be reported from PackMan
+RMEnsure SharedUnixLibrary 0.00 IfThere System:modules.SharedULib Then RMLoad System:modules.SharedULib
+RMEnsure SharedUnixLibrary 0.00 RMLoad <PackMan$Dir>.Resources.SharedULib
+
+WimpSlot -min 2720k -max 2720k
+/<PackMan$Dir>.!RunImage %*0

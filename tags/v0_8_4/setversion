@@ -1,0 +1,87 @@
+-- Lua script to change the version everywhere it needs to
+-- run with lua setversion <new_version>
+
+package_name="PackMan"
+beta= " Beta"
+
+package_version = arg[1]
+if package_version == nil then
+   print( "You must enter a version number on the command line" )
+   return
+end
+
+version_pattern="%d+%.%d+%.?%d*"
+package_version_pattern = version_pattern .. "%-%d+"
+
+if string.find(package_version,"^"..package_version_pattern .. "$") == nil then
+   print( "Version must be in the form of n.n[.n]-n")
+   return
+end
+
+_,_,version=string.find(package_version, "("..version_pattern..")")
+
+print("Version without package number " .. version)
+errors=0
+
+function replace_in_file(file, pattern, repl)
+local f=io.open(file,"r")
+if f == nil then
+   print("** Unable to open '"..file.."'")
+   errors = errors + 1
+   return
+end
+
+local text = f:read("*all")
+
+f:close()
+
+new_text, found = string.gsub(text, pattern, repl, 1)
+if found > 0 then
+   print("Version replaced in '"..file.."' " .. found .. " times.")
+
+   f = io.open(file,"w+")
+   if f == nil then
+      print("** Unable to open '"..file.."' to update it")
+      errors = errors + 1
+   else
+      f:write(new_text)
+      f:close()
+   end
+
+else
+   print("** Failed to replace version in '"..file.."'")
+   errors = errors + 1
+end
+
+end
+
+-- Check if unix or RISC OS
+local check = io.open("!"..package_name.."/!Boot,feb")
+local dirsep, feb, faf
+if check == nil then
+   dirsep = "."
+   feb = ""
+   htm = "/htm"
+else
+   dirsep = "/"
+   feb=",feb"
+   htm=".htm,faf"
+end
+
+-- Application files
+
+replace_in_file("!"..package_name..dirsep.."!Boot"..feb, "(Set "..package_name.."%$Version%s+\")"..version_pattern,"%1"..version)
+replace_in_file("!"..package_name..dirsep.."HelpText", "("..package_name.." )"..version_pattern, "%1"..version)
+replace_in_file("!"..package_name..dirsep.."html"..dirsep.."index"..htm,"(version )"..version_pattern.."%.", "%1"..version..".")
+replace_in_file("!"..package_name..dirsep.."html"..dirsep.."history"..htm,"(<B>).-(</B>)", "%1"..version..beta.." - ".. os.date("%B %Y").."%2")
+
+-- Source files
+replace_in_file("src"..dirsep.."CCRes", "(prog_version:\").-\"","%1"..version..beta.." ("..os.date("%d %b %Y")..")\"")
+
+-- Packaging files
+
+replace_in_file("RiscPkg"..dirsep.."Control", "(Version:%s+)"..package_version_pattern, "%1"..package_version)
+replace_in_file("RiscPkg"..dirsep.."Rules", "(VERSION=)"..package_version_pattern,"%1"..package_version)
+
+print("Finished with " .. errors .. " error(s)")
+

@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Main Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Main Window</H2>
+
+<P>
+The main window shows a list of the packages
+available. You can filter the list by selecting
+a status and/or category from the drop down lists on the toolbar
+or clicking on Find and searching for text in
+the package names and descriptions.
+</P>
+
+<P>
+The left hand column is either:
+<UL>
+<LI>blank if the package is not installed</LI>
+<LI>a green tick if the package is installed</LI>
+<LI>an orangish tick if the package is installed and there
+  is an upgrade available.</LI>
+<LI>A rectangle partially filled with green from the left during package installation/removal. If this appears while packages are not being installed it means the install failed and did not manage to fully restore the original state. The best solution to this is to remove the package and then try reinstalling it again. Alternatively a second attempt at installing has a good chance of continuing from where the install failed. Packages in this state will be added to the next Package Configuration Window shown until they are fixed.
+</LI>
+</UL>
+<P>
+The ticks have a small "a" by them if the package was
+automatically installed.
+</P>
+<P>
+This is followed by the package name and a summary of
+what it does.
+</P>
+<P>
+Clicking on a package will show more information about
+it in the status bar at the bottom of the Window. The
+small triangle on the right of the status bar allows it
+to be shrunk (and expanded afterwards) to allow more
+packages to be shown in the main view.
+</P>
+<P>
+To install or remove a package after selecting it click
+on the Install or Remove button on the <A HREF="toolbar.htm">toolbar</A>
+(the first two buttons respectively) or the menu.
+</P>
+<P>
+You will be prompted with the <A HREF="configpackage.htm">Configure Packages Window</A>
+ to confirm you are sure you wish to install or remove the packages before the installation/removal proceeds.
+If the <A HREF="configpackage.htm">Configure Packages Window</A> is already showing the selected packages
+will be added to it.
+</P>
+<P>Once a package has been installed or removed the main window
+will be updated to show it's new status</P>
+
+<P>Using the Menu button on the main window shows a menu with the
+   following options</P>
+<UL>
+<LI>Package "app_name" or Selection. This is a submenu that allows you to install,
+ remove and view details on the selected package. For details see the
+ <A HREF="appmenu.htm">Package Menu</A>.</LI>
+ <LI>Upgrade All - Leads to the <A HREF="configpackage.htm">Configure Packages Window</A> with all the the packages
+   that will be upgraded and added to it. If no upgrades are available this option
+   will be faded. If there are no upgrades available you may
+   want to run the Update Lists option from the icon bar to see if any new
+   upgrades have appeared since the last time you updated the lists.</LI>
+ <LI>Update Lists - This downloads the latest versions of the package lists that are used to
+   provide the list of packages that are available. It shows a window to indicate
+   the progress of the List update. This Window also contains an "Upgrade All"
+   button that is enabled after the download of the lists if there are any
+   upgrades available and a "What's New" button to show any packages added since the
+   last update lists.
+ </LI>  
+<LI>Search - This leads to the <A HREF="search.htm">search dialog<A>.</LI>
+<LI>Save Position - This will save the current position of the main window and
+the size of the summary bar to your choices. When you next show a window it will
+be displayed at the saved position</LI>
+<LI>Help - This launches the Help file to show help on PackMan.</LI>
+</UL>
+
+
+</BODY>
+</HTML>

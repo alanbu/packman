@@ -1,0 +1,15 @@
+-- Test newer package overwrites an existing module
+mod_path = pkg.path("System.310.Modules.TestPkgModule");
+pkg_name = "TestPkgModule";
+test.erase(pkg_name);
+
+test.message("Extracting versoin 1.00");
+test.extract_file("TestPkgModule_1/00-1", "System.310.Modules.TestPkgModule");
+
+test.message("Installing 1.20-1");
+pkg.add("TestPkgModule_1/20-1");
+pkg.install(pkg_name);
+pkg.commit();
+
+test.message("Checking 1.20 is installed");
+test.check_module(mod_path, "1.20");

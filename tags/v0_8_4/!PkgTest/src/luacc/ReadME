@@ -1,0 +1,10 @@
+This directory contains a copy of the headers and libraries
+of lua5.1 compiled with the g++ compiler.
+
+They were cross compiled using the autobuilder with
+
+ro-make ansi CC=g++
+
+and file liblua.a renamed as libluacc.a
+
+

@@ -1,0 +1,22 @@
+# /bin/bash
+# Convert zip command line and inc file from RISC OS format to unix format
+# and run GCCSDK_INSTALL_ENV zip on it
+
+if [ "$GCCSDK_INSTALL_ENV" == "" ] ; then
+   echo "GCCSDK_INSTALL_ENV is not defined"
+   exit 1
+fi
+
+# Convert RISC OS file names to unix format and use autobuilder cross zip
+ZIPCMD=`echo "$GCCSDK_INSTALL_ENV/bin/zip -, $*" | sed -e"s:\.:/:g" -e"s:\^:..:g" -e"s:/inc:-cross\.inc:" -e"s:\([0-9]\)/:\1\.:g"`
+
+# Parse out include file name
+INCFILE=`echo "${@: -1}" | sed -e"s:\.:/:g" -e"s:-i@::" -e"s:/inc::" -e"s:\^:..:"`
+
+# Create unix format include file
+sed -e"s:\.:/:g" -e"s:/a$:.a:" $INCFILE.inc > $INCFILE-cross.inc
+
+# Do the zip
+$ZIPCMD
+
+

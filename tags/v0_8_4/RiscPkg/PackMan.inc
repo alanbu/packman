@@ -1,0 +1,2 @@
+RiscPkg.*
+Apps.Admin.!PackMan.*

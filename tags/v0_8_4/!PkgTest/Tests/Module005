@@ -1,0 +1,36 @@
+-- Check failure to install when an existing module was in place
+-- doesn't leave database in a bad state
+local bad_pkg_name = "ZeFuture"; -- Package which should file
+local pkg_name = "TestPkgModule";
+local mod_path = pkg.path("System.310.Modules.TestPkgModule");
+
+test.erase(pkg_name);
+
+test.message("Extracting version 1.20 of module");
+test.extract_file("TestPkgModule_1/20-1", "System.310.Modules.TestPkgModule");
+
+test.message("Installing 1.00-1 of package with a bad package");
+pkg.add("TestPkgModule_1/00-1");
+pkg.add("ZeFuture_1/0-1");
+pkg.install(pkg_name);
+pkg.install(bad_pkg_name);
+pkg.commit_fail("*newer*");
+
+test.message("Checking module versions");
+test.check_module(mod_path, "1.20");
+test.check_state(pkg_name, "not present");
+
+test.message("Trying to commit module without bad package");
+pkg.withdraw(bad_pkg_name);
+pkg.commit();
+
+test.check_module(mod_path, "1.20");
+
+test.message("Upgrading module to 1.22");
+pkg.add("TestPkgModule_1/22-1");
+pkg.upgrade(pkg_name);
+pkg.commit();
+
+test.message("Checking what's installed");
+test.check_module(mod_path, "1.22");
+test.check_version(pkg_name, "1.22-1");

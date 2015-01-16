@@ -1,0 +1,38 @@
+|Start RISCOS !Internet 5.04 Resolver
+If "<Alias$InetLoadResolver>" <> "" Then InetLoadResolver
+Unset Alias$InetLoadResolver
+|End
+
+|Start RISCOS !Boot 0.26 Auto tasks
+| See PreDesktop for details on !Start and !End
+|
+Repeat Filer_Boot Boot:RO400Hook.Res  -Applications -Tasks
+Repeat Filer_Boot Boot:RO370Hook.Res  -Applications -Tasks
+Repeat Filer_Boot Boot:RO360Hook.Res  -Applications -Tasks
+Repeat Filer_Boot Boot:RO350Hook.Res  -Applications -Tasks
+Repeat Filer_Boot Boot:RO310Hook.Res  -Applications -Tasks
+Repeat Filer_Boot <BootResources$Dir> -Applications -Tasks
+Filer_Boot        <Boot$Dir>
+Repeat Filer_Run  Choices:Boot.Tasks  -Tasks
+|
+IfThere Boot:^.Utilities  Then Repeat Filer_Boot Boot:^.Utilities -Applications -Tasks
+IfThere Boot:^.Printing   Then Repeat Filer_Boot Boot:^.Printing  -Applications -Tasks
+|End
+
+|Start RISCOS BootBoot 0.01 Boot
+IfThere HostFS:$.Dev.!GCC Then Filer_Boot HostFS:$.Dev.!GCC
+|End
+
+|Start RISCOS BootRun 0.01 Run
+IfThere Boot:^.!PackMan Then Filer_Boot Boot:^.!PackMan
+IfThere Boot:^.!PackMan Then Filer_Run Boot:^.!PackMan
+|End
+
+|Start RISCOS !Boot 0.26 completion
+| This line turns the hourglass off at the end of the boot sequence:
+/Boot:Library.HOff
+IfThere BootResources:Configure.!InetSetup Then Filer_Boot BootResources:Configure.!InetSetup
+IfThere BootResources:!Configure Then Set Alias$@LoadType_FF2 LoadCMOS %%*0 Else Set Alias$@LoadType_FF2 Error 0 You cannot reconfigure this machine
+IfThere BootResources:!Configure Then Set Alias$@RunType_FF2  LoadCMOS %%*0 Else Set Alias$@RunType_FF2 Error 0 You cannot reconfigure this machine
+WimpSlot -next 640k
+|End

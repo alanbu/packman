@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Recommendations/Suggestions Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Recommendations/Suggestions Window</H2>
+<P>This Window allows you to add any recommendations or suggestions from the Packages currently selected
+for intallation to the Package Configuration Window.</P>
+<P>It is reached from the "View..." button on the Package Configuration Window.</P>
+<P>It checks all the packages selected for installation or upgrade and any recommendations or suggestion
+that are not already selected for installation or have already been installed and shows them in this
+window with a check box beside them.</P>
+<P>Check the option button for the packages you would like to be added to the installation.</P>
+<P>The window contains the following buttons</P>
+<ul>
+<li>Add selected - Adds the selected packages to the Package Configuration Window.</li>
+<li>Cancel - Close the window without adding any Packages to the installation.</li>
+</ul>
+</BODY>
+</HTML>

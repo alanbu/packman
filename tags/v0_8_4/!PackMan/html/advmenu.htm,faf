@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Advanced Menu</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Advanced Menu</H2>
+<P>The advanced menu provides options for the more advanced configuration of the packaging
+system.</P>
+<P>This menu is a sub menu shown from the menu for the iconbar icon</P>
+<P>It provides the following options
+<UL>
+<LI>Sources - shows the <A HREF="sources.htm">Sources Window</A>
+    which allows you to select the packaging sites to use.
+</LI>
+<LI>Paths - shows the <A HREF="paths.htm">Paths Window</A>
+    which allows you to specify base directories or full paths for where the contents of the packages are installed to.
+</LI>
+<LI>Backups - shows the <A HREF="backupwnd.htm">Backups Window</A>
+    which allows you to manage backups made by PackMan.</A>
+<LI>Cache - shows the <A HREF="cache.htm">Cache Window</A>
+    which allows you to clear the cache of downloaded packages.
+</LI>
+<LI>Verify All - shows the <A HREF="verifyall.htm">Verify All Windows</A>
+which check if there are any files missing from your installed packages.
+<LI>View Log - shows the update lists/commit log from the last update lists or commit that was run.
+ If logging is turned off this option allows will prompt to turn it on.</LI>
+</UL>
+</P>
+
+</BODY>
+</HTML>
