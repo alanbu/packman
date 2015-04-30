@@ -34,34 +34,56 @@
 #include "libpkg/pkgbase.h"
 
 
-CopyrightWindow::CopyrightWindow(tbx::Object obj) : _view(obj, true)
+CopyrightWindow::CopyrightWindow(const pkg::binary_control *ctrl) : _view(tbx::Window("Copyright"), true)
 {
-	tbx::Window window(obj);
+	tbx::Window window = _view.window();
 
-	window.add_about_to_be_shown_listener(this);
-}
-
-CopyrightWindow::~CopyrightWindow()
-{
-}
-
-/**
- * Find currently selected package and show copyright
- */
-void CopyrightWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
-{
-	MainWindow *main = MainWindow::from_window(event.id_block().ancestor_object());
-	const pkg::binary_control *ctrl = main->selected_package();
+	window.add_has_been_hidden_listener(new tbx::DeleteClassOnHidden<CopyrightWindow>(this));
 	if (ctrl != 0)
 	{
 		std::string pkgname = ctrl->pkgname();
 
-		tbx::Window window(event.id_block().self_object());
-		window.title("Copyright for " + pkgname);
+		_view.window().title("Copyright for " + pkgname);
 
 		// Open manifest.
 		pkg::pkgbase *pb = Packages::instance()->package_base();
-		std::string pathname=pb->info_pathname(pkgname)+std::string(".Copyright");
-		_view.load_file(pathname);
+        pkg::status_table::const_iterator sti = pb->curstat().find(ctrl->pkgname());
+	    if (sti != pb->curstat().end()
+	        && (*sti).second.state() == pkg::status::state_installed
+	       )
+	       {
+	    		std::string pathname=pb->info_pathname(pkgname)+std::string(".Copyright");
+	    		_view.load_file(pathname);
+	       } else
+	       {
+	    	   std::string licence;
+	           pkg::control::const_iterator found = ctrl->find("Licence");
+	           if (found != ctrl->end()) licence = found->second;
+	    	   std::string msg("The full copyright is downloaded when the");
+	    	   msg+= " package is installed.\n\n";
+	    	   msg+= "The licence is " + licence;
+	    	   if (licence == "Free")
+	    	   {
+	    		   msg+= "\n\nFree packages ";
+	               msg+= "meet the Open Source Definition, as defined by the Open Source Institute.";
+	               msg+= "\n\n(See 'http://www.opensource.org/docs/definition.php').";
+  	    	   } else if (licence == "Non-free")
+  	    	   {
+	    		   msg+= "\n\nNon-free packages ";
+	    		   msg += " do not meet the Open Source Definition, as defined by the Open Source Institute.";
+	    		   msg+= "\n\n(See 'http://www.opensource.org/docs/definition.php' for the Open Source Definition).";
+  	    	   } else if (licence == "Unknown")
+  	    	   {
+  	    		   msg += "\n\nUnknown packages are usually packages created by the";
+  	    		   msg += " GCCSDK Autobuilder that have not had the licence set";
+  	    		   msg += " in the autobuilder build scripts.";
+  	    	   }
+	    	   _view.text(msg);
+	       }
 	}
+}
+
+CopyrightWindow::~CopyrightWindow()
+{
+	_view.window().delete_object();
 }

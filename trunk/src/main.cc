@@ -45,7 +45,6 @@
 #include "AppsMenu.h"
 #include "AppSaveAs.h"
 #include "AppMoveTo.h"
-#include "CopyrightWindow.h"
 #include "SearchWindow.h"
 #include "InstallWindow.h"
 #include "CacheWindow.h"
@@ -87,7 +86,6 @@ int main(int argc, char *argv[])
 	tbx::MatchLifetime<AppsMenu> mlt_apps_menu("AppsMenu");
 	tbx::MatchLifetime<AppSaveAs> mlt_app_save_as("AppSaveAs");
 	tbx::MatchLifetime<AppMoveTo> mlt_app_move_to("AppMoveTo");
-	tbx::MatchLifetime<CopyrightWindow> mlt_copyright("Copyright");
 	tbx::MatchLifetime<SearchWindow> mlt_search("Search");
 	tbx::MatchLifetime<BootOptionsWindow> mlt_boot_options("BootOpts");
 

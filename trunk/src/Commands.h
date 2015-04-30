@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -33,18 +33,33 @@ class MainWindow;
 class IRWindow;
 class UpgradeAllWindow;
 
+namespace pkg
+{
+class binary_control;
+}
+
+/**
+ * Interface to return the selected package for the
+ * install/remove commands
+ */
+class ISelectedPackage
+{
+public:
+	virtual ~ISelectedPackage() {}
+	virtual const pkg::binary_control *selected_package() = 0;
+};
+
 /**
  * Command to install current item
  */
 class InstallCommand : public tbx::Command
 {
 private:
-	MainWindow *_main;
-	IRWindow *_install;
+	ISelectedPackage *_main;
 public:
 	enum {COMMAND_ID = 1}; // ID in resources
 
-	InstallCommand(MainWindow *main) : _main(main), _install(0) {}
+	InstallCommand(ISelectedPackage *main) : _main(main) {}
 	virtual ~InstallCommand() {}
 
 	virtual void execute();
@@ -56,12 +71,11 @@ public:
 class RemoveCommand : public tbx::Command
 {
 private:
-	MainWindow *_main;
-	IRWindow *_remove;
+	ISelectedPackage *_main;
 public:
 	enum {COMMAND_ID = 2}; // ID in resources
 
-	RemoveCommand(MainWindow *main) : _main(main), _remove(0) {}
+	RemoveCommand(ISelectedPackage *main) : _main(main) {}
 	virtual ~RemoveCommand() {}
 
 	virtual void execute();
@@ -207,5 +221,21 @@ public:
   * Command used from Main window to save the position
   */
 const int SAVE_MAIN_WINDOW_POSITION_COMMAND = 13;
+
+/**
+ * Command to show copyright window
+ */
+class CopyrightCommand : public tbx::Command
+{
+private:
+	ISelectedPackage *_main;
+public:
+	enum {COMMAND_ID = 14}; // ID in resources
+
+	CopyrightCommand(ISelectedPackage *main) : _main(main) {}
+	virtual ~CopyrightCommand() {}
+
+	virtual void execute();
+};
 
 #endif /* COMMANDS_H_ */

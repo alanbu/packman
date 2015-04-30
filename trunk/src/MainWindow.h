@@ -53,6 +53,7 @@ class PackageFilter;
  * lets them be maintained.
  */
 class MainWindow :
+	public ISelectedPackage,
 	tbx::TextChangedListener,
 	pkg::table::watcher,
 	tbx::view::SelectionListener
@@ -126,6 +127,7 @@ class MainWindow :
 	InstallCommand _install;
 	RemoveCommand _remove;
 	ShowInfoCommand _show_info;
+	CopyrightCommand _copyright;
 	tbx::CommandMethod<MainWindow> _save_pos;
 
 	/********************************************

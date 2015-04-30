@@ -338,14 +338,14 @@ menu_object {
   }
   Entry {
     cmp:5
-    flags:menu_ENTRY_SUB_MENU | 0x4000
+    flags:0x4000
     cmp:&5
-    text:"Copyright"
+    text:"Copyright..."
     text_limit:*
-    click_object_name:"Copyright"
-    sub_menu_object_name:"Copyright"
+    click_object_name:""
+    sub_menu_object_name:""
     sub_menu_action:&0
-    click_action:&0
+    click_action:&e
     help:""
     help_limit:*
   }
@@ -1018,7 +1018,7 @@ window_object {
 }
 
 window_object {
-  header_flags:toolbox_OBJECT_SHARED | toolbox_OBJECT_ANCESTOR
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE | toolbox_OBJECT_ANCESTOR
   version:102
   object_name:"Copyright"
   window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
@@ -3189,7 +3189,7 @@ window_object {
 }
 
 window_object {
-  header_flags:
+  header_flags:toolbox_OBJECT_ANCESTOR
   version:102
   object_name:"Info"
   window_flags:window_GENERATE_ABOUT_TO_BE_SHOWN | window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
@@ -3206,7 +3206,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:140,176,1840,1276
+  window.visible:140,236,1840,1336
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -3281,7 +3281,7 @@ window_object {
   }
   label_object {
     cmp:&6
-    bbox:616,-204,816,-152
+    bbox:700,-204,816,-152
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3383,7 +3383,7 @@ window_object {
   }
   displayfield_object {
     cmp:&13
-    bbox:228,-204,588,-152
+    bbox:228,-204,460,-152
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3575,6 +3575,50 @@ window_object {
     help_limit:*
     flags:actionbutton_IS_CANCEL
     text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&30
+    bbox:476,-204,592,-152
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"More..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&31
+    bbox:32,-1000,212,-948
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"View..."
+    text_limit:*
+    click_show:"Apps"
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&32
+    bbox:224,-1088,412,-1036
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Install/Upgrade"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&33
+    bbox:436,-1088,624,-1036
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Remove"
     text_limit:*
     click_show:""
     action:&0

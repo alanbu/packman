@@ -97,8 +97,13 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
    _apps.clear();
    _view.cleared();
 
-	MainWindow *main = MainWindow::from_window(event.id_block().ancestor_object());
-	const pkg::binary_control *ctrl = main->selected_package();
+    const pkg::binary_control *ctrl = 0;
+    tbx::Object ancestor = event.id_block().ancestor_object();
+    if (!ancestor.null())
+    {
+    	ISelectedPackage *sp = reinterpret_cast<ISelectedPackage *>(ancestor.client_handle());
+    	if (sp != 0) ctrl = sp->selected_package();
+    }
 
 	if (ctrl != 0)
 	{
@@ -154,7 +159,7 @@ void AppsWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 					std::string::size_type e=line.find(".",f+1);
 					std::string src_pathname=line.substr(0,e);
 
-					// Disregard the path component if it is the leafname
+					//ï¿½Disregard the path component if it is the leafname
 					// (that is, if it refers to a file rather than a directory).
 					if (e!=std::string::npos)
 					{

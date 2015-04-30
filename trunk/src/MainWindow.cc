@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -53,6 +53,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
    _install(this),
    _remove(this),
    _show_info(this),
+   _copyright(this),
    _save_pos(this, &MainWindow::save_position),
    _store_menu_select(&_view),
    _show_info_on_dblclick(this)
@@ -74,6 +75,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_window.add_command(InstallCommand::COMMAND_ID, &_install);
 	_window.add_command(RemoveCommand::COMMAND_ID, &_remove);
 	_window.add_command(ShowInfoCommand::COMMAND_ID, &_show_info);
+	_window.add_command(CopyrightCommand::COMMAND_ID, &_copyright);
 	_window.add_command(SAVE_MAIN_WINDOW_POSITION_COMMAND, &_save_pos);
 
 	_summary = new SummaryWindow(this, _window, &_selection);
