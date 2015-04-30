@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -44,7 +44,7 @@ const int RightMargin = 16;
 
 const int NumDisplayFields = 10;
 
-static char*DisplayFields[] =
+static const char*DisplayFields[] =
 {
                "Package",
                "Version",
@@ -59,7 +59,7 @@ static char*DisplayFields[] =
 };
 
 const int NumDepFields = 4;
-static char *DepFields[] =
+static const char *DepFields[] =
 {
                "Depends",
                "Conflicts",
@@ -71,9 +71,17 @@ InfoWindow::InfoWindow() :
        _window("Info"),
        _installed(_window.gadget(0x22)),
        _description(_window.gadget(0x21)),
-       _components(_window.gadget(0x2e))
+       _components(_window.gadget(0x2e)),
+       _install_button(_window.gadget(0x32)),
+       _remove_button(_window.gadget(0x33)),
+       _components_button(_window.gadget(0x31)),
+       _install_command(this),
+       _remove_command(this),
+       _copyright_command(this)
 {
   _instance = this;
+  // Set client handle for view components
+  _window.client_handle(this);
   // RISC OS 5 was failing to format correctly unless the font was set
   tbx::Font dtf;
   if (dtf.desktop_font())
@@ -85,6 +93,12 @@ InfoWindow::InfoWindow() :
   {
     _description.system_font(208,208);
   }
+
+  tbx::ActionButton copyright = _window.gadget(0x30);
+  copyright.add_selected_command(&_copyright_command);
+
+  _install_button.add_selected_command(&_install_command);
+  _remove_button.add_selected_command(&_remove_command);
 }
 
 InfoWindow::~InfoWindow()
@@ -110,6 +124,8 @@ void InfoWindow::show(const pkg::binary_control *ctrl)
 void InfoWindow::update_details(const pkg::binary_control *ctrl)
 {
     if (ctrl == 0) return; // This shouldn't happen
+
+    _package_name = ctrl->pkgname();
 
     int j;
 
@@ -145,6 +161,8 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
        }
     }
 
+    std::string comps = ctrl->components();
+
     // Installed information
        pkg::pkgbase *package_base = Packages::instance()->package_base();
        pkg::status_table::const_iterator sti = package_base->curstat().find(ctrl->pkgname());
@@ -153,15 +171,39 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
                 )
        {
                _installed.text("No");
+               _install_button.text("Install");
+               _install_button.fade(false);
+               _remove_button.fade(true);
+               _components_button.fade(true);
        } else
        {
-               _installed.text((*sti).second.version());
+		   std::string version((*sti).second.version());
+		   _installed.text(version);
+		   bool upgrade = false;
+		   const pkg::binary_control *ctrl = selected_package();
+		   if (ctrl != 0)
+		   {
+			   pkg::version vinstalled(version);
+			   pkg::version vlatest(ctrl->version());
+			   if (vlatest > vinstalled) upgrade = true;
+		   }
+		   if (upgrade)
+		   {
+			   _install_button.text("Upgrade");
+			   _install_button.fade(false);
+		   } else
+		   {
+			   _install_button.text("Latest");
+			   _install_button.fade(true);
+		   }
+
+		   _remove_button.fade(false);
+		   _components_button.fade(comps.empty());
        }
 
        _description.text(format_description(ctrl));
        _description.set_selection(0,0);
 
-       std::string comps = ctrl->components();
        _components.clear();
        if (!comps.empty())
        {
@@ -199,4 +241,17 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
     		   // Ignore errors
     	   }
        }
+}
+
+/**
+ * Return the selected package for the info window.
+ * i.e. The currently shown package
+ */
+const pkg::binary_control *InfoWindow::selected_package()
+{
+	pkg::pkgbase *package_base = Packages::instance()->package_base();
+    const pkg::binary_control_table& ctrltab = package_base->control();
+    const pkg::binary_control &ctrl = ctrltab[_package_name];
+
+    return (ctrl.pkgname() == _package_name) ? &ctrl : 0;
 }

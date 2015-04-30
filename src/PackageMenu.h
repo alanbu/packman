@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -38,7 +38,7 @@ class PackageMenu : tbx::AboutToBeShownListener
 private:
 	tbx::Menu _menu;
 	tbx::MenuItem _install;
-	static const int _num_installed_items = 3;
+	static const int _num_installed_items = 2;
 	tbx::MenuItem _installed_items[_num_installed_items];
 
 public:

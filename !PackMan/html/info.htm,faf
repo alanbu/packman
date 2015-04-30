@@ -21,6 +21,7 @@ The information shown in the window is
 <LI>Installed - version currently installed</LI>
 <LI>Section - classification of the application</LI>
 <LI>Priority - how important it is for your system</LI>
+<LI>Licence - the package Licence. Select the "More..." button to view the copyright if it has been installed.</LI>
 <LI>Size - size of package that will be downloaded in bytes</LI>
 <LI>URL - location file will be downloaded from</LI>
 <LI>Source - name of the source this package was created from (if any)</LI>
@@ -38,7 +39,12 @@ The install/upgrade process will automatically install these if they are not alr
 gives the location the components have been installed to. If the package has not been installed the
 path shown is for the default location for the install and can be changed once the package has
 been selected for install.</LI>
+<LI>View button (below Components) - Select this button to show the components for the package. This button is only enabled for installed packages which have set the components field.</LI>
+<LI>Install/Upgrade button - Select this button to close the window and add this package to the list of packages to be installed or upgraded</LI>
+<LI>Remove button - Select this button to close the window and add this package to the list of packages to be removed</LI>
+<LI>Close button - Select this button to close the window</LI>
 </UL>
+
 </P>
 
 </BODY>

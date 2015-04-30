@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -27,22 +27,19 @@
 #ifndef COPYRIGHTWINDOW_H_
 #define COPYRIGHTWINDOW_H_
 
-#include "tbx/abouttobeshownlistener.h"
-
 #include "tbx/view/textview.h"
+#include "libpkg/binary_control.h"
 
 /**
  * Class to show copyright of currently selected package
  */
-class CopyrightWindow : tbx::AboutToBeShownListener
+class CopyrightWindow
 {
 	tbx::view::TextView _view;
 
 public:
-	CopyrightWindow(tbx::Object object);
+	CopyrightWindow(const pkg::binary_control *ctrl);
 	virtual ~CopyrightWindow();
-
-	void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 };
 
 #endif /* COPYRIGHTWINDOW_H_ */

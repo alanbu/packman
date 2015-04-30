@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -40,7 +40,6 @@ PackageMenu::PackageMenu(tbx::Object object) :
 {
 	_installed_items[0] = _menu.item(2); // Remove
 	_installed_items[1] = _menu.item(3); // apps
-	_installed_items[2] = _menu.item(5); // copyright
 
 	_menu.add_about_to_be_shown_listener(this);
 	_menu.add_object_deleted_listener(new tbx::ObjectDeleteClass<PackageMenu>(this));

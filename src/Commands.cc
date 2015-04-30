@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -38,6 +38,7 @@
 #include "PackageConfigWindow.h"
 #include "InfoWindow.h"
 #include "ChoicesWindow.h"
+#include "CopyrightWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -250,4 +251,15 @@ void ShowChoicesWindowCommand::execute()
 	{
 		ChoicesWindow::show();
 	}
+}
+
+/**
+ * Show the copyright window
+ */
+void CopyrightCommand::execute()
+{
+	const pkg::binary_control *pkg_control = _main->selected_package();
+	if (pkg_control == 0) return;
+
+	new CopyrightWindow(pkg_control);
 }
