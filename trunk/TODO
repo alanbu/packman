@@ -18,8 +18,6 @@ Version 0.8.x
 -------------
 
 - Install filter doesn't update with new packages after an install
-- Add Install/Upgrade/Remove button to the Info window (User request, but I don't remember who)
-- Add Copyright and View (components) button to the Info window.
 - Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
 - After failure to commit should I reshow the configure window or clear all the entries?
@@ -67,7 +65,6 @@ Possible future changes (i.e. under consideration)
 - The information in in the main window is difficult to read, because its text colour is almost the same as the background colour. I would prefer to see black on white, and the same font as in the  main panel. Also, because the text doesn't wrap, and the width of the panel is fixed, information is lost at the right hand side.  (from Tony Moore).
 - When upgrading check if the old version has been moved and prompt for it's location if it has.
 - Consider how to let PackMan know if an application has been moved from outside of PackMan.
-- With local install show dialogue to allow any unmet dependencies to be dragged into it.
 - Export Package - create a package containing a package and all it's dependencies.
 - Package file format get file type for Packages.
 - Possibly allow a package file to contain multiple packages.
