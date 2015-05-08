@@ -10,6 +10,7 @@
 <UL>
 <LI>Added more functionality to the Info window. You can now install/upgrade/remove packages, view the copyright and show the components window from it.
 </LI>
+<LI>Added warning message if dependencies can not be met for a package dropped on to the icon bar icon<LI>
 </UL>
 </LI>
 

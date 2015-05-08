@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -33,6 +33,7 @@
 #include "libpkg/zipfile.h"
 #include "libpkg/pkgbase.h"
 #include "tbx/hourglass.h"
+#include "tbx/messagewindow.h"
 
 #include <sstream>
 
@@ -60,6 +61,8 @@ bool PackageLoader::load_file(tbx::LoadEvent &event)
 			pkg::binary_control ctrl = extract_control(pathname);
 			std::string pkgname(ctrl.pkgname());
 			std::string pkgvrsn(ctrl.version());
+			std::string depends(ctrl.depends());
+			if (!depends.empty()) check_dependencies(pkgname, depends);
 			if (pkgname.length() && pkgvrsn.length())
 			{
 				std::ostringstream out;
@@ -140,4 +143,46 @@ pkg::binary_control PackageLoader::extract_control(const std::string& pathname)
 	pkg::binary_control ctrl;
 	ctrlfile >> ctrl;
 	return ctrl;
+}
+
+/**
+ * Check that the dependencies are available and show a warning
+ * if they are not.
+ *
+ * @param depends list of dependencies string
+ */
+void PackageLoader::check_dependencies(const std::string &pkgname, const std::string &depends)
+{
+	pkg::pkgbase *package_base = Packages::instance()->package_base();
+	pkg::binary_control_table control_table = package_base->control();
+	std::vector<std::vector<pkg::dependency> > depends_list;
+	pkg::parse_dependency_list(depends.begin(), depends.end(), &depends_list);
+	std::string missing;
+	std::vector<std::vector<pkg::dependency> >::const_iterator dli;
+	std::vector<pkg::dependency>::const_iterator di;
+
+	for(dli = depends_list.begin(); dli != depends_list.end(); ++dli)
+	{
+		for(di = dli->begin(); di != dli->end(); ++di)
+		{
+			const pkg::binary_control &dctrl = control_table[di->pkgname()];
+			if (dctrl.pkgname() != di->pkgname())
+			{
+				if (!missing.empty()) missing += ", ";
+				missing += di->pkgname();
+			} else if (!di->matches(dctrl.pkgname(),pkg::version(dctrl.version())))
+			{
+				if (!missing.empty()) missing += ", ";
+				missing += di->pkgname() + "version " + di->version().package_version();
+			}
+		}
+	}
+	if (!missing.empty())
+	{
+		missing = "Warning: The following dependencies are not available\n" + missing;
+		missing += "\n\nPlease add them before installing this package.";
+		std::string title("Missing dependencies for ");
+		title += pkgname;
+		tbx::show_message(missing, title, "warning");
+	}
 }
