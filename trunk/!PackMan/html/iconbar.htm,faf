@@ -35,6 +35,9 @@ system.
   </TD>
 </TR>
 <TR>
+  <TD>Find File</TD>
+  <TD>Opens the <A HREF="findfilewnd.htm">Find File Dialog</A> that allows searching for a file in the packages components field or the files that have been installed.</TD>
+<TR>
   <td>Upgrade All</td>
   <td>Upgrades all installed packages which have an upgrade available.
    Either the <A href="configpackage.htm">Configure Package Window</A> is shown with all
@@ -60,5 +63,7 @@ system.
 </TABLE>
 <P>Drag a package file from that filer and drop it onto the iconbar to insert a local package from
 the list of packages and show the Configure Packages Window with it selected for install.</P>
+<P>Dragging a file which is not a package or zip file to the
+iconbar will open the <A HREF="findfilewnd.htm">Find File Dialog</A> with the filename entered as the text to find.</P>
 </BODY>
 </HTML>

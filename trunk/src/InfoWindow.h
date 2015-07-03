@@ -58,6 +58,7 @@ public:
 	virtual ~InfoWindow();
 
 	static void show(const pkg::binary_control *ctrl);
+	static void show(const std::string pkgname);
 	void update_details(const pkg::binary_control *ctrl);
 
 	// ISelectedPackage interface

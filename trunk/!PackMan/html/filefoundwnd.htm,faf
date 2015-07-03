@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Find Found Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>File Found Window</H2>
+<P>The File Found Window shows information on one file that
+was found using the <A HREF="findfilewnd.htm">Find File Dialog</A>.</P>
+The fields on the dialog are:
+<UL>
+<LI>Leaf name - Leaf name of the file found</LI>
+<LI>Package - name of the package the file belongs to and if the package is installed</LI>
+<LI>Path - the location the file would be installed to</LI>
+<LI>File Information - Indicates if the file exists on the file system and shows various information from the filesystem if it does</LI>
+<LI>Match - this shows how this file matched the search
+  <UL>
+    <LI>Exact - the full path matches the full path entered</LI>
+    <LI>Leafname - the leafname matches the leafname of the path entered</LI>
+    <LI>Partial Leafname - the leafname entered is contained in the leafname of this file</LI>
+    <LI>Directory + Partial Leafname - the leafname entered is contained in the leafname of this file and the directory part of the filename entered is an exact match</LI>
+  </UL>
+</LI>
+<LI>Info on package button - shows the <A HREF="info.htm">Package Information Window</A></LI>
+</UL>
+
+</BODY>
+</HTML>

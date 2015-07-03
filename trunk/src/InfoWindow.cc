@@ -119,6 +119,19 @@ void InfoWindow::show(const pkg::binary_control *ctrl)
 }
 
 /**
+ * Show information for a named package
+ *
+ * Does nothing if name does not refer to a package
+ *
+ * @param pkgname name of package to show information about
+ */
+void InfoWindow::show(const std::string pkgname)
+{
+	auto bctrl = Packages::instance()->find_control(pkgname);
+	if (bctrl != 0) show(bctrl);
+}
+
+/**
  * Update the information window
  */
 void InfoWindow::update_details(const pkg::binary_control *ctrl)
@@ -249,9 +262,5 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
  */
 const pkg::binary_control *InfoWindow::selected_package()
 {
-	pkg::pkgbase *package_base = Packages::instance()->package_base();
-    const pkg::binary_control_table& ctrltab = package_base->control();
-    const pkg::binary_control &ctrl = ctrltab[_package_name];
-
-    return (ctrl.pkgname() == _package_name) ? &ctrl : 0;
+	return Packages::instance()->find_control(_package_name);
 }

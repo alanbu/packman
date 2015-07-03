@@ -238,4 +238,16 @@ public:
 	virtual void execute();
 };
 
+/**
+ * Command to show FindFile window
+ */
+class FindFileCommand : public tbx::Command
+{
+public:
+	enum {COMMAND_ID = 15}; // ID in resources
+	FindFileCommand() {}
+	virtual ~FindFileCommand() {}
+	virtual void execute();
+};
+
 #endif /* COMMANDS_H_ */

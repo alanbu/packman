@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -562,6 +562,22 @@ void Packages::get_recommendations(const std::vector< std::pair<std::string, std
 	}
 }
 
+
+/**
+ * Get binary control record for a named package
+ *
+ * @param pkgname name of package to search for
+ * @returns pointer to binary_control record if found or 0 if not found
+ */
+const pkg::binary_control *Packages::find_control(const std::string &pkgname)
+{
+    const pkg::binary_control_table& ctrltab = _package_base->control();
+    const pkg::binary_control &ctrl = ctrltab[pkgname];
+
+    return (ctrl.pkgname() == pkgname) ? &ctrl : 0;
+}
+
+
 /**
  * Global function to format the description to show in a text area
  */
@@ -588,3 +604,4 @@ std::string format_description(const pkg::binary_control *bctrl)
 
 	return desc;
 }
+

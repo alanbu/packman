@@ -264,7 +264,7 @@ void SourcesWindow::save()
 	{
 		tbx::Path sources_path(choices_write_path("Sources"));
 
-		std::ofstream sfile(sources_path);
+		std::ofstream sfile(sources_path.name());
 		if (sfile)
 		{
 			sfile << "# Sources written by PackMan" << std::endl << std::endl;

@@ -1,0 +1,35 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Find File Dialog</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Find File Dialog</H2>
+<P>The Find File dialog allows you to search all the package components or installed files
+for a file.</P>
+<P>This dialog will also be shown if a file (that is not a package or zip file) is dragged
+to the !PackMan iconbar icon.</P>
+<P>The results are shown in the <A HREF="findresultswnd.htm">Find Results Window</A> if there are more than one match or the
+<A HREF="filefoundwnd.htm">File Found Window</A> if there is exactly one match. If no matches are found a message will be shown.</P>
+<P>
+The fields on the dialog are:
+<UL>
+<LI>Find - Enter the full path name or path leaf name</LI>
+<LI>Search
+<UL>
+  <LI>Components only - Searches the components field of all the packages</LI>
+  <LI>Installed files only - Searches the list of installed files</LI>
+  <LI>Components then installed files - Searches components first and if there
+  is no match, then searches the installed files</LI>
+</UL>
+</LI>
+<LI>Exact - When set, the the whole leaf names must match. If a path is entered
+    in the find field, then that must match as well. When unset, only part of
+    the leaf name needs to match, the directory name is ignored</LI>
+<LI>Cancel - Close the dialog without looking for the file</LI>
+<LI>Find - Search for the file and show the results</LI>
+</UL>
+</P>
+
+</BODY>
+</HTML>
