@@ -78,7 +78,7 @@ inline void create_app_stub(const tbx::Path &source_path, const tbx::Path &targe
  */
 inline void create_app_link(const tbx::Path &source_path, tbx::Path &target_path)
 {
-	std::ofstream out(target_path);
+	std::ofstream out(target_path.name());
 	out << source_path.name() << '.' << char(0);
 	out.close();
 	target_path.file_type(0xfc0);

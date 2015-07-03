@@ -39,6 +39,7 @@
 #include "InfoWindow.h"
 #include "ChoicesWindow.h"
 #include "CopyrightWindow.h"
+#include "FindWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -262,4 +263,15 @@ void CopyrightCommand::execute()
 	if (pkg_control == 0) return;
 
 	new CopyrightWindow(pkg_control);
+}
+
+/**
+ * Show the find file window
+ */
+void FindFileCommand::execute()
+{
+	if (pmstate()->installed())
+	{
+		new FindWindow();
+	}
 }

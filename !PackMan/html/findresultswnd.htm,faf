@@ -1,0 +1,17 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Find Results Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Find Results Window</H2>
+<P>The Find Results Window is shown when there are multiple files/components matching the selection from the
+<A HREF="findfilewnd.htm">Find File Dialog</A>.</P>
+<P>The main window consists of a list of the results with the package that one or more files were found in coloured blue,
+followed by the location the files would be on the filesystem
+if they had been installed.<P>
+<P>Double clicking on a package name, will show information about the package in the <A HREF="info.htm">Package Information Window</A>.</P>
+<P>Double clicking on a file name, will show information about the file in the <A HREF="filefoundwnd.htm">File Found Window.</A></P>
+<P>You can also use the menu button and select the Info option from the menu to show the same information.</P>
+</BODY>
+</HTML>

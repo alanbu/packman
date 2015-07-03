@@ -84,6 +84,19 @@ menu_object {
     help_limit:*
   }
   Entry {
+    cmp:9
+    flags:menu_ENTRY_GENERATE_SUB_MENU_ACTION | 0x4000
+    cmp:&9
+    text:"Find File..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"Find"
+    sub_menu_action:&0
+    click_action:&f
+    help:""
+    help_limit:*
+  }
+  Entry {
     cmp:6
     flags:
     cmp:&6
@@ -4498,5 +4511,441 @@ window_object {
     label:"Enable logging"
     label_limit:*
     action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"Find"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:&1
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:232,536,1420,908
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Find Component/Installed File"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:24,-84,132,-32
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Find"
+  }
+  writablefield_object {
+    cmp:&1
+    bbox:144,-84,1152,-32
+    help_message:""
+    help_limit:*
+    flags:
+    text:""
+    text_limit:256
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  radiobutton_object {
+    cmp:&2
+    bbox:96,-208,448,-164
+    help_message:""
+    help_limit:*
+    flags:radiobutton_ON
+    group:0
+    label:"Components only"
+    label_limit:*
+    action:&0
+  }
+  radiobutton_object {
+    cmp:&3
+    bbox:96,-264,500,-220
+    help_message:""
+    help_limit:*
+    flags:
+    group:0
+    label:"Installed files only"
+    label_limit:*
+    action:&0
+  }
+  radiobutton_object {
+    cmp:&4
+    bbox:96,-316,584,-272
+    help_message:""
+    help_limit:*
+    flags:
+    group:0
+    label:"Components then installed files"
+    label_limit:*
+    action:&0
+  }
+  labelledbox_object {
+    cmp:&5
+    bbox:56,-340,664,-108
+    help_message:""
+    help_limit:*
+    flags:gadget_AT_BACK
+    label:"Search"
+  }
+  optionbutton_object {
+    cmp:&6
+    bbox:732,-180,1040,-136
+    help_message:""
+    help_limit:*
+    flags:
+    label:"Exact Match"
+    label_limit:*
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:948,-332,1152,-264
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Find"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:728,-324,916,-272
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"FileFound"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_WINDOW_FOCUS
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:340,232,1464,772
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Component Found"
+  window.title_text_limit:30
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:40,-72,228,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Leafname"
+  }
+  displayfield_object {
+    cmp:&1
+    bbox:260,-72,636,-20
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
+  }
+  label_object {
+    cmp:&2
+    bbox:44,-144,232,-92
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Package"
+  }
+  displayfield_object {
+    cmp:&3
+    bbox:260,-140,636,-88
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
+  }
+  displayfield_object {
+    cmp:&4
+    bbox:684,-140,928,-88
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:16
+  }
+  label_object {
+    cmp:&5
+    bbox:16,-212,228,-160
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Install location"
+  }
+  displayfield_object {
+    cmp:&6
+    bbox:260,-208,1092,-156
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:256
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:900,-512,1088,-460
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Close"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:776,-444,1088,-392
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Info on Package..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  button_object {
+    cmp:&9
+    bbox:64,-416,160,-332
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_SPRITE | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"file_xxx"
+    value_limit:13
+    validation:""
+    validation_limit:*
+  }
+  label_object {
+    cmp:&a
+    bbox:812,-304,916,-252
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Match"
+  }
+  displayfield_object {
+    cmp:&b
+    bbox:632,-352,1084,-300
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"Partial Leafname"
+    text_limit:30
+  }
+  labelledbox_object {
+    cmp:&c
+    bbox:32,-512,584,-224
+    help_message:""
+    help_limit:*
+    flags:gadget_AT_BACK
+    label:"File information"
+  }
+  label_object {
+    cmp:&d
+    bbox:184,-376,300,-324
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Type"
+  }
+  displayfield_object {
+    cmp:&e
+    bbox:316,-372,544,-320
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED | gadget_FADED
+    text:"Unknown"
+    text_limit:32
+  }
+  label_object {
+    cmp:&f
+    bbox:172,-436,300,-384
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Size"
+  }
+  displayfield_object {
+    cmp:&10
+    bbox:316,-432,544,-380
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED | gadget_FADED
+    text:"Unknown"
+    text_limit:12
+  }
+  label_object {
+    cmp:&11
+    bbox:24,-496,132,-444
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Date"
+  }
+  displayfield_object {
+    cmp:&12
+    bbox:152,-492,544,-440
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED | gadget_FADED
+    text:"Unknown"
+    text_limit:24
+  }
+  label_object {
+    cmp:&13
+    bbox:60,-320,300,-268
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"On Filesystem"
+  }
+  displayfield_object {
+    cmp:&14
+    bbox:316,-316,540,-264
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"No"
+    text_limit:4
+  }
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"FindResults"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:"FindResMenu"
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:&0
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:392,240,1560,928
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:wimp_BUTTON_REPEAT | wimp_BUTTON_DOUBLE_DRAG
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Find results"
+  window.title_text_limit:*
+  window.title_valid:""
+}
+
+menu_object {
+  header_flags:
+  version:102
+  object_name:"FindResMenu"
+  menu_flags:menu_GENERATE_ABOUT_TO_BE_SHOWN
+  title:"Find Results"
+  title_limit:*
+  help:""
+  help_limit:*
+  show_action:&0
+  hide_action:
+  Entry {
+    cmp:0
+    flags:
+    cmp:&0
+    text:"Info on ''"
+    text_limit:64
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&0
+    help:""
+    help_limit:*
   }
 }

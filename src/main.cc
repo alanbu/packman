@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -36,7 +36,7 @@
 
 #include "Packages.h"
 #include "MainWindow.h"
-#include "PackageLoader.h"
+#include "FileLoader.h"
 #include "Commands.h"
 #include "MainMenu.h"
 #include "PackageMenu.h"
@@ -91,12 +91,13 @@ int main(int argc, char *argv[])
 
 	iconbar.add_select_command(new ShowMainWindowCommand());
 	iconbar.add_adjust_command(new ShowInstalledCommand());
-	iconbar.add_loader(new PackageLoader());
+	iconbar.add_loader(new FileLoader());
 	iconbar.menu().add_command(ShowChoicesWindowCommand::COMMAND_ID, new ShowChoicesWindowCommand());
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
 	iconbar.menu().add_command(ShowBackupWindowCommand::COMMAND_ID, new ShowBackupWindowCommand());
 	iconbar.menu().add_command(VerifyAllAskCommand::COMMAND_ID, new VerifyAllAskCommand());
+	iconbar.menu().add_command(FindFileCommand::COMMAND_ID, new FindFileCommand());
 
 	ReportUncaught error_handler;
 	packman.uncaught_handler(&error_handler);

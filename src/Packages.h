@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -65,6 +65,8 @@ public:
 	void reset_package_list();
 
 	std::string sections();
+
+	const pkg::binary_control *find_control(const std::string &pkgname);
 
 	void clear_selection();
 	void select_install(const pkg::binary_control *bctrl);
