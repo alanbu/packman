@@ -23,6 +23,9 @@ Version 0.8.x
 - After failure to commit should I reshow the configure window or clear all the entries?
 - Commit failure may be leaving Components file which shouldn't be there - need to test
 - LibPkg: Doesn't successfully "download" a file from the local disc if it's over 64K
+- Components field can't include "/" which is used for files with dos type extensions
+- Add a warning if you put the install path inside a component already on the disk - John Schild
+- Add a I've moved it entry to update the package database is a component has been moved outside packman
 
 Version 0.9
 -----------
