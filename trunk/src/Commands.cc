@@ -40,6 +40,7 @@
 #include "ChoicesWindow.h"
 #include "CopyrightWindow.h"
 #include "FindWindow.h"
+#include "InstallListSaveAs.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"

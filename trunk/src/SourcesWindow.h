@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2010 Alan Buckley
+* Copyright 2010-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -26,6 +26,7 @@
 #ifndef SOURCESWINDOW_H_
 #define SOURCESWINDOW_H_
 
+#include "SourcesFile.h"
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/window.h"
 #include "tbx/scrolllist.h"
@@ -34,8 +35,6 @@
 #include "tbx/actionbutton.h"
 #include "tbx/optionbutton.h"
 
-#include <vector>
-#include <utility>
 
 class SourceEdit;
 
@@ -49,7 +48,7 @@ class SourcesWindow :
 	SourceEdit *_editor;
 	tbx::ActionButton _edit_button, _remove_button, _enable_button;
 	tbx::OptionButton _update_list;
-	std::vector<std::pair<std::string, bool> > _source_info;
+	SourcesFile _sources_file;
 	bool _ignore_next_select;
 
     class ShowKnownSources : public tbx::Command

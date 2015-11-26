@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Install List Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Install List Window</H2>
+<P>The Install List Window is shown when you drop an install list on to the PackMan icon on the iconbar. An install list is a file saved from the <a href="advmenu.htm">Advanced menu</a> that contains information on the installed packages, paths and sources in PackMan at the time the list was saved.</P>
+<P>For details of the format of an install list file see <A HREF="installlist.htm">here</A>.</P>
+<P>The install list window shows a summary of what is in the install list with the following fields.</P>
+<ul>
+  <li>Number of packages to add - The number of packages that will be added from this install list. i.e. The packages in the list that are not already installed.
+  </li>
+  <li>Number of unavailable packages - The number of packages that are in the install list, but are not in the current list of available packages. When you press the "Continue" button you will be prompted to update the available packages list if there are any unavailable packages. If the unavailable packages appear in the packages list after the update, they will be added to the packages to install.
+  </li>
+  <li>Number of new paths - This is the number of logical path in the install list that are not in the current paths list.
+  </li>
+  <li>Number of paths that clash - This the the number of logical paths that are in the install list, but are already defined in PackMan. These paths will not be updated. Use the "Agenda" button to see these paths.</li>
+  <li>Number of new sources - This is the number of sources in the install list that are not in the current sources list.
+  </li>
+</ul>
+<P>Two check boxes allow you to specify what is added.</P>
+<ul>
+   <li>Add new paths - Select this check box to add the new paths from the install list. It defaults to "on" if there are any new paths.</li>
+   <li>Add new sources - Select this check box to add the new sources from the install list. It defaults to "on" if there are any new sources.</li>
+</ul>
+
+<P>The window contains the following buttons</P>
+<ul>
+<li>Agenda - Shows a window with a list of actions that will be taken when the "Continue" button is selected.</li>
+<li>Cancel - Close the window without updating anything.</li>
+<li>Continue - Install the new packages/paths and sources.</li>
+</ul>
+
+<P>Once the "Continue" button is pressed the following processing happens.</P>
+<ul>
+  <li>If paths are being added and any of the paths refer to a drive that does not exist on the machine, a window will be shown that allows you to map the invalid paths from the install list to valid paths on your current machine.</li>
+  <li>If paths are being added any new paths will be added to the paths table.</li>
+  <li>If sources are being added any new sources from the install list will be added to the sources table.</li>
+  <li>If any of the packages are unavailable a prompt will be shown to ask if you wish to update the packages list. Selecting "Yes" will cause the update list window to be run and the processing will continue to the next step when that has finished. If you answer "No" processing will continue to the next step without updating the lists.
+  </li>
+  <li>The packages will be added to the <A HREF="configpackage.htm">Configure Package Window</A> where you will be able to remove any packages you don't wish to install and set any other configuration options on the packages to be installed.</li>
+</ul>
+
+</BODY>
+</HTML>

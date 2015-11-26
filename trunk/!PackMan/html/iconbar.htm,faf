@@ -61,9 +61,12 @@ system.
   <TD>Close the package Manager</TD>
 </TR>
 </TABLE>
-<P>Drag a package file from that filer and drop it onto the iconbar to insert a local package from
+<P>Drag a package file from that filer and drop it onto the iconbar icon to insert a local package from
 the list of packages and show the Configure Packages Window with it selected for install.</P>
-<P>Dragging a file which is not a package or zip file to the
-iconbar will open the <A HREF="findfilewnd.htm">Find File Dialog</A> with the filename entered as the text to find.</P>
+<P>Drag a package list file from the filer and drop it onto the iconbar icon to open the
+ <A HREF="installlistwnd.htm">Install List Window</A> to add any packages from the
+ install list that are not already installed.</P>
+<P>Dragging a file which is not a package, zip file or package list to the
+iconbar icon will open the <A HREF="findfilewnd.htm">Find File Dialog</A> with the filename entered as the text to find.</P>
 </BODY>
 </HTML>

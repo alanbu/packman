@@ -24,12 +24,12 @@ menu_object {
   header_flags:
   version:102
   object_name:"IconbarMenu"
-  menu_flags:
+  menu_flags:menu_GENERATE_ABOUT_TO_BE_SHOWN
   title:"PackMan"
   title_limit:*
   help:""
   help_limit:*
-  show_action:
+  show_action:&0
   hide_action:
   Entry {
     cmp:0
@@ -2369,6 +2369,19 @@ menu_object {
     sub_menu_object_name:""
     sub_menu_action:&0
     click_action:&a
+    help:""
+    help_limit:*
+  }
+  Entry {
+    cmp:11
+    flags:menu_ENTRY_SUB_MENU | menu_ENTRY_GENERATE_SUB_MENU_ACTION
+    cmp:&b
+    text:"Save Install List"
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:"InstList"
+    sub_menu_action:&0
+    click_action:&0
     help:""
     help_limit:*
   }
@@ -4947,5 +4960,376 @@ menu_object {
     click_action:&0
     help:""
     help_limit:*
+  }
+}
+
+saveas_object {
+  header_flags:
+  version:100
+  object_name:"InstList"
+  saveas_flags:saveas_NO_SELECTION_BUTTON
+  file_name:"Installed"
+  file_type:&fff
+  title:"Save Installed List"
+  title_limit:*
+  alternative_window_name:""
+}
+
+window_object {
+  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  version:102
+  object_name:"InstListLd"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:512,232,1272,728
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Install Package list"
+  window.title_text_limit:*
+  window.title_valid:""
+  actionbutton_object {
+    cmp:&0
+    bbox:280,-468,468,-416
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&1
+    bbox:524,-476,728,-408
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT
+    text:"Continue"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&2
+    bbox:24,-72,484,-20
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Number of packages to add"
+  }
+  displayfield_object {
+    cmp:&3
+    bbox:536,-72,724,-20
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:12
+  }
+  label_object {
+    cmp:&4
+    bbox:152,-204,484,-152
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Number of new paths"
+  }
+  displayfield_object {
+    cmp:&5
+    bbox:536,-196,724,-144
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:12
+  }
+  label_object {
+    cmp:&6
+    bbox:4,-328,484,-276
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Number of new sources"
+  }
+  displayfield_object {
+    cmp:&7
+    bbox:536,-320,724,-268
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:12
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:32,-468,220,-416
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Agenda..."
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  label_object {
+    cmp:&9
+    bbox:40,-140,484,-88
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Number of unavailable packages"
+  }
+  displayfield_object {
+    cmp:&a
+    bbox:536,-136,724,-84
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:12
+  }
+  label_object {
+    cmp:&b
+    bbox:12,-264,484,-212
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Number of paths that clash"
+  }
+  displayfield_object {
+    cmp:&c
+    bbox:536,-256,724,-204
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"0"
+    text_limit:12
+  }
+  optionbutton_object {
+    cmp:&d
+    bbox:28,-392,372,-348
+    help_message:""
+    help_limit:*
+    flags:gadget_FADED
+    label:"Add new paths"
+    label_limit:*
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&e
+    bbox:396,-392,732,-348
+    help_message:""
+    help_limit:*
+    flags:gadget_FADED
+    label:"Add new sources"
+    label_limit:*
+    action:&0
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Agenda"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:208,388,1340,924
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_WHITE
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-1024,1280,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Install list agenda"
+  window.title_text_limit:*
+  window.title_valid:""
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"MapDrives"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:408,292,1252,688
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-396,844,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Map drives"
+  window.title_text_limit:*
+  window.title_valid:""
+  label_object {
+    cmp:&0
+    bbox:32,-68,744,-16
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"One or more drives in the install list are not available"
+  }
+  label_object {
+    cmp:&1
+    bbox:32,-116,444,-64
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"on this machine."
+  }
+  label_object {
+    cmp:&2
+    bbox:32,-168,604,-116
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Please enter the new drive(s) to use"
+  }
+  label_object {
+    cmp:&3
+    bbox:32,-228,360,-176
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Drive in install list"
+  }
+  label_object {
+    cmp:&4
+    bbox:412,-228,720,-176
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX
+    label:"Drive to use"
+  }
+  actionbutton_object {
+    cmp:&7
+    bbox:104,-368,292,-316
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_CANCEL | actionbutton_IS_LOCAL
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&8
+    bbox:320,-368,584,-316
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Map all to boot"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&9
+    bbox:620,-376,824,-308
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_LOCAL
+    text:"Map"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  displayfield_object {
+    cmp:&1000
+    bbox:40,-276,388,-224
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"old drive"
+    text_limit:32
+  }
+  writablefield_object {
+    cmp:&1001
+    bbox:420,-276,820,-224
+    help_message:""
+    help_limit:*
+    flags:writablefield_HCENTRED
+    text:"New drive"
+    text_limit:32
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
   }
 }

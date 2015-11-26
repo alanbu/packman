@@ -26,14 +26,17 @@
 
 #include "InstallListSaveAs.h"
 #include "InstallList.h"
+#include "Packages.h"
 #include "tbx/hourglass.h"
+#include "tbx/deleteonhidden.h"
+#include "tbx/messagewindow.h"
 
 /**
  * Construct from save as object
  */
-InstallListSaveAs::InstallListSaveAs(tbx::Object obj)
+InstallListSaveAs::InstallListSaveAs(tbx::Object object)
 {
-	tbx::SaveAs saveas(obj);
+	tbx::SaveAs saveas(object);
 	saveas.set_save_to_file_handler(this);
 }
 
@@ -50,4 +53,5 @@ void InstallListSaveAs::saveas_save_to_file(tbx::SaveAs saveas, bool selection, 
 	InstallList install_list(true, true);
 	tbx::Hourglass hg(true);
 	install_list.save(filename);
+	saveas.file_save_completed(true, filename);
 }
