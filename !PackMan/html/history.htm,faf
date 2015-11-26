@@ -8,13 +8,10 @@
 <UL>
 <LI><B>0.8.? Beta - ??? 2015</B>
 <UL>
-<LI>Added more functionality to the Info window. You can now install/upgrade/remove packages, view the copyright and show the components window from it.
-</LI>
-<LI>Added warning message if dependencies can not be met for a package dropped on to the icon bar icon<LI>
-<LI>Added find file window to search packages for a component or installed file</LI>
+<LI>Added find file window to search packages for a component or installed file.</LI>
+<LI>Added save/load install list of packages, paths and sources.</LI>
 </UL>
 </LI>
-
 <LI><B>0.8.4 Beta - December 2014</B>
 <UL>
 <LI>Added a reminder message to update the Package List.
@@ -29,7 +26,7 @@ of sources, and so did not display the default sources used until the user modif
 As the list was empty clicking save would set PackMan to use an empty list of sources from then on.
 </LI>
 <LI>Fixed creating of PackMan choices directory for save of the "WhatsNew" list</LI>
-<LI>Fixed prompt for initial update lists showing both buttons as default</LI> 
+<LI>Fixed prompt for initial update lists showing both buttons as default</LI>
 <LI>File conflicts are no longer case sensitive so the case of a file in the package can
 change without causing a conflict.</LI>
 <LI>First release built with the GCC 4.7.4 compiler</LI>

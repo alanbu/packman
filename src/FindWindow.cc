@@ -36,6 +36,7 @@
 #include "tbx/path.h"
 #include "tbx/hourglass.h"
 #include "tbx/loader.h"
+#include "tbx/deleteonhidden.h"
 
 FindWindow::FindWindow() :
 	_window("Find"),
@@ -44,6 +45,9 @@ FindWindow::FindWindow() :
 {
 	tbx::ActionButton find_button = _window.gadget(7);
 	find_button.add_selected_command(&_find_command);
+
+	// Dump class and object when window is hidden
+	_window.add_has_been_hidden_listener(new tbx::DeleteClassAndObjectOnHidden<FindWindow>(this));
 }
 
 FindWindow::FindWindow(const std::string &find_text) : FindWindow()

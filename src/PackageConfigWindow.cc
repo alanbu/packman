@@ -955,3 +955,28 @@ void PackageConfigWindow::show()
 {
 	_window.show();
 }
+
+/**
+ * Update the package component flags shown in the window
+ *
+ * Must be called after the packages have been added.
+ * Components that are not in the window are ignored
+ *
+ * @param comp_name name of the component to update
+ * @param flags the new component state for the window
+ */
+void PackageConfigWindow::update_component_flags(const std::string &comp_name, unsigned int flags)
+{
+	if (_instance == nullptr) return;
+	int idx = _instance->find_component(comp_name);
+	if (idx != -1)
+	{
+		int first_id = FIRST_COMPONENT + (idx << COMP_SHIFT);
+		tbx::OptionButton ob = _instance->_window.gadget(first_id + COMP_LOOK_AT);
+		ob.on((flags & (1 << pkg::component::look_at))!=0);
+		ob = _instance->_window.gadget(first_id + COMP_RUN);
+		ob.on((flags & (1 << pkg::component::run))!=0);
+		ob = _instance->_window.gadget(first_id + COMP_ADD_TO_APPS);
+		ob.on((flags & (1 << pkg::component::add_to_apps))!=0);
+	}
+}

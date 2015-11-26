@@ -36,7 +36,7 @@ class InstallListSaveAs :
 	tbx::SaveAsSaveToFileHandler
 {
 public:
-	InstallListSaveAs(tbx::Object obj);
+	InstallListSaveAs(tbx::Object object);
 	virtual ~InstallListSaveAs();
 
 	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);

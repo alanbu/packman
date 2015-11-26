@@ -1,0 +1,68 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Install List Format</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H1>Install list format</H1>
+<P>The install list is used to save a list of the installed packages, paths and sources.</P>
+<P>The simplest way to create an install list is to use the "Save Install List" option from the <A HREF="advmenu.htm">Advanced menu</A>. This saves a list of all the current installed packages, paths and sources.</P>
+<P>The file is a text file in an XML format that can be created/edited by hand.</P>
+<P>The tags used in the file are:</P>
+<ul>
+<li>packagelist - encloses the rest of the file. It has one attribute "version" that gives the version of this file. This should be "1" for the current release of PackMan.</li>
+<li>sources - encloses one or more source tags that determines where PackMan downloads the package lists from.</li>
+<li>source - specifies one source. Must be a child of the sources tag. It has one attribute "url" which it the URL used to locate a package list.</li>
+<li>paths - enclosed one or more path tags that sets the mapping between logical and physical paths.</li>
+<li>path - specifies the mapping between one logical path and a physical path. Must be a child of the paths tag. The attribute "logical" specifies the logical path to add. The attribute "physical" specifies the location on disc that logical path is mapped to. The physical path is often saved relative to the RISC OS boot directory.</li>
+<li>packages - encloses one or more package tags.</li>
+<li>package - specifies a package that is installed. It has attributes "name", "version" and "auto". The "name" attribute is the name of the package, the "version" attribute gives the version of the package that is installed. The "auto" attribute is a flag that appears if the package was installed as a dependency. The package may have a components tags as it's child.</li>
+<li>components - enclosed one or more component tags. Must be a child of the package tag.</li>
+<li>component - specifies one component of a package and any flags it may have set. Must be a child of the components tag. The attribute "name" gives the logical path to the component in the package. It may also have one or more of the following flags specified as a flag name "look_at", "run" and "add_to_apps"</li>
+</ul>
+
+<P><B>An example install list</B></P>
+<code>
+<pre>
+&lt;packagelist version = "1"&gt;
+   &lt;sources&gt;
+      &lt;source
+          url = "http://packages.riscosopen.org/packages/pkg/programs-armv5" /&gt;
+      &lt;source
+          url = "http://packages.riscosopen.org/packages/pkg/programs-armv7" /&gt;
+   &lt;/sources&gt;
+   &lt;paths&gt;
+      &lt;path
+        logical = "Apps"
+        physical = "&amp;lt;Boot$Dir&amp;gt;.^.Apps"/&gt;
+      &lt;path
+        logical = "Apps.Admin.!PackMan"
+        physical = "HostFS:$.Apps.Admin.!PackMan"/&gt;
+      &lt;path
+        logical = "Apps.Games"
+        physical = "HostFS::HostFS.$.Apps.Games"/&gt;
+   &lt;/paths&gt;
+   &lt;packages&gt;
+      &lt;package name = "CircusLinux" version = "1.0.3-3"&gt;
+         &lt;components&gt;
+            &lt;component name = "Apps.Games.!CircusLnx"/&gt;
+         &lt;/components&gt;
+      &lt;/package&gt;
+      &lt;package name = "DRenderer" version = "0.56-r-1" auto/&gt;
+      &lt;package name = "PackIt" version = "0.6-1"&gt;
+         &lt;components&gt;
+            &lt;component name = "Apps.Development.!PackIt"/&gt;
+         &lt;/components&gt;
+      &lt;/package&gt;
+      &lt;package name = "PackMan" version = "0.8.4-1"&gt;
+         &lt;components&gt;
+            &lt;component name = "Apps.Admin.!PackMan"/&gt;
+         &lt;/components&gt;
+      &lt;/package&gt;
+      &lt;package name = "Tabs" version = "0.12-1"/&gt;
+   &lt;/packages&gt;
+&lt;/packagelist&gt;
+</pre>
+</code>
+
+</BODY>

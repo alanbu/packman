@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -42,6 +42,21 @@
 #include <tr1/memory>
 
 class LogViewer;
+
+/**
+ * Listener for completion of update lists
+ */
+class UpdateListListener
+{
+public:
+	virtual ~UpdateListListener() {}
+	/**
+	 * Called when list update has finished
+	 *
+	 * @param success true if list update succeeded
+	 */
+	virtual void lists_updated(bool success) = 0;
+};
 
 /**
  * Class to show window and update list of available packages
@@ -92,15 +107,22 @@ class UpdateListWindow : pkg::thread
 	/** Binding from log button to show log command */
 	tbx::CommandMethod<UpdateListWindow> _show_log_command;
 
+	/** Listener for update finished */
+	UpdateListListener *_listener;
+
 public:
     UpdateListWindow();
 	virtual ~UpdateListWindow();
+
+	static UpdateListWindow *instance() {return _instance;}
 
     static bool showing() {return (_instance != 0);}
 
     void cancel();
 
     virtual void poll();
+
+    void listener(UpdateListListener *listener);
 
 private:
     bool write_whats_new();

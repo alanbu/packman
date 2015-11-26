@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2013 Alan Buckley
+* Copyright 2009-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -48,7 +48,8 @@ UpdateListWindow::UpdateListWindow() :
     _upd(0),
     _state(pkg::update::state_done),
     _log_viewer(0),
-    _show_log_command(this, &UpdateListWindow::show_log)
+    _show_log_command(this, &UpdateListWindow::show_log),
+    _listener(nullptr)
 {
    _instance = this;
    _cancel_button.add_select_command(&_cancel_command);
@@ -86,6 +87,16 @@ UpdateListWindow::UpdateListWindow() :
 UpdateListWindow::~UpdateListWindow()
 {
 	delete _upd;
+}
+
+/**
+ * Set listener for update lists finishing.
+ *
+ * @param listener - set to null to clear
+ */
+void UpdateListWindow::listener(UpdateListListener *listener)
+{
+	_listener = listener;
 }
 
 /**
@@ -140,6 +151,7 @@ void UpdateListWindow::poll()
                 	_upgrade_all.fade(false);
                 }
                 _whats_new.fade(!write_whats_new());
+                if (_listener) _listener->lists_updated(true);
 				break;
 			case pkg::update::state_fail:
 				_action.text("Failed");
@@ -150,6 +162,7 @@ void UpdateListWindow::poll()
 				delete _upd;
 				_upd=0;
                 tbx::app()->remove_idle_command(&_thread_runner);
+                if (_listener) _listener->lists_updated(false);
 				break;
 			}
 		}

@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2010-2014 Alan Buckley
+* Copyright 2010-2015 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -28,13 +28,10 @@
 #include "Packages.h"
 #include "ErrorWindow.h"
 #include "UpdateListWindow.h"
-#include "Choices.h"
 #include "tbx/application.h"
-#include "tbx/path.h"
 #include "tbx/deleteonhidden.h"
 #include "libpkg/pkgbase.h"
 #include "libpkg/source_table.h"
-#include <fstream>
 
 #include <kernel.h>
 
@@ -83,51 +80,16 @@ SourcesWindow::~SourcesWindow()
 void SourcesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 {
 	tbx::WimpSprite tick("tick");
-	// Read sources from file so we also get the disabled sources
-	std::string sources_path(choices_read_path("Sources"));
-	std::ifstream in(sources_path.c_str());
-    // If we can't open them fall back to the default
-	if (!in) in.open("<PackMan$Dir>.Resources.Sources");
-	while (in&&!in.eof())
+	_sources_file.load();
+	for (auto source : _sources_file.sources())
 	{
-		// Read line from input stream.
-		std::string line;
-		std::getline(in,line);
-
-		// Strip comments and trailing spaces.
-		std::string::size_type n=line.find('#');
-		if (n!=std::string::npos)
+		if (source.second)
 		{
-			n++;
-			while(n < line.size() && std::isspace(line[n])) line.erase(n,1);
-			if (n == line.size() || line.compare(n,3,"pkg") != 0) n = 0;
-			else n = line.find('#',n+1 ); // Strip second set of comments
+			_sources.add_item(source.first, tick);
+		} else
+		{
+			_sources.add_item(source.first);
 		}
-		if (n==std::string::npos) n=line.size();
-
-		while (n&&std::isspace(line[n-1])) --n;
-		line.resize(n);
-
-		// Extract source type and source path.
-		std::string::size_type i=0;
-		while ((i!=line.length())&&!std::isspace(line[i])) ++i;
-		std::string srctype(line,0,i);
-		while ((i!=line.length())&&std::isspace(line[i])) ++i;
-		std::string srcpath(line,i,std::string::npos);
-
-		// Ignore line if source type not recognised.
-		if (srctype=="pkg")
-		{
-    		_sources.add_item(srcpath, tick);
-			_source_info.push_back(std::make_pair(srcpath, true));
-		} else if (srctype=="#pkg")
-		{
-			_sources.add_item(srcpath);
-			_source_info.push_back(std::make_pair(srcpath, false));
-		}
-
-		// Check for end of file.
-		in.peek();
 	}
 }
 
@@ -148,7 +110,7 @@ void SourcesWindow::scrolllist_selection(const tbx::ScrollListSelectionEvent &ev
 	_edit_button.fade(fade);
 	_remove_button.fade(fade);
 	_enable_button.fade(fade);
-	if (!fade) _enable_button.text(_source_info[event.index()].second ? "Disable" : "Enable");
+	if (!fade) _enable_button.text(_sources_file.enabled(event.index()) ? "Disable" : "Enable");
 	if (!fade && event.double_click()) edit();
 }
 
@@ -171,12 +133,12 @@ void SourcesWindow::source(int index, const std::string &url)
 	if (index == -1)
 	{
 		_sources.add_item(url, tbx::WimpSprite("tick"));
-		_source_info.push_back(std::make_pair(url, true));
+		_sources_file.add(url, true);
 	}
 	else
 	{
 		_sources.item_text(index, url);
-		_source_info[index].first = url;
+		_sources_file.url(index, url);
 	}
 }
 
@@ -211,7 +173,7 @@ void SourcesWindow::remove()
 	if (index >= 0)
 	{
 		_sources.delete_item(index);
-		_source_info.erase(_source_info.begin() + index);
+		_sources_file.erase(index);
 		_edit_button.fade(true);
 		_remove_button.fade(true);
 		_enable_button.fade(true);
@@ -228,18 +190,18 @@ void SourcesWindow::enable()
 	{
 		_sources.deselect_item(index);
 		_sources.delete_item(index);
-		if(_source_info[index].second)
+		if(_sources_file.enabled(index))
 		{
-			_source_info[index].second = false;
-			_sources.add_item(_source_info[index].first, index);
+			_sources_file.enable(index, false);
+			_sources.add_item(_sources_file.url(index), index);
         } else
 		{
-			_source_info[index].second = true;
-			_sources.add_item(_source_info[index].first, tbx::WimpSprite("tick"), index);
+			_sources_file.enable(index, true);
+			_sources.add_item(_sources_file.url(index), tbx::WimpSprite("tick"), index);
        	}
 		_ignore_next_select = true;
 		_sources.select_unique_item(index);
-        _enable_button.text(_source_info[index].second ? "Disable" : "Enable");
+        _enable_button.text(_sources_file.enabled(index) ? "Disable" : "Enable");
     }
 }
 
@@ -257,39 +219,18 @@ void SourcesWindow::ShowKnownSources::execute()
  */
 void SourcesWindow::save()
 {
-	if (!Choices::ensure_choices_dir())
+	try
 	{
-		new ErrorWindow("Unable to create", ChoicesDir, "Sources save failure");
-	} else
+		_sources_file.save();
+		bool update = _update_list.on();
+		_window.hide();
+		pkg::pkgbase *pkgbase = Packages::instance()->package_base();
+		pkg::source_table &sources =pkgbase->sources();
+		sources.update();
+		if (update) new UpdateListWindow();
+	} catch (std::exception &e)
 	{
-		tbx::Path sources_path(choices_write_path("Sources"));
-
-		std::ofstream sfile(sources_path.name());
-		if (sfile)
-		{
-			sfile << "# Sources written by PackMan" << std::endl << std::endl;
-			int num_entries = _source_info.size();
-			for (int i = 0; i < num_entries; i++)
-			{
-				if (!_source_info[i].second) sfile << "#";
-				sfile << "pkg " << _source_info[i].first << std::endl;
-			}
-			sfile.close();
-		}
-
-		if (sfile)
-		{
-			bool update = _update_list.on();
-			_window.hide();
-			pkg::pkgbase *pkgbase = Packages::instance()->package_base();
-			pkg::source_table &sources =pkgbase->sources();
-			sources.update();
-			if (update) new UpdateListWindow();
-		}
-		else
-		{
-			new ErrorWindow("Unable to write sources file ",sources_path, "Sources save failure");
-		}
+		new ErrorWindow(e.what(), "Sources save failed");
 	}
 }
 

@@ -28,6 +28,7 @@
 #define COMMANDS_H_
 
 #include "tbx/command.h"
+#include "tbx/menu.h"
 
 class MainWindow;
 class IRWindow;

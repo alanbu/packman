@@ -25,6 +25,7 @@ system.</P>
 which check if there are any files missing from your installed packages.
 <LI>View Log - shows the update lists/commit log from the last update lists or commit that was run.
  If logging is turned off this option allows will prompt to turn it on.</LI>
+<LI>Save Install List - Saves a text file in XML format that contains a list of all the installed packages, paths and sources. This can be reloaded by dragging the saved file to the PackMan icon on the iconbar. Dragging the list to the iconbar will open the <A HREF="installlistwnd.htm">Install List Window</A> which allows the packages, paths and sources to be selected/added to PackMan. This is useful to take a backup of the current state of PackMan or to transfer it to another machine to installed the same packages.
 </UL>
 </P>
 

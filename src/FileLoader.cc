@@ -28,8 +28,10 @@
 #include "Packages.h"
 #include "PackageLoader.h"
 #include "FindWindow.h"
+#include "InstallListLoadWindow.h"
 
 #include <fstream>
+#include <cstring>
 
 FileLoader::FileLoader()
 {
@@ -49,13 +51,15 @@ bool FileLoader::load_file(tbx::LoadEvent &event)
 	{
 		std::ifstream fil(event.file_name(), std::ifstream::binary);
 		bool package = false;
+		bool package_list = false;
 		if (fil)
 		{
-			char buffer[8];
-			fil.read(buffer, 8);
+			char buffer[13];
+			fil.read(buffer, 13);
 			if (fil && !fil.eof())
 			{
 				package = ( buffer[0] == 'P' && buffer[1] == 'K' );
+				if (!package && std::strncmp(buffer, "<packagelist ",13) == 0) package_list = true;
 			}
 			fil.close();
 		}
@@ -63,6 +67,9 @@ bool FileLoader::load_file(tbx::LoadEvent &event)
 		{
 			PackageLoader pl;
 			return pl.load_file(event);
+		} else if (package_list)
+		{
+			new InstallListLoadWindow(event.file_name());
 		} else
 		{
 			new FindWindow(event.file_name());

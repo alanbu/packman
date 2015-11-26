@@ -115,6 +115,8 @@ public:
 	static void bring_to_top();
 	void show();
 
+	static void update_component_flags(const std::string &comp_name, unsigned int flags);
+
 private:
 	void apply();
 	void cancel();
