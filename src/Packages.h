@@ -32,11 +32,13 @@ namespace pkg {
 class pkgbase;
 class log;
 class binary_control;
+class control;
 
 }; /* namespace pkg; */
 
 #include <vector>
 #include <string>
+#include <set>
 #include <tr1/memory>
 /**
  * Class to handle packages
@@ -87,6 +89,10 @@ public:
 	std::tr1::shared_ptr<pkg::log> new_log();
 
 	void get_recommendations(const std::vector< std::pair<std::string, std::string> > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests);
+
+	void check_dependencies(const pkg::control& ctrl);
+private:
+	void check_dependencies(const std::string &pkgname, const std::string &depends, std::string &missing, std::set<std::string> &done);
 };
 
 std::string format_description(const pkg::binary_control *bctrl);
