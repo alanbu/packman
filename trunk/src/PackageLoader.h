@@ -45,7 +45,6 @@ public:
 
 private:
 	pkg::binary_control extract_control(const std::string& pathname);
-	void check_dependencies(const std::string &pkgname, const std::string &depends);
 };
 
 #endif /* PACKAGELOADER_H_ */

@@ -34,9 +34,13 @@
 #include <set>
 #include <cstdlib>
 
+#include <iostream>
+
 #include "swis.h"
+#include "tbx/application.h"
 #include "tbx/swixcheck.h"
 #include "tbx/stringutils.h"
+#include "tbx/messagewindow.h"
 
 using namespace std;
 
@@ -237,10 +241,12 @@ void Packages::select_install(const pkg::binary_control *bctrl)
 	selstat.version(ctrl.version());
 	_package_base->selstat().insert(pkgname,selstat);
 	seed.insert(pkgname);
-	_package_base->fix_dependencies(seed);
+	if (!_package_base->fix_dependencies(seed))
+	{
+		check_dependencies(ctrl);
+	}
 	_package_base->remove_auto();
 }
-
 
 /**
  * Add latest version of given packages to selections for install or upgrade
@@ -605,3 +611,97 @@ std::string format_description(const pkg::binary_control *bctrl)
 	return desc;
 }
 
+/**
+ * Simple class to show a message on the next idle poll to give
+ * other things a change to display
+ */
+class DelayMsg : tbx::Command
+{
+	std::string _message;
+	std::string _title;
+	DelayMsg(const std::string &msg, const std::string &title) :
+		_message(msg),
+		_title(title)
+	{
+		tbx::app()->add_idle_command(this);
+	}
+public:
+	static void show(const std::string &msg, const std::string &title)
+	{
+		new DelayMsg(msg, title);
+	}
+	virtual ~DelayMsg() {}
+
+	virtual void execute()
+	{
+		tbx::app()->remove_idle_command(this);
+		tbx::show_message(_message, _title, "warning");
+		delete this;
+	}
+};
+
+/**
+ * Check that the dependencies are available and show a warning
+ * if they are not.
+ *
+ * @param depends list of dependencies string
+ */
+void Packages::check_dependencies(const pkg::control& ctrl)
+{
+	std::string missing;
+	std::set<std::string> done;
+	check_dependencies(ctrl.pkgname(), ctrl.depends(), missing, done);
+	if (!missing.empty())
+	{
+		missing = "Warning: The following dependencies are not available\n" + missing;
+		missing += "\n\nPlease add them before installing this package.";
+		std::string title("Missing dependencies for ");
+		title+=ctrl.pkgname();
+		DelayMsg::show(missing, title);
+	}
+}
+
+/**
+ * Recursive check of dependencies
+ *
+ * @param pkgname package to check
+ * @param depends dependencies from the package
+ * @param missing text update with missing dependencies
+ * @param done set of package/versions that have been checked
+ */
+void Packages::check_dependencies(const std::string &pkgname, const std::string &depends, std::string &missing, std::set<std::string> &done)
+{
+	if (depends.empty()) return;
+
+	pkg::pkgbase *package_base = Packages::instance()->package_base();
+	pkg::binary_control_table control_table = package_base->control();
+	std::vector<std::vector<pkg::dependency> > depends_list;
+	pkg::parse_dependency_list(depends.begin(), depends.end(), &depends_list);
+	std::vector<std::vector<pkg::dependency> >::const_iterator dli;
+	std::vector<pkg::dependency>::const_iterator di;
+	for(dli = depends_list.begin(); dli != depends_list.end(); ++dli)
+	{
+		for(di = dli->begin(); di != dli->end(); ++di)
+		{
+			if (done.find(di->pkgname()) == done.end())
+			{
+				done.insert(di->pkgname());
+				const pkg::binary_control &dctrl = control_table[di->pkgname()];
+				if (dctrl.pkgname() != di->pkgname())
+				{
+					if (!missing.empty()) missing += ", ";
+					missing += di->pkgname();
+					missing += " for " + pkgname;
+				} else if (!di->matches(dctrl.pkgname(),pkg::version(dctrl.version())))
+				{
+					if (!missing.empty()) missing += ", ";
+					missing += di->pkgname() + "version " + di->version().package_version();
+					missing += " for " + pkgname;
+				} else
+				{
+					check_dependencies(di->pkgname(), dctrl.depends(), missing, done);
+				}
+			}
+		}
+	}
+}

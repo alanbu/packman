@@ -18,12 +18,11 @@ Version 0.8.x
 -------------
 
 - Install filter doesn't update with new packages after an install
-- Add way to save list of what's installed so it can be used to restore a machine or set up another machine with the same packages (Jess Hampshire) - see below
 - Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
 - After failure to commit should I reshow the configure window or clear all the entries?
 - Commit failure may be leaving Components file which shouldn't be there - need to test
 - LibPkg: Doesn't successfully "download" a file from the local disc if it's over 64K
-- Components field can't include "/" which is used for files with dos type extensions
+- Components field can't include "/" which is used for files with dos type extensions or ">" which is in Text>Draw.
 - Add a warning if you put the install path inside a component already on the disk - John Schild
 - Add a I've moved it entry to update the package database is a component has been moved outside packman
 
@@ -81,81 +80,9 @@ Possible future changes (i.e. under consideration)
 Components (now in 0.8 - delete from here when Policy Manual is updated)
 ------------------------------------------------------------------------
 
-To support setting the install location, defaults for LookAt and other things in future I'm going to add a new field to the control record.
-
-The policy manual entry will be:
-
-The 'Components' field
-
-This contains a comma-separated list of the components that have extra configuration options.
-
-components-list = [ component-details, { [ws], ',', [ws], component-details } ]
-
-The component-details consists of the the component file/folder name and its options.
-
-component-details = file-name, [ws], component_options ;
-component-options = '(', { [ws], component_option {[ws] ',' component-option } ,[ws], ')'
-
-component-option = 'Moveable' , 'LookAt' ;
-
-'Moveable' means that this component can be installed to a different location or moved after install.
-
-'LookAt' means that this component suggests that it will be looked at on booting. i.e. It is added to the !Boot options 'Look At' list. At install time the user will be able to override this suggestion. As a guideline this flag should only be set for components that are run by double clicking on a file type or command line utilities.
-
-For example:
-
-Components: Apps.Development.!PackIt (Moveable,LookAt)
-
-
 Future options may include
  'Font' install as a RISC OS font.
  'SysMerge' This component is a system module so use sys merge logic to update it (e.g. If a new version of the module has been installed update the package version, but leave the existing module in place).
-
-
-System Module checking (plan to add in 0.8.1)
----------------------------------------------
-
-Module checking details, after downloading a package that contains a single module, control files and optionally documentation in the Manuals path, libpkg will now check if an existing RISC OS module is installed at the same location.
-If the module if found and an older version, the package will overwrite it.
-If the module found is the same or greater than the package version it will be left in place and the package database updated with the found version.
-The module versions found already on the machine are always assumed to have a "-1" on the end for the package version, so using "-2" or greater on a package will mean the same version is overwritten.
-
-
-Save/Restore installed package lists
-------------------------------------
-
-Only include installed packages (auto installed is expected to be picked up in normal processing)
-
-Simple xml format
-<packmanlist version="1">
-  <sources>
-    <source url = "..." />
-    ...
-  </sources>
-  <packages>
-    <package name = "..." version = "...">
-      <component name = "..." path = "..." <lookat> <run> <addtoapps> />
-      ...
-    </package>
-    ...
-  </packages>
-  
-Saving
-- Menu Advanced "Installed List..."
-  - Show list of packages to install and allow selection of ones to include
-  - Check box for don't include paths
-  - Check box for don't include sources
-  - Draggable to drag to save the list
-  
-Loading
-- Drag list to iconbar icon
-  - Remove packages already installed, sources already selected and paths changed locally.
-  - Show details of list (packages, paths and sources)
-  - Allow selection of packages to include
-  - Allow selection of paths to add
-  - Allow selection of sources to add
-  - Check if packages required are in currrent list, if not prompt for update lists after adding sources
-  - Check paths added are available - if not give chance to map to somewhere else.
 
 
 Install/Remove code

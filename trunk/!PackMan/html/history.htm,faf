@@ -10,6 +10,7 @@
 <UL>
 <LI>Added find file window to search packages for a component or installed file.</LI>
 <LI>Added save/load install list of packages, paths and sources.</LI>
+<LI>If any dependencies of a package are missing show a warning when installing a package.</LI>
 </UL>
 </LI>
 <LI><B>0.8.4 Beta - December 2014</B>
