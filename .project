@@ -3,6 +3,7 @@
 	<name>packman</name>
 	<comment></comment>
 	<projects>
+		<project>tbx</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

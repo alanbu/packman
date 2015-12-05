@@ -117,6 +117,7 @@ public:
 	static UpdateListWindow *instance() {return _instance;}
 
     static bool showing() {return (_instance != 0);}
+    static bool running();
 
     void cancel();
 

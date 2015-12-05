@@ -87,6 +87,7 @@ UpdateListWindow::UpdateListWindow() :
 UpdateListWindow::~UpdateListWindow()
 {
 	delete _upd;
+	_instance = nullptr;
 }
 
 /**
@@ -236,3 +237,26 @@ bool UpdateListWindow::write_whats_new()
 	return new_stuff;
 }
 
+/**
+ * Check if the update list window is running
+ *
+ * As part of the check it will close the update list window if it is
+ * not running but the window is still showing.
+ *
+ * @returns true if the update list window is running
+ */
+bool UpdateListWindow::running()
+{
+	if (showing())
+	{
+		if (_instance && _instance->_upd)
+	    {
+			return true;
+	    } else
+	    {
+			_instance->_window.hide();
+			delete _instance;
+		}
+	}
+	return false;
+}

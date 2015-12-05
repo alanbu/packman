@@ -95,7 +95,7 @@ void CommitCommand::execute()
  */
 void UpdateListCommand::execute()
 {
-	if (!UpdateListWindow::showing() && pmstate()->installed())
+	if (!UpdateListWindow::running() && pmstate()->installed())
 	{
 		new UpdateListWindow();
 	}
