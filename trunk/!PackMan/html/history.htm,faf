@@ -10,6 +10,7 @@
 <UL>
 <LI>Added find file window to search packages for a component or installed file.</LI>
 <LI>Added save/load install list of packages, paths and sources.</LI>
+<LI>Fixed bug that stopped update lists being run more than once.</LI>
 <LI>If any dependencies of a package are missing show a warning when installing a package.</LI>
 </UL>
 </LI>
