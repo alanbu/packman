@@ -86,7 +86,7 @@ void VerifyWindow::execute()
 					new VerifyFailedWindow(_verify.failed_packages());
 				 } else
 				 {
-					 tbx::show_message("All installed packages verified!","info");
+					 tbx::show_message("All installed packages verified!","","info");
 				 }
 		     }
 		     _window.delete_object();
