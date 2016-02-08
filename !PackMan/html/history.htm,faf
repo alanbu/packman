@@ -6,12 +6,17 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.8.? Beta - ??? 2015</B>
+<LI><B>0.9.? Beta - ??? 2016</B>
 <UL>
 <LI>Added find file window to search packages for a component or installed file.</LI>
 <LI>Added save/load install list of packages, paths and sources.</LI>
+<LI>Added more information to commit window when unpacking files.</LI>
+<LI>Implemented package triggers from latest LibPkg.</LI>
 <LI>Fixed bug that stopped update lists being run more than once.</LI>
+<LI>Fixed bug where logging setting in choices was ignored when PackMan was restarted.</LI>
 <LI>If any dependencies of a package are missing show a warning when installing a package.</LI>
+<LI>Moved source code to GitHub</LI>
+<LI>Used new LibPkg backend from GitHub</LI>
 </UL>
 </LI>
 <LI><B>0.8.4 Beta - December 2014</B>

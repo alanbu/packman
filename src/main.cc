@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
 	packman.uncaught_handler(&error_handler);
 
 	choices().load();
+	if (Packages::instance()) Packages::instance()->logging(choices().enable_logging());
 	prompt_for_update_lists();
 
 	iconbar.show();
