@@ -2,9 +2,15 @@ Rough plan/ideas
 
 Once something is done it is moved to history.htm.
 
-Items marked LibPkg: will need work done in the LibPkg backend library as well.
+Issues now added and tracked on GitHub at:
+	https://github.com/alanbu/packman/issues
+and
+	https://github.com/alanbu/LibPkg/issues
+for LibPkg issues.
 
-I'm currently thinking of a couple of point release to get a few of the more minor improvements in.
+This file will contain ideas under consideration and temporary documentation.
+
+Items marked LibPkg: will need work done in the LibPkg backend library as well.
 
 
 Web pages updates
@@ -14,29 +20,24 @@ www.riscos.info
  - Make sure there is an entry for PackMan and add link to it to RiscPkg page
  - GCCSDK pages link to PackMan not RiscPkg as it won't do the latest packages
 
-Version 0.8.x
--------------
-
-- Install filter doesn't update with new packages after an install
-- Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
-- After failure to commit should I reshow the configure window or clear all the entries?
-- Commit failure may be leaving Components file which shouldn't be there - need to test
-- LibPkg: Doesn't successfully "download" a file from the local disc if it's over 64K
-- Components field can't include "/" which is used for files with dos type extensions or ">" which is in Text>Draw.
-- Add a warning if you put the install path inside a component already on the disk - John Schild
-- Add a I've moved it entry to update the package database is a component has been moved outside packman
 
 Version 0.9
 -----------
 
 More major release which include new LibPkg standards version
-- Run scripts during install remove (see below) - only aiming to do PreRemove/PostInstall for now
-- Implement Hold functionality from LibPkg to stop a package being upgraded
+- See Triggers below for details, LibPkg issue #3, PackMan issue # xx
 
+- Move PackMan and it's libraries LibPkg/tbx to be build and shipped from the autobuilder taking the source from github
+- Ensure Jenkins ci can build the packman and it's supporting libraries
 
 For versions after 0.9
 ----------------------
 
+- Take description display from summary bar and put in child window above summary that can be resize by dragging something at the top edge.
+- After failure to commit should I reshow the configure window or clear all the entries?
+- Commit failure may be leaving Components file which shouldn't be there - need to test
+- LibPkg: Doesn't successfully "download" a file from the local disc if it's over 64K
+- Install filter doesn't update with new packages after an install
 - See why a failed install means you can't install anything new without the failed package turning up in the dependencies list.
 - Check if netsurf builds still exists.
 - Implement Purge functionality. I need to double check what this means, but if it means remove the package from the Package database then it could be very useful.
@@ -85,154 +86,89 @@ Future options may include
  'SysMerge' This component is a system module so use sys merge logic to update it (e.g. If a new version of the module has been installed update the package version, but leave the existing module in place).
 
 
-Install/Remove code
--------------------
+Triggers
+--------
 
-The idea here is to provide scripts that can be run during the installation/removal process when required. I still haven't managed to figure this out yet and where in the process they need to go, but they will need changes to the LibPkg backend.
+The following is a draft of the code for the next policy manual
 
-Having expermented with LUA in another project I'm wondering if I should use that instead.
+In the table of the package parts
+Triggers	This is a directory containing code to be run during install/remove and upgrade.
 
-My current thoughts/things to sort out are:
-- Copied from debian installs there are four scripts that can be run prerm, postrm, preinst, postinst.
-- In LibPkg instead of scripts they can be any runnable filetype. This will allow BASIC to be used for instance.
-- LibPkg will probably need to ask the front end to run them and report when they are finished. My current thoughts are they should be run using Wimp StartTask in a taskwindow. Maybe LibPkg should fall back to system calls so it could theoretically be used in a command line utility.
-- Before each script a set of variable for the package will need to be defined. Things like LibPkg$Pkg$NewVersion, LibPkg$Pkg$Target1..N for the various directories. At the end the script would set LibPkg$Pkg$error if something went wrong. This still needs some thought.
-- Upgrade handling - this probably needs to call the old prerm and postrm, but the new preinst and postinst and probably needs parameters so the scripts can see it's an upgrade.
-- Failure handling - what get's called when unwinding.
+A new section on triggers needs to be added later to the manual.
 
-My latest idea is to do PreRemove/PostInstall only as they can be run without having to mess about saving things
+The Triggers directory contains code to be run as part of the commit (installation, removal or upgrade) of a package.
 
-LibPkg changes
+Triggers should be used only when necessary and should be avoided in most cases as:
+- They increase the complexity of a package
+- Increase the time required to commit a package
+- Will not be run if the user manually installs a program from outside the package manager.
 
-- New directory RiscPkg.Config contains configuration code.
-  - PreRemove file is run before a file is removed or upgraded
-  - PostInstall file is run after a file is installed, upgraded or when unwinding a failed install if PreRemove was run.
-  
-- During intial stages add list of config structures with the following fields
-  - Package name
-  - Action (Install/Upgrade/Remove)
-  - Remove version (not set for install)
-  - Install version (not set for remove)
-  - Has remove been run (set after remove script is run)
-  - map of component names to install location
-  
-- After initial checks (i.e. do downloads and file conflicts first) run any PreRemove code
-  - New commit stage "preremove"
-  - For each package check for file RiscPkg.Config.PreRemove and if exists do the following:
-    - Code is run by front end via new config_run interface using TaskWindow -wimpslot 512K -quit "..."
-    - Code called as PreRemove <Remove|Upgrade> <install version if upgrade>
-    - Before run following env variables are set
-      - LibPKG$CFG_ACTION = Remove|Upgrade
-      - LibPKG$CFG_REMOVE_VERSION
-      - LibPKG$CFG_INSTALL_VERSION
-      - LibPKG$CFG_PATH_... = ... Each component in package will have its location on disk made available
-      - LibPKG$CFG_RESULT = -2    -2 means code failed to run
-    - On exit the code must update LibPKG$CFG_RESULT as follows
-      - -1 Error
-      - 0 OK
-      - 1 Note (add note to new window shown after commit)
-      - 2 Warning (add warning to new window shown after commit)
-      If result is <> 0, must also set LibPKG$CFG_MESSAGE to message to be added to the notes window
-    - If result < 0 then configuration failed, jump to unwind preremove stage
-  
-- After all file have been copied and booted etc run any PostInstall scripts
-  - New commit stage post install.
-  - For each package check for file RiscPkg.Config.PostInstall and if exists do the following
-    - Code is run by front end via new config_run interface using TaskWindow -wimpslot 512K -quit "..."
-    - Code called as PostInstall <Install|Upgrade> <remove version if upgrade>
-    - Before run following env variables are set
-      - LibPKG$CFG_ACTION = Install|Upgrade
-      - LibPKG$CFG_REMOVE_VERSION
-      - LibPKG$CFG_INSTALL_VERSION
-      - LibPKG$CFG_PATH_... = ... Each component in package will have its location on disk made available
-      - LibPKG$CFG_RESULT = -2    -2 means code failed to run
-    - On exit the code must update LibPKG$CFG_RESULT as follows
-      - -1 Error
-      - 0 OK
-      - 1 Note (add note to new window shown after commit)
-      - 2 Warning (add warning to new window shown after commit)
-      If result is <> 0, must also set LibPKG$CFG_MESSAGE to message to be added to the notes window
-    - Error result does not cause an unwind, it just adds a message to the new post commit window
-    
-- If package is unwound due to an error
-  - new stage unwind_preremove
-  - For each package where remove code was called call PostInstall as follows
-    - Code is run by front end via new config_run interface using TaskWindow -wimpslot 512K -quit "..."
-    - Code called as PostInstall <Abort-Upgrade|Abort-Remove> <remove version if upgrade>
-    - Before run following env variables are set
-      - LibPKG$CFG_ACTION = Abort-Upgrade|Abort-Remove
-      - LibPKG$CFG_REMOVE_VERSION
-      - LibPKG$CFG_INSTALL_VERSION
-      - LibPKG$CFG_PATH_... = ... Each component in package will have its location on disk made available
-      - LibPKG$CFG_RESULT = -2    -2 means code failed to run
-    - On exit the code must update LibPKG$CFG_RESULT as follows
-      - -1 Error
-      - 0 OK
-      - 1 Note (add note to new window shown after commit)
-      - 2 Warning (add warning to new window shown after commit)
-      If result is <> 0, must also set LibPKG$CFG_MESSAGE to message to be added to the notes window
-    - Error result adds a message to the new post commit window
-    
-- After commit finished (success or failure)
-  - If any messages from config code show post commit window displaying them.
+It is always better to do any special actions when an application is first run rather than relying on triggers.
 
-Extra Notes:
+The following names are used by code in the Triggers directory.
+PreInstall - Run before a package is installed
+PreRemove - Run before a package is removed
+PostInstall - Run After a package has been installed
+PostRemove - Run After a package has been removed
 
-I'm hoping this will be enough for most apps, but in case it isn't the following names are
-reserved PreInstall, PostRemove, PreMove, PostMove.
-Also if PreInstall is implemented PostInstall may receive a new action "Abort-Install"
+It is only necessary to add the files for the triggers required.
+Other code can be added to the Triggers directory and this will be available when the triggers are run. This allows for triggers to use shared code etc.
 
-The code will need to be run by the front end application as it should be run in a TaskWindow
-LibPkg will include an new interface pkg::config_run
+The code can be any executable code and is run in a background TaskWindow with a WimpSlot of 256K.
+If logging is turned on, any output from the trigger is added to the Log.
 
-The interface will contain one method
+A triggers operation should not rely on any other trigger having been run, and it should allow for cases where it may be called multiple times.
 
-virtual bool run_config_code(std::string path_to_code)
-This should return false if it fails to start the code
+Information is passed to and from a Trigger using system variables prefixed "PkgTrigger$"
+At the minimum a trigger must set PkgTrigger$ReturnCode to 0 if a trigger succeeds or to 1 if it fails.
+On failure PkgTrigger$ReturnText can be set to give the error message reported by the package manager.
 
-If it starts OK, the task window should be monitored and the following methods called in pkg::commit
-void config_code_failed() - TaskWindow failure after initial startup
-void config_code_output(std::string text) - Any output from the configuration script should be sent to the commit window which will add it to the log if logging is on
-void config_code_finished() - Called when config code has finished and task has completed.
+The full set of variables are:
+PkgTrigger$Action	The current action, see below:
+PkgTrigger$Abort	0 or 1. If set to 1 this trigger is being run to unwind a previous trigger failure.
+PkgTrigger$OldVersion	The version of the package being removed or "" if it's an install.
+PkgTrigger$NewVersion	The version of the package being installed or "" if it's being removed.
+PkgTrigger$Dir	The directory the trigger is being run from. Use this as a prefix if running other code in the Triggers directory.
+PkgTrigger$ReturnCode	The return code from the trigger, should be set to 0 for success or 1 for failure.
+PkgTrigger$ReturnText	Set to a brief error message it the trigger fails.
+PkgTrigger$Path<n>	<n> is a number from 1 upwards. These variable contain the path to the components in the package.
+PkgTrigger$S_*	Variables prefixed "PkgTrigger$S_" are shared variables that exist for the lifetime of the current package commit and are deleted after the commit has finished. They are used so state can be shared between triggers. It is advisable to use the package name in the variable name to avoid clashes with triggers from other packages.
 
-The implementation of this interface should be passed to the commit class as it is created.
+The PkgTrigger$Action can be:
+install	The package is being installed.
+remove	The package is being removed.
+upgrade	The package is being upgraded.
+abort-remove	The trigger is being run as a remove failed.
+abort-install	The trigger is being run as an install failed.
+abort-upgrade	The trigger is being run as an upgrade failed.
 
+The triggers are called in the following order for a install.
 
-LibPkg logging
---------------
+PreInstall, PostInstall
+If PreInstall fails the package is not installed.
+If PostInstall fails the package is still installed, but a warning is shown.
 
-The idea here is to add logging so that it is easier to figure out what is happening when creating a new package that for some reason isn't working.
+The triggers are called in the following order for a remove.
 
-Lastest log idea
+PreRemove, PostRemove
+If PreRemove fails the package is not removed
+If PostRemove fails the package is still installed, but a warning is shown.
 
-- log is just built in memory and view log button is added to component window (this window should allow the log to be saved)
-- log entry consists of an id and zero or more parameters
-- ids specify type 10000-19999 errors, 20000-29999 runtime warnings, 30000-39999 invalid package warnings, 40000-49999 Information.
-- each log entry should have the time and date it was added.
-- maintains a count of errors and warnings, so warnings can be brought to attention after action.
+The triggers are called in the following order for an upgrade
 
-so logging lines will be something like:
-  log().log(log::INFO_DOWNLOADS_STARTED);
-  log().log(log::ERROR_FILE_COPY_FAILED, file_name, except.what());
+old-PreRemove, new-PreInstall, old-PostRemove, old-PostInstall
+The "old-" prefix indicates the trigger from the old package is run.
+The "new-" prefix indicates the trigger from the new package is run.
 
+If old-PreRemove fails
+ - The upgrade does not take place
+ - old-PostInstall is called (any failure is ignored)
+ 
+If new-PreInstall fails
+ - The upgrade does not take place
+ - new-PostRemove is called (any failure is ignored)
+ - old-PostInstall is called (any failure is ignored)
 
-Previous log idea
+If old-PostRemove fails and is not part of an abort the upgrade completes, but a warning is shown.
+If new-PostInstall fails and is not part of an abort the upgrade completes, but a warning is shown.
 
-It could also be used as a history of whats done.
-
-The log will be written to <Packages$Dir>.Log
-
-A single flag will control if logging is no or off.
-
-Additional flags will control what is logged when logging is on
-- Errors in installation will always be logged.
-- Package - just log package installed/removed
-- Package details - log unpacking etc/steps
-- file processes - copying/deleting files etc.
-- file io - low level OS file call results.
-- lists - log whenever the lists are updated
-- list details - log download of each list
-
-Each log entry should have the time and date it was written.
-
-A new Window will be added to PackMan to allow logging options to be set, open and delete the log.

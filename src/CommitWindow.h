@@ -8,6 +8,8 @@
 #ifndef COMMITWINDOW_H_
 #define COMMITWINDOW_H_
 
+#include "PMTriggerRun.h"
+
 #include "tbx/window.h"
 #include "tbx/displayfield.h"
 #include "tbx/slider.h"
@@ -60,6 +62,8 @@ class CommitWindow : public pkg::thread
 
     pkg::commit *_commit;
     pkg::commit::state_type _state;
+    /** Class to handle running of package triggers */
+    PMTriggerRun _trigger_run;
 
 	/** The log file for this operation */
 	std::tr1::shared_ptr<pkg::log> _log;

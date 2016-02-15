@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2014 Alan Buckley
+* Copyright 2009-2016 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -32,7 +32,6 @@
 
 #include "tbx/application.h"
 #include "tbx/deleteonhidden.h"
-
 
 #include "libpkg/pkgbase.h"
 #include "libpkg/download.h"
@@ -89,6 +88,7 @@ CommitWindow::CommitWindow() :
 
 	// Begin new commit operation.
 	_commit = new pkg::commit(*package_base, packages);
+	_commit->use_trigger_run(&_trigger_run);
 
 	// Set up logging
 	if (Packages::instance()->logging())
@@ -174,6 +174,16 @@ void CommitWindow::poll()
 			case pkg::commit::state_add_files_to_apps:
 				_action.text("Adding files to Apps");
 				break;
+
+			case pkg::commit::state_post_remove_triggers:
+				_action.text("Running post remove triggers");
+				break;
+			case pkg::commit::state_post_install_triggers:
+				_action.text("Running post install triggers");
+				break;
+			case pkg::commit::state_cleanup_triggers:
+				_action.text("Cleanup after triggers");
+				break;
 			case pkg::commit::state_done:
                 _progress.value(100);
 				_action.text("Done");
@@ -214,6 +224,14 @@ void CommitWindow::poll()
 	                if (!_show_log.null()) _show_log.fade(false);
 				}
 				break;
+			}
+		} else if (_commit->has_substate_text() && _commit->clear_substate_text_changed())
+		{
+			if 	(_state == pkg::commit::state_unpack)
+			{
+				std::string text("Unpacking / Removing: ");
+				text += _commit->substate_text();
+				_action.text(text);
 			}
 		}
 	}
