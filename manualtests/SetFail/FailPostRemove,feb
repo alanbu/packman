@@ -1,0 +1,2 @@
+| Set variable so PostRemove trigger fails in QATrigError Package
+Set QATrigError$PostRemove 1

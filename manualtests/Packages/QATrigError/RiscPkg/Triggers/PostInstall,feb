@@ -1,0 +1,4 @@
+Echo Post-Install script
+Set PkgTrigger$ReturnCode 0
+If "<QATrigError$PostInstall>" = "1" Then Set PkgTrigger$ReturnCode 1
+If "<QATrigError$PostInstall>" = "1" Then Set PkgTrigger$ReturnText "Post install trigger test error"

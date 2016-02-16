@@ -1,0 +1,5 @@
+| Clear all the failure variables for the QATrigError Package
+Set QATrigError$PreInstall 0
+Set QATrigError$PreRemove 0
+Set QATrigError$PostInstall 0
+Set QATrigError$PostRemove 0

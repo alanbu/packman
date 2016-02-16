@@ -1,0 +1,11 @@
+Package: QATrigError
+Version: 0.1-1
+Section: Document
+Priority: Optional
+Maintainer: Alan Buckley <alan_baa@hotmail.com>
+Standards-Version: 0.4.0
+Licence: Free
+Description: Test package to check error processing with triggers
+ This is a test package used to check that the commit
+ stage works correctly when a trigger reports an error.
+Components: Manuals.QATrigError (Movable)

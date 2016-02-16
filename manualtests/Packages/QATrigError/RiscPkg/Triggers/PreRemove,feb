@@ -1,0 +1,4 @@
+Echo Pre-Remove script
+Set PkgTrigger$ReturnCode 0
+If "<QATrigError$PreRemove>" = "1" Then Set PkgTrigger$ReturnCode 1
+If "<QATrigError$PreRemove>" = "1" Then Set PkgTrigger$ReturnText "Pre remove trigger test error"

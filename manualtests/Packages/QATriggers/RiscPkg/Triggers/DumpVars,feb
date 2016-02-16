@@ -1,0 +1,13 @@
+Echo Trigger variables
+Echo PkgTrigger$Action     <PkgTrigger$Action>
+Echo PkgTrigger$Abort      <PkgTrigger$Abort>
+Echo PkgTrigger$OldVersion <PkgTrigger$OldVersion>
+Echo PkgTrigger$NewVersion <PkgTrigger$NewVersion>
+Echo PkgTrigger$Dir        <PkgTrigger$Dir>
+Echo PkgTrigger$ReturnCode <PkgTrigger$ReturnCode>
+Echo PkgTrigger$ReturnText <PkgTrigger$ReturnText>
+Echo PkgTrigger$Path1      <PkgTrigger$Path1>
+Echo PkgTrigger$S_QATriggers1 <PkgTrigger$S_QATriggers1>
+Echo PkgTrigger$S_QATriggers2 <PkgTrigger$S_QATriggers2>
+If "<PkgTrigger$S_QATrigger1>" = "" Then Set PkgTrigger$S_QATriggers1 set in <PkgTrigger$Action>
+If "<PkgTrigger$S_QATrigger2>" = "" Then Set PkgTrigger$S_QATriggers2 from dir <PkgTrigger$Dir>

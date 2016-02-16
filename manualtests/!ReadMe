@@ -1,0 +1,11 @@
+This directory contains files and instructions for Manual Testing of various
+PackMan features.
+
+The Packages subdirectory contains a makefile to build the all the packages
+required for the testing. You will need make, sed and zip installed to run it.
+
+A text file with the test name (given below) describes the procedure for
+the tests.
+
+The tests are:
+Triggers - Test code triggers

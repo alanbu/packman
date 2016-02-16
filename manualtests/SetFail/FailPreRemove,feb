@@ -1,0 +1,2 @@
+| Set variable so PreRemove trigger fails in QATrigError Package
+Set QATrigError$PreRemove 1

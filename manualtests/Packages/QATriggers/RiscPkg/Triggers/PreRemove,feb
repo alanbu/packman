@@ -1,0 +1,3 @@
+Echo Pre-Remove script
+Set PkgTrigger$ReturnCode 0
+/<PkgTrigger$Dir>.DumpVars

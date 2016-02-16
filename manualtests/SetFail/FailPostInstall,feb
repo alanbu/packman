@@ -1,0 +1,2 @@
+| Set variable so PostInstall trigger fails in QATrigError Package
+Set QATrigError$PostInstall 1

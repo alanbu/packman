@@ -1,0 +1,2 @@
+| Set variable so PreInstall trigger fails in QATrigError Package
+Set QATrigError$PreInstall 1

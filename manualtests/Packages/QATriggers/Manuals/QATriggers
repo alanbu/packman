@@ -1,0 +1,6 @@
+This is a simple test package that contains all
+the triggers.
+
+The triggers don't do anything except echo the
+trigger variables and set the correct result file
+so you can see in the commit log what was run.

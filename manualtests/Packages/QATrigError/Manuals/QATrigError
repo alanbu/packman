@@ -1,0 +1,15 @@
+This is a simple test package that contains all
+the triggers.
+
+It is used for testing error handling during
+installation.
+
+The triggers don't do anything except fail is
+certain environmental variables are set.
+
+To force an error at each stage set the following
+variables to 1.
+QATrigError$PreInstall
+QATrigError$PreRemove
+QATrigError$PostInstall
+QATrigError$PostRemove

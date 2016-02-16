@@ -1,0 +1,7 @@
+| Build the QA Packages
+Wimpslot -min 16384K
+Dir <Obey$Dir>
+make -f MakePkg
+make -f MakePkg upgrade
+make -f MakePkg PACKAGE=QATrigError
+make -f MakePkg upgrade PACKAGE=QATrigError

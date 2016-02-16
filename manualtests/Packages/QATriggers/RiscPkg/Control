@@ -1,0 +1,10 @@
+Package: QATriggers
+Version: 0.1-1
+Section: Document
+Priority: Optional
+Maintainer: Alan Buckley <alan_baa@hotmail.com>
+Standards-Version: 0.4.0
+Licence: Free
+Description: Test package to check if triggers run
+ This is a test package used to check that package triggers are run.
+Components: Manuals.QATriggers (Movable)

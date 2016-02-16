@@ -1,0 +1,330 @@
+Manual testing for Triggers
+===========================
+
+Generating the test packages
+----------------------------
+
+Go to the Packages subfolder.
+Run the obey file !MakePkgs
+make and zip must have been seen by the filer.
+
+Resetting for testing.
+----------------------
+
+Ensure the package for testing is removed via PackMan.
+Update the lists and ensure it is no longer in the package lists.
+If necessary (i.e. the package has changed) delete it from the cache.
+
+Logging
+-------
+For all the test you need to turn on logging in PackMan so the log can be checked to ensure the triggers are run correctly.
+Each test will have a section the "log should contain entries". This will show lines that should be in the log and in the order they should appear in the log. If the lines are missing or shown in a different order the test has failed. The date has been removed from the beginning of the lines.
+
+
+Trigger success testing
+-----------------------
+
+This uses the test package "QATriggers"
+
+Test install triggers
+---------------------
+Drag the QATriggers_0/1-1 package to the PackMan iconbar icon.
+Install it.
+The package should install correctly.
+The log should contain entries:
+...
+3003d Running pre-install trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+...
+3003d Running post-install trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+...
+
+Test remove triggers
+--------------------
+Remove it.
+The package should remove correctly.
+The log should contain entries:
+...
+30041 Preserving post-remove triggers
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+...
+3003d Running post-remove trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+30044 Removing copied post-remove triggers
+...
+30018 Package changes completed
+
+Test upgrade triggers
+---------------------
+Install it again.
+Drag the QATrigger_0/2-1 package to the PackMan iconbar icon.
+Upgrade the existing package.
+The upgrade should complete successfully.
+The log should contain entries:
+
+...
+30041 Preserving post-remove triggers
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATriggers'
+3003e Trigger output: Trigger succeeded
+...
+3003d Running pre-install trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+...
+30045 Running post-remove triggers
+3003d Running post-remove trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+30046 Running post-install triggers
+3003d Running post-install trigger for package 'QATriggers'
+...
+3003e Trigger output: Trigger succeeded
+30044 Removing copied post-remove triggers
+...
+30018 Package changes completed
+
+
+Trigger failure testing
+-----------------------
+
+This uses the test package "QATrigError" and Obey files in the "SetFail" directory which cause various triggers to fail depending on the settings of some QATrigError environmental variables.
+
+If you have run the test before run the script "SetFail.ClearFailures" to ensure the failure variables are all reset.
+
+Test pre-install failure
+------------------------
+Run the obey file "SetFail.FailPreinstall".
+Drag the QATrigError_0/1-1 package to the PackMan iconbar icon.
+The install should fail with the error "Pre install trigger test error"
+...
+3001c Unpacking files for 'QATrigError'
+30040 Running pre-install triggers
+3003d Running pre-install trigger for package 'QATrigError'
+3003e Trigger output: Pre-Install script
+3003e Trigger output: Trigger failed: Pre install trigger test error
+30042 Unwinding pre-install triggers
+3003d Running abort pre-install trigger for package 'QATrigError'
+3003e Trigger output: Post-Remove script
+3003e Trigger output: Trigger succeeded
+30024 Removing unpacked new files
+30025 Restoring control file for 'QATrigError'
+30027 Restoring status of previously removed package 'QATrigError'
+30028 Unwinding from failed unpack completed
+00005 Failed to unpack the packages, error: Pre install trigger test error
+
+
+Test post-install failure
+-------------------------
+Run the obey file "SetFail.ClearFailures"
+Run the obey file "SetFail.FailPostInstall.
+Try to install QATrigError again:
+The install should succeed, but with a warning that the post install failed:
+30035 The files for the packages have been installed correctly, but
+30036 the following warnings occurred during configuration.
+1000b Post install trigger failed for package 'QATrigError', error: 'Post install trigger test error'
+
+The log should contain entries:
+...
+3001c Unpacking files for 'QATrigError'
+30040 Running pre-install triggers
+3003d Running pre-install trigger for package 'QATrigError'
+3003e Trigger output: Pre-Install script
+3003e Trigger output: Trigger succeeded
+...
+30046 Running post-install triggers
+3003d Running post-install trigger for package 'QATrigError'
+3003e Trigger output: Post-Install script
+3003e Trigger output: Trigger failed: Post install trigger test error
+1000b Post install trigger failed for package 'QATrigError', error: 'Post install trigger test error'
+30018 Package changes completed
+
+
+
+Test pre-remove failure
+-----------------------
+
+Run the obey file "SetFail.ClearFailures"
+Run the obey file "SetFail.FailPreRemove.
+Try to remove QATrigError.
+The remove should fail with the error "Pre remove trigger test error"
+
+The log should contain entries:
+...
+3001a Preparing 'QATrigError' for removal
+30041 Preserving post-remove triggers
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Pre-Remove script
+3003e Trigger output: Trigger failed: Pre remove trigger test error
+30043 Unwinding pre-remove triggers
+3003d Running abort pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Post-Install script
+3003e Trigger output: Trigger succeeded
+30044 Removing copied post-remove triggers
+30026 Restoring status of previously installed package 'QATrigError'
+30028 Unwinding from failed unpack completed
+00005 Failed to unpack the packages, error: Pre remove trigger test error
+
+
+Test post-remove failure
+------------------------
+Run the obey file "SetFail.ClearFailures"
+Run the obey file "SetFail.FailPostRemove.
+Try to remove QATrigError again:
+The remove should succeed, but with a warning:
+Post remove trigger failed for package 'QATrigError', error: 'Post remove trigger test error'
+
+The log should contain entries:
+...
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Pre-Remove script
+3003e Trigger output: Trigger succeeded
+3001e Removing files
+...
+30045 Running post-remove triggers
+3003d Running post-remove trigger for package 'QATrigError'
+3003e Trigger output: Post-Remove script
+3003e Trigger output: Trigger failed: Post remove trigger test error
+1000a Post remove trigger failed for package 'QATrigError', error: 'Post remove trigger test error'
+14:46:22 30044 Removing copied post-remove triggers
+14:46:22 30018 Package changes completed
+
+
+Test upgrade pre-install failure
+--------------------------------
+Run the obey file "SetFail.ClearFailures"
+Install QATrigError_0/1-1
+Run the obey file "SetFail.FailPreInstall"
+Drag QATrigError_0/2-1 to the PackMan iconbar icon.
+The upgrade should fail leaving version "0.1-1" installed with the error "Pre install trigger test error"
+
+The log should contain entries:
+...
+30041 Preserving post-remove triggers
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Pre-Remove script
+3003e Trigger output: Trigger succeeded
+3001b Opening package 'QATrigError' and reading manifest
+3001c Unpacking files for 'QATrigError'
+30040 Running pre-install triggers
+3003d Running pre-install trigger for package 'QATrigError'
+3003e Trigger output: Pre-Install script
+3003e Trigger output: Trigger failed: Pre install trigger test error
+30042 Unwinding pre-install triggers
+3003d Running abort pre-install trigger for package 'QATrigError'
+3003e Trigger output: Post-Remove script
+3003e Trigger output: Trigger succeeded
+30024 Removing unpacked new files
+30025 Restoring control file for 'QATrigError'
+30043 Unwinding pre-remove triggers
+3003d Running abort pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Post-Install script
+3003e Trigger output: Trigger succeeded
+30044 Removing copied post-remove triggers
+30026 Restoring status of previously installed package 'QATrigError'
+30028 Unwinding from failed unpack completed
+00005 Failed to unpack the packages, error: Pre install trigger test error
+
+
+Test upgrade pre-remove failure
+-------------------------------
+Run the obey file "SetFail.ClearFailures"
+Run the obey file "SetFail.FailPreRemove"
+Try to upgrade QATrigError to "0.2-1"
+The upgrade should fail leaving version "0.1-1" installed with the error "Pre remove trigger test error"
+
+The log should contain entries:
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Pre-Remove script
+3003e Trigger output: Trigger failed: Pre remove trigger test error
+30043 Unwinding pre-remove triggers
+3003d Running abort pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Post-Install script
+3003e Trigger output: Trigger succeeded
+...
+14:51:47 00005 Failed to unpack the packages, error: Pre remove trigger test error
+
+
+
+Test upgrade post-install failure
+---------------------------------
+
+Run the obey file "SetFail.ClearFailures"
+Run the obey file "SetFail.FailPostInstall"
+Try to upgrade QATrigError to "0.2-1"
+Upgrade should succeed with warning:
+Post install trigger failed for package 'QATrigError', error: 'Post install trigger test error'
+
+The log should contain entries:
+...
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Pre-Remove script
+3003e Trigger output: Trigger succeeded
+3001b Opening package 'QATrigError' and reading manifest
+3001c Unpacking files for 'QATrigError'
+30040 Running pre-install triggers
+3003d Running pre-install trigger for package 'QATrigError'
+3003e Trigger output: Pre-Install script
+3003e Trigger output: Trigger succeeded
+3001d Replacing files
+...
+30045 Running post-remove triggers
+3003d Running post-remove trigger for package 'QATrigError'
+3003e Trigger output: Post-Remove script
+3003e Trigger output: Trigger succeeded
+30046 Running post-install triggers
+3003d Running post-install trigger for package 'QATrigError'
+3003e Trigger output: Post-Install script
+3003e Trigger output: Trigger failed: Post install trigger test error
+1000b Post install trigger failed for package 'QATrigError', error: 'Post install trigger test error'
+30044 Removing copied post-remove triggers
+30018 Package changes completed
+
+
+Test upgrade post-remove failure
+---------------------------------
+
+Run the obey file "SetFail.ClearFailures"
+Run the obey file "SetFail.FailPostRemove"
+Try to upgrade QATrigError to "0.2-1"
+Upgrade should succeed with warning:
+Post remove trigger failed for package 'QATrigError', error: 'Post remove trigger test error'
+
+The log should contain entries:
+...
+30041 Preserving post-remove triggers
+3003f Running pre-remove triggers
+3003d Running pre-remove trigger for package 'QATrigError'
+3003e Trigger output: Pre-Remove script
+3003e Trigger output: Trigger succeeded
+3001b Opening package 'QATrigError' and reading manifest
+3001c Unpacking files for 'QATrigError'
+30040 Running pre-install triggers
+3003d Running pre-install trigger for package 'QATrigError'
+3003e Trigger output: Pre-Install script
+3003e Trigger output: Trigger succeeded
+3001d Replacing files
+...
+30045 Running post-remove triggers
+3003d Running post-remove trigger for package 'QATrigError'
+3003e Trigger output: Post-Remove script
+3003e Trigger output: Trigger failed: Post remove trigger test error
+1000a Post remove trigger failed for package 'QATrigError', error: 'Post remove trigger test error'
+30046 Running post-install triggers
+3003d Running post-install trigger for package 'QATrigError'
+3003e Trigger output: Post-Install script
+3003e Trigger output: Trigger succeeded
+30044 Removing copied post-remove triggers
+30018 Package changes completed

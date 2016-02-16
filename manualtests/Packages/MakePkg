@@ -1,0 +1,18 @@
+# Make QA packages
+
+PACKAGE?=QATriggers
+PVERSION?=0/1-1
+
+all:
+	Dir $(PACKAGE)
+	zip -r ^.$(PACKAGE)_$(PVERSION) *
+	Dir ^
+
+upgrade:
+	CDir Temp
+	Copy $(PACKAGE) Temp FR~C
+	sed --in-place -e's/0.1/0.2/' @.Temp.RiscPkg.Control
+	Dir Temp
+	zip -r ^.$(PACKAGE)_0/2-1 *
+	Dir ^
+	Wipe Temp FR~C

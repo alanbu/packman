@@ -1,0 +1,4 @@
+Echo Pre-Install script
+Set PkgTrigger$ReturnCode 0
+If "<QATrigError$PreInstall>" = "1" Then Set PkgTrigger$ReturnCode 1
+If "<QATrigError$PreInstall>" = "1" Then Set PkgTrigger$ReturnText "Pre install trigger test error"

@@ -1,0 +1,4 @@
+Echo Post-Remove script
+Set PkgTrigger$ReturnCode 0
+If "<QATrigError$PostRemove>" = "1" Then Set PkgTrigger$ReturnCode 1
+If "<QATrigError$PostRemove>" = "1" Then Set PkgTrigger$ReturnText "Post remove trigger test error"
