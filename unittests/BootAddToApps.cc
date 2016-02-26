@@ -29,6 +29,7 @@ class BootAddToApps : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_add );
 	CPPUNIT_TEST( test_remove );
 	CPPUNIT_TEST( test_replace );
+	CPPUNIT_TEST( test_acorn_predesktop );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -210,6 +211,32 @@ public:
 		
 		CPPUNIT_ASSERT(compare_files(data_file, test_file));
 	}
+	
+	// Test if sections have Acorn in the header instead of RISC OS
+	void test_acorn_predesktop()
+	{
+		const char *data_file = "<PMUnitTests$Dir>.data.PreDesktop8";
+		const char *test_file = "<PMUnitTests$Dir>.results.PreDesktopAC";
+
+		// Initialise test file
+		copy_file(data_file, test_file);
+		// Double check copy worked
+		CPPUNIT_ASSERT(compare_files(data_file, test_file));
+
+		_add_to_apps->use_test_pathname(test_file);
+		_add_to_apps->rollback(); // Load test file
+		
+		// Add first item
+		CPPUNIT_ASSERT(_add_to_apps->add(test_boot_drive_app));
+		CPPUNIT_ASSERT(_add_to_apps->contains(test_boot_drive_app));
+		CPPUNIT_ASSERT(_add_to_apps->modified());
+
+		// Save it
+		_add_to_apps->commit();
+		CPPUNIT_ASSERT(!_add_to_apps->modified());
+		CPPUNIT_ASSERT(compare_files(test_file, "<PMUnitTests$Dir>.data.PreDesktop9"));
+	}
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( BootAddToApps );

@@ -30,6 +30,7 @@ class LookAtTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_add );
 	CPPUNIT_TEST( test_remove );
 	CPPUNIT_TEST( test_replace );
+	CPPUNIT_TEST( test_acorn_desktop );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -211,6 +212,32 @@ public:
 		
 		CPPUNIT_ASSERT(compare_files(data_file, test_file));
 	}
+	
+	// Test a desktop file where the sections have Acorn in them instead of RISC OS
+	void test_acorn_desktop()
+	{
+		const char *data_file = "<PMUnitTests$Dir>.data.Desktop14";
+		const char *test_file = "<PMUnitTests$Dir>.results.DesktopAC";
+
+		// Initialise test file
+		copy_file(data_file, test_file);
+		// Double check copy worked
+		CPPUNIT_ASSERT(compare_files(data_file, test_file));
+
+		_look_at->use_test_pathname(test_file);
+		_look_at->rollback(); // Load test file
+		
+		// Add first item
+		CPPUNIT_ASSERT(_look_at->add(test_app));
+		CPPUNIT_ASSERT(_look_at->contains(test_app));
+		CPPUNIT_ASSERT(_look_at->modified());
+
+		// Save it
+		_look_at->commit();
+		CPPUNIT_ASSERT(!_look_at->modified());
+		CPPUNIT_ASSERT(compare_files(test_file, "<PMUnitTests$Dir>.data.Desktop15"));
+	}
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( LookAtTest );

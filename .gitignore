@@ -1,0 +1,4 @@
+*.o
+*,ff8
+Debug
+Release

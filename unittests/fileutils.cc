@@ -3,6 +3,7 @@
 #include <swis.h>
 #include <stdexcept>
 #include <fstream>
+#include <cstring>
 
 inline void call_swi(int id, _kernel_swi_regs *regs)
 {

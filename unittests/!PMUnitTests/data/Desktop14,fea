@@ -1,0 +1,59 @@
+|Start Reporter BootLog 2.61 commands
+|*Report \O \t Start Desktop file ADFS::harddisc4.$.!BOOT.Choices.Boot.Desktop
+|End
+
+|Start Acorn !Boot 0.26 510 Auto tasks
+IFthere Boot:RO510Hook.Res Then Repeat Filer_Boot Boot:RO510Hook.Res  -Applications -Tasks
+|End
+
+|Start Acorn !Boot 0.26 Auto tasks
+| See PreDesktop for details on !Start and !End
+|
+Repeat Filer_Boot Boot:RO500Hook.Res  -Applications -Tasks
+|Repeat Filer_Boot Boot:RO400Hook.Res  -Applications -Tasks
+|Repeat Filer_Boot Boot:RO370Hook.Res  -Applications -Tasks
+|Repeat Filer_Boot Boot:RO360Hook.Res  -Applications -Tasks
+|Repeat Filer_Boot Boot:RO350Hook.Res  -Applications -Tasks
+|Repeat Filer_Boot Boot:RO310Hook.Res  -Applications -Tasks
+Repeat Filer_Boot <BootResources$Dir> -Applications -Tasks
+Filer_Boot        <Boot$Dir>
+Repeat Filer_Run  Choices:Boot.Tasks  -Tasks
+|
+IfThere Boot:^.Utilities     Then Repeat Filer_Boot Boot:^.Utilities     -Applications -Tasks
+IfThere Boot:^.Utilities.500 Then Repeat Filer_Boot Boot:^.Utilities.500 -Applications -Tasks
+|IfThere Boot:^.Utilities.400 Then Repeat Filer_Boot Boot:^.Utilities.400 -Applications -Tasks
+|IfThere Boot:^.Utilities.370 Then Repeat Filer_Boot Boot:^.Utilities.370 -Applications -Tasks
+|IfThere Boot:^.Utilities.360 Then Repeat Filer_Boot Boot:^.Utilities.360 -Applications -Tasks
+|IfThere Boot:^.Utilities.350 Then Repeat Filer_Boot Boot:^.Utilities.350 -Applications -Tasks
+|IfThere Boot:^.Utilities.310 Then Repeat Filer_Boot Boot:^.Utilities.310 -Applications -Tasks
+IfThere Boot:^.Printing      Then Repeat Filer_Boot Boot:^.Printing      -Applications -Tasks
+|End
+
+|Start Acorn BootBoot 0.01 Boot
+IfThere Boot:^.!Files.Files.!Articles Then Filer_Boot Boot:^.!Files.Files.!Articles
+IfThere Boot:^.!Files Then Filer_Boot Boot:^.!Files
+IfThere Boot:Resources.Configure.!GemConfig Then Filer_Boot Boot:Resources.Configure.!GemConfig
+|End
+
+|Start Acorn BootRun 0.01 Run
+IfThere Boot:Choices.Boot.Tasks.Pinboard Then Filer_Run Boot:Choices.Boot.Tasks.Pinboard
+|End
+
+|Start Acorn !Internet 5.04 Resolver
+If "<Alias$InetLoadResolver>" <> "" Then InetLoadResolver
+Unset Alias$InetLoadResolver
+|End
+
+|Start Acorn !Boot 0.26 completion
+| This line turns the hourglass off at the end of the boot sequence:
+HOff
+If "<Wimp$Font>" <> "" Then /BootResources:Configure.FontChange
+IfThere BootResources:Configure.!InetSetup Then Filer_Boot BootResources:Configure.!InetSetup
+IfThere BootResources:!Configure Then Set Alias$@LoadType_FF2 LoadCMOS %*0 Else Set Alias$@LoadType_FF2 Error 0 You cannot reconfigure this machine using %0
+IfThere BootResources:!Configure Then Set Alias$@RunType_FF2  LoadCMOS %*0 Else Set Alias$@RunType_FF2 Error 0 You cannot reconfigure this machine using %0
+WimpSlot -next 640k
+|End
+
+|Start Reporter BootLog 2.61 commands
+|*Report \O \t End   Desktop file ADFS::harddisc4.$.!BOOT.Choices.Boot.Desktop
+|End

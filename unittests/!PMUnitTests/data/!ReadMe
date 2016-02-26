@@ -11,6 +11,10 @@ Desktop (run tests)
 
 13 replace test results
 
+14 file contains Acorn instead of RISCOS in section headings
+15 result of adding a look at app to 14
+16 result of adding a run on startup to 14
+
 
 
 PreDesktop (add to apps tests)
@@ -21,3 +25,6 @@ PreDesktop (add to apps tests)
  5  first item removed
  6  new item added
  7  replace test results
+ 8  file contains Acorn instead of RISCOS in section headings
+ 9  result of add to apps to 8
+ 

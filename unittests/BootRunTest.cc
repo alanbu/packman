@@ -30,6 +30,7 @@ class BootRunTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_remove );
 	CPPUNIT_TEST( test_replace );
 	CPPUNIT_TEST( test_boot_no_run );
+	CPPUNIT_TEST( test_acorn_desktop );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -236,6 +237,32 @@ public:
 		CPPUNIT_ASSERT(!_boot_run->modified());
 		CPPUNIT_ASSERT(compare_files(test_file, "<PMUnitTests$Dir>.data.Desktop12"));
 	}
+	
+	// Test desktop file that has Acorn in the sections instead of RISC OS
+	void test_acorn_desktop()
+	{
+		const char *data_file = "<PMUnitTests$Dir>.data.Desktop14";
+		const char *test_file = "<PMUnitTests$Dir>.results.DesktopACR";
+
+		// Initialise test file
+		copy_file(data_file, test_file);
+		// Double check copy worked
+		CPPUNIT_ASSERT(compare_files(data_file, test_file));
+
+		_boot_run->use_test_pathname(test_file);
+		_boot_run->rollback(); // Load test file
+		
+		// Add first item
+		CPPUNIT_ASSERT(_boot_run->add(test_boot_drive_app));
+		CPPUNIT_ASSERT(_boot_run->contains(test_boot_drive_app));
+		CPPUNIT_ASSERT(_boot_run->modified());
+
+		// Save it
+		_boot_run->commit();
+		CPPUNIT_ASSERT(!_boot_run->modified());
+		CPPUNIT_ASSERT(compare_files(test_file, "<PMUnitTests$Dir>.data.Desktop16"));		
+	}
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( BootRunTest );
