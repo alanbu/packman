@@ -18,6 +18,7 @@ class ComponentTest : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_compare );
 	CPPUNIT_TEST( test_parse_list );
 	CPPUNIT_TEST( test_io );
+	CPPUNIT_TEST( test_chars );
 
 	CPPUNIT_TEST_SUITE_END();
 
@@ -214,7 +215,7 @@ public:
 
 		std::ofstream out(TestFile);
 		CPPUNIT_ASSERT_MESSAGE("Unable to create output file", out.good());
-		out << test1 << test2 << test3;
+		out << test1 << std::endl << test2 << std::endl << test3;
 		out.close();
 
 		std::ifstream in(TestFile);
@@ -222,6 +223,35 @@ public:
 		pkg::component check1, check2, check3;
 		in >> check1 >> check2 >> check3;
 
+		CPPUNIT_ASSERT_EQUAL(test1, check1);
+		CPPUNIT_ASSERT_EQUAL(test2, check2);
+		CPPUNIT_ASSERT_EQUAL(test2, check2);
+	}
+	
+	/**
+	 * Test allowed non alpha chars
+	 */
+	void test_chars()
+	{
+		const char *TestFile = "<PMUnitTests$Dir>.results.CompTest2";
+		pkg::component test1;
+		pkg::component test2;
+		pkg::component test3;
+		
+		CPPUNIT_ASSERT_NO_THROW( test1 = pkg::component("Apps.LT<GT>Thing") );
+		CPPUNIT_ASSERT_NO_THROW( test2 = pkg::component("Apps.Slash/Thing") );
+		CPPUNIT_ASSERT_NO_THROW( test3 = pkg::component("Apps.Ops+-Thing") );
+				
+		std::ofstream out(TestFile);
+		CPPUNIT_ASSERT_MESSAGE("Unable to create output file", out.good());
+		out << test1 << std::endl << test2 << std::endl << test3;
+		out.close();
+
+		std::ifstream in(TestFile);
+		CPPUNIT_ASSERT_MESSAGE("Unable to open input file", in.good());
+		pkg::component check1, check2, check3;
+		in >> check1 >> check2 >> check3;
+		
 		CPPUNIT_ASSERT_EQUAL(test1, check1);
 		CPPUNIT_ASSERT_EQUAL(test2, check2);
 		CPPUNIT_ASSERT_EQUAL(test2, check2);
