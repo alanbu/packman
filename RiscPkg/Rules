@@ -38,7 +38,7 @@ pkg: fakepkginst
 	mkdir -p Temp/RiscPkg
 	mkdir -p $(INSTALL_TO)
 	cp RiscPkg/Copyright Temp/RiscPkg
-	svn export !PackMan $(INSTALL_TO)/!PackMan
+	cp -rf !PackMan $(INSTALL_TO)
 	cp !PackMan/!RunImage$(EXEEXT) $(INSTALL_TO)/!PackMan
 	cp !PackMan/Res$(RESEXT) $(INSTALL_TO)/!PackMan
 	make -C Temp -f ../RiscPkg/Rules $(PACKAGES)
