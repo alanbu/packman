@@ -2,11 +2,8 @@ PackMan - Package manager
 
 Author: Alan Buckley (alan_baa@hotmail.com)
 
-Distribution and use are subject to the GNU Lesser General Public License,
-a copy of which may be found in the file:
+Distribution and use are subject to the GNU Public License version 3,
+a copy of which may be found in the file in the !PackMan directory
+with the name COPYING or downloaded from the URL:
 
-<Common_Licences$Dir>.LGPL-2/1
-
-or downloaded from the URL:
-
-http://www.riscpkg.org/licences/LGPL-2.1.txt
+http://www.gnu.org/licenses/gpl-3.0.en.html
