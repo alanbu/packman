@@ -1,15 +1,20 @@
-PackMan package manager 0.8.4 beta released
+PackMan package manager 0.9.0 beta released
 
-PackMan version 0.8.4 beta is now available.
+PackMan version 0.9.0 beta is now available.
 
 New to this version:
 
-- Added a configurable reminder message to prompt to update the lists
-- Save position of the main window
-- Main Window filter split into status and section.
-- Fixed documentation that was not referring correctly to the
-  Components which were added last release.
-  
+- Added find file window to search packages for a component or installed
+  file.
+- Added save/load install list of packages, paths and sources.
+- Added install/remove/copyright and components buttons to the information
+  window.
+- Implemented package triggers.
+- Fixed bug that corrupted desktop file if it did not contain any RISCOS
+  sections. Modern RISC OS 4/5 !Boot directories would not trigger this
+  bug, however earlier versions of the Iyonix may and if this file was
+  a copy from a pre RISC OS 4 machine.
+    
 + An assortment of minor bug fixes and UI improvements (see the
   history page in the help for details) 
 
@@ -23,8 +28,6 @@ for download and installation instructions.
 PackMan is a package manager front end for packages distributed
 using the RISC OS Packaging Project (see http://www.riscpkg.org).
 
-It can be used instead of or alongside !RiscPkg.
-
 Its features include:
 
 - Summary and detailed description of the packages
@@ -37,11 +40,8 @@ Its features include:
 - Automatically install dependencies for you, always showing what
   is going to be installed.
 - Install multiple packages at once.
-- Install the components from (non fixed location) packages where you
-  want (subject to a package upgrade that is ongoing). Older
-  (non fixed location) packages can be moved after install.
-  
-  
+- Install the components from a packages to your own location.
+    
 System requirements
 
 RISC OS 4.0 or greater with long filenames
