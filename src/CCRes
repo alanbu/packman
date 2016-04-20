@@ -1,7 +1,7 @@
 RESF:1.01
 
 iconbar_object {
-  header_flags:toolbox_OBJECT_SHOW_ON_CREATE
+  header_flags:
   version:100
   object_name:"IconbarIcon"
   iconbar_flags:iconbar_GENERATE_SELECT_CLICKED | iconbar_GENERATE_ADJUST_CLICKED
@@ -1374,7 +1374,7 @@ saveas_object {
   header_flags:toolbox_OBJECT_SHOW_ON_CREATE
   version:100
   object_name:"InstPackApp"
-  saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_NO_SELECTION_BUTTON
+  saveas_flags:saveas_GENERATE_ABOUT_TO_BE_SHOWN | saveas_GENERATE_DIALOGUE_COMPLETED | saveas_NO_SELECTION_BUTTON
   file_name:"Untitled"
   file_type:&2000
   title:""
@@ -1669,7 +1669,7 @@ window_object {
   header_flags:
   version:102
   object_name:"InstPackWnd"
-  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE | window_GENERATE_DIALOGUE_COMPLETED
   help_message:""
   help_limit:*
   sprite_name:""
@@ -1678,7 +1678,7 @@ window_object {
   menu_name:""
   default_focus:&82bc01
   show_action:
-  hide_action:
+  hide_action:&0
   toolbar_ibl:""
   toolbar_itl:""
   toolbar_ebl:""
@@ -1783,7 +1783,7 @@ window_object {
     help_message:""
     help_limit:*
     flags:actionbutton_IS_CANCEL
-    text:"Cancel"
+    text:"Quit"
     text_limit:*
     click_show:""
     action:&0

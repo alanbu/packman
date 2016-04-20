@@ -6,6 +6,14 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.9.1 Beta - ???</B>
+<UL>
+<LI>On initial setup, iconbar icon is not shown until !Packages is installed and
+a "Quit" button on the dialogue allows PackMan to be exited. Previously there
+was no way to exit PackMan until !Packages was installed.</LI>
+</UL>
+</LI>
+<UL>
 <LI><B>0.9.0 Beta - March 2016</B>
 <UL>
 <LI>Added find file window to search packages for a component or installed file.</LI>

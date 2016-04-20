@@ -9,12 +9,16 @@
 you want it installed. You could also just drag the Apps folder to your boot
 disc which would put it in the default location of Apps.Admin.</LI>
 <LI>Double click on !PackMan to run the application</LI>
-<LI>Select "Update Lists" from the Iconbar icon menu.</LI>
 <LI>If this is the first time you've run !PackMan (and you haven't used !RiscPkg before)
-    you will be presented with a dialog box asking you to create the !Packages directory.
-    It is recommended you accept the default location and press OK. Once the !Packages
+    you will be presented with a dialogue box asking you to create the !Packages directory.
+    It is recommended you accept the default location and press OK. Pressing OK will also
+    show the PackMan iconbar icon.
+    If you press Quit in this dialogue box, PackMan will close as it cannot operate until
+    it has an installed !Packages file.    
+    Once the !Packages
     directory is installed you will be prompted to update the lists.
-    If you do not want to do this immediately, you can say no and select Update Lists later.</LI>
+    If you do not want to do this immediately, you can say no and select Update Lists later.
+    </LI>
 <LI>A window will appear showing the progress of downloading the package lists.
     When it has finished click the "Close" button to close the Window.<LI>
 <LI>Click on the icon bar to show the <A HREF="main.htm">Main Window</A> which allows

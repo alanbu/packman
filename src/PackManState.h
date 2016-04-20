@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2012 Alan Buckley
+* Copyright 2012,2016 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -30,6 +30,11 @@
 
 #include <string>
 
+namespace tbx
+{
+	class Iconbar;
+}
+
 /**
  * Singleton class to monitor the current state of PackMan.
  *
@@ -48,7 +53,7 @@ public:
 
 	static PackManState *instance() {return _instance;}
 
-	bool installed();
+	bool installed(tbx::Iconbar *iconbar = nullptr);
 	bool ok_to_commit();
 	bool ok_to_move();
 

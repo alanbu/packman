@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2012 Alan Buckley
+* Copyright 2012,2016 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -55,17 +55,18 @@ PackManState::~PackManState()
  * If not installed it prompts for the install and returns
  * false.
  *
+ * @param iconbar to show after install
  * @returns true if !Packages installed.
  *
  */
-bool PackManState::installed()
+bool PackManState::installed(tbx::Iconbar *iconbar /* = nullptr */)
 {
 	if (Packages::instance()->ensure_package_base())
 	{
 		return true;
 	} else
 	{
-		new InstallWindow();
+		new InstallWindow(iconbar);
 		return false;
 	}
 }

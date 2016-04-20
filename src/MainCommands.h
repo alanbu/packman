@@ -46,13 +46,7 @@ class ShowMainWindowCommand : public tbx::Command
 public:
 	virtual void execute()
 	{
-		if (Packages::instance()->ensure_package_base())
-		{
-			new MainWindow();
-		} else
-		{
-			new InstallWindow();
-		}
+		new MainWindow();
 	}
 };
 
@@ -64,14 +58,8 @@ class ShowInstalledCommand : public tbx::Command
 public:
 	virtual void execute()
 	{
-		if (Packages::instance()->ensure_package_base())
-		{
-			MainWindow *main = new MainWindow();
-			main->set_status_filter("Installed");
-		} else
-		{
-			new InstallWindow();
-		}
+		MainWindow *main = new MainWindow();
+		main->set_status_filter("Installed");
 	}
 };
 

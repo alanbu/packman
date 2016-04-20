@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009 Alan Buckley
+* Copyright 2009-2016 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -29,22 +29,27 @@
 
 #include "tbx/saveas.h"
 #include "tbx/abouttobeshownlistener.h"
+#include "tbx/iconbar.h"
 
 /**
  * Class to set up !Packages
  */
 class InstallWindow :
 	tbx::AboutToBeShownListener,
-	tbx::SaveAsSaveToFileHandler
+	tbx::SaveAsSaveToFileHandler,
+	tbx::SaveAsDialogueCompletedListener
 {
 private:
 	tbx::SaveAs _saveas;
+	tbx::Iconbar *_iconbar;
+	bool _installed;
 public:
-	InstallWindow();
+	InstallWindow(tbx::Iconbar *iconbar = nullptr);
 	virtual ~InstallWindow();
 
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void saveas_save_to_file(tbx::SaveAs saveas, bool selection, std::string filename);
+	virtual void saveas_dialogue_completed(const tbx::SaveAsDialogueCompletedEvent &completed_event);
 };
 
 #endif /* INSTALLWINDOW_H_ */

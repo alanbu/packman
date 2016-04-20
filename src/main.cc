@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2015 Alan Buckley
+* Copyright 2009-2016 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -46,7 +46,6 @@
 #include "AppSaveAs.h"
 #include "AppMoveTo.h"
 #include "SearchWindow.h"
-#include "InstallWindow.h"
 #include "CacheWindow.h"
 #include "BootOptionsWindow.h"
 #include "Choices.h"
@@ -59,26 +58,6 @@
 // Functions defined at end of file
 bool already_running();
 void prompt_for_update_lists();
-
-/**
- * Class to check package system has been installed
- * and prevent use of the menu until it is
- */
-class CheckInstalled : public tbx::AboutToBeShownListener
-{
-public:
-	/**
-	 * Check Packages are installed, if not prompt and immediately
-	 * close the menu
-	 */
-	void about_to_be_shown(tbx::AboutToBeShownEvent &event)
-	{
-		if (!pmstate()->installed())
-		{
-			event.id_block().self_object().hide();
-		}
-	}
-};
 
 /**
  * Entry point for program
@@ -114,7 +93,6 @@ int main(int argc, char *argv[])
 	iconbar.add_select_command(new ShowMainWindowCommand());
 	iconbar.add_adjust_command(new ShowInstalledCommand());
 	iconbar.add_loader(new FileLoader());
-	iconbar.menu().add_about_to_be_shown_listener(new CheckInstalled());
 	iconbar.menu().add_command(ShowChoicesWindowCommand::COMMAND_ID, new ShowChoicesWindowCommand());
 	iconbar.menu().add_command(ShowSourcesWindowCommand::COMMAND_ID, new ShowSourcesWindowCommand());
 	iconbar.menu().add_command(ShowPathsWindowCommand::COMMAND_ID, new ShowPathsWindowCommand());
@@ -129,10 +107,14 @@ int main(int argc, char *argv[])
 	packman.uncaught_handler(&error_handler);
 
 	choices().load();
-	if (Packages::instance()) Packages::instance()->logging(choices().enable_logging());
-	prompt_for_update_lists();
 
-	iconbar.show();
+	if (pmstate()->installed(&iconbar))
+	{
+		Packages::instance()->logging(choices().enable_logging());
+		prompt_for_update_lists();
+		iconbar.show();
+	}
+
 	packman.run();
 
 	unsetenv("PackMan$Running");
