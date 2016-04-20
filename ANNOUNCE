@@ -22,6 +22,13 @@ If you already have a previous version of !PackMan or !RiscPkg
 installed you can install it or upgrade it from either of
 these programs.
 
+The latest versions of PackMan are now distributed via the ROOL packaging
+sites. RiscPkg and the older versions of PackMan may not have these
+sources in the list of sources. If this version of PackMan doesn't appear
+as an update in your browser you probably need to add the following url
+to the PackMan sources.
+http://packages.riscosopen.org/packages/pkg/programs-armv5
+
 Otherwise go to https://sites.google.com/site/alansriscosstuff/packman
 for download and installation instructions.
 
