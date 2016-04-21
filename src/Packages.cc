@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2015 Alan Buckley
+* Copyright 2009-2016 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -318,10 +318,11 @@ bool Packages::select_upgrades()
 
           pkg::status curstat=curtable[pkgname];
 		  pkg::status selstat=seltable[pkgname];
-		  if (selstat.state()>=pkg::status::state_installed)
+		  if (curstat.state()>=pkg::status::state_installed)
 		  {
 		 	 const pkg::control& ctrl=ctrltab[pkgname];
 			 selstat.version(ctrl.version());
+
 			 if (_upgrades_available != YES)
 			 {
 				  pkg::version inst_version(curstat.version());
