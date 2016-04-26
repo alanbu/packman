@@ -31,7 +31,7 @@ ifeq ($(HOST),riscos)
 else
   TARGET=../!PackMan/!RunImage,ff8
   TARGETRES=../!PackMan/Res,fae
-  CCRES=$(GCCSDK_INSTALL_CROSSBIN)/ccres
+  CCRES=$(GCCSDK_INSTALL_ENV)/bin/ccres
 endif
 
 CCSRC = $(wildcard *.cc)
