@@ -6,8 +6,9 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.9.1 Beta - ???</B>
+<LI><B>0.9.1 Beta - May 2016</B>
 <UL>
+<LI>Recompiled with latest GCCSDK compiler so it will run on a RaspberryPi 3.</LI>
 <LI>On initial setup, iconbar icon is not shown until !Packages is installed and
 a "Quit" button on the dialogue allows PackMan to be exited. Previously there
 was no way to exit PackMan until !Packages was installed.</LI>
