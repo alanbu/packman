@@ -41,6 +41,7 @@
 #include "CopyrightWindow.h"
 #include "FindWindow.h"
 #include "InstallListSaveAs.h"
+#include "EnvWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -275,4 +276,9 @@ void FindFileCommand::execute()
 	{
 		new FindWindow();
 	}
+}
+
+void ShowEnvironmentCommand::execute()
+{
+	EnvWindow::show();
 }

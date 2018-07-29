@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
 	iconbar.menu().add_command(ShowBackupWindowCommand::COMMAND_ID, new ShowBackupWindowCommand());
 	iconbar.menu().add_command(VerifyAllAskCommand::COMMAND_ID, new VerifyAllAskCommand());
 	iconbar.menu().add_command(FindFileCommand::COMMAND_ID, new FindFileCommand());
+	iconbar.menu().add_command(ShowEnvironmentCommand::COMMAND_ID, new ShowEnvironmentCommand());
 
 	// Windows that are auto created by toolbox and reached by a menu
 	tbx::MatchLifetime<InstallListSaveAs> mlt_install_list_save_as("InstList");

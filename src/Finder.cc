@@ -60,9 +60,9 @@ bool Finder::find_component(const std::string &name, bool exact)
 
 	init_find(name, exact);
 
-	for(auto pkgname : packages->package_list())
+	for(auto pkgkey : packages->package_list())
 	{
-		const pkg::binary_control &ctrl = table[pkgname];
+		const pkg::binary_control &ctrl = table[pkgkey];
 		if (!ctrl.components().empty())
 		{
 			std::string comp_text = ctrl.components();
@@ -73,7 +73,7 @@ bool Finder::find_component(const std::string &name, bool exact)
 			} catch(std::exception &e)
 			{
 				std::string msg("Unable to parse components in package ");
-				msg += pkgname;
+				msg += pkgkey.pkgname;
 				msg += "\ncomponents = ";
 				msg += ctrl.components();
 				msg += "\nerror = ";
@@ -82,7 +82,7 @@ bool Finder::find_component(const std::string &name, bool exact)
 			}
 			for(auto comp : comps)
 			{
-				check_path(comp.name(), pkgname);
+				check_path(comp.name(), pkgkey.pkgname);
 			}
 		}
 	}
@@ -104,14 +104,14 @@ bool Finder::find_installed_file(const std::string &name, bool exact)
 
 	init_find(name, exact);
 
-	for (auto pkgname : packages->package_list() )
+	for (auto pkgkey : packages->package_list() )
 	{
-		pkg::status_table::const_iterator sti = pb->curstat().find(pkgname);
+		pkg::status_table::const_iterator sti = pb->curstat().find(pkgkey.pkgname);
 
 		if (sti != pb->curstat().end()
 				 && (*sti).second.state() == pkg::status::state_installed)
 		{
-			std::string files_pathname=pb->info_pathname(pkgname)+std::string(".Files");
+			std::string files_pathname=pb->info_pathname(pkgkey.pkgname)+std::string(".Files");
 			std::ifstream in(files_pathname.c_str());
 
 			while (in)
@@ -120,7 +120,7 @@ bool Finder::find_installed_file(const std::string &name, bool exact)
 				std::string logical_path;
 				getline(in,logical_path);
 
-				check_path(logical_path, pkgname);
+				check_path(logical_path, pkgkey.pkgname);
 			}
 		}
 	}

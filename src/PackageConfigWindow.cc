@@ -64,6 +64,8 @@ PackageConfigWindow::PackageConfigWindow() : _window("PackConfig"),
 	_apply_command(this, &PackageConfigWindow::apply),
 	_cancel_command(this, &PackageConfigWindow::cancel),
 	_recommends_command(this, &PackageConfigWindow::recommends),
+	_download_count(0),
+	_download_size(0),
 	_row_height(0),
 	_top_margin(0)
 {
@@ -167,7 +169,7 @@ void PackageConfigWindow::cancel()
  */
 void PackageConfigWindow::recommends()
 {
-	std::vector< std::pair<std::string,std::string> > packages_to_check;
+	std::vector< pkg::binary_control_table::key_type > packages_to_check;
 	std::vector< std::string> recs_found;
 	std::vector< std::string> sugs_found;
 
@@ -175,7 +177,7 @@ void PackageConfigWindow::recommends()
 	{
 		if (i->action != REMOVE && i->action != AUTO_REMOVE)
 		{
-			packages_to_check.push_back(std::make_pair(i->name,i->version));
+			packages_to_check.push_back(pkg::binary_control_table::key_type(i->name,i->version,i->environment_id));
 		}
 	}
 
@@ -581,6 +583,7 @@ void PackageConfigWindow::build_lists_from_selection(std::vector<PackageInfo> &n
 	{
 		const std::string &pkgname = i->first;
 		const pkg::status &selstat = i->second;
+	    //TODO: Review if the following line will select the correct version
 		pkg::status curstat = package_base->curstat ()[pkgname];
 		bool add_package = false;
 		Action action;
@@ -597,6 +600,7 @@ void PackageConfigWindow::build_lists_from_selection(std::vector<PackageInfo> &n
 			else if (upgrade) action = UPGRADE;
 
 			pkg::pkgbase * package_base = Packages::instance()->package_base ();
+			//TODO: Review the following line - will it select the correct entry?
 			const pkg::binary_control & ctrl = package_base->control ()[pkgname];
 
 			pkg::control::const_iterator f = ctrl.find ("Size");
@@ -630,6 +634,7 @@ void PackageConfigWindow::build_lists_from_selection(std::vector<PackageInfo> &n
 			if (version.empty())
 			{
 				pkg::pkgbase * package_base = Packages::instance()->package_base ();
+				//TODO: Review the following line - will it select the correct entry?
 				const pkg::binary_control & ctrl = package_base->control ()[pkgname];
 				version = ctrl.version();
 			}
@@ -640,14 +645,14 @@ void PackageConfigWindow::build_lists_from_selection(std::vector<PackageInfo> &n
 			// Ensure selected packages before auto-added packages
 			if (action == AUTO_INSTALL || action == AUTO_REMOVE || action == AUTO_UPGRADE)
 			{
-				new_list.push_back(PackageInfo(pkgname, version, action));
+				new_list.push_back(PackageInfo(pkgname, version, selstat.environment_id(), action));
 				if (auto_idx == -1) auto_idx = new_list.size()-1;
 			} else if (auto_idx == -1)
 			{
-				new_list.push_back(PackageInfo(pkgname, version, action));
+				new_list.push_back(PackageInfo(pkgname, version, selstat.environment_id(), action));
 			} else
 			{
-				new_list.insert(new_list.begin() + auto_idx, PackageInfo(pkgname, version, action));
+				new_list.insert(new_list.begin() + auto_idx, PackageInfo(pkgname, version, selstat.environment_id(), action));
 				auto_idx++;
 			}
 		}
@@ -670,14 +675,14 @@ void PackageConfigWindow::update_download_totals()
  */
 void PackageConfigWindow::update_recomendations()
 {
-	std::vector< std::pair<std::string,std::string> > packages_to_check;
+	std::vector< pkg::binary_control_table::key_type> packages_to_check;
 	std::vector< std::string > recs_found;
 
 	for(std::vector<PackageInfo>::iterator i = _packages.begin(); i != _packages.end(); ++i)
 	{
 		if (i->action != REMOVE && i->action != AUTO_REMOVE)
 		{
-			packages_to_check.push_back(std::make_pair(i->name,i->version));
+			packages_to_check.push_back(pkg::binary_control_table::key_type(i->name,i->version,i->environment_id));
 		}
 	}
 
@@ -944,7 +949,7 @@ std::string PackageConfigWindow::PackageInfo::display_text() const
 	std::string summary;
 
     pkg::pkgbase * package_base = Packages::instance()->package_base ();
-    pkg::binary_control_table::key_type key(name, pkg::version(version));
+    pkg::binary_control_table::key_type key(name, pkg::version(version), environment_id);
     const pkg::binary_control &bctrl = package_base->control()[key];
 	msg += bctrl.short_description();
 	if (msg.size() > 79) msg.erase(79);

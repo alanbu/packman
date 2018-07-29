@@ -110,12 +110,23 @@ void SummaryWindow::set_selection_text(bool description)
     _name.text(bctrl->pkgname());
     pkg::pkgbase *package_base = Packages::instance()->package_base();
     pkg::status_table::const_iterator sti = package_base->curstat().find(bctrl->pkgname());
-    if(sti == package_base->curstat().end() || (*sti).second.state() != pkg::status::state_installed){
+    if(sti == package_base->curstat().end() || (*sti).second.state() != pkg::status::state_installed)
+    {
         _installed.text("No");
-    }else{
+        _available.text(bctrl->version());
+    }else
+    {
         _installed.text((*sti).second.version());
+		  pkg::env_packages_table::const_iterator epi = package_base->env_packages().find(bctrl->pkgname());
+		  if (epi == package_base->env_packages().end())
+		  {
+		        _available.text(bctrl->version());
+		  } else
+		  {
+		        _available.text(epi->second.pkgvrsn);
+		  }
     }
-    _available.text(bctrl->version());
+
     if (description)
     {
     	// Updating selection can set focus to window, so it is

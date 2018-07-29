@@ -2334,6 +2334,19 @@ menu_object {
     help_limit:*
   }
   Entry {
+    cmp:12
+    flags:
+    cmp:&c
+    text:"Environment..."
+    text_limit:*
+    click_object_name:""
+    sub_menu_object_name:""
+    sub_menu_action:&0
+    click_action:&10
+    help:""
+    help_limit:*
+  }
+  Entry {
     cmp:7
     flags:menu_ENTRY_IS_MENU
     cmp:&7
@@ -3232,7 +3245,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:140,236,1840,1336
+  window.visible:128,272,1820,1440
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -3245,7 +3258,7 @@ window_object {
   window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
   window.highlight_bg:wimp_COLOUR_CREAM
   window.extra_flags:
-  window.extent:0,-1100,1700,0
+  window.extent:0,-1168,1692,0
   window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
   window.work_flags:
   window.sprite_area:&ffffffff
@@ -3273,7 +3286,7 @@ window_object {
   }
   label_object {
     cmp:&2
-    bbox:16,-140,216,-88
+    bbox:20,-140,220,-88
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3349,7 +3362,7 @@ window_object {
   }
   displayfield_object {
     cmp:&b
-    bbox:228,-332,1188,-280
+    bbox:228,-396,1188,-344
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3358,7 +3371,7 @@ window_object {
   }
   displayfield_object {
     cmp:&d
-    bbox:228,-396,1188,-344
+    bbox:228,-460,1188,-408
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3367,7 +3380,7 @@ window_object {
   }
   label_object {
     cmp:&e
-    bbox:16,-332,216,-280
+    bbox:16,-396,216,-344
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3384,7 +3397,7 @@ window_object {
   }
   label_object {
     cmp:&10
-    bbox:16,-396,216,-344
+    bbox:16,-460,216,-408
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3392,7 +3405,7 @@ window_object {
   }
   displayfield_object {
     cmp:&11
-    bbox:228,-460,1188,-408
+    bbox:228,-524,1188,-472
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3424,9 +3437,18 @@ window_object {
     flags:label_NO_BOX | label_RJUSTIFIED
     label:"Standards"
   }
+  displayfield_object {
+    cmp:&15
+    bbox:228,-332,1188,-280
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"unset"
+    text_limit:256
+  }
   label_object {
     cmp:&16
-    bbox:16,-460,216,-408
+    bbox:16,-524,216,-472
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3534,21 +3556,19 @@ window_object {
   }
   label_object {
     cmp:&20
-    bbox:16,-524,216,-472
+    bbox:16,-588,216,-536
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
     label:"Description"
   }
-  textarea_object {
+  scrolllist_object {
     cmp:&21
-    bbox:228,-872,1188,-472
+    bbox:1240,-1076,1680,-928
     help_message:""
     help_limit:*
-    flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | textarea_STATE_WORDWRAPPING_ENABLED | gadget_FADED
-    type:0
+    flags:
     event:0
-    text:"TextArea"
     foreground:os_COLOUR_BLACK
     background:os_COLOUR_WHITE
   }
@@ -3563,7 +3583,7 @@ window_object {
   }
   button_object {
     cmp:&2c
-    bbox:1208,-872,1216,4
+    bbox:1204,-1076,1212,56
     help_message:""
     help_limit:*
     flags:
@@ -3578,7 +3598,7 @@ window_object {
   }
   label_object {
     cmp:&2d
-    bbox:28,-944,216,-892
+    bbox:28,-1008,216,-956
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3586,7 +3606,7 @@ window_object {
   }
   scrolllist_object {
     cmp:&2e
-    bbox:224,-1012,1188,-884
+    bbox:224,-1076,1188,-948
     help_message:""
     help_limit:*
     flags:
@@ -3596,7 +3616,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&2f
-    bbox:1004,-1088,1192,-1036
+    bbox:1004,-1152,1192,-1100
     help_message:""
     help_limit:*
     flags:actionbutton_IS_CANCEL
@@ -3618,7 +3638,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&31
-    bbox:32,-1000,212,-948
+    bbox:32,-1064,212,-1012
     help_message:""
     help_limit:*
     flags:actionbutton_IS_LOCAL
@@ -3629,7 +3649,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&32
-    bbox:224,-1088,412,-1036
+    bbox:224,-1152,412,-1100
     help_message:""
     help_limit:*
     flags:
@@ -3640,7 +3660,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&33
-    bbox:436,-1088,624,-1036
+    bbox:436,-1152,624,-1100
     help_message:""
     help_limit:*
     flags:
@@ -3648,6 +3668,41 @@ window_object {
     text_limit:*
     click_show:""
     action:&0
+  }
+  label_object {
+    cmp:&34
+    bbox:16,-332,216,-280
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Environment"
+  }
+  button_object {
+    cmp:&36
+    bbox:1240,-928,1680,-884
+    help_message:""
+    help_limit:*
+    flags:
+    button_flags:wimp_ICON_TEXT | wimp_ICON_BORDER | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_FILLED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_VERY_LIGHT_GREY
+    value:"OS Depends"
+    value_limit:*
+    validation:"c/808000"
+    validation_limit:*
+  }
+  textarea_object {
+    cmp:&40
+    bbox:228,-936,1188,-536
+    help_message:""
+    help_limit:*
+    flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | textarea_STATE_WORDWRAPPING_ENABLED | gadget_FADED
+    type:0
+    event:0
+    text:"TextArea"
+    foreground:os_COLOUR_BLACK
+    background:os_COLOUR_WHITE
   }
 }
 
@@ -5331,5 +5386,151 @@ window_object {
     allowable_limit:*
     prev:toolbox_NULL_COMPONENT
     next:toolbox_NULL_COMPONENT
+  }
+}
+
+window_object {
+  header_flags:
+  version:102
+  object_name:"Environment"
+  window_flags:window_AUTO_OPEN | window_AUTO_CLOSE
+  help_message:""
+  help_limit:*
+  sprite_name:""
+  pointer_limit:0
+  hotspot:0,0
+  menu_name:""
+  default_focus:toolbox_NULL_COMPONENT
+  show_action:
+  hide_action:
+  toolbar_ibl:""
+  toolbar_itl:""
+  toolbar_ebl:""
+  toolbar_etl:""
+  window.visible:248,828,1412,1280
+  window.xscroll:0
+  window.yscroll:0
+  window.next:wimp_TOP
+  window.flags:wimp_WINDOW_MOVEABLE | wimp_WINDOW_AUTO_REDRAW | wimp_WINDOW_BACK_ICON | wimp_WINDOW_CLOSE_ICON | wimp_WINDOW_TITLE_ICON | wimp_WINDOW_TOGGLE_ICON | wimp_WINDOW_VSCROLL | wimp_WINDOW_SIZE_ICON | wimp_WINDOW_HSCROLL | wimp_WINDOW_NEW_FORMAT
+  window.title_fg:wimp_COLOUR_BLACK
+  window.title_bg:wimp_COLOUR_LIGHT_GREY
+  window.work_fg:wimp_COLOUR_BLACK
+  window.work_bg:wimp_COLOUR_VERY_LIGHT_GREY
+  window.scroll_outer:wimp_COLOUR_MID_LIGHT_GREY
+  window.scroll_inner:wimp_COLOUR_VERY_LIGHT_GREY
+  window.highlight_bg:wimp_COLOUR_CREAM
+  window.extra_flags:
+  window.extent:0,-452,1164,0
+  window.title_flags:wimp_ICON_TEXT | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+  window.work_flags:
+  window.sprite_area:&ffffffff
+  window.xmin:100
+  window.ymin:100
+  window.title_text:"Environment"
+  window.title_text_limit:*
+  window.title_valid:""
+  actionbutton_object {
+    cmp:&1
+    bbox:944,-436,1148,-368
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_DEFAULT | actionbutton_IS_LOCAL
+    text:"OK"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  actionbutton_object {
+    cmp:&2
+    bbox:740,-428,928,-376
+    help_message:""
+    help_limit:*
+    flags:
+    text:"Cancel"
+    text_limit:*
+    click_show:""
+    action:&0
+  }
+  optionbutton_object {
+    cmp:&3
+    bbox:36,-60,688,-16
+    help_message:""
+    help_limit:*
+    flags:optionbutton_GENERATE_STATE_CHANGED
+    label:"Override environment"
+    label_limit:*
+    action:&0
+  }
+  labelledbox_object {
+    cmp:&10
+    bbox:36,-200,1136,-84
+    help_message:""
+    help_limit:*
+    flags:gadget_AT_BACK
+    label:"Environment"
+  }
+  optionbutton_object {
+    cmp:&11
+    bbox:64,-172,112,-128
+    help_message:""
+    help_limit:*
+    flags:gadget_FADED
+    label:""
+    label_limit:*
+    action:&0
+  }
+  displayfield_object {
+    cmp:&12
+    bbox:112,-176,300,-124
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"xxx"
+    text_limit:8
+  }
+  displayfield_object {
+    cmp:&13
+    bbox:316,-176,1104,-124
+    help_message:""
+    help_limit:*
+    flags:
+    text:"xxx description"
+    text_limit:64
+  }
+  labelledbox_object {
+    cmp:&1000
+    bbox:40,-356,1140,-216
+    help_message:""
+    help_limit:*
+    flags:gadget_AT_BACK
+    label:"Modules"
+  }
+  optionbutton_object {
+    cmp:&1001
+    bbox:72,-312,120,-268
+    help_message:""
+    help_limit:*
+    flags:gadget_FADED
+    label:""
+    label_limit:*
+    action:&0
+  }
+  displayfield_object {
+    cmp:&1002
+    bbox:128,-312,492,-260
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:"No module checks"
+    text_limit:64
+  }
+  displayfield_object {
+    cmp:&1003
+    bbox:512,-312,1104,-260
+    help_message:""
+    help_limit:*
+    flags:displayfield_HCENTRED
+    text:""
+    text_limit:64
   }
 }

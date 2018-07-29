@@ -29,6 +29,7 @@
 
 #include "tbx/bbox.h"
 #include <string>
+#include <set>
 
 /**
  * Class to hold choices for packman
@@ -40,6 +41,8 @@ class Choices
 	tbx::BBox _main_window_pos;
 	bool _small_summary_bar;;
 	bool _modified;
+	std::set<std::string> _override_environment;
+	std::set<std::string> _override_modules;
 
 public:
 	Choices();
@@ -61,6 +64,13 @@ public:
 
 	bool small_summary_bar() const {return _small_summary_bar;}
 	void small_summary_bar(bool small);
+
+	const std::set<std::string> &override_environment() const {return _override_environment;}
+	void override_environment(const std::set<std::string> &envs);
+
+	const std::set<std::string> &override_modules() const {return _override_modules;}
+	void override_modules(const std::set<std::string> &modules);
+
 
 	static bool ensure_choices_dir();
 };

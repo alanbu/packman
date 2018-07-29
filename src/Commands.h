@@ -251,4 +251,17 @@ public:
 	virtual void execute();
 };
 
+/**
+ * Command to show the environment window
+ */
+class ShowEnvironmentCommand : public tbx::Command
+{
+public:
+	enum {COMMAND_ID = 16}; // ID in resources
+	ShowEnvironmentCommand() {}
+	virtual ~ShowEnvironmentCommand() {}
+	virtual void execute();
+};
+
+
 #endif /* COMMANDS_H_ */

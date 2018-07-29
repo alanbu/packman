@@ -88,6 +88,24 @@ void Choices::small_summary_bar(bool small)
 	}
 }
 
+void Choices::override_environment(const std::set<std::string> &envs)
+{
+	if (_override_environment != envs)
+	{
+		_override_environment = envs;
+		_modified = true;
+	}
+}
+
+void Choices::override_modules(const std::set<std::string> &modules)
+{
+	if (_override_modules != modules)
+	{
+		_override_modules = modules;
+		_modified = true;
+	}
+}
+
 
 /**
  * Load choices file if it exists
@@ -113,6 +131,31 @@ void Choices::load()
 				_main_window_pos = pos;
 			}
 		}
+		_override_environment.clear();
+		std::string envs( ps.get("OverrideEnvironment","") );
+		if (!envs.empty())
+		{
+			std::string::size_type start = 0, pos;
+			while ((pos = envs.find(',', start)) != std::string::npos)
+			{
+				_override_environment.insert(envs.substr(start, pos-start));
+				start = pos + 1;
+			}
+			_override_environment.insert(envs.substr(start));
+		}
+
+		_override_modules.clear();
+		std::string mods( ps.get("OverrideModules","") );
+		if (!mods.empty())
+		{
+			std::string::size_type start = 0, pos;
+			while ((pos = mods.find(',', start)) != std::string::npos)
+			{
+				_override_modules.insert(mods.substr(start, pos-start));
+				start = pos + 1;
+			}
+			_override_modules.insert(mods.substr(start));
+		}
 	}
 	_modified = false;
 }
@@ -132,6 +175,26 @@ bool Choices::save()
 	os << _main_window_pos.min.x << ',' << _main_window_pos.min.y
 	   << ',' << _main_window_pos.max.x << ',' << _main_window_pos.max.y;
 	ps.set("MainWindowPosition", os.str());
+
+	std::ostringstream es;
+	char comma = 0;
+	for (const std::string &env : _override_environment)
+	{
+		if (comma) es << comma;
+		else comma = ',';
+		es << env;
+	}
+	ps.set("OverrideEnvironment", es.str());
+
+	std::ostringstream ms;
+	comma = 0;
+	for (const std::string &mod : _override_modules)
+	{
+		if (comma) ms << comma;
+		else comma = ',';
+		ms << mod;
+	}
+	ps.set("OverrideModules", ms.str());
 
 	if (ps.save(choices_write_path("Choices")))
 	{

@@ -37,6 +37,7 @@
 
 #include <sstream>
 #include "libpkg/pkgbase.h"
+#include "libpkg/env_checker.h"
 
 #ifdef MAGIC_CHECK
 const unsigned int ALLOC_MAGIC = 0xaaaaaaaa;
@@ -46,9 +47,11 @@ const unsigned int DEALLOC_MAGIC = 0x55555555;
 MainWindow::MainWindow() : _window("Main"), _view(_window),
    _status_sprite(this),
    _name_text(this),
+   _env_sprite(this),
    _summary_text(this),
    _status_renderer(&_status_sprite),
    _name_renderer(&_name_text),
+   _env_renderer(&_env_sprite),
    _summary_renderer(&_summary_text),
    _install(this),
    _remove(this),
@@ -63,6 +66,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 #endif
 	_view.add_column(&_status_renderer, 50);
 	_view.add_column(&_name_renderer, 100);
+	_view.add_column(&_env_renderer, 60);
 	_view.add_column(&_summary_renderer, 400);
 	_view.selection(&_selection);
 	_view.margin(tbx::Margin(0,68,0,254));
@@ -111,7 +115,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_section_filter_stringset.add_text_changed_listener(this);
 
 	watch(Packages::instance()->package_base()->curstat());
-	watch(Packages::instance()->package_base()->control());
+	watch(Packages::instance()->package_base()->env_packages());
 
 
    _window.client_handle(this);
@@ -129,7 +133,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 MainWindow::~MainWindow()
 {
 	unwatch(Packages::instance()->package_base()->curstat());
-	unwatch(Packages::instance()->package_base()->control());
+	unwatch(Packages::instance()->package_base()->env_packages());
 
     delete _summary;
     if (_section_filter != _search_filter) delete _section_filter;
@@ -168,14 +172,14 @@ void MainWindow::refresh()
 	_store_menu_select.menu_selection = tbx::view::ItemView::NO_INDEX;
 
    pkg::pkgbase *package_base = Packages::instance()->package_base();
-   const std::vector<std::string> &package_list = Packages::instance()->package_list();
+   const std::vector<PackageKey> &package_list = Packages::instance()->package_list();
    const pkg::binary_control_table& ctrltab = package_base->control();
 
-   for (std::vector<std::string>::const_iterator i = package_list.begin();
+   for (std::vector<PackageKey>::const_iterator i = package_list.begin();
 	 i !=package_list.end(); ++i)
    {
-	  std::string pkgname=*i;
-	  const pkg::binary_control &ctrl = ctrltab[pkgname];
+	  const PackageKey &key = *i;
+	  const pkg::binary_control &ctrl = ctrltab[key];
 
 	  if ((_status_filter == 0 || _status_filter->ok_to_show(ctrl))
 			  && (_section_filter == 0 || _section_filter->ok_to_show(ctrl))
@@ -189,7 +193,7 @@ void MainWindow::refresh()
    {
 	   _view.inserted(0, _shown_packages.size());
 	   _view.size_column_to_width(1);
-	   _view.size_column_to_width(2);
+	   _view.size_column_to_width(3);
    }
 }
 
@@ -222,40 +226,38 @@ tbx::Sprite *MainWindow::StatusSprite::value(unsigned int index) const
 	return (sprite_index < 0) ? 0 : &_sprites[sprite_index];
 }
 
-/**
- * Get text to render status - Will change to using a sprite later
- */
-/** Old code to get text for status
-std::string MainWindow::StatusRenderer::text(unsigned int index) const
+// Sprites to use
+tbx::UserSprite MainWindow::EnvSprite::_unset;
+tbx::UserSprite MainWindow::EnvSprite::_unknown;
+tbx::UserSprite MainWindow::EnvSprite::_invalid;
+
+
+MainWindow::EnvSprite::EnvSprite(MainWindow *me) : _me(me)
 {
-	std::string pkgname = _me->_shown_packages[index]->pkgname();
-	std::string status;
-
-    pkg::pkgbase *package_base = Packages::instance()->package_base();
-	pkg::status_table::const_iterator sti = package_base->curstat().find(pkgname);
-	if (sti == package_base->curstat().end()
-		  || (*sti).second.state() != pkg::status::state_installed
-		  )
+	if (!_unset.is_valid())
 	{
-		  status = "";
-	} else
-	{
-		  pkg::version inst_version((*sti).second.version());
-		  pkg::version cur_version(_me->_shown_packages[index]->version());
-		  if (inst_version >= cur_version)
-			  status = "i";
-		  else
-			  status = "u";
-
-		  if ((*sti).second.flag(pkg::status::flag_auto))
-		  {
-			  status += "a";
-		  }
+		// Load sprite when first instance of class is created
+		tbx::SpriteArea *area = tbx::app()->sprite_area();
+		_unset = area->get_sprite("env_u");
+		_unknown = area->get_sprite("env_f");
+		_invalid = area->get_sprite("env_i");
 	}
+};
 
-	return status;
+tbx::Sprite *MainWindow::EnvSprite::value(unsigned int index) const
+{
+	const pkg::pkg_env *env = _me->_shown_packages[index]->package_env();
+	switch(env->type())
+	{
+	case pkg::env_check_type::Unset: return &_unset; break;
+	case pkg::env_check_type::Unknown: return &_unknown; break;
+	default:
+		if (!env->available()) return &_invalid;
+		return 0;
+		break;
+	}
 }
-*/
+
 /**
  * Return the currently selected package
  *
@@ -371,7 +373,7 @@ void MainWindow::handle_change(pkg::table& t)
 			_summary->set_selection_text(false);
 		}
 	}
-	else if (&t==&(package_base->control()))
+	else if (&t==&(package_base->env_packages()))
 	{
 		// List of packages has changed
 		Packages::instance()->reset_package_list();
@@ -530,12 +532,19 @@ MainWindow::InstallState MainWindow::install_state(const pkg::binary_control *bc
 		}
 	} else
 	{
-		  pkg::version inst_version((*sti).second.version());
-		  pkg::version cur_version(bctrl->version());
-		  if (inst_version >= cur_version)
+		  pkg::env_packages_table::const_iterator epi = package_base->env_packages().find(pkgname);
+		  if (epi == package_base->env_packages().end())
+		  {
+			  // Package installed, but doesn't match current environment
 			  state = INSTALLED;
-		  else
-			  state = OLD_VERSION;
+		  } else
+		  {
+			  pkg::version inst_version((*sti).second.version());
+			  if (inst_version >= epi->second.pkgvrsn)
+				  state = INSTALLED;
+			  else
+				  state = OLD_VERSION;
+		  }
 
 		  if (auto_inst && (*sti).second.flag(pkg::status::flag_auto))
 		  {

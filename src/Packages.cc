@@ -30,11 +30,10 @@
 #include "libpkg/pkgbase.h"
 #include "libpkg/filesystem.h"
 #include "libpkg/log.h"
+#include "libpkg/env_checker.h"
 #include <string>
 #include <set>
 #include <cstdlib>
-
-#include <iostream>
 
 #include "swis.h"
 #include "tbx/application.h"
@@ -97,6 +96,13 @@ bool Packages::ensure_package_base()
 				bool paths_changed=_package_base->paths().ensure_defaults();
 				if (paths_changed) _package_base->paths().commit();
 
+				if (!choices().override_environment().empty())
+				{
+					pkg::env_checker::instance()->override_environment(
+							choices().override_environment(),
+							choices().override_modules()
+							);
+				}
 			}
 		} catch(...)
 		{
@@ -117,30 +123,51 @@ bool Packages::ensure_package_base()
  * This is calculate the first time it is requested and
  * then again after reset_package_list is called
  */
-const std::vector<std::string> &Packages::package_list()
+const std::vector<PackageKey> &Packages::package_list()
 {
 	if (_package_list.empty())
 	{
-		const pkg::binary_control_table& ctrltab = _package_base->control();
-		std::string prev_pkgname = "";
+		std::map<std::string, pkg::env_packages_table::best> all_packages;
 
-		for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
-			 i !=ctrltab.end(); ++i)
+		// Get packages for the current environment
+		const pkg::env_packages_table& pkgtab = _package_base->env_packages();
+		for (auto pkgtabentry : pkgtab)
 		{
-			  std::string pkgname=i->first.pkgname;
-			  if (pkgname!=prev_pkgname)
-			  {
-				  prev_pkgname=pkgname;
-				  int i = (int)_package_list.size() - 1;
-				  while (i >= 0 && tbx::compare_ignore_case(pkgname, _package_list[i]) < 0) i--;
-				  if (i < (int)_package_list.size() - 1)
-				  {
-					  _package_list.insert(_package_list.begin() + i + 1, pkgname);
-				  } else
-				  {
-					  _package_list.push_back(pkgname);
-				  }
-			  }
+			all_packages[pkgtabentry.first] = pkgtabentry.second;
+		}
+
+		// Add in already installed (or part installed) packages
+		const pkg::status_table &curstat = _package_base->curstat();
+		for (auto curstatentry : curstat)
+		{
+			if (curstatentry.second.state() > pkg::status::state_removed)
+			{
+				all_packages[curstatentry.first] = pkg::env_packages_table::best(curstatentry.second.version(), curstatentry.second.environment_id());
+			}
+		}
+
+		// Finally add to our vector in case insensitive order
+		for (auto const &allentry : all_packages)
+		{
+			PackageKey pkgkey(allentry.first, allentry.second.pkgvrsn, allentry.second.pkgenv);
+			if (_package_list.empty())
+			{
+				_package_list.push_back(pkgkey);
+			} else
+			{
+				// Should only be a few old packages from the autobuilder that don't sort
+				// in the correct order case sensitively so use a simple search to
+				// order them.
+				int i = (int)_package_list.size() - 1;
+				while (i >= 0 && tbx::compare_ignore_case(pkgkey.pkgname, _package_list[i].pkgname) < 0) i--;
+				if (i < (int)_package_list.size() - 1)
+				{
+					_package_list.insert(_package_list.begin() + i + 1, pkgkey);
+				} else
+				{
+				    _package_list.push_back(pkgkey);
+				}
+			}
 		}
 	}
 
@@ -154,7 +181,6 @@ void Packages::reset_package_list()
 {
 	_package_list.clear();
 }
-
 
 /**
  * Return a sorted, comma separated list of all the sections
@@ -237,13 +263,15 @@ void Packages::select_install(const pkg::binary_control *bctrl)
 	pkg::status curstat = _package_base->curstat()[pkgname];
 	pkg::status selstat = _package_base->selstat()[pkgname];
 	selstat.state(pkg::status::state_installed);
-	const pkg::control& ctrl=_package_base->control()[pkgname];
-	selstat.version(ctrl.version());
+	const pkg::env_packages_table::best &best =_package_base->env_packages()[pkgname];
+	selstat.version(best.pkgvrsn);
+	selstat.environment_id(best.pkgenv);
 	_package_base->selstat().insert(pkgname,selstat);
 	seed.insert(pkgname);
 	if (!_package_base->fix_dependencies(seed))
 	{
-		check_dependencies(ctrl);
+		pkg::binary_control_table::key_type key(pkgname, best.pkgvrsn, best.pkgenv);
+		check_dependencies(_package_base->control()[key]);
 	}
 	_package_base->remove_auto();
 }
@@ -262,8 +290,9 @@ void Packages::select_install(const std::vector<std::string> &add_packages)
 		pkg::status curstat = _package_base->curstat()[pkgname];
 		pkg::status selstat = _package_base->selstat()[pkgname];
 		selstat.state(pkg::status::state_installed);
-		const pkg::control& ctrl=_package_base->control()[pkgname];
-		selstat.version(ctrl.version());
+		const pkg::env_packages_table::best &best =_package_base->env_packages()[pkgname];
+		selstat.version(best.pkgvrsn);
+		selstat.environment_id(best.pkgenv);
 		_package_base->selstat().insert(pkgname,selstat);
 		seed.insert(pkgname);
 	}
@@ -274,7 +303,7 @@ void Packages::select_install(const std::vector<std::string> &add_packages)
 /**
  * Select a package to remove
  *
- * @param bctrl binary control record of package to removee
+ * @param bctrl binary control record of package to remove
  */
 void Packages::select_remove(const pkg::binary_control *bctrl)
 {
@@ -298,47 +327,40 @@ bool Packages::select_upgrades()
 {
 	if (_upgrades_available == NO) return false;
 
-	pkg::status_table &seltable = _package_base->selstat ();
+	pkg::status_table &seltable = _package_base->selstat();
 	pkg::status_table &curtable = _package_base->curstat();
 	std::set < std::string > seed;
 
     // Select all upgrades
-    const pkg::binary_control_table& ctrltab = _package_base->control();
+    const pkg::env_packages_table& envtab = _package_base->env_packages();
     std::string prev_pkgname;
 
-    for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
-	 i !=ctrltab.end(); ++i)
+    for (pkg::env_packages_table::const_iterator i=envtab.begin();
+	 i != envtab.end(); ++i)
     {
-	   std::string pkgname=i->first.pkgname;
-	   if (pkgname!=prev_pkgname)
+	   std::string pkgname=i->first;
+	   pkg::status curstat=curtable[pkgname];
+	   pkg::status selstat=seltable[pkgname];
+	   if (curstat.state()>=pkg::status::state_installed)
 	   {
-		  // Don't use i->second for ctrl as it may not be the latest version
-		  // instead look it up.
-		  prev_pkgname=pkgname;
+		 selstat.version(i->second.pkgvrsn);
+		 selstat.environment_id(i->second.pkgenv);
 
-          pkg::status curstat=curtable[pkgname];
-		  pkg::status selstat=seltable[pkgname];
-		  if (curstat.state()>=pkg::status::state_installed)
-		  {
-		 	 const pkg::control& ctrl=ctrltab[pkgname];
-			 selstat.version(ctrl.version());
+		 if (_upgrades_available != YES)
+		 {
+			  pkg::version inst_version(curstat.version());
+			  pkg::version cur_version(i->second.pkgvrsn);
 
-			 if (_upgrades_available != YES)
-			 {
-				  pkg::version inst_version(curstat.version());
-				  pkg::version cur_version(ctrl.version());
-
-				  if (inst_version < cur_version)
-				  {
-					  _upgrades_available = YES;
-				  }
-			 }
-			 if (_upgrades_available == YES)
-			 {
-				 _package_base->selstat().insert(pkgname,selstat);
-				 seed.insert(pkgname);
-			 }
-		  }
+			  if (inst_version < cur_version)
+			  {
+				  _upgrades_available = YES;
+			  }
+		 }
+		 if (_upgrades_available == YES)
+		 {
+			 _package_base->selstat().insert(pkgname,selstat);
+			 seed.insert(pkgname);
+		 }
 	   }
     }
 
@@ -386,39 +408,30 @@ bool Packages::upgrades_available()
 	{
 		_upgrades_available = NO;
 
-		const pkg::binary_control_table& ctrltab = _package_base->control();
-		std::string prev_pkgname;
+	    const pkg::env_packages_table& envtab = _package_base->env_packages();
+	    std::string prev_pkgname;
 
-		for (pkg::binary_control_table::const_iterator i=ctrltab.begin();
-		 i !=ctrltab.end(); ++i)
-		{
-		   std::string pkgname=i->first.pkgname;
-		   if (pkgname!=prev_pkgname)
-		   {
-			  // Don't use i->second for ctrl as it may not be the latest version
-			  // instead look it up.
-			  prev_pkgname=pkgname;
+	    for (pkg::env_packages_table::const_iterator i=envtab.begin();
+		     i != envtab.end(); ++i)
+	    {
+		    std::string pkgname=i->first;
+		    pkg::status curstat=_package_base->curstat()[pkgname];
+		    if (curstat.state()>=pkg::status::state_installed)
+		    {
+			    pkg::version inst_version(curstat.version());
+			    pkg::version cur_version(i->second.pkgvrsn);
 
-			  pkg::status curstat=_package_base->curstat()[pkgname];
-			  if (curstat.state()>=pkg::status::state_installed)
-			  {
-			 	  const pkg::control& ctrl=_package_base->control()[pkgname];
-				  pkg::version inst_version(curstat.version());
-				  pkg::version cur_version(ctrl.version());
-
-				  if (inst_version < cur_version)
-				  {
-					  _upgrades_available = YES;
-					  break; // Don't need to check any more
-				  }
-			  }
-		   }
-		}
+			    if (inst_version < cur_version)
+			    {
+				  _upgrades_available = YES;
+				  break; // Don't need to check any more
+			    }
+		    }
+	    }
 	}
 
 	return (_upgrades_available != NO);
 }
-
 
 
 /**
@@ -474,7 +487,7 @@ std::tr1::shared_ptr<pkg::log> Packages::new_log()
  * @param recommends vector to hold list of recommendations
  * @param suggests vector to hold list of suggestions
  */
-void Packages::get_recommendations(const std::vector< std::pair<std::string, std::string> > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests)
+void Packages::get_recommendations(const std::vector< pkg::binary_control_table::key_type > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests)
 {
 	const pkg::binary_control_table& ctrltab = _package_base->control();
 	const pkg::status_table &seltable = _package_base->selstat();
@@ -482,14 +495,13 @@ void Packages::get_recommendations(const std::vector< std::pair<std::string, std
 	std::set< std::string > recs_found;
 	std::set< std::string > sugs_found;
 
-	for(std::vector< std::pair<std::string, std::string> >::const_iterator i = packages.begin();
+	for(std::vector< pkg::binary_control_table::key_type >::const_iterator i = packages.begin();
 			i != packages.end(); ++i)
 	{
 		try
 		{
-			pkg::binary_control_table::key_type key(i->first, pkg::version(i->second));
-			const pkg::binary_control &ctrl = ctrltab[key];
-			if (ctrl.pkgname() == i->first) // double check package was found
+			const pkg::binary_control &ctrl = ctrltab[*i];
+			if (ctrl.pkgname() == i->pkgname) // double check package was found
 			{
 				std::string recommends = ctrl.recommends();
 				if (!recommends.empty())

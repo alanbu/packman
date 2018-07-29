@@ -87,22 +87,22 @@ InstallList::InstallList(bool include_sources, bool include_paths)
 		}
 	}
 
-    const std::vector<std::string> &package_list = Packages::instance()->package_list();
+    const std::vector<PackageKey> &package_list = Packages::instance()->package_list();
 	const pkg::binary_control_table& ctrltab = package_base->control();
 	pkg::look_at_options look_at;
 	pkg::run_options run;
 	pkg::add_to_apps_options add_to_apps;
 
-	for (auto pkgname : package_list)
+	for (auto &pkgkey : package_list)
 	{
-		const pkg::binary_control &ctrl = ctrltab[pkgname];
-		pkg::status_table::const_iterator sti = package_base->curstat().find(pkgname);
+		const pkg::binary_control &ctrl = ctrltab[pkgkey];
+		pkg::status_table::const_iterator sti = package_base->curstat().find(pkgkey.pkgname);
 
 		if (sti != package_base->curstat().end()
 				 && (*sti).second.state() == pkg::status::state_installed)
 		{
 			PackageInfo info;
-			info.name = pkgname;
+			info.name = pkgkey.pkgname;
 			info.version = ctrl.version();
 			info.flags = (*sti).second.flags();
 
@@ -117,7 +117,7 @@ InstallList::InstallList(bool include_sources, bool include_paths)
 					{
 						if (i->flag(pkg::component::movable))
 						{
-						   std::string path = paths(i->name(), pkgname);
+						   std::string path = paths(i->name(), pkgkey.pkgname);
 
 						   ComponentInfo comp_info;
 						   comp_info.logical_path = i->name();
@@ -130,7 +130,7 @@ InstallList::InstallList(bool include_sources, bool include_paths)
 					}
 				} catch(...)
 				{
-					// Ignore exceptions and jist don't add components
+					// Ignore exceptions and don't add components
 				}
 			}
 

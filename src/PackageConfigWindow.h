@@ -58,15 +58,20 @@ class PackageConfigWindow : tbx::ButtonSelectedListener
 	struct PackageInfo
 	{
 		PackageInfo() : action(INSTALL) {}
-		PackageInfo(const std::string &n, const std::string &v, Action a) : name(n), version(v), action(a) {}
-		bool operator==(const PackageInfo &other) const {return name == other.name && version == other.version && action == other.action;}
-		bool operator!=(const PackageInfo &other) const {return name != other.name || version != other.version || action != other.action;}
+		PackageInfo(const std::string &n, const std::string &v, const std::string &id, Action a) : name(n), version(v), environment_id(id), action(a) {}
+		bool operator==(const PackageInfo &other) const
+				{return name == other.name && version == other.version
+						&& environment_id == other.environment_id && action == other.action;}
+		bool operator!=(const PackageInfo &other) const
+				{return name != other.name || version != other.version
+						|| environment_id != other.environment_id || action != other.action;}
 
 		std::string display_text() const;
 		bool auto_action() const {return (action > REMOVE);}
 
 		std::string name;
 		std::string version;
+		std::string environment_id;
 		Action action;
 	};
 	std::vector<PackageInfo> _packages;

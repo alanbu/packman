@@ -65,8 +65,11 @@ UpdateListWindow::UpdateListWindow() :
 	tbx::app()->add_idle_command(&_thread_runner);
 
 	// Set up list of packages before update
-	const std::vector<std::string> &package_list = Packages::instance()->package_list();
-	std::copy(package_list.begin(), package_list.end(), std::inserter(_whats_old, _whats_old.end()));
+	const std::vector<PackageKey> &package_list = Packages::instance()->package_list();
+	std::transform(package_list.begin(), package_list.end(),
+			std::inserter(_whats_old, _whats_old.end()),
+			[](const PackageKey &key) -> std::string { return key.pkgname; }
+	);
 
 	if (Packages::instance()->logging())
 	{
@@ -207,14 +210,15 @@ void UpdateListWindow::show_log()
  */
 bool UpdateListWindow::write_whats_new()
 {
-	const std::vector<std::string> &package_list = Packages::instance()->package_list();
+	const std::vector<PackageKey> &package_list = Packages::instance()->package_list();
 	std::set<std::string> whats_new;
-	for (std::vector<std::string>::const_iterator i = package_list.begin();
+	for (std::vector<PackageKey>::const_iterator i = package_list.begin();
 			i != package_list.end(); ++i)
 	{
-		if (_whats_old.find(*i) == _whats_old.end())
+		const std::string &pkgname = i->pkgname;
+		if (_whats_old.find(pkgname) == _whats_old.end())
 		{
-			whats_new.insert(*i);
+			whats_new.insert(pkgname);
 		}
 	}
 

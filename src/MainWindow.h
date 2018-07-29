@@ -101,6 +101,18 @@ class MainWindow :
 		}
 	} _name_text;
 
+	// Class to draw environment sprite
+	class EnvSprite : public tbx::view::ItemViewValue<tbx::Sprite *>
+	{
+		MainWindow *_me;
+		static tbx::UserSprite _unset;
+		static tbx::UserSprite _unknown;
+		static tbx::UserSprite _invalid;
+	public:
+		EnvSprite(MainWindow *me);
+		virtual tbx::Sprite *value(unsigned int index) const;
+	} _env_sprite;
+
 	/**
 	 * Class to get the package summary
 	 */
@@ -118,6 +130,7 @@ class MainWindow :
 	// Column renderers
 	tbx::view::SpriteItemRenderer _status_renderer;
 	tbx::view::WimpFontItemRenderer _name_renderer;
+	tbx::view::SpriteItemRenderer _env_renderer;
 	tbx::view::WimpFontItemRenderer _summary_renderer;
 
 	/******************************************

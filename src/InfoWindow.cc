@@ -42,7 +42,7 @@ const int ScrollListExtra = 80;
 // OS units margin on right of window (use when it's expanded)
 const int RightMargin = 16;
 
-const int NumDisplayFields = 10;
+const int NumDisplayFields = 11;
 
 static const char*DisplayFields[] =
 {
@@ -55,22 +55,24 @@ static const char*DisplayFields[] =
                "Source",
                "Standards-Version",
                "Maintainer",
-               "Licence"
+               "Licence",
+			   "Environment"
 };
 
-const int NumDepFields = 4;
+const int NumDepFields = 5;
 static const char *DepFields[] =
 {
                "Depends",
                "Conflicts",
                "Recommends",
-               "Suggests"
+               "Suggests",
+			   "OSDepends"
 };
 
 InfoWindow::InfoWindow() :
        _window("Info"),
        _installed(_window.gadget(0x22)),
-       _description(_window.gadget(0x21)),
+       _description(_window.gadget(0x40)),
        _components(_window.gadget(0x2e)),
        _install_button(_window.gadget(0x32)),
        _remove_button(_window.gadget(0x33)),

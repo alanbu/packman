@@ -27,6 +27,8 @@
 #ifndef PACKAGES_H_
 #define PACKAGES_H_
 
+#include <libpkg/binary_control_table.h>
+
 namespace pkg {
 
 class pkgbase;
@@ -40,6 +42,12 @@ class control;
 #include <string>
 #include <set>
 #include <tr1/memory>
+
+/**
+ * Structure to identify a specific version of a package
+ */
+typedef pkg::binary_control_table::key_type PackageKey;
+
 /**
  * Class to handle packages
  */
@@ -49,7 +57,7 @@ class Packages
 	static Packages *_instance;
 	std::string _sections;
 	enum {DONT_KNOW, NO, YES} _upgrades_available;
-	std::vector<std::string> _package_list;
+	std::vector<PackageKey> _package_list;
 	bool _logging;
 	std::tr1::shared_ptr<pkg::log> _log;
 
@@ -63,8 +71,9 @@ public:
 
 	bool ensure_package_base();
 
-	const std::vector<std::string> &package_list();
+	const std::vector<PackageKey> &package_list();
 	void reset_package_list();
+	void environment_changed();
 
 	std::string sections();
 
@@ -88,7 +97,7 @@ public:
 	std::tr1::shared_ptr<pkg::log> current_log() const {return _log;}
 	std::tr1::shared_ptr<pkg::log> new_log();
 
-	void get_recommendations(const std::vector< std::pair<std::string, std::string> > &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests);
+	void get_recommendations(const std::vector< pkg::binary_control_table::key_type> &packages, std::vector<std::string> &recommends,  std::vector<std::string> &suggests);
 
 	void check_dependencies(const pkg::control& ctrl);
 private:
