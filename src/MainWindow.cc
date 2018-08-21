@@ -66,7 +66,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 #endif
 	_view.add_column(&_status_renderer, 50);
 	_view.add_column(&_name_renderer, 100);
-	_view.add_column(&_env_renderer, 60);
+	_view.add_column(&_env_renderer, 40);
 	_view.add_column(&_summary_renderer, 400);
 	_view.selection(&_selection);
 	_view.margin(tbx::Margin(0,68,0,254));
@@ -239,7 +239,7 @@ MainWindow::EnvSprite::EnvSprite(MainWindow *me) : _me(me)
 		// Load sprite when first instance of class is created
 		tbx::SpriteArea *area = tbx::app()->sprite_area();
 		_unset = area->get_sprite("env_u");
-		_unknown = area->get_sprite("env_f");
+		_unknown = area->get_sprite("env_x");
 		_invalid = area->get_sprite("env_i");
 	}
 };
