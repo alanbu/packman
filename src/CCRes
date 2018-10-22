@@ -3570,7 +3570,7 @@ window_object {
     flags:
     event:0
     foreground:os_COLOUR_BLACK
-    background:os_COLOUR_WHITE
+    background:os_COLOUR_VERY_LIGHT_GREY
   }
   displayfield_object {
     cmp:&22
