@@ -23,6 +23,9 @@ The information shown in the window is
 <LI>Priority - how important it is for your system</LI>
 <LI>Licence - the package Licence. Select the "More..." button to view the copyright if it has been installed.</LI>
 <LI>Size - size of package that will be downloaded in bytes</LI>
+<LI>Environment - each package should be given one or mode codes to specify
+which RISC OS environments it should run on. If this is blank the environment
+has not been set in the package.</LI>
 <LI>URL - location file will be downloaded from</LI>
 <LI>Source - name of the source this package was created from (if any)</LI>
 <LI>Standards ver - earliest version of the packaging process that is needed to install this package</LI>
@@ -34,6 +37,7 @@ The install/upgrade process will automatically install these if they are not alr
 <LI>Conflicts - list of packages that can not be installed at the same time as this package</LI>
 <LI>Recommends - list of packages that are recommended (but not essential) to be installed as well as this package</LI>
 <LI>Suggests - list of packages that may be useful when used alongside or with this package</LI>
+<LI>OS Depends - If a package depends on a module being loaded at startup then it will be listed here.</LI>
 <LI>Description - full description of the package</LI>
 <LI>Components - list of components installed by this Package. If the package has been installed this
 gives the location the components have been installed to. If the package has not been installed the

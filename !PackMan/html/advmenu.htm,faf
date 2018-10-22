@@ -17,7 +17,11 @@ system.</P>
     which allows you to specify base directories or full paths for where the contents of the packages are installed to.
 </LI>
 <LI>Backups - shows the <A HREF="backupwnd.htm">Backups Window</A>
-    which allows you to manage backups made by PackMan.</A>
+    which allows you to manage backups made by PackMan.
+</LI>
+<LI>Environment - shows the <A HREF="envwnd.htm">Environment Window</A>
+    which shows the enviroment and modules found in the current packages.
+</LI>
 <LI>Cache - shows the <A HREF="cache.htm">Cache Window</A>
     which allows you to clear the cache of downloaded packages.
 </LI>

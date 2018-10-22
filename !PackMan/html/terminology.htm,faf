@@ -28,6 +28,14 @@ A dependency is a package that another package needs to have installed when it i
 </P>
 <P>PackMan will automatically install dependencies when they are needed or remove them if they were automatically installed and no package requires them any more. The <A HREF="configpackage.htm">Configure Package Window</A> automatically has the list of dependencies to be added/removed added to it.
 </P>
+<H3>Environment</H3>
+<P>
+The environment is the set of features the current RISC OS machine has.
+For packages this is specified by short codes.<br>
+e.g. arm26 for packages that only run on 26 bit versions of RISC OS.<br>
+In most cases PackMan will not show packages that are not for the
+currently detected environment.
+</P>
 <H3>Sources</H3>
 <P>Sources are the location where PackMan fetches the list of packages that are available.</P>
 <H3>Binary/Source Package</H3>

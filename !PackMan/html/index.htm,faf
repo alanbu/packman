@@ -27,12 +27,9 @@ bugs. Please send me feedback to improve this application.</P>
       <LI><A HREF="copywnd.htm">Copyright Window</A></LI>
       <LI><A HREF="choiceswnd.htm">Choices Window</A></LI>
       <LI><A HREF="findfilewnd.htm">Find File Dialog</A></LI>
-      <LI><A HREF="sources.htm">Sources Window</A></LI>
-      <LI><A HREF="paths.htm">Paths Window</A></LI>
-      <LI><A HREF="backupwnd.htm">Backups Window</A></LI>
-      <li><a href="cache.htm">Cache Window</a></li>
-      <li><a href="verifyall.htm">Verify All Windows</a></li>
+      <LI><A HREF="advmenu.htm">Advanced options</A></LI>
     </UL>
+  </LI>
   <LI>Information on Packaging</LI>
     <UL>
       <LI><A HREF="where.htm">What's installed and where</A></LI>

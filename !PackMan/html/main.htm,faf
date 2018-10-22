@@ -29,9 +29,21 @@ The ticks have a small "a" by them if the package was
 automatically installed.
 </P>
 <P>
-This is followed by the package name and a summary of
+This is followed by the package name, the environment status, and a summary of
 what it does.
 </P>
+<P>The environment status can be one of the following:
+<UL>
+<LI>blank if the package is suitable for the current environment</LI>
+<LI>A red triangle containing a question mark if the package does not
+have any environment information</LI>
+<LI>A red triangle containing an exclamation mark if the package is not
+suitable for the current environment. These packages are only shown
+if they were installed before the environment was first detected or
+if it changed.</LI>
+<LI>A red triangle containing a "x" if the current version of PackMan
+does not understand the environment information in the package.</LI>
+</UL>
 <P>
 Clicking on a package will show more information about
 it in the status bar at the bottom of the Window. The
@@ -70,7 +82,7 @@ will be updated to show it's new status</P>
    button that is enabled after the download of the lists if there are any
    upgrades available and a "What's New" button to show any packages added since the
    last update lists.
- </LI>  
+ </LI>
 <LI>Search - This leads to the <A HREF="search.htm">search dialog<A>.</LI>
 <LI>Save Position - This will save the current position of the main window and
 the size of the summary bar to your choices. When you next show a window it will

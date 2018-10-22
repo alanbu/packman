@@ -6,20 +6,26 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.9.2 Beta - November 2018</B>
+ <UL>
+   <LI>Support for the new environment/modules field in packages to show
+only the packages that are suitable for the machine PackMan is running on.</LI>
+ </UL>
+</LI>
 <LI><B>0.9.1 Beta - May 2016</B>
-<UL>
-<LI>Recompiled with latest GCCSDK compiler so it will run on a RaspberryPi 3.</LI>
-<LI>On initial setup, iconbar icon is not shown until !Packages is installed and
+ <UL>
+  <LI>Recompiled with latest GCCSDK compiler so it will run on a RaspberryPi 3.</LI>
+  <LI>On initial setup, iconbar icon is not shown until !Packages is installed and
 a "Quit" button on the dialogue allows PackMan to be exited. Previously there
 was no way to exit PackMan until !Packages was installed.</LI>
-<LI>Fixed bug with Upgrade All during the first run of PackMan to set it up.
- If there was a newer version of PackMan online, the Upgrade All option 
+  <LI>Fixed bug with Upgrade All during the first run of PackMan to set it up.
+ If there was a newer version of PackMan online, the Upgrade All option
  from the Update Lists dialogue would lead to the Install window with an invalid
  Package Name. Also, the Upgrade All option from the menu would say there were
  no upgrades.</LI>
-</UL>
+ </UL>
 </LI>
-<UL>
+
 <LI><B>0.9.0 Beta - March 2016</B>
 <UL>
 <LI>Added find file window to search packages for a component or installed file.</LI>
@@ -35,6 +41,7 @@ was no way to exit PackMan until !Packages was installed.</LI>
 <LI>Used new LibPkg backend from GitHub</LI>
 </UL>
 </LI>
+
 <LI><B>0.8.4 Beta - December 2014</B>
 <UL>
 <LI>Added a reminder message to update the Package List.

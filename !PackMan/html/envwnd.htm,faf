@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<TITLE>PackMan - Environment Window</TITLE>
+<link rel="stylesheet" type="text/css" href="packman.css">
+</HEAD>
+<BODY>
+<H2>Environment Window</H2>
+<P>The environment window allows you to see the detected environment
+and module values
+for the current packages and allows them to be overridden.</P>
+The window shows:
+<UL>
+<LI>Override environment - Selecting this option allows you to override
+the detected environment. When selected it enables the option buttons
+beside the environment and modules listed below. Deselecting this option
+will disable the buttons and reset them to the detected values.
+</LI>
+<LI>Environment - This lists the environment codes with their description.
+An option button at the beginning of each line shows if the environment
+has been detected (or overriden).
+</LI>
+<LI>Modules - This lists the modules. If they are detected on the current
+machine part of the help text will also be shown.
+An option button at the beginning of each line shows if the module
+has been detected (or overriden).
+</LI>
+<LI>Cancel - Close the window without updating the environment/module settings.</LI>
+<LI>OK - Update and save the environment/module settings.</LI>
+</UL>
+
+</BODY>
+</HTML>
