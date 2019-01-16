@@ -67,9 +67,14 @@ bool UpgradeFilter::ok_to_show(const pkg::binary_control &ctrl)
 		return false; // Not installed so can't have an upgrade
 	} else
 	{
+		  pkg::env_packages_table::const_iterator epi = package_base->env_packages().find(pkgname);
+		  if (epi == package_base->env_packages().end())
+		  {
+			  return false; // No better version for this environment
+		  }
+
 		  pkg::version inst_version((*sti).second.version());
-		  pkg::version cur_version(ctrl.version());
-		  return (inst_version < cur_version);
+		  return (inst_version < epi->second.pkgvrsn);
 	}
 }
 
