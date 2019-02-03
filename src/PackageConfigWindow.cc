@@ -161,6 +161,10 @@ void PackageConfigWindow::apply()
 void PackageConfigWindow::cancel()
 {
 	Packages::instance()->clear_selection();
+	pkg::component_update comp_update(Packages::instance()->package_base()->component_update_pathname());
+	comp_update.clear();
+	comp_update.done();
+
 	delete this;
 }
 
