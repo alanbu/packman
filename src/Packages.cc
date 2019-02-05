@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2016 Alan Buckley
+* Copyright 2009-2019 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -41,6 +41,18 @@
 #include "tbx/stringutils.h"
 #include "tbx/messagewindow.h"
 
+// PKGTEST is set when compiling in the testing application
+#ifdef PKGTEST
+  const char *PACKAGES_DIR = "PkgTestDisc:!Boot.Resources.!Packages";
+  const char *PACKAGES_DEFAULT_DIR = "PkgTestDisc:PkgTest.!Packages";
+  const char *PACKAGES_CHOICES_DIR = "PkgTestDisc:!Boot.Choices.PkgTest";
+#else
+  const char *PACKAGES_DIR= "<Packages$Dir>";
+  const char *PACKAGES_DEFAULT_DIR = "<PackMan$Dir>.Resources.!Packages";
+  const char *PACKAGES_CHOICES_DIR = "Choices:PackMan";
+#endif
+
+
 using namespace std;
 
 Packages *Packages::_instance = 0;
@@ -70,9 +82,9 @@ bool Packages::ensure_package_base()
 		try
 		{
 			// Do not use distribution master of package database.
-			std::string apath=pkg::canonicalise("<Packages$Dir>");
+			std::string apath=pkg::canonicalise(PACKAGES_DIR);
 			std::string dpath=
-				pkg::canonicalise("<PackMan$Dir>.Resources.!Packages");
+				pkg::canonicalise(PACKAGES_DEFAULT_DIR);
 			if ((apath!=dpath)&&(pkg::object_type(apath)!=0))
 			{
 				// If the package database exists, but does not contain a
@@ -88,8 +100,8 @@ bool Packages::ensure_package_base()
 				}
 
 				// Attempt to access package database.
-				_package_base=new pkg::pkgbase("<Packages$Dir>","<PackMan$Dir>.Resources",
-					"Choices:PackMan");
+				_package_base=new pkg::pkgbase(PACKAGES_DIR,PACKAGES_DEFAULT_DIR,
+					PACKAGES_CHOICES_DIR);
 
 				// Ensure that default paths are present, unless they
 				// have been explicitly disabled by the user.
@@ -109,6 +121,12 @@ bool Packages::ensure_package_base()
 			// Just delete as we will be shown the create package dialog
 			delete _package_base;
 			_package_base=0;
+#ifdef PKGTEST
+			// For unit tests rethrow the error so more information
+			// can be reported.
+			throw;
+#endif
+
 		}
 	}
 	return (_package_base != 0);

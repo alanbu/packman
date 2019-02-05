@@ -32,8 +32,12 @@
 
 static Choices g_choices;
 Choices &choices() {return g_choices;}
+#ifdef PKGTEST
+  const char *ChoicesDir = "PkgTestDisc:!Boot.Choices.PkgTest";
+#else
+  const char *ChoicesDir = "<Choices$Write>.PackMan";
+#endif
 
-const char *ChoicesDir = "<Choices$Write>.PackMan";
 
 const int DEFAULT_PROMPT_DAYS = 7;
 

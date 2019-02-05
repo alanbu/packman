@@ -95,7 +95,7 @@ static int l_pkg_add(lua_State *L)
 			ctrl["Size"] = out.str();
 
 			std::string cache_pathname = package_base->cache_pathname(pkgname,
-					pkgvrsn);
+					pkgvrsn, ctrl.environment_id());
 			pkg::copy_object(pathname, cache_pathname);
 			package_base->control().insert(ctrl);
 			package_base->control().commit();

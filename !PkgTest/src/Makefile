@@ -20,10 +20,10 @@ else
 endif
 
 CPPFLAGS= -ITBX: -ILibPKG: -ILibCurl: -Iluacc
-CXXFLAGS = -O2 -Wall -mpoke-function-name -mthrowback
+CXXFLAGS = -O2 -std=c++11 -Wall -mpoke-function-name -mthrowback
 
 LD = g++
-LDFLAGS = -LTBX: -ltbx  -LLibPkg: -lpkg -LLibCurl: -lcurl -LZLib: -lz -Lluacc -lluacc -lstdc++ -static
+LDFLAGS = -LTBX: -ltbx  -LLibPkg: -lpkg -LLibCurl: -lcurl -lssh2 -lssl -lcrypto -LZLib: -lz -Lluacc -lluacc -lstdc++ -static
 
 CCSRC = $(wildcard *.cc)
 OBJECTS = $(CCSRC:.cc=.o)
