@@ -36,6 +36,7 @@
 #include "tbx/hourglass.h"
 
 #include <sstream>
+#include <cstring>
 
 // Helper functions
 pkg::binary_control extract_control(const std::string& pathname);
@@ -135,17 +136,32 @@ static int l_pkg_install(lua_State *L)
 
 	test_log() << "Install " << pkgname << std::endl;
 
-	const pkg::binary_control &bctrl = available_control(pkgname);
-	pkg::pkgbase *pkg_base = Packages::instance()->package_base();
+	try
+	{
+		const pkg::binary_control &bctrl = available_control(pkgname);
+		pkg::pkgbase *pkg_base = Packages::instance()->package_base();
 
-    if (pkg_base->curstat()[pkgname].state() == pkg::status::state_installed)
-    {
-		lua_pushstring(L, "Package is already installed");
-		return lua_error(L);
-    } else
-    {
-    	Packages::instance()->select_install(&bctrl);
-    }
+		if (pkg_base->curstat()[pkgname].state() == pkg::status::state_installed)
+    		{
+			lua_pushstring(L, "Package is already installed");
+			return lua_error(L);
+		} else
+		{
+		    	Packages::instance()->select_install(&bctrl);
+    		}
+	} catch(std::exception &ex)
+	{
+		std::string msg("Failed to find package to install '");
+		msg += pkgname;
+		msg += "': ";
+		msg += ex.what();
+
+		test_log() << msg << std::endl;
+
+		lua_pushstring(L, msg.c_str());
+                return lua_error(L);
+	}
+    
 
    	return 0;
 }
@@ -317,6 +333,38 @@ static int l_pkg_control(lua_State *L)
 	return 1;
 }
 
+/**
+ * Dump information to the log to help debugging
+ *
+ * pkg.dump(<what>)
+ * <what> is currently just "available" for the available packages list
+ *
+ * Fails if <what> is invalid
+ */
+
+static int l_pkg_dump(lua_State *L)
+{
+	const char *what = lua_tostring(L,1);
+	if (std::strcmp(what, "available") == 0)
+	{
+		pkg::pkgbase *pkg_base = Packages::instance()->package_base();
+		pkg::binary_control_table &btable = pkg_base->control();
+		pkg::binary_control_table::const_iterator c;
+
+		// First check package exists
+		for (c = btable.begin(); c != btable.end(); ++c)
+		{
+			test_log() << "Package: " << c->first.pkgname << ", Version: " 
+				<< (std::string)c->first.pkgvrsn << ", Environment: " << c->first.pkgenv << std::endl;
+		}
+	} else
+	{
+		lua_pushstring(L, "Invalid argument to dump command");
+		return lua_error(L);
+	}
+	return 1;
+}
+
 static const struct luaL_reg pkglib [] = {
    {"path", l_pkg_path},
    {"add", l_pkg_add},
@@ -327,6 +375,7 @@ static const struct luaL_reg pkglib [] = {
    {"commit", l_pkg_commit},
    {"commit_fail", l_pkg_commit_fail},
    {"control", l_pkg_control},
+   {"dump", l_pkg_dump},
    {NULL, NULL}  /* sentinel */
  };
 
