@@ -33,6 +33,10 @@ $(TARGET):	!RunImageElf
 !RunImageElf:	$(OBJECTS)
 	$(LD) $(LDFLAGS) -o !RunImageElf $(OBJECTS)
 
+clean:
+	rm -f $(OBJECTS)
+	rm -f !RunImageElf
+
 ifeq ($(HOST),riscos)
 include $(CCSRC:.cc=.d)
 endif
