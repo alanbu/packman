@@ -1,0 +1,23 @@
+-- Testing of install of package without the environment set
+local pkg_name = "TestEnv";
+local inst_path = pkg.path("Apps.PkgTest.TestEnvUnset");
+
+test.erase(pkg_name);
+
+test.message("Testing install of unset "..pkg_name.." 1.0");
+pkg.add(pkg_name .. "Unset".."_1/0-1");
+pkg.dump("available")
+pkg.install(pkg_name);
+pkg.commit();
+
+test.check_state(pkg_name, "installed")
+
+f=io.open(inst_path,"r")
+test.check("Check TestEnvUnset has been installed",f,"TestEnvUnset was not installed");
+if f then f:close() end
+
+test.message("Testing removal of "..pkg_name);
+pkg.remove(pkg_name);
+pkg.commit();
+
+test.check_file_deleted(inst_path);

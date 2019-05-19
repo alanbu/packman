@@ -32,6 +32,7 @@
 #include "libpkg/pkgbase.h"
 #include "libpkg/zipfile.h"
 #include "libpkg/filesystem.h"
+#include "libpkg/env_checker.h"
 
 #include "tbx/hourglass.h"
 
@@ -341,7 +342,6 @@ static int l_pkg_control(lua_State *L)
  *
  * Fails if <what> is invalid
  */
-
 static int l_pkg_dump(lua_State *L)
 {
 	const char *what = lua_tostring(L,1);
@@ -365,6 +365,68 @@ static int l_pkg_dump(lua_State *L)
 	return 1;
 }
 
+/**
+ * Helper to parse a csv list to a set
+ * @param csv_list comma seperated list to convert
+ * @param out_set set updated with list of values
+ */
+static void csv_to_set(const char *csv_list, std::set<std::string> &out_set)
+{
+	const char *s = csv_list;
+	const char *e;
+	std::string item;
+	do
+	{
+		while (*s == ' ') s++;
+	  e = strchr(s, ',');
+		if (e == nullptr)
+		{
+			item.assign(s);
+		} else
+		{
+			item.assign(s, e - s);
+			s = e + 1;
+		}
+		while (!item.empty() && item.back() == ' ')	item.erase(item.size()-1);
+		if (!item.empty()) out_set.insert(item);
+	} while (e);
+}
+
+/**
+ * Set environment for packages
+ *
+ * pkg.environment(<env>, <mod>)
+ * <env> is the package environment to use (comma separated list) or "" for the default.
+ * <mod> is an optional list of modules
+ */
+static int l_pkg_environment(lua_State *L)
+{
+	const char *env_list = lua_tostring(L,1);
+	const char *mod_list = luaL_optstring(L,2,NULL);
+	test_log() << "Changing environment to '" << env_list << "'" << std::endl;
+	if (mod_list && *mod_list) test_log() << "Changed environment modules to '" << mod_list << "'";
+	std::set<std::string> envs, mods;
+	csv_to_set(env_list, envs);
+	if (mod_list) csv_to_set(mod_list, envs);
+
+	pkg::env_checker::instance()->override_environment(envs, mods);
+
+	return 1;
+}
+
+/**
+ * Reset environment for packages to default
+ *
+ * pkg.reset_environment()
+ */
+static int l_pkg_reset_environment(lua_State *L)
+{
+	pkg::env_checker::instance()->clear_environment_overrides();
+	test_log() << "Environment reset" << std::endl;
+	return 1;
+}
+
+
 static const struct luaL_reg pkglib [] = {
    {"path", l_pkg_path},
    {"add", l_pkg_add},
@@ -376,6 +438,8 @@ static const struct luaL_reg pkglib [] = {
    {"commit_fail", l_pkg_commit_fail},
    {"control", l_pkg_control},
    {"dump", l_pkg_dump},
+	 {"environment", l_pkg_environment},
+	 {"reset_environment", l_pkg_reset_environment},
    {NULL, NULL}  /* sentinel */
  };
 

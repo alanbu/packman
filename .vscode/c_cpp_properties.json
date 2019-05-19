@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/alan/gccsdk/env/include"
+            ],
+            "defines": [],
+            "compilerPath": "/home/alan/gccsdk/cross/bin/arm-unknown-riscos-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

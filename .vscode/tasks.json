@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "~/gccsdk/env/ro-make",
+            "problemMatcher": "$gcc",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "src"
+            }
+        },
+        {
+            "label": "Copy to RPCEMU",
+            "type": "shell",
+            "command": "cp -f '!PackMan/!RunImage,ff8' '/home/alan/rpcemu/rpcemu-0.9.1/hostfs/Apps/!PackMan'",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build !PkgTest",
+            "type": "shell",
+            "command": "~/gccsdk/env/ro-make",
+            "problemMatcher": "$gcc",
+            "group": "build",
+            "options": {
+                "cwd": "!PkgTest/src"
+            }
+
+        },
+        {
+            "label": "Copy to !PkgTest to RPCEMU",
+            "type": "shell",
+            "command": "cp -f '!PkgTest/!RunImage,ff8' '/home/alan/rpcemu/rpcemu-0.9.1/hostfs/Apps/!PkgTest'",
+            "problemMatcher": []
+        },
+    ]
+}

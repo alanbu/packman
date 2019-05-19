@@ -209,6 +209,29 @@ static int l_check_file_deleted(lua_State *L)
 	}
 }
 
+
+/**
+ * Check if a file exists
+ *
+ * test.check_file_exists(<path to file>)
+ *
+ * Fails if file does not exists on the file system
+ */
+static int l_check_file_exists(lua_State *L)
+{
+	const char *file_path = lua_tostring(L,1);
+
+	test_log() << "Checking if file '" << file_path << "' exists" << std::endl;
+	if (pkg::object_type(file_path) == 0)
+	{
+		lua_pushstring(L, "file does not exist");
+		return lua_error(L);
+	} else
+	{
+		return 0;
+	}
+}
+
 /**
  * Extract a file from a package zip file.
  *
@@ -317,6 +340,31 @@ static int l_check_state(lua_State *L)
     return 0;
 }
 
+/**
+ * Check package state - environment id
+ *
+ * test.check_stat_env_id(<package name>,<env_id>)
+ */
+static int l_check_state_env_id(lua_State *L)
+{
+	const char *pkgname = lua_tostring(L,1);
+	const char *env_id = lua_tostring(L,2);
+
+	test_log() << "Checking package '" << pkgname << "' state environment id is '" << env_id << "'" << std::endl;
+
+    pkg::pkgbase *pkg_base = Packages::instance()->package_base();
+    const pkg::status &stat = pkg_base->curstat()[pkgname];
+    std::string check_env_id = stat.environment_id();
+		if (check_env_id != env_id)
+		{
+    	std::string msg("Package status is for incorrect environment '");
+    	msg += check_env_id + "'";
+    	lua_pushstring(L, msg.c_str());
+    	return lua_error(L);
+    }
+
+    return 0;
+}
 
 /**
  * Check if a condition is true
@@ -422,15 +470,16 @@ static const struct luaL_reg testlib [] = {
    {"erase", l_erase},
    {"check_module", l_check_module},
    {"check_file_deleted", l_check_file_deleted},
+   {"check_file_exists", l_check_file_exists},
    {"extract_file", l_extract_file},
    {"check_version", l_check_version},
    {"check", l_check},
    {"check_control_info", l_check_control_info},
    {"check_state", l_check_state},
+	 {"check_state_env_id", l_check_state_env_id},
    {"pause", l_pause},
    {NULL, NULL}  /* sentinel */
  };
-
 
 /**
  * Load the test library into the lua state

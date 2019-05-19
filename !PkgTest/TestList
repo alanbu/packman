@@ -4,3 +4,5 @@ Module003	Check older package doesn't overwrite newer module
 Module004	Check package doesn't overwrite one with the same version
 Module005	Check database state after failure
 Module006	Check upgrade after failure
+Install001	Test install of package without an environment
+Install002	Test install of correct package for environment
