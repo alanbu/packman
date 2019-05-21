@@ -38,6 +38,7 @@
 
 #include <sstream>
 #include <cstring>
+#include <algorithm>
 
 // Helper functions
 pkg::binary_control extract_control(const std::string& pathname);
@@ -407,7 +408,14 @@ static int l_pkg_environment(lua_State *L)
 	if (mod_list && *mod_list) test_log() << "Changed environment modules to '" << mod_list << "'";
 	std::set<std::string> envs, mods;
 	csv_to_set(env_list, envs);
-	if (mod_list) csv_to_set(mod_list, envs);
+	if (mod_list && *mod_list)
+	{
+		std::string lower_mod_list(mod_list);
+		std::transform(lower_mod_list.begin(), lower_mod_list.end(), lower_mod_list.begin(),
+				                   [](unsigned char c){ return std::tolower(c); }
+		);
+		csv_to_set(lower_mod_list.c_str(), mods);
+	} 
 
 	pkg::env_checker::instance()->override_environment(envs, mods);
 
