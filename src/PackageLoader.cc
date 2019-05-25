@@ -29,6 +29,7 @@
 #include "PackageConfigWindow.h"
 #include "PackManState.h"
 #include "tbx/reporterror.h"
+#include "tbx/path.h"
 #include "libpkg/filesystem.h"
 #include "libpkg/zipfile.h"
 #include "libpkg/pkgbase.h"
@@ -69,7 +70,7 @@ bool PackageLoader::load_file(tbx::LoadEvent &event)
 
 				std::string cache_pathname = package_base->cache_pathname(pkgname,
 						pkgvrsn, ctrl.environment_id());
-				pkg::copy_object(pathname, cache_pathname);
+				tbx::Path(pathname).copy(cache_pathname,tbx::Path::COPY_FORCE);
 				package_base->control().insert(ctrl);
 				package_base->control().commit();
 
