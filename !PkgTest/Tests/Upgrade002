@@ -1,0 +1,37 @@
+-- Testing it doesn't upgrade to package for in an incompatible environment
+local pkg_name = "TestEnv";
+
+
+test.erase(pkg_name)
+pkg.environment("arm")
+                                   
+-- Helper function to check correct thing is installed
+function test_installed(ver, env_id, pkg_suffix)
+  test.check_state(pkg_name, "installed")
+  test.check_state_env_id(pkg_name, env_id)
+  test.check_version(pkg_name, ver)
+
+  local inst_path = pkg.path("Apps.PkgTest.TestEnv"..pkg_suffix)
+  test.check_file_exists(inst_path)
+end
+
+-- Test install of version 1.0 for arm, swp environment
+
+pkg.add(pkg_name .. "Arm".."_1/0-1")
+pkg.install(pkg_name)
+pkg.commit()
+
+test_installed("1.0-1", "b", "Arm")
+
+-- Test upgrade goes from version 1.0 to 2.0 despite environment arm
+-- having a lower priority than arm, swp
+pkg.add(pkg_name .. "Vfp".."_2/0-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+-- Should stil be the original package
+test_installed("1.0-1", "b", "Arm")
+
+
+pkg.reset_environment()
+

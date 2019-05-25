@@ -130,7 +130,7 @@ bool TestRunner::start_up()
 	std::ostringstream ss;
 	ss << logs_path << ".L"
 			<< std::setfill('0')
-	        << tm_now->tm_year
+	        << (tm_now->tm_year - 1900)
 	        << std::setw(2)
 	        << tm_now->tm_mon
 	        << tm_now->tm_mday
@@ -521,4 +521,5 @@ void TestRunner::rebuild_disc()
 	if (disc_path.exists()) recursive_delete(disc_path);
 	tbx::Path master_path("<PkgTest$Dir>.MasterDisc");
 	master_path.copy(disc_path, tbx::Path::COPY_RECURSE);
+	Packages::instance()->reset_package_base();
 }

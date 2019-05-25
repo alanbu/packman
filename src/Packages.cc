@@ -133,6 +133,21 @@ bool Packages::ensure_package_base()
 }
 
 /**
+ * Reset the package base.
+ *  
+ * This is used for unit testing where a disc image has been rebuilt.
+ * Currently it doesn't reset the cached environments
+ * 
+ * @return true if reset worked correctly
+ */
+bool Packages::reset_package_base()
+{
+	delete _package_base;
+	_package_base = nullptr;
+	return ensure_package_base();
+}
+
+/**
  * Get cached list of unique package names.
  *
  * The list is different from the order in the binary control

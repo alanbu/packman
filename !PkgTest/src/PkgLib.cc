@@ -35,6 +35,7 @@
 #include "libpkg/env_checker.h"
 
 #include "tbx/hourglass.h"
+#include "tbx/path.h"
 
 #include <sstream>
 #include <cstring>
@@ -81,7 +82,8 @@ static int l_pkg_add(lua_State *L)
 	tbx::Hourglass hg;
 	std::string pathname("<PkgTest$Dir>.Packages.");
 	pathname += pkg_path;
-    std::string errmsg;
+
+  std::string errmsg;
 
 	try
 	{
@@ -99,7 +101,7 @@ static int l_pkg_add(lua_State *L)
 
 			std::string cache_pathname = package_base->cache_pathname(pkgname,
 					pkgvrsn, ctrl.environment_id());
-			pkg::copy_object(pathname, cache_pathname);
+			tbx::Path(pathname).copy(cache_pathname,tbx::Path::COPY_FORCE);
 			package_base->control().insert(ctrl);
 			package_base->control().commit();
 		} else

@@ -1,0 +1,39 @@
+-- Testing of install of package where higher version is not in the environment
+local pkg_name = "TestEnv";
+
+
+test.erase(pkg_name)
+
+function test_env(env_list, mod_list, env_id, pkg_suffix)
+
+test.message("Testing install of "..pkg_name.." 1.0 in environment "..env_list)
+pkg.environment(env_list, mod_list)
+pkg.install(pkg_name)
+pkg.commit()
+
+test.check_state(pkg_name, "installed")
+test.check_state_env_id(pkg_name, env_id)
+test.check_version(pkg_name, "1.0-1")
+
+local inst_path = pkg.path("Apps.PkgTest.TestEnv"..pkg_suffix)
+test.check_file_exists(inst_path)
+
+
+test.message("Testing removal of "..pkg_name)
+pkg.remove(pkg_name)
+pkg.commit()
+
+test.check_file_deleted(inst_path);
+
+end
+
+-- Add version 1.0 of packages
+pkg.add(pkg_name .. "Arm".."_1/0-1")
+pkg.add(pkg_name .. "ArmSwp".."_2/0-1")
+pkg.dump("available")
+
+-- Test version correct version 1.0 package is selected
+test_env("arm","", "b", "Arm")
+
+pkg.reset_environment()
+

@@ -2,3 +2,5 @@
 *,ff8
 Debug
 Release
+*.bin
+*.ipch

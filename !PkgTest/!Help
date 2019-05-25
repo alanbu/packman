@@ -60,7 +60,7 @@ restart the test.
 The "Close" button is enabled when the tests finish and is
 used to close the window.
 
-Each test write a log containing information on what has
+Each test writes a log containing information on what has
 run and details on any errors. Use the "View Log" button
 to view the log after a test has run.
 
@@ -79,13 +79,15 @@ Library test - test specific functions
 test.message            - display a message
 test.fail               - fail the test
 test.erase              - erase a package
-test.check_module       - Check a module version
+test.check_module       - check a module version
+test.chec_file_exists   - check a file exists on disc
 test.check_file_deleted - check a file no longer exists
 test.extract_file       - extract a file from a package
 test.check_version      - check the install version of a package
 test.check              - use LUA to do a check
 test.check_control_info - check control info matches database info
 test.check_state        - check the package state
+check_state_env_id      - check the installed environment
 text.pause              - pause test until "Continue" is hit on dialog
 
 Library pkg - LibPkg functions
@@ -99,6 +101,11 @@ withdraw    - unmark a package
 commit      - commit marked packages
 commit_fail - run a commit that is expected to faile
 control     - return the package control record
+dump        - dump information to the log
+environment - set the environment for the following tests
+reset_environment - reset the environment to the default
+
+
 
 Function reference
 ==================
@@ -142,6 +149,14 @@ Check if a file has been deleted
 
 Fails if file exists on the file system
 
+test.check_file_exists(<path to file>)
+---------------------------------------
+
+Check if a file is on the file system
+
+Fails if file does not exist on the file system
+
+
 test.extract.file(<package file>, <logical path of file to extract>)
 --------------------------------------------------------------------
 
@@ -165,13 +180,22 @@ Check package state equals the value given.
 <state> can be one of: not present, removed, half unpacked,
 unpacked, half configured, installed.
 
+test.check_env_id(<package_name>,<env id>)
+------------------------------------------
+
+Check the installed package has the given environment id.
+The <env_id> is the internal environment id.
+
+e.g. a for all, b for arm, bs for arm, swp, m1 for the
+first module name found.
+
 test.check(<description>, <lua check>, <error message if fails>)
 ----------------------------------------------------------------
 
 Check if a condition is true
 
 This function allows the use of any lua code to perform a check
-which fails it the code results to false
+which fails if the code results to false
 
 test.check_control_info(<package name>)
 ---------------------------------------
@@ -251,7 +275,7 @@ pkg.commit_fail(<reason>)
   full message of failure error
   text with *, where * is used as a simple wildcard for 0 or more characters.
 
-Fails if the commit succeeds or fails for a different reason than give
+Fails if the commit succeeds or fails for a different reason than given
  
 ctrl = pkg.control(<package name>)
 ----------------------------------
@@ -264,3 +288,20 @@ The control record is return with the field names equal to the
 name in the control record.
 
 e.g. ver = pkg.control("MyPackage").Version would return the version field
+
+pkg.environment(<environment>, [<module_list>])
+-----------------------------------------------
+
+Sets the test package environment to the list of environments
+given. See the package policy manual for a full list of environments.
+
+e.g. "arm" for most arm machines.
+     "arm, swp" for arm machines with the SWP instruction.
+
+The optional module list is a comma seperated list of the modules that
+are installed in the test environment.
+
+pkg.reset_environment()
+-----------------------
+
+Reset the environment to the current detected environment.

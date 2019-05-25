@@ -70,6 +70,7 @@ public:
 	pkg::pkgbase *package_base() const {return _package_base;}
 
 	bool ensure_package_base();
+	bool reset_package_base();
 
 	const std::vector<PackageKey> &package_list();
 	void reset_package_list();
