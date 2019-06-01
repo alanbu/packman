@@ -27,7 +27,6 @@ The information shown in the window is
 which RISC OS environments it should run on. If this is blank the environment
 has not been set in the package.</LI>
 <LI>URL - location file will be downloaded from</LI>
-<LI>Source - name of the source this package was created from (if any)</LI>
 <LI>Standards ver - earliest version of the packaging process that is needed to install this package</LI>
 <LI>Maintainer - name and email address of the person who has created and is maintaining this package.
 This is the person who has created the package for distribution, and may not be the same as the
@@ -39,6 +38,8 @@ The install/upgrade process will automatically install these if they are not alr
 <LI>Suggests - list of packages that may be useful when used alongside or with this package</LI>
 <LI>OS Depends - If a package depends on a module being loaded at startup then it will be listed here.</LI>
 <LI>Description - full description of the package</LI>
+<LI>Homepage - a web page where more information on the packaged software can be found.</LI>
+<LI>Web button - If a homepage is shown this button will attempt to open it in an installed browser.</LI>
 <LI>Components - list of components installed by this Package. If the package has been installed this
 gives the location the components have been installed to. If the package has not been installed the
 path shown is for the default location for the install and can be changed once the package has

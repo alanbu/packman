@@ -3371,12 +3371,12 @@ window_object {
   }
   displayfield_object {
     cmp:&d
-    bbox:228,-460,1188,-408
+    bbox:228,-932,1080,-880
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
     text:""
-    text_limit:256
+    text_limit:260
   }
   label_object {
     cmp:&e
@@ -3395,17 +3395,9 @@ window_object {
     text:""
     text_limit:16
   }
-  label_object {
-    cmp:&10
-    bbox:16,-460,216,-408
-    help_message:""
-    help_limit:*
-    flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Source"
-  }
   displayfield_object {
     cmp:&11
-    bbox:228,-524,1188,-472
+    bbox:228,-460,1188,-408
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3448,7 +3440,7 @@ window_object {
   }
   label_object {
     cmp:&16
-    bbox:16,-524,216,-472
+    bbox:16,-460,216,-408
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3556,7 +3548,7 @@ window_object {
   }
   label_object {
     cmp:&20
-    bbox:16,-588,216,-536
+    bbox:16,-524,216,-472
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3694,7 +3686,7 @@ window_object {
   }
   textarea_object {
     cmp:&40
-    bbox:228,-936,1188,-536
+    bbox:228,-872,1188,-472
     help_message:""
     help_limit:*
     flags:textarea_STATE_HAS_VERTICAL_SCROLLBAR | textarea_STATE_WORDWRAPPING_ENABLED | gadget_FADED
@@ -3703,6 +3695,25 @@ window_object {
     text:"TextArea"
     foreground:os_COLOUR_BLACK
     background:os_COLOUR_WHITE
+  }
+  label_object {
+    cmp:&41
+    bbox:28,-932,216,-880
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Homepage"
+  }
+  actionbutton_object {
+    cmp:&43
+    bbox:1088,-932,1192,-880
+    help_message:""
+    help_limit:*
+    flags:actionbutton_IS_LOCAL
+    text:"Web..."
+    text_limit:*
+    click_show:""
+    action:&0
   }
 }
 

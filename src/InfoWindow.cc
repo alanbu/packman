@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2015 Alan Buckley
+* Copyright 2009-2019 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -32,6 +32,7 @@
 #include "tbx/objectdelete.h"
 #include "tbx/scrolllist.h"
 #include "tbx/font.h"
+#include "tbx/messagewindow.h"
 
 #include <sstream>
 
@@ -52,11 +53,11 @@ static const char*DisplayFields[] =
                "Priority",
                "Size",
                "URL",
-               "Source",
+               "Homepage",
                "Standards-Version",
                "Maintainer",
                "Licence",
-			   "Environment"
+	       "Environment"
 };
 
 const int NumDepFields = 5;
@@ -66,7 +67,7 @@ static const char *DepFields[] =
                "Conflicts",
                "Recommends",
                "Suggests",
-			   "OSDepends"
+	       "OSDepends"
 };
 
 InfoWindow::InfoWindow() :
@@ -77,9 +78,13 @@ InfoWindow::InfoWindow() :
        _install_button(_window.gadget(0x32)),
        _remove_button(_window.gadget(0x33)),
        _components_button(_window.gadget(0x31)),
+       _homepage(_window.gadget(0xd)),
+       _web_button(_window.gadget(0x43)),
        _install_command(this),
        _remove_command(this),
-       _copyright_command(this)
+       _copyright_command(this),
+       _web_command(this, &InfoWindow::show_homepage),
+       _uri("")
 {
   _instance = this;
   // Set client handle for view components
@@ -101,6 +106,7 @@ InfoWindow::InfoWindow() :
 
   _install_button.add_selected_command(&_install_command);
   _remove_button.add_selected_command(&_remove_command);
+  _web_button.add_selected_command(&_web_command);
 }
 
 InfoWindow::~InfoWindow()
@@ -175,6 +181,8 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
                fld.add_item(deps.substr(start));
        }
     }
+
+    _web_button.fade(_homepage.text_length() == 0);
 
     std::string comps = ctrl->components();
 
@@ -265,4 +273,30 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
 const pkg::binary_control *InfoWindow::selected_package()
 {
 	return Packages::instance()->find_control(_package_name);
+}
+
+/**
+ * Attempt to launch browser on the homepage
+ */
+void InfoWindow::show_homepage()
+{
+	std::string homepage = _homepage.text();
+	_uri.uri(homepage);
+	_uri.set_result_handler(this);
+	if (!tbx::URI::ensure_uri_handler() || !_uri.dispatch())
+	{
+       tbx::show_message("Unable to launch the homepage!\n\nHave you a browser installed.");
+	}
+}
+
+/**
+ * Show message if uri is not claimed
+ */  
+void InfoWindow::uri_result(tbx::URI &uri, bool claimed)
+{
+   if (!claimed)
+   {
+	   tbx::show_message("No application claimed the URI launch.\n"
+	      "Open your browser and try again","","info");
+   }
 }

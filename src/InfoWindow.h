@@ -1,5 +1,5 @@
 /*********************************************************************
-* Copyright 2009-2015 Alan Buckley
+* Copyright 2009-2019 Alan Buckley
 *
 * This file is part of PackMan.
 *
@@ -32,6 +32,7 @@
 #include "tbx/textarea.h"
 #include "tbx/scrolllist.h"
 #include "tbx/actionbutton.h"
+#include "tbx/uri.h"
 #include "libpkg/binary_control.h"
 #include "Commands.h"
 
@@ -39,7 +40,8 @@
  * Class to handle window showing information on the
  * selected package
  */
-class InfoWindow : public ISelectedPackage
+class InfoWindow : public ISelectedPackage,
+    public tbx::URIResultHandler
 {
 	tbx::Window _window;
 	tbx::DisplayField _installed;
@@ -48,10 +50,14 @@ class InfoWindow : public ISelectedPackage
 	tbx::ActionButton _install_button;
 	tbx::ActionButton _remove_button;
 	tbx::ActionButton _components_button;
+	tbx::DisplayField _homepage;
+	tbx::ActionButton _web_button;
 	InstallCommand _install_command;
 	RemoveCommand _remove_command;
 	CopyrightCommand _copyright_command;
+	tbx::CommandMethod<InfoWindow> _web_command;
 	std::string _package_name;
+	tbx::URI _uri;
 	static InfoWindow *_instance;
 public:
 	InfoWindow();
@@ -64,6 +70,10 @@ public:
 	// ISelectedPackage interface
 	virtual const pkg::binary_control *selected_package();
 
+private:
+    void show_homepage();
+	// URIResultHandler callback
+    virtual void uri_result(tbx::URI &uri, bool claimed);
 };
 
 #endif /* INFOWINDOW_H_ */
