@@ -99,24 +99,26 @@ static int l_erase(lua_State *L)
 
     if (dst_in)
     {
-		dst_in.peek();
-		while (dst_in&&!dst_in.eof())
-		{
-			std::string line;
-			std::getline(dst_in,line);
-			if (line.length()) files.insert(line);
 			dst_in.peek();
-		}
-		dst_in.close();
+			while (dst_in&&!dst_in.eof())
+			{
+				std::string line;
+				std::getline(dst_in,line);
+				if (line.length()) files.insert(line);
+				dst_in.peek();
+			}
+			dst_in.close();
 
-		// Use auto dir to automatically delete empty directories
-		pkg::auto_dir ad;
-		for (std::set<std::string>::iterator f = files.begin(); f != files.end(); ++f)
-		{
-			std::string file_name = paths(*f, pkgname);
-			pkg::force_delete(file_name);
-			ad(file_name);
-		}
+			// Use auto dir to automatically delete empty directories
+			pkg::auto_dir ad;
+			for (std::set<std::string>::iterator f = files.begin(); f != files.end(); ++f)
+			{
+				std::string logical_name = *f;
+				if (logical_name.back() == '.') logical_name.erase(logical_name.size()-1);
+				std::string file_name = paths(logical_name, pkgname);
+				pkg::soft_delete(file_name);
+				ad(file_name);
+			}
     }
 
     try
@@ -161,6 +163,30 @@ static int l_erase(lua_State *L)
 }
 
 /**
+ * Erase a directory if it exists.
+ * 
+ * test.erase_dir(<path to dir>)
+ *
+ * Fails if exception thrown during erase
+ */
+static int l_erase_dir(lua_State *L)
+{
+	const char *dirname = lua_tostring(L,1);
+	test_log() << "Erase directory " << dirname << std::endl;
+
+    try
+    {
+    	if (tbx::Path(dirname).directory()) recursive_delete(dirname);
+    } catch(std::exception &e)
+    {
+    	lua_pushstring(L, ("Failed to delete '" + std::string(dirname) + "'").c_str());
+    	return lua_error(L);
+    }
+
+    return 0;
+}
+
+/**
  * Check the version of a module file
  *
  * test.check_module(<path to module>, <version>)
@@ -198,13 +224,13 @@ static int l_check_file_deleted(lua_State *L)
 {
 	const char *file_path = lua_tostring(L,1);
 
-	test_log() << "Checking if file '" << file_path << "' has been deleted" << std::endl;
+	test_log() << "Checking if file or directory '" << file_path << "' has been deleted" << std::endl;	
 	if (pkg::object_type(file_path) == 0)
 	{
 		return 0;
 	} else
 	{
-		lua_pushstring(L, "file still exists");
+		lua_pushstring(L, "file or directory still exists");
 		return lua_error(L);
 	}
 }
@@ -222,15 +248,48 @@ static int l_check_file_exists(lua_State *L)
 	const char *file_path = lua_tostring(L,1);
 
 	test_log() << "Checking if file '" << file_path << "' exists" << std::endl;
-	if (pkg::object_type(file_path) == 0)
+	int type = pkg::object_type(file_path);
+	if (type == 0)
 	{
 		lua_pushstring(L, "file does not exist");
+		return lua_error(L);
+	} else if (type == 2)
+	{
+		lua_pushstring(L, "directory exists at this location");
 		return lua_error(L);
 	} else
 	{
 		return 0;
 	}
 }
+
+/**
+ * Check if a directory exists
+ *
+ * test.check_dir_exists(<path to file>)
+ *
+ * Fails if directory does not exist on the file system
+ */
+static int l_check_dir_exists(lua_State *L)
+{
+	const char *file_path = lua_tostring(L,1);
+
+	test_log() << "Checking if directory '" << file_path << "' exists" << std::endl;
+	int type = pkg::object_type(file_path);
+	if (type == 0)
+	{
+		lua_pushstring(L, "directory does not exist");
+		return lua_error(L);
+	} else if (type != 2)
+	{
+		lua_pushstring(L, "file or image file exist at this location");
+		return lua_error(L);
+	} else
+	{
+		return 0;
+	}
+}
+
 
 /**
  * Extract a file from a package zip file.
@@ -468,9 +527,12 @@ static const struct luaL_reg testlib [] = {
    {"message", l_message},
    {"fail", l_fail},
    {"erase", l_erase},
+   {"erase_dir", l_erase_dir},
    {"check_module", l_check_module},
    {"check_file_deleted", l_check_file_deleted},
    {"check_file_exists", l_check_file_exists},
+   {"check_dir_deleted", l_check_file_deleted}, // Can use same routine as file deleted check
+   {"check_dir_exists", l_check_dir_exists},
    {"extract_file", l_extract_file},
    {"check_version", l_check_version},
    {"check", l_check},

@@ -9,5 +9,7 @@ Install002	Test install of correct package for environment
 Install003	Test install of package with highest priority
 Install004	Test install of highest version when priority is less
 Install005	Test install of lower version when the higher version doesn't match the environment
+Install006	Test install of package with empty directories
 Upgrade001	Test upgrade of package to a different environment
 Upgrade002	Test package doesn't upgrade to a new version for an incompatible environment
+Upgrade003	Test upgrade of package with empty directories

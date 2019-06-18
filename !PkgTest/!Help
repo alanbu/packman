@@ -79,9 +79,12 @@ Library test - test specific functions
 test.message            - display a message
 test.fail               - fail the test
 test.erase              - erase a package
+test.erase_dir          - erase a directory
 test.check_module       - check a module version
-test.chec_file_exists   - check a file exists on disc
+test.check_file_exists  - check a file exists on disc
 test.check_file_deleted - check a file no longer exists
+test.check_dir_exists   - check a directory exists on disc
+test.check_dir_deleted  - check a directory no longer exists
 test.extract_file       - extract a file from a package
 test.check_version      - check the install version of a package
 test.check              - use LUA to do a check
@@ -135,6 +138,20 @@ This is often used at the beginning of a test to
 ensure a package isn't partially installed from
 a previous test.
 
+test.erase_dir(<directory name>)
+--------------------------------
+
+Erase a directory.
+
+It is not an error if the directory does not exist.
+
+This is used at the beginning of a test to ensure a
+directory which has had manual files installed
+outside of the package haven't been left from
+a previous test.
+
+
+
 test.check_module(<path to module>, <version>)
 ----------------------------------------------
  
@@ -156,6 +173,19 @@ Check if a file is on the file system
 
 Fails if file does not exist on the file system
 
+test.check_dir_deleted(<path to directory>)
+-------------------------------------------
+
+Check if a directory has been deleted
+
+Fails if the directory exists on the file system
+
+test.check_dir_exists(<path to directory>)
+------------------------------------------
+
+Check if a directory is on the file system
+
+Fails if directory does not exist on the file system
 
 test.extract.file(<package file>, <logical path of file to extract>)
 --------------------------------------------------------------------

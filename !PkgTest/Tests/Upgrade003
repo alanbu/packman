@@ -1,0 +1,121 @@
+-- Testing of upgrade of package with empty directories
+local pkg_name = "EmptyDirTest"
+local inst_path = pkg.path("Apps.PkgTest.EmptyDirTest")
+
+--- Function to check all files and directories have been installed
+function check_install(desc, dirs, files)
+
+test.message("Checking install of "..desc)
+
+for _,dname in ipairs(dirs) do
+   test.check_dir_exists(inst_path.."."..dname)
+end
+for _,fname in ipairs(files) do
+   test.check_file_exists(inst_path.."."..fname)
+end
+
+test.message("Finished check of "..desc)
+
+end
+
+test.erase(pkg_name)
+-- Need to erase directory as well in case any added test files
+-- are left over from a failed test
+test.erase_dir(inst_path)
+
+pkg.add(pkg_name.."_1-1")
+pkg.install(pkg_name)
+pkg.commit()
+
+test.message("Check upgrade to package where an empty dir has been removed")
+
+pkg.add(pkg_name.."_2-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+check_install(pkg_name.."_2-1",{
+         "EDir1",
+         "Dir2",
+         "Dir2.EDir2",
+         "EDir4",
+         "EDir4.EDir5",
+         "EDir4.EDir5.EDir6"
+         },{"ReadMe", "Dir2.Text2"})
+test.check_dir_deleted(inst_path.."Dir2.EDir3")
+
+test.message("Upgrade to package which has a new empty dir")
+
+pkg.add(pkg_name.."_3-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+check_install(pkg_name.."_3-1",{
+         "EDir1",
+         "Dir2",
+         "Dir2.EDir2",
+         "EDir4",
+         "EDir4.EDir5",
+         "EDir4.EDir5.EDir6",
+         "EDir7"
+         },{"ReadMe", "Dir2.Text2"})
+
+
+test.message("Upgrade to package where empty dir is replaced with a file")
+pkg.add(pkg_name.."_4-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+check_install(pkg_name.."_4-1",{
+         "Dir2",
+         "Dir2.EDir2",
+         "EDir4",
+         "EDir4.EDir5",
+         "EDir4.EDir5.EDir6"
+         },{"ReadMe", "EDir1","Dir2.Text2"})
+
+
+test.message("Upgrade to package where a file is replaced with an empty dir")
+pkg.add(pkg_name.."_5-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+check_install(pkg_name.."_5-1",{
+         "EDir1",
+         "Dir2",
+         "Dir2.EDir2",
+         "EDir4",
+         "EDir4.EDir5",
+         "EDir4.EDir5.EDir6"
+         },{"ReadMe", "Dir2.Text2"})
+
+test.message("Upgrade to package when an existing empty dir has had a file added")
+
+local userfile = inst_path..".EDir1.userfile"
+f = io.open(userfile, "w")
+f:write("This is a test file that should not be erased during an upgrade");
+f:close()
+
+pkg.add(pkg_name.."_6-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+check_install(pkg_name.."_6-1",{
+         "EDir1",
+         "Dir2",
+         "Dir2.EDir2",
+         "EDir4",
+         "EDir4.EDir5",
+         "EDir4.EDir5.EDir6"
+         },{"ReadMe", "Dir2.Text2"})
+
+-- Existing file should not be deleted
+test.check_file_exists(userfile)
+
+
+test.message("Upgrade to package where an empty dir has a user file in it an is replaced with a file")
+
+pkg.add(pkg_name.."_7-1")
+pkg.upgrade(pkg_name)
+pkg.commit_fail("*Item cannot be renamed*")
+
+
