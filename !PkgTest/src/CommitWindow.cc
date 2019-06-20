@@ -106,7 +106,6 @@ CommitWindow::CommitWindow() :
 
 	// Start libpkg threads
 	tbx::app()->add_idle_command(&_thread_runner);
-printf("Thread runner %p\n", &_thread_runner);
     _window.show();
 }
 
@@ -173,6 +172,15 @@ void CommitWindow::poll()
 				break;
 			case pkg::commit::state_add_files_to_apps:
 				_action.text("Adding files to Apps");
+				break;
+			case pkg::commit::state_post_remove_triggers:
+				_action.text("Post remove triggers");
+				break;
+			case pkg::commit::state_post_install_triggers:
+				_action.text("Post install triggers");
+				break;
+			case pkg::commit::state_cleanup_triggers:
+				_action.text("Cleaning up triggers");
 				break;
 			case pkg::commit::state_done:
                 _progress.value(100);
