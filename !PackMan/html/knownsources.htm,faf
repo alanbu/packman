@@ -23,18 +23,18 @@ also be compatible with ARMv7 and later machines as well. This is a synonym for
 the <B>http://packages.riscosopen.org/packages/pkg/raspberrypi-programs-armv5</B>
  list setup by default with the Raspberry Pi SD Images.
 </LI>
-<LI><B>http://packages.riscosopen.org/packages/pkg/programs-armv7</B>
+<LI><B>http://packages.riscosopen.org/packages/pkg/thirdparty</B>
 - User-contributed ARMv7 programs and libraries suitable for Raspberry Pi and other
 machines with the ARMv7 or later processor. This is a synonym for
 the <B>http://packages.riscosopen.org/packages/pkg/raspberrypi-programs-armv7</B>
  list setup by default with the Raspberry Pi SD Images.
+This list is also a synonym of <B>http://packages.riscosopen.org/packages/pkg/programs-armv7</B>
 </LI>
-<LI><B>http://packages.riscosopen.org/packages/pkg/raspberrypi-system</B>
-- Core system packages for the Raspberry Pi RISC OS distribution. This list
-is for use with the Raspberry Pi computer only.
+<LI><B>http://packages.riscosopen.org/packages/pkg/rool</B> - This is a list for the nightly
+builds of the applications for the RISC OS 5 disc image.
 </LI>
-<LI><B>http://packages.riscosopen.org/packages/pkg/raspberrypi-testing</B>
-- New system components that are under test (may break your system).
+<LI><B>http://www.jaspp.org.uk/packages/release</B> - This list provides older games that
+can be run on newer systems either natively or using ADFFS. See <A HREF="https://forums.jaspp.org.uk">JASPP - The Archimedes Software Preservation Project for details.</A>
 </LI>
 </UL>
 <P>The older lists add more packages, but they may not have been tested on
@@ -49,6 +49,18 @@ Project</A>.</LI>
 list of ported applications, games, libraries and the latest GCC compiler.
 See the <A HREF="http://www.riscos.info/index.php/Packages">Packages</A>
 page at www.riscos.info for more details.
+</LI>
+</UL>
+</P>
+<P>The following two Rapsberry Pi list do not seem to be kept up to date currently.
+They are included here for reference in case this changes.
+<UL>
+<LI><B>http://packages.riscosopen.org/packages/pkg/raspberrypi-system</B>
+- Core system packages for the Raspberry Pi RISC OS distribution. This list
+is for use with the Raspberry Pi computer only.
+</LI>
+<LI><B>http://packages.riscosopen.org/packages/pkg/raspberrypi-testing</B>
+- New system components that are under test (may break your system).
 </LI>
 </UL>
 </P>

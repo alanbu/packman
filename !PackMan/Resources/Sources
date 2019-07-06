@@ -6,7 +6,13 @@
 # (www.riscosopen.org) as they have received some testing 
 
 pkg http://packages.riscosopen.org/packages/pkg/programs-armv5
-pkg http://packages.riscosopen.org/packages/pkg/programs-armv7
+pkg http://packages.riscosopen.org/packages/pkg/thirdparty
+
+# RISC OS 5 disc image nightly builds
+# http://packages.riscosopen.org/packages/pkg/rool
+
+# JASPP - source of old games made to run on new hardware
+# http://www.jaspp.org.uk/packages/release
 
 # Core system packages for the Raspberry Pi RISC OS distribution.
  

@@ -1,11 +1,13 @@
 Source: PackMan
-Version: 0.9.1-1
+Version: 0.9.2-1
 Section: Administration
 Priority: Optional
 Maintainer: Alan Buckley <alan_baa@hotmail.com>
 Standards-Version: 0.1.0
 Licence: Free
-Build-Depends: GCC4-C++,LibCurl-Dev,LibPkg-Dev,RTK-Dev,ZLib-Dev,TBX-Dev
+Environment: arm
+Homepage: https://sites.google.com/site/alansriscosstuff/packman
+Build-Depends: GCC4-C++,LibCurl-Dev,LibPkg-Dev,ZLib-Dev,TBX-Dev
 Description: Alternative Package Manager (Beta)
  Install, Remove and Upgrade RISC OS Packaging project packages.
  This is an alternative packages front end to !RiscPkg.

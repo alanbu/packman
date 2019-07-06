@@ -6,10 +6,15 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.9.2 Beta - November 2018</B>
+<LI><B>0.9.2 Beta - July 2019</B>
  <UL>
    <LI>Support for the new environment/modules field in packages to show
 only the packages that are suitable for the machine PackMan is running on.</LI>
+   <LI>Packages can now have a web homepage where more information on them can
+be found. PackMan will display this page and has a button to allow it to be launched.</LI>
+   <LI>Empty directories can now be included in the packages and will be created on installation and deleted when a package is removed only if they are still empty.</LI>
+   <LI>Dragging a local file to PackMan will now always overwrite it in the PackMan cache.
+This should stop invalid "URL" errors when testing the same version of a package.</LI>  
  </UL>
 </LI>
 <LI><B>0.9.1 Beta - May 2016</B>
