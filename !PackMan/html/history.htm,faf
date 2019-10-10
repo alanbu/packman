@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.9.2 Beta - July 2019</B>
+<LI><B>0.9.2 Beta - October 2019</B>
  <UL>
    <LI>Support for the new environment/modules field in packages to show
 only the packages that are suitable for the machine PackMan is running on.</LI>
@@ -15,6 +15,7 @@ be found. PackMan will display this page and has a button to allow it to be laun
    <LI>Empty directories can now be included in the packages and will be created on installation and deleted when a package is removed only if they are still empty.</LI>
    <LI>Dragging a local file to PackMan will now always overwrite it in the PackMan cache.
 This should stop invalid "URL" errors when testing the same version of a package.</LI>  
+   <LI>Uses CACertificates package (once installed) for sites requiring SSL certificates.</LI>
  </UL>
 </LI>
 <LI><B>0.9.1 Beta - May 2016</B>
