@@ -12,6 +12,7 @@
 only the packages that are suitable for the machine PackMan is running on.</LI>
    <LI>Packages can now have a web homepage where more information on them can
 be found. PackMan will display this page and has a button to allow it to be launched.</LI>
+   <LI>Support top bit characters (codes 160 to 255) and single quotes in the Components field.</LI>
    <LI>Empty directories can now be included in the packages and will be created on installation and deleted when a package is removed only if they are still empty.</LI>
    <LI>Dragging a local file to PackMan will now always overwrite it in the PackMan cache.
 This should stop invalid "URL" errors when testing the same version of a package.</LI>  
