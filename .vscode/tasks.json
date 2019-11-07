@@ -19,7 +19,7 @@
         {
             "label": "Copy to RPCEMU",
             "type": "shell",
-            "command": "cp -f '!PackMan/!RunImage,ff8' '/home/alan/rpcemu/rpcemu-0.9.1/hostfs/Apps/!PackMan'",
+            "command": "cp -f '!PackMan/!RunImage,ff8' '/home/alan/rpcemu/rpcemu-0.9.2/hostfs/Apps/!PackMan'",
             "problemMatcher": []
         },
         {
@@ -36,7 +36,7 @@
         {
             "label": "Copy to !PkgTest to RPCEMU",
             "type": "shell",
-            "command": "cp -f '!PkgTest/!RunImage,ff8' '/home/alan/rpcemu/rpcemu-0.9.1/hostfs/Apps/!PkgTest'",
+            "command": "cp -f '!PkgTest/!RunImage,ff8' '/home/alan/rpcemu/rpcemu-0.9.2/hostfs/Apps/!PkgTest'",
             "problemMatcher": []
         },
     ]
