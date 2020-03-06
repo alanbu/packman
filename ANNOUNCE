@@ -65,3 +65,8 @@ System requirements
 
 RISC OS 4.0 or greater with long filenames
 Internet connection for downloading packages
+
+The normal RISC OS Packaging project policy manual has not been
+updated with the new fields yet. The latest version can be downloaded
+using !PackMan or viewed at:
+http://www.riscos.info/~abuckley/policy.html
