@@ -147,7 +147,7 @@ proginfo_object {
   purpose:"Package Management"
   author:"© 2009-2020 Alan Buckley"
   licence_type:None
-  prog_version:"0.9.2 Beta (21 Jan 2020)"
+  prog_version:"0.9.3 Beta (08 Mar 2020)"
   alternative_window_name:""
   visit_url:""
   visit_url_event:&82b42

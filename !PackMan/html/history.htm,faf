@@ -6,6 +6,13 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.9.3 Beta - March 2020</B>
+ <UL>
+   <LI>Fix PackMan disappearing from the package list after updating from an earlier version.
+       This bug would also affect any other package that was installed with a previous version,
+       but had the new environment field set.</LI>
+ </UL>
+</LI>
 <LI><B>0.9.2 Beta - January 2020</B>
  <UL>
    <LI>Support for the new environment/modules field in packages to show
