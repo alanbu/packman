@@ -355,8 +355,8 @@ void MainWindow::handle_change(pkg::table& t)
 
 	if (&t == &(package_base->curstat()))
 	{
-		// Refresh window status of package has changed
-		_view.refresh();
+		Packages::instance()->reset_package_list();
+		refresh();
 
 		// Deselect and reselect to update toolbars
 		unsigned int index;
