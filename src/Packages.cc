@@ -48,7 +48,7 @@
   const char *PACKAGES_CHOICES_DIR = "PkgTestDisc:!Boot.Choices.PkgTest";
 #else
   const char *PACKAGES_DIR= "<Packages$Dir>";
-  const char *PACKAGES_DEFAULT_DIR = "<PackMan$Dir>.Resources.!Packages";
+  const char *PACKAGES_DEFAULT_DIR = "<PackMan$Dir>.Resources";
   const char *PACKAGES_CHOICES_DIR = "Choices:PackMan";
 #endif
 
