@@ -216,6 +216,40 @@ void Packages::reset_package_list()
 }
 
 /**
+ * Status table has changed so it the package list may need
+ * modifying.
+ * @returns true if the package list was modified
+ */
+bool Packages::status_changed()
+{
+	if (_package_list.empty())
+	{
+		return true; // Whole list is going to be rebuild
+	}
+
+	bool any_changes = false;
+	const pkg::status_table &curstat = _package_base->curstat();
+	pkg::status_table::const_iterator found;
+
+	for (PackageKey &pkey : _package_list)
+	{
+		found = curstat.find(pkey.pkgname);
+		if (found != curstat.end())
+		{
+			if (found->second.version() != pkey.pkgvrsn
+				|| found->second.environment_id() != pkey.pkgenv)
+			{
+               pkey.pkgvrsn = found->second.version();
+			   pkey.pkgenv = found->second.environment_id();
+			   any_changes = true;
+			}
+		}
+	}
+
+	return any_changes;
+}
+
+/**
  * Return a sorted, comma separated list of all the sections
  * in the given packages
  */
