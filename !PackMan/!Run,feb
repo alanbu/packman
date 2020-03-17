@@ -28,5 +28,5 @@ If "<Packages$Dir>"="" Then IconSprites <PackMan$Dir>.Resources.!Packages.!Sprit
 RMEnsure SharedUnixLibrary 0.00 IfThere System:modules.SharedULib Then RMLoad System:modules.SharedULib
 RMEnsure SharedUnixLibrary 0.00 RMLoad <PackMan$Dir>.Resources.SharedULib
 
-WimpSlot -min 4096k -max 4096k
+WimpSlot -min 4128k -max 4128k
 /<PackMan$Dir>.!RunImage %*0
