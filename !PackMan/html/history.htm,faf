@@ -6,6 +6,12 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.9.5 Beta - March 2020</B>
+ <UL>
+   <LI>Increased WimpSlot so PackMan will start on RISC OS 4.</LI>
+ </UL>
+</LI>
+
 <LI><B>0.9.4 Beta - March 2020</B>
  <UL>
    <LI>Fixed package list displaying incorrect status/information when the environment is
