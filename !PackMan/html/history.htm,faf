@@ -11,6 +11,8 @@
    <LI>Increased WimpSlot so PackMan will start on RISC OS 4.</LI>
    <LI>Fixed arm environment detection for 26 bit machines.</LI>
    <LI>Added arm32 environment support.</LI>
+   <LI>Added environment for initial internal install of PackMan.</LI>
+   <LI>Made SharedUnixLibrary a recommendation instead of a dependency for PackMan to stop it trying to uninstall PackMan on first run.</LI>
  </UL>
 </LI>
 

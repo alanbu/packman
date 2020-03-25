@@ -146,7 +146,7 @@ int main()
 		std::cerr << "Unable to create Packages Status file at '" << pathname << "'" << std::endl;
 		return -8;
 	}
-	ofstat << "PackMan\t" << version << "\tinstalled\t";
+	ofstat << "PackMan\t" << version << "\tinstalled\t\tb";
 	ofstat.close();
 
 	std::cout << "Resources.Packages updated for installed PackMan" << std::endl;

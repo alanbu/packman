@@ -15,5 +15,5 @@ Description: Alternative Package Manager (Beta)
  and allows filtering and searching of the package lists.
 
 Package: PackMan
-Depends: SharedUnixLibrary
+Recommends: SharedUnixLibrary
 Components: Apps.Admin.!PackMan (Movable)
