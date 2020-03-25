@@ -9,6 +9,8 @@
 <LI><B>0.9.5 Beta - March 2020</B>
  <UL>
    <LI>Increased WimpSlot so PackMan will start on RISC OS 4.</LI>
+   <LI>Fixed arm environment detection for 26 bit machines.</LI>
+   <LI>Added arm32 environment support.</LI>
  </UL>
 </LI>
 
