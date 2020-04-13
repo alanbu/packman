@@ -6,13 +6,19 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.9.5 Beta - March 2020</B>
+<LI><B>0.9.5 Beta - April 2020</B>
  <UL>
    <LI>Increased WimpSlot so PackMan will start on RISC OS 4.</LI>
-   <LI>Fixed arm environment detection for 26 bit machines.</LI>
-   <LI>Added arm32 environment support.</LI>
    <LI>Added environment for initial internal install of PackMan.</LI>
    <LI>Made SharedUnixLibrary a recommendation instead of a dependency for PackMan to stop it trying to uninstall PackMan on first run.</LI>
+   <LI>Upgraded to use LibPkg 0.8.3 (the packaging library) which had the following fixes.</LI>
+   <UL>
+     <LI>Fixed arm environment detection for 26 bit machines.</LI>
+     <LI>Added arm32 environment support.</LI>
+     <LI>Fixed reset of environment after an error in installing (this showed as blank lines in the list).</LI>
+     <LI>Added version to package database to allow it to be updated when loaded if necessary.</LI>
+     <LI>Fixed replacing a file with one or more files in a subdirectory with the same name.</LI>
+   </UL>
  </UL>
 </LI>
 
@@ -22,7 +28,7 @@
        different in a new version of a package.</LI>
    <LI>Fixed update lists downloading nothing if the Sources file had never been changed by the user.
        E.g. This meant the package list was not updating on a fresh install.</LI>
-   <LI>Fixed non-packaged modules being overwritten when there version was greater than the package version.</LI>
+   <LI>Fixed non-packaged modules being overwritten when their version was greater than the package version.</LI>
    <LI>Fixed the times that were displayed in the Log.</LI>
  </UL>
 </LI>
