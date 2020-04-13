@@ -1,0 +1,40 @@
+-- Testing of upgrade of package where a file is moved to a directory with the same name
+local pkg_name = "MoveToDirTest"
+local inst_path = pkg.path("Apps.PkgTest.MoveToDir")
+
+--- Function to check all files and directories have been installed
+function check_install(desc, dirs, files)
+
+test.message("Checking install of "..desc)
+
+for _,dname in ipairs(dirs) do
+   test.check_dir_exists(inst_path.."."..dname)
+end
+for _,fname in ipairs(files) do
+   test.check_file_exists(inst_path.."."..fname)
+end
+
+test.message("Finished check of "..desc)
+
+end
+
+test.erase(pkg_name)
+-- Need to erase directory as well in case any added test files
+-- are left over from a failed test
+test.erase_dir(inst_path)
+
+pkg.add(pkg_name.."_1-1")
+pkg.install(pkg_name)
+pkg.commit()
+
+test.message("Check upgrade to package where a file has been named to a dir with the same name")
+
+pkg.add(pkg_name.."_2-1")
+pkg.upgrade(pkg_name)
+pkg.commit()
+
+check_install(pkg_name.."_2-1",{
+         "Maths"
+         },{"ReadMe", "Maths.Maths"})
+
+

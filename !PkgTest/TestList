@@ -13,3 +13,4 @@ Install006	Test install of package with empty directories
 Upgrade001	Test upgrade of package to a different environment
 Upgrade002	Test package doesn't upgrade to a new version for an incompatible environment
 Upgrade003	Test upgrade of package with empty directories
+Upgrade004	Test upgrade moving file to subdirectory with file name
