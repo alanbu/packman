@@ -1,33 +1,30 @@
-PackMan package manager 0.9.2 beta released
+PackMan package manager 0.9.5 beta released
 
-PackMan version 0.9.2 beta is now available.
+PackMan version 0.9.5 beta is now available.
 
-The main reason for this release is to allow PackMan to filter the lists
-of packages to show only those that should be able to run in the environment
-PackMan is running in.
+The main reason for this release is to clear up some issues that were
+discovered with the 0.9.2 release and the first attempts to fix them
+in the 0.9.3 & 0.9.4 release.
 
-This will need package authors to update their packages with this information
-so currently this means you will get a warning triangle by the package name
-to indicate nothing is specified about the environment for most packages.
+If you have installed 0.9.2, 0.9.3 or 0.9.4 you are strongly advised
+to upgrade to 0.9.5.
 
-It also allows package authors to release multiple versions of a package of
-the same version targetted at different environments. e.g. a standard version
-and a version that runs better with VFP hardware on the machine.
+If the 0.9.5 release doesn't appear when you do an update lists in
+your current version of PackMan you may need to download it again from
+the page mentioned below.
 
-Package Maintainers, please add the new Enviroment field when you create a
-new package or update an existing package.
+Package Maintainers, the new Enviroment field now has a new
+arm32 bit environment for 32 bit RISC OS machines (e.g. The
+Iyonix onwards) and the arm environment has had the wording updated
+to make it clear it is for assembler/compiled code that is
+26/32 neutral.
 
-Also in this version:
-
-- Packages can include a Homepage field to give a link to more information
-  about the packaged software and PackMan will show this link with a
-  button to launch it in your (AcornURL compatible) web browser.
-- Empty directories can now be included in packages.
-- Help text fixes contributed by a PackMan user.
+A brief description of the new Environment field can be found at.
+https://sites.google.com/site/alansriscosstuff/packaging/environment
 
 If you already have a previous version of !PackMan or !RiscPkg
 installed you can install it or upgrade it from either of
-these programs.
+these programs (but see the note above for 0.9.2, 0.9.3 or 0.9.4).
 
 The latest versions of PackMan are now distributed via the ROOL packaging
 sites. RiscPkg and the older versions of PackMan may not have these
@@ -39,8 +36,18 @@ http://packages.riscosopen.org/packages/pkg/programs-armv5
 Otherwise go to https://sites.google.com/site/alansriscosstuff/packman
 for download and installation instructions.
 
+Along with PackMan the following resource/packages have been updated.
+
+PackIt 0.6.3. The package creater helper to include the arm32 field.
+LibPkg 0.8.3. The packaging back end library to fix the various issues.
+RiscPkg-Policy 0.6.0.1. The packaging policy manual, also provided as
+a link at the end of this Announcement.
+Packagers please note - PackMan uses this version of the policy manual
+as Standards-Version 0.6.0.0.
+
 PackMan is a package manager front end for packages distributed
-using the RISC OS Packaging Project (see http://www.riscpkg.org).
+using an enhanced version of the format released with the
+RISC OS Packaging Project (see http://www.riscpkg.org).
 
 Its features include:
 
@@ -55,6 +62,8 @@ Its features include:
   is going to be installed.
 - Install multiple packages at once.
 - Install the components from a packages to your own location.
+- Display the packages relevant for your machine or warn the package
+  owner has not set the environment.
 
 PackMan is open source software and it's source code is on GitHub.
 Suggestions/Contributions are always welcome. This doesn't have to
