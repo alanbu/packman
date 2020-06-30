@@ -3,6 +3,7 @@ Apps = <Boot$Dir>.^.Apps
 Library = <Boot$Dir>.Library
 Manuals = <Boot$Dir>.^.Manuals
 Printing = <Boot$Dir>.^.Printing
+Public = <Boot$Dir>.^.Public
 Resources = <BootResources$Dir>
 RO500Hook = <Boot$Dir>.RO500Hook
 Sprites = <Packages$Dir>.Sprites
