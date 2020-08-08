@@ -1,0 +1,71 @@
+This document contains the details to a relicensing request to move PackMan to the Apache License version 2.0
+
+Alan Buckley - author of PackMan
+--------------------------------
+
+I'm the one making the relicensing request so am happy for the contributions I made to be relicensed.
+
+
+Graham Shaw - parts of the code in PackMan may have been inspired by RiscPkg
+----------------------------------------------------------------------------
+
+On 07/28/20 14:44, alan buckley wrote:
+> Graham,
+>
+> I would like to change the LibPkg Licence from the GPL to the Apache
+> licence version 2.0. This is so that it fits in with the licencing used
+> by RISC OS Open for the main RISC OS sources. For some reason, people on
+> the RISC OS forums don’t seem happy with the GPL so this would also
+> remove any barriers they perceive that may stop them using/modifying the
+> code.
+>
+> As you’ve wrote the majority of this I can’t do this without your
+> specific permission. Would this be OK with you?
+>
+> I’d like to make my PackMan program have the same licence as well. I
+> don’t think it has, but it may have code inspired by RiscPkg, so to be
+> safe I’d like your permission to put anything from PackMan that is based
+> on RiscPkg under the Apache licence as well.
+
+That's OK with me, especially if it gives the code a bit more life after all this time. 
+
+Theo Markettos - various minor contributions
+--------------------------------------------
+
+On Sun, Aug 02, 2020 at 10:38:14AM +0000, alan buckley wrote:
+> Theo,
+>
+> I�m going to update the LibPkg and PackMan licences to Apache version 2. I
+> know you made a contribution to either one or both of these projects.  Can
+> you confirm which you did contribute to?
+>
+> But the main reason for the email. Is would it be OK with you to change
+> the license to the Apache version 2 licence?
+
+I can't remember which I contributed to, but I'm very happy for you to
+change the licence of my contributions to Apache v2.
+
+Theo
+
+
+Richard Hallas - Provided better versions of the sprites/icons used in PackMan
+------------------------------------------------------------------------------
+
+On 02/08/20, 11:29 am, "alan buckley" <alan_baa@hotmail.com> wrote:
+
+Richard,
+ 
+A while ago you provided new and improved icons for PackMan. I would like to change PackMan’s license to the Apache License 2. Is it OK with you to ship your icons under this new license? 
+
+Regards,
+Alan
+
+Hello Alan,
+
+Yes, of course. No problem at all.
+
+Richard
+
+Richard G. Hallas * BMus(Hons), BSc, MSc * Editor, Writer and Designer
+Proprietor of KeyNote:  Music Typesetting & General Desktop Publishing
+
