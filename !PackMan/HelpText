@@ -41,7 +41,7 @@ No Warranty
 
   PackMan is distributed in the hope that it will be useful, but WITHOUT
   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  FITNESS FOR A PARTICULAR PURPOSE.  See the Apache License, version 2.0
   for more details.
 
 
@@ -87,8 +87,8 @@ and the package will be installed or removed.
 
 Copyright
 
-This program is copyrighted by Alan Buckley 2009-2019
-under the GPL (see the file COPYING for details).
+This program is copyrighted by Alan Buckley 2009-2020
+under the Apache License, version 2.0 (see the file LICENSE for details).
 Please feel free to distribute it for others to try.
 
 Contact

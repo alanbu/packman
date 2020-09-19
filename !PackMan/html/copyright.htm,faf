@@ -4,7 +4,7 @@
 </HEAD>
 <BODY>
 <H2>Copyright</H2>
-<P>PackMan is copyright Alan Buckley and is released under the GNU Public License version 3.</P>
-<P>For full details of the license see the text file <A HREF="COPYING">COPYING</A></P>
+<P>PackMan is copyright Alan Buckley and is released under the Apache License, Version 2.0.</P>
+<P>For full details of the license see the text file <A HREF="LICENSE">LICENSE</A></P>
 </BODY>
 </HTML>
