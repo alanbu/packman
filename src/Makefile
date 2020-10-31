@@ -22,7 +22,7 @@ CXXFLAGS= -std=c++11 -O2 -Wall -mpoke-function-name -mthrowback
 LD = g++
 
 CCRES=ccres
-LDFLAGS = -LTBX: -ltbx -LLibPkg: -lpkg -LLibCurl: -lcurl -lssh2 -lssl -lcrypto -LZLib: -lz -lstdc++ -static
+LDFLAGS = -LTBX: -ltbx -LLibPkg: -lpkg -LLibCurl: -lcurl -lcares -lssh2 -lssl -lcrypto -LZLib: -lz -lstdc++ -static
 
 ifeq ($(HOST),riscos)
   TARGET=^.!PackMan.!RunImage
