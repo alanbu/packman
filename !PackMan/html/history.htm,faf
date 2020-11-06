@@ -10,6 +10,7 @@
  <UL>
    <LI>Changed licence to Apache License, Version 2.0 with permission of all the PackMan contributors.</LI>
    <LI>Fixed bug where "old" package statuses could cause blank lines in the main window display.</LI>
+   <LI>User suggested UI changes to the toolbar.</LI>
  </UL>
 </LI>
 

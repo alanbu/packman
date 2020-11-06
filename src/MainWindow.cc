@@ -105,7 +105,7 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_selection.add_listener(this);
 
 	std::string sects = Packages::instance()->sections();
-	std::string section_set("All,Search Results");
+	std::string section_set("All Sections,Search Results");
 	if (!sects.empty()) section_set += "," + sects;
 	_section_filter_stringset.available(section_set);
 
@@ -302,7 +302,7 @@ void MainWindow::section_filter_changed(const std::string &name)
 	if (_section_filter != _search_filter) delete _section_filter;
 	_section_filter = 0;
 
-	if (name == "All")
+	if (name == "All Sections")
 	{
 		// Do nothing _filter = 0 is all packages
 	} else if (name == "Search Results")

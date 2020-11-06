@@ -630,7 +630,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:2,1126,1598,1198
+  window.visible:4,1128,1600,1200
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -671,7 +671,7 @@ window_object {
   }
   toolaction_object {
     cmp:&1
-    bbox:96,-68,160,-4
+    bbox:80,-68,144,-4
     help_message:"Remove the selected package"
     help_limit:*
     flags:toolaction_GENERATE_SELECT | gadget_FADED
@@ -688,7 +688,7 @@ window_object {
   }
   label_object {
     cmp:&2
-    bbox:364,-64,472,-12
+    bbox:400,-64,492,-12
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -696,7 +696,7 @@ window_object {
   }
   stringset_object {
     cmp:&3
-    bbox:484,-64,732,-12
+    bbox:504,-64,752,-12
     help_message:""
     help_limit:*
     flags:stringset_GENERATE_USER_VALUE_CHANGED | stringset_JUSTIFICATION_CENTRED
@@ -711,7 +711,7 @@ window_object {
   }
   toolaction_object {
     cmp:&7
-    bbox:188,-68,252,-4
+    bbox:152,-68,216,-4
     help_message:"Show components that were installed by the selected package"
     help_limit:*
     flags:toolaction_GENERATE_SELECT | gadget_FADED
@@ -728,7 +728,7 @@ window_object {
   }
   toolaction_object {
     cmp:&8
-    bbox:284,-68,348,-4
+    bbox:224,-68,288,-4
     help_message:"Show information on the selected package"
     help_limit:*
     flags:toolaction_GENERATE_SELECT | gadget_FADED
@@ -745,7 +745,7 @@ window_object {
   }
   toolaction_object {
     cmp:&9
-    bbox:1100,-64,1164,0
+    bbox:320,-68,384,-4
     help_message:"Search the package"
     help_limit:*
     flags:toolaction_GENERATE_SELECT
@@ -762,13 +762,13 @@ window_object {
   }
   stringset_object {
     cmp:&a
-    bbox:752,-64,1084,-12
+    bbox:772,-64,1104,-12
     help_message:""
     help_limit:*
     flags:stringset_GENERATE_USER_VALUE_CHANGED | stringset_JUSTIFICATION_CENTRED
-    string_set:"All,Search Results"
+    string_set:"All Sections,Search Results"
     title:"Section"
-    initial_selected_string:"All"
+    initial_selected_string:"All Sections"
     selected_string_limit:15
     allowable:""
     allowable_limit:*
