@@ -142,7 +142,11 @@ void Verify::build_file_list()
 	{
 		std::string line;
 		std::getline(dst_in,line);
-		mf.insert(line);
+      // Only validating files (not directories)
+      if (!line.empty() && line.back() != '.')
+      {
+		   mf.insert(line);
+      }
 		dst_in.peek();
 	}
 
@@ -153,7 +157,11 @@ void Verify::build_file_list()
 	{
 		std::string line;
 		std::getline(bak_in,line);
-		mf.insert(line);
+      // Only validating files (not directories)
+      if (!line.empty() && line.back() != '.')
+      {
+		    mf.insert(line);
+      }
 		bak_in.peek();
 	}
 
