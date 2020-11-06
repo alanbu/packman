@@ -50,7 +50,6 @@
   const char *PACKAGES_CHOICES_DIR = "Choices:PackMan";
 #endif
 
-
 using namespace std;
 
 Packages *Packages::_instance = 0;
@@ -227,6 +226,7 @@ bool Packages::status_changed()
 
 	bool any_changes = false;
 	const pkg::status_table &curstat = _package_base->curstat();
+	const pkg::binary_control_table &ctrltab = _package_base->control();
 	pkg::status_table::const_iterator found;
 
 	for (PackageKey &pkey : _package_list)
@@ -237,9 +237,16 @@ bool Packages::status_changed()
 			if (found->second.version() != pkey.pkgvrsn
 				|| found->second.environment_id() != pkey.pkgenv)
 			{
-               pkey.pkgvrsn = found->second.version();
-			   pkey.pkgenv = found->second.environment_id();
-			   any_changes = true;
+				// Must check status version is still available as it may have no longer be in the main
+				// list or the environment may have changed. This should really only be a problem for
+				// removed packages, but check all in case of database problems.
+				pkg::binary_control_table::key_type check(pkey.pkgname, found->second.version(), found->second.environment_id());
+				if (ctrltab.contains(check))
+				{
+					pkey.pkgvrsn = found->second.version();
+					pkey.pkgenv = found->second.environment_id();
+					any_changes = true;
+				}
 			}
 		}
 	}

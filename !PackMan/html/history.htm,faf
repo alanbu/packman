@@ -6,9 +6,10 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.9.6 Beta - ??? 2020</B>
+<LI><B>0.9.6 Beta - November 2020</B>
  <UL>
    <LI>Changed licence to Apache License, Version 2.0 with permission of all the PackMan contributors.</LI>
+   <LI>Fixed bug where "old" package statuses could cause blank lines in the main window display.</LI>
  </UL>
 </LI>
 
