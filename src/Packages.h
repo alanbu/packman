@@ -72,7 +72,6 @@ public:
 
 	const std::vector<PackageKey> &package_list();
 	void reset_package_list();
-	bool status_changed();
 	void environment_changed();
 
 	std::string sections();

@@ -353,7 +353,6 @@ void MainWindow::handle_change(pkg::table& t)
 
 	if (&t == &(package_base->curstat()))
 	{
-		Packages::instance()->status_changed();
 		refresh();
 
 		// Deselect and reselect to update toolbars

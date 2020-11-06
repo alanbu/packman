@@ -166,13 +166,17 @@ const std::vector<PackageKey> &Packages::package_list()
 			all_packages[pkgtabentry.first] = pkgtabentry.second;
 		}
 
-		// Add in already installed (or part installed) packages
+		// Add in already installed (or part installed) packages that are
+		// installed and not in any of the current package lists.
 		const pkg::status_table &curstat = _package_base->curstat();
 		for (auto curstatentry : curstat)
 		{
 			if (curstatentry.second.state() > pkg::status::state_removed)
 			{
-				all_packages[curstatentry.first] = pkg::env_packages_table::best(curstatentry.second.version(), curstatentry.second.environment_id());
+				if (all_packages.find(curstatentry.first) == all_packages.end())
+				{
+					all_packages[curstatentry.first] = pkg::env_packages_table::best(curstatentry.second.version(), curstatentry.second.environment_id());
+				}
 			}
 		}
 
@@ -210,48 +214,6 @@ const std::vector<PackageKey> &Packages::package_list()
 void Packages::reset_package_list()
 {
 	_package_list.clear();
-}
-
-/**
- * Status table has changed so it the package list may need
- * modifying.
- * @returns true if the package list was modified
- */
-bool Packages::status_changed()
-{
-	if (_package_list.empty())
-	{
-		return true; // Whole list is going to be rebuild
-	}
-
-	bool any_changes = false;
-	const pkg::status_table &curstat = _package_base->curstat();
-	const pkg::binary_control_table &ctrltab = _package_base->control();
-	pkg::status_table::const_iterator found;
-
-	for (PackageKey &pkey : _package_list)
-	{
-		found = curstat.find(pkey.pkgname);
-		if (found != curstat.end())
-		{
-			if (found->second.version() != pkey.pkgvrsn
-				|| found->second.environment_id() != pkey.pkgenv)
-			{
-				// Must check status version is still available as it may have no longer be in the main
-				// list or the environment may have changed. This should really only be a problem for
-				// removed packages, but check all in case of database problems.
-				pkg::binary_control_table::key_type check(pkey.pkgname, found->second.version(), found->second.environment_id());
-				if (ctrltab.contains(check))
-				{
-					pkey.pkgvrsn = found->second.version();
-					pkey.pkgenv = found->second.environment_id();
-					any_changes = true;
-				}
-			}
-		}
-	}
-
-	return any_changes;
 }
 
 /**
