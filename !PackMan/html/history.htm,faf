@@ -10,8 +10,15 @@
  <UL>
    <LI>Changed licence to Apache License, Version 2.0 with permission of all the PackMan contributors.</LI>
    <LI>Fixed bug where "old" package statuses could cause blank lines in the main window display.</LI>
-   <LI>User suggested UI changes to the toolbar.</LI>
+   <LI>User suggested UI tweaks to the toolbar.</LI>
    <LI>Fixed crash in the Verify advanced option cause by the empty directories in file list which was made possible in PackMan 0.9.2.</LI>
+   <LI>Added list of installed files to the package menu.</LI>
+   <LI>Upgraded to use LibPkg 0.9.0 (the packaging library) which had the following changes.   
+     <UL>
+       <LI>Changed licence to Apache License, Version 2.0 with permission of all the LibPkg contributors.</LI>
+       <LI>Added "Public" to the list of logical paths.</LI>
+     </UL>
+   </LI>
  </UL>
 </LI>
 
@@ -20,14 +27,15 @@
    <LI>Increased WimpSlot so PackMan will start on RISC OS 4.</LI>
    <LI>Added environment for initial internal install of PackMan.</LI>
    <LI>Made SharedUnixLibrary a recommendation instead of a dependency for PackMan to stop it trying to uninstall PackMan on first run.</LI>
-   <LI>Upgraded to use LibPkg 0.8.3 (the packaging library) which had the following fixes.</LI>
-   <UL>
-     <LI>Fixed arm environment detection for 26 bit machines.</LI>
-     <LI>Added arm32 environment support.</LI>
-     <LI>Fixed reset of environment after an error in installing (this showed as blank lines in the list).</LI>
-     <LI>Added version to package database to allow it to be updated when loaded if necessary.</LI>
-     <LI>Fixed replacing a file with one or more files in a subdirectory with the same name.</LI>
-   </UL>
+   <LI>Upgraded to use LibPkg 0.8.3 (the packaging library) which had the following fixes.
+     <UL>
+       <LI>Fixed arm environment detection for 26 bit machines.</LI>
+       <LI>Added arm32 environment support.</LI>
+       <LI>Fixed reset of environment after an error in installing (this showed as blank lines in the list).</LI>
+       <LI>Added version to package database to allow it to be updated when loaded if necessary.</LI>
+       <LI>Fixed replacing a file with one or more files in a subdirectory with the same name.</LI>
+     </UL>
+   </LI>
  </UL>
 </LI>
 

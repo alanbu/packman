@@ -23,6 +23,8 @@ which shows you what components are in an installed package and
 allows you to view their location and create links to them.</LI>
 <LI>Info icon - Show information about the package in the
  <A HREF = "info.htm">Package information window</A></LI>
+<LI>Search icon - show the <A HREF="search.htm">Search Window</A> that
+allows the package names text to be searched.</LI>
 <LI>Status filter - select the arrow by the side of the current filter
 and it shows a menu, which allows you to filter the packages displayed 
 by their status (installed, upgrades, What's New)</LI>
@@ -34,8 +36,6 @@ are only in the two current selections. e.g. If the status filter is set
 to "Installed" and the section filter is set to "Desktop" then the main
 display will show only those packages that have been installed and are
 in the Desktop section.</LI>
-<LI>Search icon - show the <A HREF="search.htm">Search Window</A> that
-allows the package names text to be searched.</LI>
 </UL>
 </P>
 

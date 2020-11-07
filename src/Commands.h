@@ -261,5 +261,18 @@ public:
 	virtual void execute();
 };
 
+/**
+ * Command to show list of installed files
+ */
+class ShowFileListCommand : public tbx::Command
+{
+private:
+	ISelectedPackage *_main;
+public:
+	enum {COMMAND_ID = 17}; // ID in resources
+	ShowFileListCommand(ISelectedPackage *main) : _main(main) {}
+	virtual ~ShowFileListCommand() {}
+	virtual void execute();
+};
 
 #endif /* COMMANDS_H_ */

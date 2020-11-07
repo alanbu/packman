@@ -27,6 +27,9 @@
 <LI>Copyright - shows the copyright information for the package.
     It is disabled if the package is not installed.
 </LI>
+<LI>Installed files - shows the list of files that have been installed for this package (excluding package control files).
+    It is disabled if the package is not installed.
+</LI>
 </UL>
 </P>
 

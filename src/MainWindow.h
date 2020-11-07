@@ -139,6 +139,7 @@ class MainWindow :
 	RemoveCommand _remove;
 	ShowInfoCommand _show_info;
 	CopyrightCommand _copyright;
+    ShowFileListCommand _show_filelist;
 	tbx::CommandMethod<MainWindow> _save_pos;
 
 	/********************************************

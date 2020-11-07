@@ -40,6 +40,7 @@
 #include "FindWindow.h"
 #include "InstallListSaveAs.h"
 #include "EnvWindow.h"
+#include "FileListWindow.h"
 
 #include "tbx/deleteonhidden.h"
 #include "tbx/questionwindow.h"
@@ -279,4 +280,15 @@ void FindFileCommand::execute()
 void ShowEnvironmentCommand::execute()
 {
 	EnvWindow::show();
+}
+
+/**
+ * Show the copyright window
+ */
+void ShowFileListCommand::execute()
+{
+	const pkg::binary_control *pkg_control = _main->selected_package();
+	if (pkg_control == 0) return;
+
+	new FileListWindow(pkg_control);
 }

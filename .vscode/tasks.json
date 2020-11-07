@@ -23,6 +23,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Copy Help RPCEMU",
+            "type": "shell",
+            "command": "cp -rf '!PackMan/html' '/home/alan/rpcemu/hostfs/Apps/!PackMan'",
+            "problemMatcher": []
+        },
+        {
             "label": "Build !PkgTest",
             "type": "shell",
             "command": "~/gccsdk/env/ro-make",
@@ -39,5 +45,11 @@
             "command": "cp -f '!PkgTest/!RunImage,ff8' '/home/alan/rpcemu/hostfs/Apps/!PkgTest'",
             "problemMatcher": []
         },
+        {
+            "label": "CCRes from RPCEMU",
+            "type": "shell",
+            "command": "~/gccsdk/env/bin/ccres '/home/alan/rpcemu/hostfs/Apps/!PackMan/Res,fae' 'src/CCRes'",
+            "problemMatcher": []
+        },    
     ]
 }
