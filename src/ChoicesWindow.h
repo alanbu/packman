@@ -27,20 +27,27 @@
 
 #include "tbx/abouttobeshownlistener.h"
 #include "tbx/buttonselectedlistener.h"
+#include "tbx/optionbuttonstatelistener.h"
 #include "tbx/window.h"
 #include "tbx/stringset.h"
 #include "tbx/optionbutton.h"
+#include "tbx/writablefield.h"
 
 /**
  * Dialog to allow
  */
 class ChoicesWindow :
 		tbx::AboutToBeShownListener,
-		tbx::ButtonSelectedListener
+		tbx::ButtonSelectedListener,
+		tbx::OptionButtonStateListener
 {
 	tbx::Window _window;
 	tbx::StringSet _update_list_prompt;
 	tbx::OptionButton _enable_logging;
+    tbx::OptionButton _use_proxy;
+	tbx::WritableField _proxy_server;
+	tbx::WritableField _do_not_proxy;
+	
 	static ChoicesWindow* _instance;
 
 public:
@@ -52,6 +59,8 @@ public:
 private:
 	virtual void about_to_be_shown(tbx::AboutToBeShownEvent &event);
 	virtual void button_selected(tbx::ButtonSelectedEvent &event);
+	virtual void option_button_state_changed(tbx::OptionButtonStateEvent &event);
+
 };
 
 #endif /* CHOICESWINDOW_H_ */

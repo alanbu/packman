@@ -12,6 +12,17 @@ The choices on the window are:
 </LI>
 <LI>Enable logging - Turns on or off the logging of the Update Lists and Commit (Install/Remove/Upgrade) actions. To view the log created use the "View Log" menu option from the Advanced menu.
 </LI>
+<LI>Use Proxy - Set to turn on the use of a proxy server when downloading packages and package lists.
+ Use the following two field to configure the proxy server.</LI>
+<LI>Server - set the proxy to use for downloads.  The proxy should be host name or dotted numerical IP address.
+    To specify port number in this string, append :[port] to the end of the host name. The proxy's port number may optionally be specified with the separate option CURLOPT_PROXYPORT. If not specified, PackMan will default to using port 1080 for proxies.
+    The proxy string may be prefixed with [scheme]:// (e.g. http:// or https://).
+</LI>
+<LI>Do not proxy - A list of a comma separated host names that do not require a proxy
+ to get reached, even if one is specified.
+  Each name in this list is matched as either a domain which contains the hostname, or the hostname itself. For example, example.com would match example.com, example.com:80, and www.example.com, but not www.notanexample.com or example.com.othertld.
+  If the name in the noproxy list has a leading period, it is a domain match against the provided host name. This way ".example.com" will switch off proxy use for both "www.example.com" as well as for "foo.example.com".
+</LI>
 <LI>Cancel - Close the window without updating the choices.</LI>
 <LI>OK - Update and save the choices</LI>
 </UL>

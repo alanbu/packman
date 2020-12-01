@@ -41,6 +41,9 @@ class Choices
 	bool _modified;
 	std::set<std::string> _override_environment;
 	std::set<std::string> _override_modules;
+	bool _use_proxy;
+	std::string _proxy_server;
+	std::string _do_not_proxy;
 
 public:
 	Choices();
@@ -69,6 +72,14 @@ public:
 	const std::set<std::string> &override_modules() const {return _override_modules;}
 	void override_modules(const std::set<std::string> &modules);
 
+	bool use_proxy() const {return _use_proxy;}
+	void use_proxy(bool use);
+
+	const std::string &proxy_server() const {return _proxy_server;}
+	void proxy_server(const std::string &server);
+
+	const std::string &do_not_proxy() const {return _do_not_proxy;}
+	void do_not_proxy(const std::string &exclude);
 
 	static bool ensure_choices_dir();
 };

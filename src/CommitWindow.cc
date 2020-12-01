@@ -27,6 +27,7 @@
 #include "ConflictManager.h"
 #include "CommitFailedWindow.h"
 #include "LogViewer.h"
+#include "Choices.h"
 
 #include "tbx/application.h"
 #include "tbx/deleteonhidden.h"
@@ -87,6 +88,15 @@ CommitWindow::CommitWindow() :
 	// Begin new commit operation.
 	_commit = new pkg::commit(*package_base, packages);
 	_commit->use_trigger_run(&_trigger_run);
+
+	if (choices().use_proxy())
+	{
+		pkg::download::options dopts;
+		dopts.use_proxy = true;
+		dopts.proxy = choices().proxy_server();
+		dopts.do_not_proxy = choices().do_not_proxy();
+		_commit->download_options(dopts);
+	}
 
 	// Set up logging
 	if (Packages::instance()->logging())

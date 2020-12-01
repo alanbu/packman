@@ -69,6 +69,15 @@ UpdateListWindow::UpdateListWindow() :
 			[](const PackageKey &key) -> std::string { return key.pkgname; }
 	);
 
+	if (choices().use_proxy())
+	{
+		pkg::download::options dopts;
+		dopts.use_proxy = true;
+		dopts.proxy = choices().proxy_server();
+		dopts.do_not_proxy = choices().do_not_proxy();
+		_upd->download_options(dopts);
+	}
+
 	if (Packages::instance()->logging())
 	{
 	    _show_log  = _window.gadget(6);

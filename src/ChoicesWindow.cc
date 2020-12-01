@@ -44,10 +44,15 @@ ChoicesWindow *ChoicesWindow::_instance = 0;
 ChoicesWindow::ChoicesWindow() :
 		_window("Choices"),
 		_update_list_prompt(_window.gadget(1)),
-		_enable_logging(_window.gadget(4))
+		_enable_logging(_window.gadget(4)),
+		_use_proxy(_window.gadget(6)),
+		_proxy_server(_window.gadget(8)),
+		_do_not_proxy(_window.gadget(10))
 {
 	tbx::ActionButton ok_button = _window.gadget(3);
 	ok_button.add_selected_listener(this);
+
+	_use_proxy.add_state_listener(this);
 
 	_window.add_about_to_be_shown_listener(this);
 	_instance = this;
@@ -85,6 +90,16 @@ void ChoicesWindow::about_to_be_shown(tbx::AboutToBeShownEvent &event)
 	_update_list_prompt.selected_index(index);
 
 	_enable_logging.on(opts.enable_logging());
+
+	bool use_proxy = opts.use_proxy();
+	_use_proxy.on(use_proxy);
+	_proxy_server.text(opts.proxy_server());
+	_do_not_proxy.text(opts.do_not_proxy());
+	_proxy_server.fade(!use_proxy);
+	_do_not_proxy.fade(!use_proxy);
+	// Fade proxy labels as well
+	_window.gadget(7).fade(!use_proxy);
+	_window.gadget(9).fade(!use_proxy);
 }
 
 /**
@@ -96,6 +111,9 @@ void ChoicesWindow::button_selected(tbx::ButtonSelectedEvent &event)
 
 	opts.update_prompt_days(update_list_choices[_update_list_prompt.selected_index()]);
 	opts.enable_logging(_enable_logging.on());
+	opts.use_proxy(_use_proxy.on());
+	opts.proxy_server(_proxy_server.text());
+	opts.do_not_proxy(_do_not_proxy.text());
 
 	if (opts.modified())
 	{
@@ -112,4 +130,17 @@ void ChoicesWindow::button_selected(tbx::ButtonSelectedEvent &event)
 			}
 		}
 	}
+}
+
+/**
+ * Use proxy option button has been selected
+ */
+void ChoicesWindow::option_button_state_changed(tbx::OptionButtonStateEvent &event)
+{
+	bool use_proxy = event.turned_on();
+	_proxy_server.fade(!use_proxy);
+	_do_not_proxy.fade(!use_proxy);
+	// Fade proxy labels as well
+	_window.gadget(7).fade(!use_proxy);
+	_window.gadget(9).fade(!use_proxy);
 }

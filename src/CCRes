@@ -4527,7 +4527,7 @@ window_object {
   toolbar_itl:""
   toolbar_ebl:""
   toolbar_etl:""
-  window.visible:484,152,1568,380
+  window.visible:432,260,1520,764
   window.xscroll:0
   window.yscroll:0
   window.next:wimp_TOP
@@ -4574,7 +4574,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&2
-    bbox:664,-208,852,-156
+    bbox:672,-484,860,-432
     help_message:""
     help_limit:*
     flags:actionbutton_IS_CANCEL
@@ -4585,7 +4585,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&3
-    bbox:864,-208,1052,-156
+    bbox:872,-484,1060,-432
     help_message:""
     help_limit:*
     flags:
@@ -4603,6 +4603,66 @@ window_object {
     label:"Enable logging"
     label_limit:*
     action:&0
+  }
+  labelledbox_object {
+    cmp:&5
+    bbox:64,-408,1056,-168
+    help_message:""
+    help_limit:*
+    flags:gadget_AT_BACK
+    label:"Download proxy options"
+  }
+  optionbutton_object {
+    cmp:&6
+    bbox:108,-260,544,-216
+    help_message:""
+    help_limit:*
+    flags:optionbutton_GENERATE_STATE_CHANGED
+    label:"Enable proxy"
+    label_limit:*
+    action:&0
+  }
+  label_object {
+    cmp:&7
+    bbox:116,-328,304,-276
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Server:"
+  }
+  writablefield_object {
+    cmp:&8
+    bbox:328,-328,1020,-276
+    help_message:""
+    help_limit:*
+    flags:writablefield_HCENTRED
+    text:""
+    text_limit:128
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
+  }
+  label_object {
+    cmp:&9
+    bbox:116,-388,304,-336
+    help_message:""
+    help_limit:*
+    flags:label_NO_BOX | label_RJUSTIFIED
+    label:"Do not proxy:"
+  }
+  writablefield_object {
+    cmp:&a
+    bbox:328,-392,1016,-340
+    help_message:""
+    help_limit:*
+    flags:writablefield_HCENTRED
+    text:""
+    text_limit:128
+    allowable:""
+    allowable_limit:*
+    prev:toolbox_NULL_COMPONENT
+    next:toolbox_NULL_COMPONENT
   }
 }
 

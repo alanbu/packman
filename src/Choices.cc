@@ -45,7 +45,8 @@ Choices::Choices() :
 		_enable_logging(false),
 		_main_window_pos(66,184,1518,1078),
 		_small_summary_bar(false),
-		_modified(false)
+		_modified(false),
+		_use_proxy(false)
 {
 
 }
@@ -108,6 +109,32 @@ void Choices::override_modules(const std::set<std::string> &modules)
 	}
 }
 
+void Choices::use_proxy(bool use)
+{
+	if (_use_proxy != use)
+	{
+		_use_proxy = use;
+		_modified = true;
+	}
+}
+
+void Choices::proxy_server(const std::string &server)
+{
+	if (_proxy_server != server)
+	{
+		_proxy_server = server;
+		_modified = true;
+	}
+}
+
+void Choices::do_not_proxy(const std::string &exclude)
+{
+	if (_do_not_proxy != exclude)
+	{
+		_do_not_proxy = exclude;
+		_modified = true;
+	}
+}
 
 /**
  * Load choices file if it exists
@@ -158,6 +185,10 @@ void Choices::load()
 			}
 			_override_modules.insert(mods.substr(start));
 		}
+
+		_use_proxy = ps.get("UseProxy", false);
+		_proxy_server = ps.get("ProxyServer");
+		_do_not_proxy = ps.get("DoNotProxy");
 	}
 	_modified = false;
 }
@@ -197,6 +228,10 @@ bool Choices::save()
 		ms << mod;
 	}
 	ps.set("OverrideModules", ms.str());
+
+	ps.set("UseProxy", _use_proxy);
+	ps.set("ProxyServer", _proxy_server);
+	ps.set("DoNotProxy", _do_not_proxy);
 
 	if (ps.save(choices_write_path("Choices")))
 	{
