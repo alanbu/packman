@@ -1,0 +1,60 @@
+-- Testing of install of package with empty directories
+local pkg_name = "EmptyDirTest"
+
+-- Version 1 format
+v1dirs = {
+         "EDir1",
+         "Dir2",
+         "Dir2.EDir2",
+         "Dir2.EDir3",
+         "EDir4",
+         "EDir4.EDir5",
+         "EDir4.EDir5.EDir6"
+         }
+v1files = {"ReadMe", "Dir2.Text2"}
+
+test.erase(pkg_name)
+
+pkg.add(pkg_name.."_1-1")
+pkg.install(pkg_name)
+pkg.commit()
+
+local inst_path = pkg.path("Apps.PkgTest.EmptyDirTest")
+for _,dname in ipairs(v1dirs) do
+   test.check_dir_exists(inst_path.."."..dname)
+end
+for _,fname in ipairs(v1files) do
+   test.check_file_exists(inst_path.."."..fname)
+end
+
+pkg.remove(pkg_name)
+pkg.commit()
+
+for _,dname in ipairs(v1dirs) do
+   test.check_dir_deleted(inst_path.."."..dname)
+end
+for _,fname in ipairs(v1files) do
+   test.check_file_deleted(inst_path.."."..fname)
+end
+
+pkg.install(pkg_name)
+pkg.commit()
+
+test_file = inst_path..".EDir4.EDir5.Test"
+f = assert(io.open(test_file,"w"))
+f:write("This is a simple test file that should not be removed")
+f:close()
+
+pkg.remove(pkg_name)
+pkg.commit()
+
+test.check_file_exists(test_file)
+
+pkg.install(pkg_name)
+pkg.commit()
+
+os.remove(test_file)
+pkg.remove(pkg_name)
+pkg.commit()
+test.check_dir_deleted(inst_path)
+
