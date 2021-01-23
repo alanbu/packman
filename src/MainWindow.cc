@@ -355,7 +355,7 @@ void MainWindow::handle_change(pkg::table& t)
 
 	if (&t == &(package_base->curstat()))
 	{
-		refresh();
+		_view.refresh();
 
 		// Deselect and reselect to update toolbars
 		unsigned int index;

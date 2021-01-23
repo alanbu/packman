@@ -93,6 +93,7 @@ bool PackageLoader::load_file(tbx::LoadEvent &event)
 					{
 						if (pmstate()->ok_to_commit())
 						{
+							Packages::instance()->add_to_package_list(&ctrl);
 							Packages::instance()->select_install(&ctrl);
 							PackageConfigWindow::update();
 						}

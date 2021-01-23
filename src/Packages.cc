@@ -32,6 +32,7 @@
 #include <string>
 #include <set>
 #include <cstdlib>
+#include <algorithm>
 
 #include "swis.h"
 #include "tbx/application.h"
@@ -145,12 +146,23 @@ bool Packages::reset_package_base()
 }
 
 /**
+ * Comparison routine to give case insensitive sort of package list by name.
+ * @param pkey1 package key to compare
+ * @param pkey2 package key to compare with
+ * @returns true if with a case insensitive compare of the names pkey1 < pkey2
+ */
+bool package_list_cmp(const PackageKey &pkey1, const PackageKey &pkey2)
+{
+	return tbx::compare_ignore_case(pkey1.pkgname, pkey2.pkgname) < 0;
+}
+
+/**
  * Get cached list of unique package names.
  *
  * The list is different from the order in the binary control
  * table as the names are put in case insensitive sort order
  *
- * This is calculate the first time it is requested and
+ * This is calculated the first time it is requested and
  * then again after reset_package_list is called
  */
 const std::vector<PackageKey> &Packages::package_list()
@@ -190,10 +202,10 @@ const std::vector<PackageKey> &Packages::package_list()
 			} else
 			{
 				// Should only be a few old packages from the autobuilder that don't sort
-				// in the correct order case sensitively so use a simple search to
+				// in the correct order case insensitively so use a simple search to
 				// order them.
 				int i = (int)_package_list.size() - 1;
-				while (i >= 0 && tbx::compare_ignore_case(pkgkey.pkgname, _package_list[i].pkgname) < 0) i--;
+				while (i >= 0 && package_list_cmp(pkgkey, _package_list[i])) i--;
 				if (i < (int)_package_list.size() - 1)
 				{
 					_package_list.insert(_package_list.begin() + i + 1, pkgkey);
@@ -214,6 +226,29 @@ const std::vector<PackageKey> &Packages::package_list()
 void Packages::reset_package_list()
 {
 	_package_list.clear();
+}
+
+/**
+ * Add package to cached package list.
+ * 
+ * Package is only added if it is not already in the list.
+ * The added package will disappear from the list when the
+ * package list is refreshed.
+ * @param bctrl binary control record of the package to be added.
+ */
+void Packages::add_to_package_list(const pkg::binary_control *bctrl)
+{
+	std::vector<PackageKey>::iterator found;
+	PackageKey pkgkey(bctrl->pkgname(), bctrl->version(), bctrl->environment_id());
+	found = std::lower_bound(_package_list.begin(), _package_list.end(), pkgkey, package_list_cmp);
+	
+	if (found == _package_list.end())
+	{		
+		_package_list.push_back(pkgkey);
+	} else if (found->pkgname != bctrl->pkgname())
+	{
+		_package_list.insert(found, pkgkey);
+	}
 }
 
 /**

@@ -72,6 +72,8 @@ public:
 
 	const std::vector<PackageKey> &package_list();
 	void reset_package_list();
+	void add_to_package_list(const pkg::binary_control *bctrl);
+
 	void environment_changed();
 
 	std::string sections();
