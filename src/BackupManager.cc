@@ -137,7 +137,15 @@ BackupManager::iterator BackupManager::find(const tbx::Path &path)
 	iterator i;
 	for (i = _items.begin(); i != _items.end(); ++i)
 	{
-		if (i->path.canonical_equals(path)) break;
+		try
+		{
+			if (i->path.canonical_equals(path)) break;
+		}
+		catch(const std::exception&)
+		{
+			// Ignore exception, usually caused by path no longer valid
+		}
+		
 	}
 
 	return i;
