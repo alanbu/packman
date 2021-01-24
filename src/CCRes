@@ -436,15 +436,15 @@ window_object {
   }
   label_object {
     cmp:&2
-    bbox:472,-60,544,-8
+    bbox:800,-60,932,-8
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Inst:"
+    label:"Installed:"
   }
   displayfield_object {
     cmp:&3
-    bbox:564,-60,780,-8
+    bbox:932,-60,1124,-8
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -453,15 +453,15 @@ window_object {
   }
   label_object {
     cmp:&4
-    bbox:788,-60,884,-8
+    bbox:472,-60,588,-8
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
-    label:"Avail:"
+    label:"Version:"
   }
   displayfield_object {
     cmp:&5
-    bbox:904,-60,1116,-8
+    bbox:584,-60,796,-8
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
