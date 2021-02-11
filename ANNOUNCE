@@ -1,8 +1,11 @@
-PackMan package manager 0.9.6 beta released
+PackMan package manager 0.9.7 beta released
 
-PackMan version 0.9.6 beta is now available.
+PackMan version 0.9.7 beta is now available.
 
 The changes are:
+- Re-enabled SSL after if accidently got disabled in version 0.9.6
+
+The changes in 0.9.6 were:
 
 - Added list of installed files to the package menu.
 - Add options to support using a proxy server for downloads.

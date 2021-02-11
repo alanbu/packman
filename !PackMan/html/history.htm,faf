@@ -6,6 +6,12 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.9.7 Beta - February 2021</B>
+ <UL>
+   <LI>Re-enabled SSL as it was disabled in version 0.9.6 accidently.</LI>
+ </UL>
+</LI>
+
 <LI><B>0.9.6 Beta - January 2021</B>
  <UL>
    <LI>Changed licence to Apache License, Version 2.0 with permission of all the PackMan contributors.</LI>
