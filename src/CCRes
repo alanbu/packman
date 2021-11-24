@@ -3299,7 +3299,7 @@ window_object {
   }
   label_object {
     cmp:&2
-    bbox:20,-140,220,-88
+    bbox:16,-140,216,-88
     help_message:""
     help_limit:*
     flags:label_NO_BOX | label_RJUSTIFIED
@@ -3384,7 +3384,7 @@ window_object {
   }
   displayfield_object {
     cmp:&d
-    bbox:228,-932,1080,-880
+    bbox:228,-932,1076,-880
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3611,7 +3611,7 @@ window_object {
   }
   scrolllist_object {
     cmp:&2e
-    bbox:224,-1076,1188,-948
+    bbox:228,-1076,1188,-948
     help_message:""
     help_limit:*
     flags:
@@ -3632,7 +3632,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&30
-    bbox:476,-204,592,-152
+    bbox:472,-204,588,-152
     help_message:""
     help_limit:*
     flags:actionbutton_IS_LOCAL
@@ -3719,7 +3719,7 @@ window_object {
   }
   actionbutton_object {
     cmp:&43
-    bbox:1088,-932,1192,-880
+    bbox:1084,-932,1188,-880
     help_message:""
     help_limit:*
     flags:actionbutton_IS_LOCAL
