@@ -3444,7 +3444,7 @@ window_object {
   }
   displayfield_object {
     cmp:&15
-    bbox:228,-332,1188,-280
+    bbox:228,-332,1116,-280
     help_message:""
     help_limit:*
     flags:displayfield_HCENTRED
@@ -3727,6 +3727,21 @@ window_object {
     text_limit:*
     click_show:""
     action:&0
+  }
+  button_object {
+    cmp:&44
+    bbox:1132,-332,1184,-280
+    help_message:""
+    help_limit:*
+    flags:button_TASK_SPRITE_AREA
+    button_flags:wimp_ICON_SPRITE | wimp_ICON_HCENTRED | wimp_ICON_VCENTRED | wimp_ICON_INDIRECTED
+    button_esg:0
+    button_fg:wimp_COLOUR_BLACK
+    button_bg:wimp_COLOUR_WHITE
+    value:"env_u"
+    value_limit:8
+    validation:""
+    validation_limit:*
   }
 }
 

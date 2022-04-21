@@ -25,7 +25,19 @@ The information shown in the window is
 <LI>Size - size of package that will be downloaded in bytes</LI>
 <LI>Environment - each package should be given one or mode codes to specify
 which RISC OS environments it should run on. If this is blank the environment
-has not been set in the package.</LI>
+has not been set in the package. To the right is an icon matching the environment icon on the main page.This will be;
+<UL>
+<LI>blank if the package is suitable for the current environment</LI>
+<LI>A red triangle containing a question mark if the package does not
+have any environment information</LI>
+<LI>A red triangle containing an exclamation mark if the package is not
+suitable for the current environment. These packages are only shown
+if they were installed before the environment was first detected or
+if it changed.</LI>
+<LI>A red triangle containing a "x" if the current version of PackMan
+does not understand the environment information in the package.</LI>
+</UL>
+</LI>
 <LI>URL - location file will be downloaded from</LI>
 <LI>Standards ver - earliest version of the packaging process that is needed to install this package</LI>
 <LI>Maintainer - name and email address of the person who has created and is maintaining this package.

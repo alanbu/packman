@@ -30,6 +30,7 @@
 #include "tbx/textarea.h"
 #include "tbx/scrolllist.h"
 #include "tbx/actionbutton.h"
+#include "tbx/button.h"
 #include "tbx/uri.h"
 #include "libpkg/binary_control.h"
 #include "Commands.h"
@@ -50,6 +51,7 @@ class InfoWindow : public ISelectedPackage,
 	tbx::ActionButton _components_button;
 	tbx::DisplayField _homepage;
 	tbx::ActionButton _web_button;
+	tbx::Button _env_image;
 	InstallCommand _install_command;
 	RemoveCommand _remove_command;
 	CopyrightCommand _copyright_command;

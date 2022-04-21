@@ -78,6 +78,7 @@ InfoWindow::InfoWindow() :
        _components_button(_window.gadget(0x31)),
        _homepage(_window.gadget(0xd)),
        _web_button(_window.gadget(0x43)),
+       _env_image(_window.gadget(0x44)),
        _install_command(this),
        _remove_command(this),
        _copyright_command(this),
@@ -181,6 +182,22 @@ void InfoWindow::update_details(const pkg::binary_control *ctrl)
     }
 
     _web_button.fade(_homepage.text_length() == 0);
+
+    const pkg::pkg_env *env = ctrl->package_env();
+    switch(env->type())
+    {
+      case pkg::env_check_type::Unset: _env_image.value("env_u"); break;
+      case pkg::env_check_type::Unknown:  _env_image.value("env_x"); break;
+      default:
+        if (env->available())
+        {
+            _env_image.value("");
+        } else
+        {
+             _env_image.value("env_i");
+        }
+      break;
+    }
 
     std::string comps = ctrl->components();
 
