@@ -17,16 +17,19 @@ the package names and descriptions.
 <P>
 The left hand column is either:
 <UL>
-<LI>blank if the package is not installed</LI>
-<LI>a green tick if the package is installed</LI>
-<LI>an orangish tick if the package is installed and there
+<LI><img src="images/blank.png"/>&nbsp;blank if the package is not installed</LI>
+<LI><img src="images/installed.png"/>&nbsp;a green tick if the package is installed</LI>
+<LI><img src="images/upgradable.png"/>&nbsp;an orangish tick if the package is installed and there
   is an upgrade available.</LI>
-<LI>A rectangle partially filled with green from the left during package installation/removal. If this appears while packages are not being installed it means the install failed and did not manage to fully restore the original state. The best solution to this is to remove the package and then try reinstalling it again. Alternatively a second attempt at installing has a good chance of continuing from where the install failed. Packages in this state will be added to the next Package Configuration Window shown until they are fixed.
+<LI><img src="images/progress.png"/>&nbsp;A rectangle partially filled with green from the left during package installation/removal. If this appears while packages are not being installed it means the install failed and did not manage to fully restore the original state. The best solution to this is to remove the package and then try reinstalling it again. Alternatively a second attempt at installing has a good chance of continuing from where the install failed. Packages in this state will be added to the next Package Configuration Window shown until they are fixed.
 </LI>
 </UL>
 <P>
-The ticks have a small "a" by them if the package was
-automatically installed.
+The ticks have a small "a" by them if the package was automatically installed.
+<UL>
+<LI><img src="images/autoinst.png"/>&nbsp;The package was automatically installed.</LI>
+<LI><img src="images/autoupgrd.png"/>&nbsp;The package was automatically installed and there is an upgrade available</LI>
+</UL>
 </P>
 <P>
 This is followed by the package name, the environment status, and a summary of
@@ -34,14 +37,14 @@ what it does.
 </P>
 <P>The environment status can be one of the following:
 <UL>
-<LI>blank if the package is suitable for the current environment</LI>
-<LI>A red triangle containing a question mark if the package does not
+<LI><img src="images/blank.png"/>&nbsp;blank if the package is suitable for the current environment</LI>
+<LI><img src="images/envunknown.png"/>&nbsp;A red triangle containing a question mark if the package does not
 have any environment information</LI>
-<LI>A red triangle containing an exclamation mark if the package is not
+<LI><img src="images/envinvalid.png"/>&nbsp;A red triangle containing an exclamation mark if the package is not
 suitable for the current environment. These packages are only shown
 if they were installed before the environment was first detected or
 if it changed.</LI>
-<LI>A red triangle containing a "x" if the current version of PackMan
+<LI><img src="images/envx.png"/>&nbsp;A red triangle containing a "x" if the current version of PackMan
 does not understand the environment information in the package.</LI>
 </UL>
 <P>

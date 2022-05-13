@@ -12,18 +12,18 @@ allow you to show a subset of the packages.</P>
 e.g. The first four need an item to be selected.</P>
 <P>The items on the toolbar are (from left to right):
 <UL>
-<LI>Install/Update icon - Installs or Updates the selected package.
- A green arrow on the icon pointing right is an install, an orange one
- pointing up is an upgrade. Selecting on the icon shows the
+<LI><img src="images/install.png"/>&nbsp;/&nbsp;<img src="images/upgrade.png"/>&nbsp;Install/Update icon - Installs or Updates the selected package.
+ A green tick on its own on the icon is an install, an additional orange tick
+ is an upgrade. Selecting on the icon shows the
  <A HREF="configpackage.htm">Configure Package Window</A> with the selected package added to it for installation/upgrade</LI>
-<LI>Remove icon - Removes the selected package. Selecting the icon shows 
+<LI><img src="images/remove.png"/>&nbsp;Remove icon - Removes the selected package. Selecting the icon shows 
 the <A HREF="configpackage.htm">Configure Package Window</A> with the selected package added to it for removal</LI>
-<LI>Components icon - Shows the <A HREF="apps.htm">Components Window</A>
+<LI><img src="images/apps.png"/>&nbsp;Components icon - Shows the <A HREF="apps.htm">Components Window</A>
 which shows you what components are in an installed package and
 allows you to view their location and create links to them.</LI>
-<LI>Info icon - Show information about the package in the
+<LI><img src="images/info.png"/>&nbsp;Info icon - Show information about the package in the
  <A HREF = "info.htm">Package information window</A></LI>
-<LI>Search icon - show the <A HREF="search.htm">Search Window</A> that
+<LI><img src="images/search.png"/>&nbsp;Search icon - show the <A HREF="search.htm">Search Window</A> that
 allows the package names text to be searched.</LI>
 <LI>Status filter - select the arrow by the side of the current filter
 and it shows a menu, which allows you to filter the packages displayed 
