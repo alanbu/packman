@@ -67,7 +67,7 @@ public:
 class ReportUncaught : public tbx::UncaughtHandler
 {
 public:
-	virtual void uncaught_exception(std::exception *e)
+	virtual void uncaught_exception(std::exception *e, int event_code)
 	{
 	    try
 	    {
@@ -100,7 +100,8 @@ public:
 
 	    			log << "Unexpected exception in PackMan";
 	    			if (ver) log << " version " << ver << std::endl;
-	    			log << " on:    " << std::asctime(timeinfo);
+	    			log << " on:    " << std::asctime(timeinfo) << std::endl;
+					log << " event code: " << event_code << std::endl;
 	    			log << " error: " << ((e) ? e->what() : "An unknown exception") << std::endl;
 	    			log << std::endl;
 	    			log.close();

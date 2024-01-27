@@ -13,13 +13,13 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "src"
+                "cwd": "/home/alanb/dev/packman/src"
             }
         },
         {
             "label": "Copy to RPCEMU",
             "type": "shell",
-            "command": "cp -f '!PackMan/!RunImage,ff8' '/home/alan/rpcemu/hostfs/Apps/!PackMan'",
+            "command": "cp -f '!PackMan/!RunImage,ff8' '/mnt/c/RPCEmu527/hostfs/Dev/!PackMan/'",
             "problemMatcher": []
         },
         {
