@@ -1,0 +1,26 @@
+-- Testing of install of package without the environment set
+local pkg_name = "TestComponent";
+local inst_path = test.path("MyApps");
+local file_path = inst_path .. ".TestComponent"
+
+-- Component in package is Apps.Document.TestComponent
+
+test.erase(pkg_name);
+
+test.message("Testing install of TestComponent in "..pkg_name.." to "..file_path);
+pkg.add(pkg_name .. "_1/0-1");
+pkg.install(pkg_name);
+pkg.set_install_path(pkg_name, file_path);
+pkg.commit();
+
+test.check_state(pkg_name, "installed")
+
+f=io.open(file_path,"r")
+test.check("Check file TestComponent has been installed to the correct place",f,"TestComponent was not installed to the correct place");
+if f then f:close() end
+
+test.message("Testing removal of "..pkg_name);
+pkg.remove(pkg_name);
+pkg.commit();
+
+test.check_file_deleted(file_path);

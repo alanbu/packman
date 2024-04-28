@@ -6,6 +6,20 @@
 <BODY>
 <h2>History</h2>
 <UL>
+<LI><B>0.9.? Beta - ?? </B>
+ <UL>
+ <LI>Added environment icons to the information window</LI>
+ <LI>Tidy up Info window component alignment</LI>
+ <LI>Added toolbar/main window images to help</LI>
+ <LI>Update to use latest version to TBX library</LI>
+ <LI>Updated to use LibPkg 0.9.1 with the following changes
+   <UL>
+    <LI>Added Vector floating point environment check (vfpv3).</LI>
+    <LI>Fixed bug where parents of empty directories were created in the default logical location even when the component had been moved.</LI>
+    <LI>Fixed bug where entering a SysVar relative path in the component path caused a hang.</LI>
+   </UL>
+ </UL>
+</LI>
 <LI><B>0.9.7 Beta - February 2021</B>
  <UL>
    <LI>Re-enabled SSL as it was disabled in version 0.9.6 accidently.</LI>

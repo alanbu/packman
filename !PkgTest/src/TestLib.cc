@@ -521,6 +521,23 @@ static int l_pause(lua_State *L)
 	return 0;
 }
 
+/**
+ * Get absolute path to test disk
+ * 
+ * test.path([<sub_path>])
+*/
+static int l_path(lua_State *L)
+{
+	const char *sub_path = luaL_optstring(L,1,NULL);
+	std::string path("<PkgTestDisc$Dir>");
+
+	if (sub_path && *sub_path) path += std::string(".") + sub_path;
+	std::string absolute_path = pkg::canonicalise(path);
+
+	lua_pushstring(L, absolute_path.c_str());
+	return 1;
+}
+
 static const struct luaL_reg testlib [] = {
    {"message", l_message},
    {"fail", l_fail},
@@ -536,8 +553,9 @@ static const struct luaL_reg testlib [] = {
    {"check", l_check},
    {"check_control_info", l_check_control_info},
    {"check_state", l_check_state},
-	 {"check_state_env_id", l_check_state_env_id},
+   {"check_state_env_id", l_check_state_env_id},
    {"pause", l_pause},
+   {"path", l_path},
    {NULL, NULL}  /* sentinel */
  };
 

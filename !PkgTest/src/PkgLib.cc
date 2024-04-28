@@ -31,6 +31,7 @@
 #include "libpkg/zipfile.h"
 #include "libpkg/filesystem.h"
 #include "libpkg/env_checker.h"
+#include "libpkg/component_update.h"
 
 #include "tbx/hourglass.h"
 #include "tbx/path.h"
@@ -434,6 +435,60 @@ static int l_pkg_reset_environment(lua_State *L)
 	return 1;
 }
 
+/**
+ * Set install path for a package
+ * 
+ * Will select it for installation if not already selected
+ * 
+ * pkg.set_install_path(<pkgname>, <install_path>)
+*/
+static int l_pkg_set_install_path(lua_State *L)
+{
+	const char *pkgname = lua_tostring(L,1);
+	const char *path = lua_tostring(L,2);
+
+	test_log() << "Set install path for " << pkgname << " to " << path << std::endl;
+
+	try
+	{
+		const pkg::binary_control &bctrl = available_control(pkgname);
+		pkg::pkgbase *pkg_base = Packages::instance()->package_base();
+
+		if (pkg_base->curstat()[pkgname].state() == pkg::status::state_installed)
+		{
+			lua_pushstring(L, "Package is already installed");
+			return lua_error(L);
+		} else
+		{
+	    	Packages::instance()->select_install(&bctrl);
+    	}
+
+		auto foundComp = bctrl.find("Components");
+		if (foundComp == bctrl.end())
+		{
+			lua_pushstring(L, "Package does not have a components field");
+			return lua_error(L);
+		}
+		pkg::component_update comp_update(Packages::instance()->package_base()->component_update_pathname());
+		pkg::component comp(foundComp->second);
+		comp.path(path);
+		comp_update.insert(comp);
+		comp_update.commit();
+	} catch(std::exception &ex)
+	{
+		std::string msg("Failed to find/update package component path for '");
+		msg += pkgname;
+		msg += "': ";
+		msg += ex.what();
+
+		test_log() << msg << std::endl;
+
+		lua_pushstring(L, msg.c_str());
+        return lua_error(L);
+	}
+
+	return 0;
+}
 
 static const struct luaL_reg pkglib [] = {
    {"path", l_pkg_path},
@@ -446,11 +501,11 @@ static const struct luaL_reg pkglib [] = {
    {"commit_fail", l_pkg_commit_fail},
    {"control", l_pkg_control},
    {"dump", l_pkg_dump},
-	 {"environment", l_pkg_environment},
-	 {"reset_environment", l_pkg_reset_environment},
+   {"environment", l_pkg_environment},
+   {"reset_environment", l_pkg_reset_environment},
+   {"set_install_path", l_pkg_set_install_path},
    {NULL, NULL}  /* sentinel */
  };
-
 
 /**
  * Load the test library into the lua state
