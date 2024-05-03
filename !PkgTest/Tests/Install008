@@ -1,6 +1,6 @@
--- Testing of install of component to a different path
+-- Testing of install of component to a different path using a system variable
 local pkg_name = "TestComponent";
-local inst_path = test.path("MyApps");
+local inst_path = "PkgTestDisc:MyPlace"
 local file_path = inst_path .. ".TestComponent"
 
 -- Component in package is Apps.Document.TestComponent

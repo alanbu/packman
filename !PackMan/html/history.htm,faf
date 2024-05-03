@@ -17,6 +17,7 @@
     <LI>Added Vector floating point environment check (vfpv3).</LI>
     <LI>Fixed bug where parents of empty directories were created in the default logical location even when the component had been moved.</LI>
     <LI>Fixed bug where entering a SysVar relative path in the component path caused a hang.</LI>
+    <LI>Fixed bug where entering an invalid path when installing a component caused a hang.</LI>
    </UL>
  </UL>
 </LI>

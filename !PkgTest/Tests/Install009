@@ -1,0 +1,14 @@
+-- Testing of install of component to a bad path
+local pkg_name = "TestComponent";
+local inst_path = "ThisIs:A.Duff.Path";
+local file_path = inst_path .. ".TestComponent"
+
+-- Component in package is Apps.Document.TestComponent
+
+test.erase(pkg_name);
+
+test.message("Testing install of TestComponent in "..pkg_name.." to "..file_path);
+pkg.add(pkg_name .. "_1/0-1");
+pkg.install(pkg_name);
+pkg.set_install_path(pkg_name, file_path);
+pkg.commit_fail("*update path*");
