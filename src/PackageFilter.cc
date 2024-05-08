@@ -150,3 +150,12 @@ bool SearchFilter::ok_to_show(const pkg::binary_control &ctrl)
 	return (pos != std::string::npos);
 }
 
+/**
+ * Show packages not in a given section
+ */
+bool ExcludeFilter::ok_to_show(const pkg::binary_control &ctrl)
+{
+	pkg::control::const_iterator s = ctrl.find(_section_key);
+
+	return (s == ctrl.end() || (*s).second != _section);
+}

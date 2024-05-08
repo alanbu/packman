@@ -8,6 +8,7 @@
 <UL>
 <LI><B>0.9.? Beta - ?? </B>
  <UL>
+ <LI>Added "Main Sections" to the action bar to exclude of some system packages</LI>
  <LI>Added environment icons to the information window</LI>
  <LI>Tidy up Info window component alignment</LI>
  <LI>Added toolbar/main window images to help</LI>

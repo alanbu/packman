@@ -213,7 +213,7 @@ public:
 	void save_position();
 
 private:
-	void section_filter_changed(const std::string &name);
+	void section_filter_changed(const std::string &name, bool refresh_list=true);
 	void status_filter_changed(const std::string &name);
 	void update_toolbar(int index);
 };

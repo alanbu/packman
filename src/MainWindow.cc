@@ -42,6 +42,11 @@ const unsigned int ALLOC_MAGIC = 0xaaaaaaaa;
 const unsigned int DEALLOC_MAGIC = 0x55555555;
 #endif
 
+// Pseudo sections - should be defined in Res file as well as here
+const char *MAIN_SECTIONS="Main Sections";
+const char *ALL_SECTIONS="All Sections";
+const char *SEARCH_RESULTS = "Search Results";
+
 MainWindow::MainWindow() : _window("Main"), _view(_window),
    _status_sprite(this),
    _name_text(this),
@@ -107,9 +112,11 @@ MainWindow::MainWindow() : _window("Main"), _view(_window),
 	_selection.add_listener(this);
 
 	std::string sects = Packages::instance()->sections();
-	std::string section_set("All Sections,Search Results");
+	std::string comma(",");
+	std::string section_set(MAIN_SECTIONS+comma+ALL_SECTIONS+comma+SEARCH_RESULTS);
 	if (!sects.empty()) section_set += "," + sects;
 	_section_filter_stringset.available(section_set);
+	section_filter_changed(MAIN_SECTIONS);
 
 	_status_filter_stringset.add_text_changed_listener(this);
 	_section_filter_stringset.add_text_changed_listener(this);
@@ -297,17 +304,21 @@ void MainWindow::text_changed(tbx::TextChangedEvent &event)
 /**
  * Update the display when the section filter has changed
  *
- * @param new name of filter
+ * @param name name of filter
+ * @param refresh_list refresh list and view
  */
-void MainWindow::section_filter_changed(const std::string &name)
+void MainWindow::section_filter_changed(const std::string &name, bool refresh_list /*=true*/)
 {
 	if (_section_filter != _search_filter) delete _section_filter;
 	_section_filter = 0;
 
-	if (name == "All Sections")
+	if (name == ALL_SECTIONS)
 	{
 		// Do nothing _filter = 0 is all packages
-	} else if (name == "Search Results")
+	} else if (name == MAIN_SECTIONS)
+	{
+		_section_filter = new ExcludeFilter("SystemRes");
+	} else if (name == SEARCH_RESULTS)
 	{
 		_section_filter = _search_filter;
 	} else
@@ -316,7 +327,10 @@ void MainWindow::section_filter_changed(const std::string &name)
 		_section_filter = new SectionFilter(name);
 	}
 
-	refresh();
+	if (refresh_list)
+	{
+		refresh();
+	}
 }
 
 /**

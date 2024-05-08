@@ -111,4 +111,18 @@ public:
 	virtual bool ok_to_show(const pkg::binary_control &ctrl);
 };
 
+class ExcludeFilter : public PackageFilter
+{
+private:
+	pkg::control::key_type _section_key;
+	std::string _section;
+
+public:
+      ExcludeFilter(const std::string &section) :
+		_section_key("Section"), _section(section) {}
+	  virtual ~ExcludeFilter() {}
+
+	  virtual bool ok_to_show(const pkg::binary_control &ctrl);
+};
+
 #endif /* PACKAGEFILTER_H_ */

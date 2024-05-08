@@ -779,9 +779,9 @@ window_object {
     help_message:""
     help_limit:*
     flags:stringset_GENERATE_USER_VALUE_CHANGED | stringset_JUSTIFICATION_CENTRED
-    string_set:"All Sections,Search Results"
+    string_set:"Main Sections,All Sections,Search Results"
     title:"Section"
-    initial_selected_string:"All Sections"
+    initial_selected_string:"Main Sections"
     selected_string_limit:15
     allowable:""
     allowable_limit:*
