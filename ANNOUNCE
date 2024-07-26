@@ -1,22 +1,17 @@
-PackMan package manager 0.9.7 beta released
+PackMan package manager 0.9.8 beta released
 
-PackMan version 0.9.7 beta is now available.
+PackMan version 0.9.8 beta is now available.
 
 The changes are:
-- Re-enabled SSL after if accidently got disabled in version 0.9.6
+ Added "Main Sections" to the action bar to exclude of some system Packages
+ Added environment icons to the information window
+ Tidy up Info window component alignment
+ Added toolbar/main window images to help
+ Updated to use latest version to TBX library
+ Updated to use LibPkg 0.9.1 with the following changes
+    Added Vector floating point environment check (vfpv3).
 
-The changes in 0.9.6 were:
-
-- Added list of installed files to the package menu.
-- Add options to support using a proxy server for downloads.
-- User suggested UI tweaks to the toolbar and status bar.
-- The licence for this version and any newer version has been changed to
-  the Apache License, Version 2.0 with permission of all the PackMan
-  contributors.
-- Fixed crash in the Verify advanced option.
-- Fixed blank lines appearing in the main window display
-- Fixed Backup list error when the backup list contains a bad path.
-
+See the history in the PackMan help for a full list of changes and bug fixes.
 
 If you already have a previous version of !PackMan or !RiscPkg
 installed you can install it or upgrade it from either of
@@ -39,7 +34,7 @@ Apache License, Version 2.0 with permission of all the LibPkg contributors.
 
 PackMan is a package manager front end for packages distributed
 using an enhanced version of the format released with the
-RISC OS Packaging Project (see http://www.riscpkg.org).
+RISC OS Packaging Project.
 
 Its features include:
 
