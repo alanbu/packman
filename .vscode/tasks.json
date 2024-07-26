@@ -25,7 +25,7 @@
         {
             "label": "Copy Help RPCEMU",
             "type": "shell",
-            "command": "cp -rf '!PackMan/html' '/home/alan/rpcemu/hostfs/Dev/!PackMan'",
+            "command": "cp -rf '!PackMan/html' '/mnt/c/RPCEmu527/hostfs/Dev/!PackMan'",
             "problemMatcher": []
         },
         {

@@ -6,7 +6,7 @@
 <BODY>
 <h2>History</h2>
 <UL>
-<LI><B>0.9.? Beta - ?? </B>
+<LI><B>0.9.8 Beta - July 2024</B>
  <UL>
  <LI>Added "Main Sections" to the action bar to exclude of some system packages</LI>
  <LI>Added environment icons to the information window</LI>
