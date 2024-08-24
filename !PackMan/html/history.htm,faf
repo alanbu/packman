@@ -13,6 +13,7 @@
  <LI>Tidy up Info window component alignment</LI>
  <LI>Added toolbar/main window images to help</LI>
  <LI>Update to use latest version to TBX library</LI>
+ <LI>Fixed module display problem in Environment window</LI>
  <LI>Updated to use LibPkg 0.9.1 with the following changes
    <UL>
     <LI>Added Vector floating point environment check (vfpv3).</LI>

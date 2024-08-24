@@ -103,10 +103,10 @@ EnvWindow::EnvWindow() : _window("Environment"),
 			_last_mod_count++;
 		}
 		tbx::BBox mod_box = _window.gadget(ID_MOD_BOX).bounds();
-		mod_box.min.y += mod_adder.bottom_row();
+		mod_box.min.y += mod_adder.bottom_row() -env_adder.bottom_row();
 		_window.gadget(ID_MOD_BOX).bounds(mod_box);
 
-		button_shift += mod_adder.bottom_row();
+		button_shift = mod_adder.bottom_row();
 	}
 
 	// Place the buttons
@@ -317,5 +317,6 @@ void EnvWindow::RowAdder::add_row(pkg::env_check *check)
 		name.text(check->name());
 		desc.text(check->description());
 		_offset = 3;
+		_row_bottom = opt.bottom_left().y - _res_window.gadget(_opt_id).ymin();
 	}
 }
